@@ -5,7 +5,7 @@ type Props = JSX.IntrinsicElements["button"];
 const Button: React.FC<Props> = ({ className, children, ...rest }) => {
   return (
     <button
-      className={`bg-blue-500 text-white px-2 py-3 rounded font-sans text-xs font-semibold outline-blue-400 ${className}`}
+      className={`bg-blue-700 text-white px-2 py-3 rounded font-sans text-xs font-semibold outline-blue-400 ${className}`}
       {...rest}
     >
       {children}
