@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@fontsource/poppins": "^4.5.5",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0"
