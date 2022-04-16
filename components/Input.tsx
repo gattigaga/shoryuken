@@ -1,6 +1,6 @@
 import React from "react";
 
-type Props = React.HTMLProps<HTMLInputElement>;
+type Props = JSX.IntrinsicElements["input"];
 
 const Input: React.FC<Props> = ({ className, ...rest }) => {
   return (
