@@ -10,9 +10,9 @@ import Button from "../../../components/Button";
 
 const validationSchema = Yup.object({
   fullname: Yup.string()
-    .min(5, "Full name should have at least 5 characters.")
-    .max(50, "Full name should no more than 50 characters.")
-    .required("Full name is required"),
+    .min(5, "Full Name should have at least 5 characters.")
+    .max(50, "Full Name should no more than 50 characters.")
+    .required("Full Name is required"),
   username: Yup.string()
     .min(8, "Username should have at least 8 characters.")
     .max(15, "Username should no more than 15 characters.")
@@ -25,8 +25,8 @@ const validationSchema = Yup.object({
     .max(25, "Password should no more than 25 characters.")
     .required("Password is required"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Confirm password is not match")
-    .required("Confirm password is required"),
+    .oneOf([Yup.ref("password"), null], "Confirm Password is mismatch")
+    .required("Confirm Password is required"),
 });
 
 const SignUpPage = () => {
