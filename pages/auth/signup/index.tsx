@@ -37,12 +37,12 @@ const SignUpPage = () => {
   const router = useRouter();
 
   return (
-    <div>
+    <div className="min-h-screen md:bg-slate-50">
       <Head>
         <title>Sign Up | Shoryuken</title>
       </Head>
 
-      <main className="py-12 md:bg-slate-50">
+      <main className="py-12">
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
             <Image
@@ -86,6 +86,8 @@ const SignUpPage = () => {
                     password,
                     confirm_password: confirmPassword,
                   });
+
+                  sessionStorage.setItem("signupEmail", email);
 
                   await router.push("/auth/signup/email-sent");
                 } catch (error) {
@@ -216,7 +218,7 @@ const SignUpPage = () => {
               className="text-blue-700"
             >
               Terms of Service
-            </a>
+            </a>{" "}
             apply
           </p>
         </div>

@@ -1,17 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import Button from "../../../components/Button";
 
 const EmailSentPage = () => {
+  const [email, setEmail] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const newEmail = sessionStorage.getItem("signupEmail") || "";
+
+      if (!newEmail) {
+        router.replace("/auth/signup");
+        return;
+      }
+
+      setEmail(newEmail);
+      return;
+    }
+  }, []);
+
+  if (!email) {
+    return null;
+  }
+
   return (
-    <div>
+    <div className="min-h-screen md:bg-slate-50">
       <Head>
         <title>Verify your email | Shoryuken</title>
       </Head>
 
-      <main className="py-12 md:bg-slate-50">
+      <main className="py-12">
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
             <Image src="/images/logo-with-text.svg" width={240} height={64} />
@@ -25,9 +48,13 @@ const EmailSentPage = () => {
               email we&lsquo;ve sent to
             </p>
             <p className="text-sm font-semibold text-slate-600 leading-normal mb-8">
-              nintendo.life@gmail.com
+              {email}
             </p>
-            <Button className="w-full">Resend Verification Email</Button>
+            <Link href="/">
+              <a>
+                <Button className="w-full">Back to Sign In</Button>
+              </a>
+            </Link>
           </div>
         </div>
       </main>
