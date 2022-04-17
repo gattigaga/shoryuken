@@ -2,11 +2,15 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Formik } from "formik";
+import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
+import axios from "axios";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+import toast from "react-hot-toast";
 
 const validationSchema = Yup.object({
   fullname: Yup.string()
@@ -30,6 +34,8 @@ const validationSchema = Yup.object({
 });
 
 const SignUpPage = () => {
+  const router = useRouter();
+
   return (
     <div>
       <Head>
@@ -61,83 +67,130 @@ const SignUpPage = () => {
               validationSchema={validationSchema}
               validateOnChange={false}
               validateOnBlur
-              onSubmit={async (values, { setSubmitting }) => {}}
+              onSubmit={async (values, { setSubmitting }) => {
+                try {
+                  setSubmitting(true);
+
+                  const {
+                    fullname,
+                    username,
+                    email,
+                    password,
+                    confirmPassword,
+                  } = values;
+
+                  await axios.post("/api/auth/signup", {
+                    fullname,
+                    username,
+                    email,
+                    password,
+                    confirm_password: confirmPassword,
+                  });
+
+                  await router.push("/auth/signup/email-sent");
+                } catch (error) {
+                  console.error(error);
+                  toast.error("Failed to sign up.");
+                } finally {
+                  setSubmitting(false);
+                }
+              }}
             >
-              {({ values, errors, handleChange, handleSubmit }) => (
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-4">
-                    <Input
-                      className="w-full"
-                      name="fullname"
-                      value={values.fullname}
-                      placeholder="Enter full name"
-                      onChange={handleChange}
-                      errorMessage={errors.fullname}
-                      isError={!!errors.fullname}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <Input
-                      className="w-full"
-                      name="username"
-                      value={values.username}
-                      placeholder="Enter username"
-                      onChange={handleChange}
-                      errorMessage={errors.username}
-                      isError={!!errors.username}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <Input
-                      className="w-full"
-                      type="email"
-                      name="email"
-                      value={values.email}
-                      placeholder="Enter email"
-                      onChange={handleChange}
-                      errorMessage={errors.email}
-                      isError={!!errors.email}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <Input
-                      className="w-full"
-                      type="password"
-                      name="password"
-                      value={values.password}
-                      placeholder="Enter password"
-                      onChange={handleChange}
-                      errorMessage={errors.password}
-                      isError={!!errors.password}
-                    />
-                  </div>
-                  <div className="mb-8">
-                    <Input
-                      className="w-full"
-                      type="password"
-                      name="confirmPassword"
-                      value={values.confirmPassword}
-                      placeholder="Enter password again"
-                      onChange={handleChange}
-                      errorMessage={errors.confirmPassword}
-                      isError={!!errors.confirmPassword}
-                    />
-                  </div>
-                  <p className="text-xs text-slate-500 leading-normal mb-8 px-2">
-                    By signing up, I accept the{" "}
-                    <Link href="/">
-                      <a className="text-blue-700">
-                        Shoryuken Terms of Service
-                      </a>
-                    </Link>{" "}
-                    and acknowledge the{" "}
-                    <Link href="/">
-                      <a className="text-blue-700">Privacy Policy</a>
-                    </Link>
-                    .
-                  </p>
-                  <Button className="w-full">Sign Up</Button>
-                </form>
+              {({
+                values,
+                errors,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+                <>
+                  {isSubmitting ? (
+                    <div className="flex justify-center py-4">
+                      <Loading
+                        height={36}
+                        width={4}
+                        radius={8}
+                        margin={2}
+                        color="rgb(29 78 216)"
+                      />
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit}>
+                      <div className="mb-4">
+                        <Input
+                          className="w-full"
+                          name="fullname"
+                          value={values.fullname}
+                          placeholder="Enter full name"
+                          onChange={handleChange}
+                          errorMessage={errors.fullname}
+                          isError={!!errors.fullname}
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <Input
+                          className="w-full"
+                          name="username"
+                          value={values.username}
+                          placeholder="Enter username"
+                          onChange={handleChange}
+                          errorMessage={errors.username}
+                          isError={!!errors.username}
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <Input
+                          className="w-full"
+                          type="email"
+                          name="email"
+                          value={values.email}
+                          placeholder="Enter email"
+                          onChange={handleChange}
+                          errorMessage={errors.email}
+                          isError={!!errors.email}
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <Input
+                          className="w-full"
+                          type="password"
+                          name="password"
+                          value={values.password}
+                          placeholder="Enter password"
+                          onChange={handleChange}
+                          errorMessage={errors.password}
+                          isError={!!errors.password}
+                        />
+                      </div>
+                      <div className="mb-8">
+                        <Input
+                          className="w-full"
+                          type="password"
+                          name="confirmPassword"
+                          value={values.confirmPassword}
+                          placeholder="Enter password again"
+                          onChange={handleChange}
+                          errorMessage={errors.confirmPassword}
+                          isError={!!errors.confirmPassword}
+                        />
+                      </div>
+                      <p className="text-xs text-slate-500 leading-normal mb-8 px-2">
+                        By signing up, I accept the{" "}
+                        <Link href="/">
+                          <a className="text-blue-700">
+                            Shoryuken Terms of Service
+                          </a>
+                        </Link>{" "}
+                        and acknowledge the{" "}
+                        <Link href="/">
+                          <a className="text-blue-700">Privacy Policy</a>
+                        </Link>
+                        .
+                      </p>
+                      <Button className="w-full">Sign Up</Button>
+                    </form>
+                  )}
+                </>
               )}
             </Formik>
             <div className="w-full border-t my-6" />
