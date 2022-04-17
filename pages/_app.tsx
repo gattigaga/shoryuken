@@ -10,7 +10,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Component {...pageProps} />
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          style: {
+            borderRadius: "0.25rem",
+            fontFamily: "Poppins",
+            fontSize: "0.75rem",
+          },
+        }}
+        position="top-right"
+      />
     </>
   );
 }
