@@ -42,8 +42,8 @@ const SignUpPage = () => {
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {}}
             >
-              {({ values, errors, handleChange }) => (
-                <>
+              {({ values, errors, handleChange, handleSubmit }) => (
+                <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <Input
                       className="w-full"
@@ -69,7 +69,7 @@ const SignUpPage = () => {
                     .
                   </p>
                   <Button className="w-full">Sign Up</Button>
-                </>
+                </form>
               )}
             </Formik>
             <div className="w-full border-t my-6" />
