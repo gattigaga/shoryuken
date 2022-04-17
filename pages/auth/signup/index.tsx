@@ -2,9 +2,17 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+});
 
 const SignUpPage = () => {
   return (
@@ -16,33 +24,54 @@ const SignUpPage = () => {
       <main className="py-12 md:bg-slate-50">
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
-            <Image src="/images/logo-with-text.svg" width={240} height={64} />
+            <Image
+              src="/images/logo-with-text.svg"
+              alt="Shoryuken logo"
+              width={240}
+              height={64}
+            />
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
             <h1 className="font-semibold text-center text-slate-600 mb-6">
               Sign up for your account
             </h1>
-            <div className="mb-4">
-              <Input
-                className="w-full"
-                placeholder="Enter email"
-                errorMessage="The provided email address is not allowed, please use a different
-            one."
-                isError
-              />
-            </div>
-            <p className="text-xs text-slate-500 leading-normal mb-8 px-2">
-              By signing up, I accept the{" "}
-              <Link href="/">
-                <a className="text-blue-700">Shoryuken Terms of Service</a>
-              </Link>{" "}
-              and acknowledge the{" "}
-              <Link href="/">
-                <a className="text-blue-700">Privacy Policy</a>
-              </Link>
-              .
-            </p>
-            <Button className="w-full">Sign Up</Button>
+            <Formik
+              initialValues={{
+                email: "",
+              }}
+              validationSchema={validationSchema}
+              onSubmit={async (values, { setSubmitting }) => {}}
+            >
+              {({ values, errors, handleChange }) => (
+                <>
+                  <div className="mb-4">
+                    <Input
+                      className="w-full"
+                      name="email"
+                      value={values.email}
+                      placeholder="Enter email"
+                      onChange={handleChange}
+                      errorMessage={errors.email}
+                      isError={!!errors.email}
+                    />
+                  </div>
+                  <p className="text-xs text-slate-500 leading-normal mb-8 px-2">
+                    By signing up, I accept the{" "}
+                    <Link href="/">
+                      <a className="text-blue-700">
+                        Shoryuken Terms of Service
+                      </a>
+                    </Link>{" "}
+                    and acknowledge the{" "}
+                    <Link href="/">
+                      <a className="text-blue-700">Privacy Policy</a>
+                    </Link>
+                    .
+                  </p>
+                  <Button className="w-full">Sign Up</Button>
+                </>
+              )}
+            </Formik>
             <div className="w-full border-t my-6" />
             <Link href="/">
               <a>
