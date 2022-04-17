@@ -56,10 +56,14 @@ const SignInPage = () => {
 
                   const { email, password } = values;
 
-                  await axios.post("/api/auth/signin", {
+                  const res = await axios.post("/api/auth/signin", {
                     email,
                     password,
                   });
+
+                  const accessToken = res.data.data.session.access_token;
+
+                  document.cookie = `accessToken=${accessToken}`;
 
                   await router.push("/dashboard");
                 } catch (error) {
