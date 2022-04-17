@@ -56,7 +56,7 @@ const SignInPage = () => {
 
                   const { email, password } = values;
 
-                  await axios.post("/api/auth/signup", {
+                  await axios.post("/api/auth/signin", {
                     email,
                     password,
                   });
