@@ -12,10 +12,13 @@
   "dependencies": {
     "@fontsource/poppins": "^4.5.5",
     "@supabase/supabase-js": "^1.34.1",
+    "axios": "^0.26.1",
     "formik": "^2.2.9",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "react-hot-toast": "^2.2.0",
+    "react-spinners": "^0.11.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
