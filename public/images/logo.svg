@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="240"
+   height="240"
+   viewBox="0 0 63.499999 63.500003"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="shoryuken-logo.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="338.4477"
+     inkscape:cy="74.728188"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g885"
+     showgrid="true"
+     inkscape:window-width="1366"
+     inkscape:window-height="704"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     units="px">
+    <inkscape:grid
+       type="xygrid"
+       id="grid815"
+       empspacing="8" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-233.49998)">
+    <g
+       id="g885"
+       transform="translate(-3.238471,15.875)">
+      <g
+         transform="matrix(1.5572215,0,0,1.5572215,-133.11359,144.50912)"
+         id="g855">
+        <path
+           inkscape:connector-curvature="0"
+           style="fill:#1d4ed8;fill-opacity:1;stroke:none;stroke-width:0.99999994;stroke-opacity:1"
+           d="m 344,210.51953 c -4.432,0 -8,3.568 -8,8 v 72 c 0,4.432 3.568,8 8,8 h 40 v -49.45508 c 0,-3.62618 2.91874,-6.54492 6.54492,-6.54492 H 480 v -24 c 0,-4.432 -3.568,-8 -8,-8 z"
+           transform="scale(0.26458333)"
+           id="rect821" />
+        <rect
+           style="fill:#1d4ed8;fill-opacity:1;stroke:none;stroke-width:0.15275726;stroke-opacity:1"
+           id="rect825"
+           width="23.283335"
+           height="12.700002"
+           x="103.71667"
+           y="66.283333"
+           ry="1.1545452" />
+      </g>
+    </g>
+  </g>
+</svg>
