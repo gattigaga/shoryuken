@@ -50,7 +50,7 @@ const EmailSentPage = () => {
             <p className="text-sm font-semibold text-slate-600 leading-normal mb-8">
               {email}
             </p>
-            <Link href="/">
+            <Link href="/auth/signin">
               <a>
                 <Button className="w-full">Back to Sign In</Button>
               </a>

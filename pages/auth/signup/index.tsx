@@ -196,7 +196,7 @@ const SignUpPage = () => {
               )}
             </Formik>
             <div className="w-full border-t my-6" />
-            <Link href="/">
+            <Link href="/auth/signin">
               <a>
                 <p className="text-xs text-blue-700 text-center">
                   Already have an account? Sign in
