@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ApiError } from "@supabase/supabase-js";
 
 import supabase from "../../../helpers/supabase";
 

@@ -51,8 +51,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
       data: user,
       message: "User successfully signed up.",
     });
-  } catch (error) {
-    res.status(500).json({ message: "Internal server error." });
+  } catch (error: any) {
+    res.status(error.status).json({ message: error.message });
   }
 };
 
