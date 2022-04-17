@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1280"
+   width="1120"
    height="240"
-   viewBox="0 0 338.66666 63.500003"
+   viewBox="0 0 300 64"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   sodipodi:docname="shoryuken-logo-with-text.svg">
+   sodipodi:docname="logo-with-text.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="1077.87"
-     inkscape:cy="79.979705"
+     inkscape:cx="1315.8411"
+     inkscape:cy="69.87818"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -36,7 +36,8 @@
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     units="px">
+     units="px"
+     viewbox-x="-0.3">
     <inkscape:grid
        type="xygrid"
        id="grid815"
