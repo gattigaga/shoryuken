@@ -63,7 +63,7 @@ const SignInPage = () => {
 
                   const accessToken = res.data.data.session.access_token;
 
-                  document.cookie = `accessToken=${accessToken}`;
+                  document.cookie = `access_token=${accessToken}; Path=/api`;
 
                   await router.push("/dashboard");
                 } catch (error) {
