@@ -5,6 +5,9 @@ import "@fontsource/poppins/400-italic.css";
 import "@fontsource/poppins/600-italic.css";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
+import Modal from "react-modal";
+
+Modal.setAppElement("#__next");
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
