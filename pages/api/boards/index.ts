@@ -8,6 +8,11 @@ type Content = {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
+  if (!["GET", "POST"].includes(req.method || "")) {
+    res.status(405).json({ message: "Method not allowed." });
+    return;
+  }
+
   const token = req.headers.authorization?.split(" ")[1] || "";
 
   if (req.method === "GET") {
