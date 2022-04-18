@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
     return;
   }
 
-  const token = req.headers.authorization?.split(" ")[1] || "";
+  const token = req.cookies.access_token;
 
   // Get a board user has.
   if (req.method === "GET") {

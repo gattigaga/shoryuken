@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
   }
 
   try {
-    const token = req.headers.authorization?.split(" ")[1] || "";
+    const token = req.cookies.access_token;
 
     const { user, error } = await supabase.auth.api.getUser(token);
 
