@@ -2,8 +2,11 @@ import React, { useEffect, useRef } from "react";
 import Modal from "react-modal";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useMutation } from "react-query";
 
 import Button from "./Button";
+import { postBoard } from "../api/boards";
+import toast from "react-hot-toast";
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -19,6 +22,16 @@ type Props = {
 
 const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
   const refInput = useRef<HTMLInputElement>(null);
+
+  const mutation = useMutation(postBoard, {
+    onSuccess: () => {
+      onRequestClose && onRequestClose();
+      toast.success("Board successfully created.");
+    },
+    onError: () => {
+      toast.success("Failed to create a board.");
+    },
+  });
 
   useEffect(() => {
     if (isOpen) {
@@ -56,9 +69,13 @@ const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
         }}
         validationSchema={validationSchema}
         validateOnMount
-        onSubmit={(values) => {}}
+        onSubmit={(values) => {
+          mutation.mutate({
+            title: values.title,
+          });
+        }}
       >
-        {({ values, errors, handleChange, handleSubmit }) => (
+        {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
           <div>
             <form onSubmit={handleSubmit}>
               <div className="p-4 h-32 w-80 bg-blue-700 rounded mb-4">
@@ -69,6 +86,7 @@ const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
                   type="text"
                   value={values.title}
                   onChange={handleChange}
+                  disabled={isSubmitting}
                 />
               </div>
               <Button
