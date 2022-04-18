@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { getSlug } from "../../../helpers/formatter";
 import supabase from "../../../helpers/supabase";
 
 type Content = {
@@ -15,6 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
   const token = req.headers.authorization?.split(" ")[1] || "";
 
+  // Get a board user has.
   if (req.method === "GET") {
     try {
       const { error: userError } = await supabase.auth.api.getUser(token);
@@ -45,6 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
     }
   }
 
+  // Update a board user has.
   if (req.method === "PUT") {
     try {
       const { error: userError } = await supabase.auth.api.getUser(token);
@@ -61,9 +64,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         title: string;
       };
 
+      const slug = getSlug(title);
+
       const { data: boards, error: boardsError } = await supabase
         .from("boards")
-        .update({ title })
+        .update({ title, slug })
         .eq("id", id);
 
       if (boardsError) {
