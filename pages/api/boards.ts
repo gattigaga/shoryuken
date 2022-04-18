@@ -35,6 +35,35 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
       res.status(error.status).json({ message: error.message });
     }
   }
+
+  if (req.method === "POST") {
+    try {
+      const { user, error: userError } = await supabase.auth.api.getUser(token);
+
+      if (userError) {
+        throw userError;
+      }
+
+      const { title } = req.body as {
+        title: string;
+      };
+
+      const { data: boards, error: boardsError } = await supabase
+        .from("boards")
+        .insert([{ title, user_id: user?.id }]);
+
+      if (boardsError) {
+        throw boardsError;
+      }
+
+      res.status(200).json({
+        data: boards,
+        message: "Board successfully created.",
+      });
+    } catch (error: any) {
+      res.status(error.status).json({ message: error.message });
+    }
+  }
 };
 
 export default handler;
