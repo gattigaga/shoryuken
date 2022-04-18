@@ -9,7 +9,7 @@ type Content = {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
-  if (!["GET", "PUT"].includes(req.method || "")) {
+  if (!["GET", "PUT", "DELETE"].includes(req.method || "")) {
     res.status(405).json({ message: "Method not allowed." });
     return;
   }
@@ -78,6 +78,37 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
       res.status(200).json({
         data: boards[0],
         message: "Board successfully updated.",
+      });
+    } catch (error: any) {
+      res.status(error.status).json({ message: error.message });
+    }
+  }
+
+  // Delete a board user has.
+  if (req.method === "DELETE") {
+    try {
+      const { error: userError } = await supabase.auth.api.getUser(token);
+
+      if (userError) {
+        throw userError;
+      }
+
+      const { id } = req.query as {
+        id: string;
+      };
+
+      const { data: boards, error: boardsError } = await supabase
+        .from("boards")
+        .delete()
+        .eq("id", id);
+
+      if (boardsError) {
+        throw boardsError;
+      }
+
+      res.status(200).json({
+        data: boards[0],
+        message: "Board successfully deleted.",
       });
     } catch (error: any) {
       res.status(error.status).json({ message: error.message });
