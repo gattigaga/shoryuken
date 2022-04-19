@@ -24,3 +24,9 @@ export const putBoardById =
 
     return res.data.data;
   };
+
+export const deleteBoardById = (id: string | number) => async () => {
+  const res = await axios.delete(`/api/boards/${id}`);
+
+  return res.data.data;
+};

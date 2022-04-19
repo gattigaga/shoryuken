@@ -7,8 +7,9 @@ import { MdChevronLeft } from "react-icons/md";
 import Layout from "../../components/Layout";
 import supabase from "../../helpers/supabase";
 import EditableText from "../../components/EditableText";
-import { getBoardById, putBoardById } from "../../api/boards";
+import { deleteBoardById, getBoardById, putBoardById } from "../../api/boards";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { slug } = params as {
@@ -47,6 +48,7 @@ type Props = NextPage & {
 
 const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { data: board } = useQuery(
     "boardDetail",
@@ -56,12 +58,21 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     }
   );
 
-  const mutation = useMutation(putBoardById(board.id), {
+  const boardUpdateMutation = useMutation(putBoardById(board.id), {
     onSuccess: () => {
       queryClient.invalidateQueries("boardDetail");
     },
     onError: () => {
       toast.error("Failed to update board title.");
+    },
+  });
+
+  const boardDeleteMutation = useMutation(deleteBoardById(board.id), {
+    onSuccess: () => {
+      router.replace("/dashboard");
+    },
+    onError: () => {
+      toast.error("Failed to delete a board.");
     },
   });
 
@@ -83,11 +94,17 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           <EditableText
             value={board.title}
             onSubmit={(value) => {
-              mutation.mutate({
+              boardUpdateMutation.mutate({
                 title: value,
               });
             }}
           />
+          <button
+            className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
+            onClick={() => boardDeleteMutation.mutate()}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </Layout>
