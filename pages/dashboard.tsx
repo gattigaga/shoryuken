@@ -37,7 +37,7 @@ const DashboardPage: NextPage = () => {
                 <Board
                   key={board.id}
                   title={board.title}
-                  href={`/${username}/${board.slug}`}
+                  href={`/boards/${board.slug}`}
                 />
               );
             })}
