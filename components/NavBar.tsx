@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { useQuery } from "react-query";
+
 import Avatar from "./Avatar";
+import { getMe } from "../api/user";
 
 type Props = {};
 
 const NavBar: React.FC<Props> = ({}) => {
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+  const { data: myself } = useQuery("me", getMe);
+
+  const fullname = myself?.user_metadata?.fullname || "";
+  const email = myself?.email || "";
 
   const logout = async () => {};
 
@@ -19,7 +26,7 @@ const NavBar: React.FC<Props> = ({}) => {
       />
       <div className="relative">
         <Avatar
-          fullname="Gattigaga Hayyuta Dewa"
+          fullname={fullname}
           onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
         />
         {isAccountMenuOpen && (
@@ -29,9 +36,9 @@ const NavBar: React.FC<Props> = ({}) => {
             </div>
             <div className="p-4 border-b">
               <p className="text-xs text-slate-600 font-semibold mb-1">
-                Gattigaga Hayyuta Dewa
+                {fullname}
               </p>
-              <p className="text-xs text-slate-400">gattigaga@gmail.com</p>
+              <p className="text-xs text-slate-400">{email}</p>
             </div>
             <div className="p-4">
               <button
