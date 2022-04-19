@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 type Props = {
   value: string;
-  onSubmit?: () => void;
+  onSubmit?: (value: string) => void;
 };
 
 const EditableText: React.FC<Props> = ({ value, onSubmit }) => {
@@ -47,13 +47,12 @@ const EditableText: React.FC<Props> = ({ value, onSubmit }) => {
           defaultValue={value}
           onKeyDown={(event) => {
             if (["Enter", "Escape"].includes(event.key)) {
-              setIsEditing(false);
-              onSubmit?.();
+              refInput.current?.blur();
             }
           }}
-          onBlur={() => {
+          onBlur={(event) => {
             setIsEditing(false);
-            onSubmit?.();
+            onSubmit?.(event.target.value);
           }}
         />
       )}
