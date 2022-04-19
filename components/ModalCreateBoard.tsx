@@ -93,7 +93,7 @@ const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
               </div>
               <Button
                 className="bg-green-600 hover:bg-green-700"
-                disabled={!!errors.title}
+                disabled={!!errors.title || isSubmitting}
               >
                 Create Board
               </Button>
