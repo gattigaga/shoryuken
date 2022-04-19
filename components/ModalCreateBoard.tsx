@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Modal from "react-modal";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import Button from "./Button";
 import { postBoard } from "../api/boards";
@@ -22,9 +22,11 @@ type Props = {
 
 const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
   const refInput = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   const mutation = useMutation(postBoard, {
     onSuccess: () => {
+      queryClient.invalidateQueries("boards");
       onRequestClose && onRequestClose();
       toast.success("Board successfully created.");
     },
