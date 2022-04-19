@@ -31,7 +31,8 @@ const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
       toast.success("Board successfully created.");
     },
     onError: () => {
-      toast.success("Failed to create a board.");
+      onRequestClose && onRequestClose();
+      toast.error("Failed to create a board.");
     },
   });
 
