@@ -1,20 +1,36 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useQuery } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
+import toast from "react-hot-toast";
 
 import Avatar from "./Avatar";
 import { getMe } from "../api/user";
+import { postSignOut } from "../api/auth";
+import { useRouter } from "next/router";
 
 type Props = {};
 
 const NavBar: React.FC<Props> = ({}) => {
+  const router = useRouter();
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const { data: myself } = useQuery("me", getMe);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(postSignOut, {
+    onSuccess: () => {
+      router.replace("/auth/signin");
+      queryClient.invalidateQueries("me");
+    },
+    onError: () => {
+      toast.error("Failed to create a board.");
+    },
+  });
 
   const fullname = myself?.user_metadata?.fullname || "";
   const email = myself?.email || "";
 
-  const logout = async () => {};
+  const signOut = () => mutation.mutate();
 
   return (
     <div className="h-12 bg-blue-700 flex flex-row justify-between items-center px-4">
@@ -44,7 +60,7 @@ const NavBar: React.FC<Props> = ({}) => {
               <button
                 className="w-full text-left text-xs text-red-500"
                 type="button"
-                onClick={logout}
+                onClick={signOut}
               >
                 Sign out
               </button>
