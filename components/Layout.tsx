@@ -10,7 +10,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     <div className="h-screen bg-slate-50 flex flex-col">
       <NavBar />
 
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="flex-1 overflow-auto flex flex-col">{children}</main>
     </div>
   );
 };
