@@ -1,6 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { MdChevronLeft } from "react-icons/md";
 
@@ -10,6 +11,15 @@ import EditableText from "../../components/EditableText";
 import { deleteBoardById, getBoardById, putBoardById } from "../../api/boards";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import CreateListButton from "../../components/CreateListButton";
+import CreateListForm from "../../components/CreateListForm";
+import List from "../../components/List";
+import {
+  deleteListById,
+  getListsByBoardId,
+  postList,
+  putListById,
+} from "../../api/lists";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { slug } = params as {
@@ -47,6 +57,7 @@ type Props = NextPage & {
 };
 
 const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
+  const [isCreateListFormOpen, setIsCreateListFormOpen] = useState(false);
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -55,6 +66,14 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     getBoardById(initialBoard.id),
     {
       initialData: initialBoard,
+    }
+  );
+
+  const { data: lists } = useQuery(
+    "lists",
+    () => getListsByBoardId({ board_id: board.id }),
+    {
+      initialData: [],
     }
   );
 
@@ -76,14 +95,46 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     },
   });
 
+  const listCreateMutation = useMutation(postList, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("lists");
+      toast.success("List successfully created.");
+      setIsCreateListFormOpen(false);
+    },
+    onError: () => {
+      toast.error("Failed to create a list.");
+      setIsCreateListFormOpen(false);
+    },
+  });
+
+  const listUpdateMutation = useMutation(putListById, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("lists");
+      toast.success("List successfully updated.");
+    },
+    onError: () => {
+      toast.error("Failed to update a list.");
+    },
+  });
+
+  const listDeleteMutation = useMutation(deleteListById, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("lists");
+      toast.success("List successfully deleted.");
+    },
+    onError: () => {
+      toast.error("Failed to delete a list.");
+    },
+  });
+
   return (
     <Layout>
       <Head>
         <title>{board.title} | Shoryuken</title>
       </Head>
 
-      <div className="bg-blue-600 h-screen px-4 py-2">
-        <div className="flex items-center">
+      <div className="bg-blue-600 h-screen px-4">
+        <div className="flex items-center my-4">
           <Link href="/dashboard">
             <a className="mr-4">
               <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
@@ -105,6 +156,43 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           >
             Delete
           </button>
+        </div>
+        <div>
+          <div className="flex">
+            {lists.map((list: any) => (
+              <List
+                key={list.id}
+                title={list.title}
+                onSubmitTitle={(title) => {
+                  listUpdateMutation.mutate({
+                    id: list.id,
+                    body: {
+                      title,
+                    },
+                  });
+                }}
+                onClickRemove={() => {
+                  listDeleteMutation.mutate({ id: list.id });
+                }}
+              />
+            ))}
+            {isCreateListFormOpen ? (
+              <CreateListForm
+                onRequestClose={() => setIsCreateListFormOpen(false)}
+                onSubmit={(title) => {
+                  listCreateMutation.mutate({
+                    body: {
+                      title,
+                      index: lists.length,
+                      board_id: board.id,
+                    },
+                  });
+                }}
+              />
+            ) : (
+              <CreateListButton onClick={() => setIsCreateListFormOpen(true)} />
+            )}
+          </div>
         </div>
       </div>
     </Layout>
