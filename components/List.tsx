@@ -4,10 +4,10 @@ import { MdAdd, MdClose } from "react-icons/md";
 type Props = {
   title: string;
   onSubmitTitle?: (value: string) => void;
-  onPressRemove?: () => void;
+  onClickRemove?: () => void;
 };
 
-const List: React.FC<Props> = ({ title, onSubmitTitle, onPressRemove }) => {
+const List: React.FC<Props> = ({ title, onSubmitTitle, onClickRemove }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const refInput = useRef<HTMLInputElement>(null);
 
@@ -48,7 +48,7 @@ const List: React.FC<Props> = ({ title, onSubmitTitle, onPressRemove }) => {
         <button
           className="ml-2 w-8 h-8 flex items-center justify-center rounded text-slate-500 hover:text-slate-600 hover:bg-slate-400"
           type="button"
-          onClick={onPressRemove}
+          onClick={onClickRemove}
         >
           <MdClose size={24} />
         </button>
