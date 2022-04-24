@@ -158,12 +158,14 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           </button>
         </div>
         <div>
-          <div className="flex">
+          <div className="flex items-start">
             {lists.map((list: any) => (
               <List
                 key={list.id}
                 title={list.title}
                 onSubmitTitle={(title) => {
+                  if (!title) return;
+
                   listUpdateMutation.mutate({
                     id: list.id,
                     body: {
@@ -180,6 +182,8 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               <CreateListForm
                 onRequestClose={() => setIsCreateListFormOpen(false)}
                 onSubmit={(title) => {
+                  if (!title) return;
+
                   listCreateMutation.mutate({
                     body: {
                       title,
