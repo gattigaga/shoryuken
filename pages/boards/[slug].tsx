@@ -133,8 +133,8 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
         <title>{board.title} | Shoryuken</title>
       </Head>
 
-      <div className="bg-blue-600 h-screen px-4">
-        <div className="flex items-center my-4">
+      <div className="bg-blue-600 h-screen flex flex-col">
+        <div className="flex items-center my-4 px-4">
           <Link href="/dashboard">
             <a className="mr-4">
               <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
@@ -157,8 +157,9 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
             Delete
           </button>
         </div>
-        <div>
+        <div className="overflow-x-auto flex-1">
           <div className="flex items-start">
+            <div className="shrink-0 w-4 h-4" />
             {lists.map((list: any) => (
               <List
                 key={list.id}
@@ -196,6 +197,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
             ) : (
               <CreateListButton onClick={() => setIsCreateListFormOpen(true)} />
             )}
+            <div className="shrink-0 w-4 h-4" />
           </div>
         </div>
       </div>
