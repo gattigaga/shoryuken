@@ -1,34 +1,43 @@
 import axios from "axios";
 
-export const getListsByBoardId = (boardId: string | number) => async () => {
+export const getListsByBoardId = async (payload: {
+  board_id: string | number;
+}) => {
   const res = await axios.get("/api/lists/", {
     params: {
-      board_id: boardId,
+      board_id: payload.board_id,
     },
   });
 
   return res.data.data;
 };
 
-export const postList = async (body: {
-  title: string;
-  index: number;
-  board_id: string | number;
+export const postList = async (payload: {
+  body: {
+    title: string;
+    index: number;
+    board_id: string | number;
+  };
 }) => {
-  const res = await axios.post("/api/lists", body);
+  const res = await axios.post("/api/lists", payload.body);
 
   return res.data.data;
 };
 
-export const putListById =
-  (id: string | number) => async (body: { title?: string; index?: number }) => {
-    const res = await axios.put(`/api/lists/${id}`, body);
-
-    return res.data.data;
+export const putListById = async (payload: {
+  id: string | number;
+  body: {
+    title?: string;
+    index?: number;
   };
+}) => {
+  const res = await axios.put(`/api/lists/${payload.id}`, payload.body);
 
-export const deleteListById = (id: string | number) => async () => {
-  const res = await axios.delete(`/api/lists/${id}`);
+  return res.data.data;
+};
+
+export const deleteListById = async (payload: { id: string | number }) => {
+  const res = await axios.delete(`/api/lists/${payload.id}`);
 
   return res.data.data;
 };
