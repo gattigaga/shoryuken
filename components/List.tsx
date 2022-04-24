@@ -18,7 +18,7 @@ const List: React.FC<Props> = ({ title, onSubmitTitle, onClickRemove }) => {
   }, [isEditingTitle]);
 
   return (
-    <div className="w-80 p-2 bg-slate-300 rounded mr-2">
+    <div className="shrink-0 w-80 p-2 bg-slate-300 rounded mr-2">
       <div className="w-full flex items-center mb-2">
         {!isEditingTitle ? (
           <button

@@ -8,7 +8,7 @@ type Props = {
 const CreateListButton: React.FC<Props> = ({ onClick }) => {
   return (
     <button
-      className="px-4 w-80 h-12 bg-blue-500 rounded flex items-center hover:bg-blue-400"
+      className="shrink-0 px-4 w-80 h-12 bg-blue-500 rounded flex items-center hover:bg-blue-400"
       type="button"
       onClick={onClick}
     >
