@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { MdChevronLeft } from "react-icons/md";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import Layout from "../../components/Layout";
 import supabase from "../../helpers/supabase";
@@ -159,45 +160,62 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
         </div>
         <div className="overflow-x-auto flex-1">
           <div className="flex items-start">
-            <div className="shrink-0 w-4 h-4" />
-            {lists.map((list: any) => (
-              <List
-                key={list.id}
-                title={list.title}
-                onSubmitTitle={(title) => {
-                  if (!title) return;
+            <DragDropContext onDragEnd={() => {}}>
+              <div className="shrink-0 w-4 h-4" />
+              <Droppable droppableId="lists" direction="horizontal">
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    className="flex items-start"
+                    {...provided.droppableProps}
+                  >
+                    {lists.map((list: any, index: number) => (
+                      <List
+                        key={list.id}
+                        id={list.id}
+                        index={index}
+                        title={list.title}
+                        onSubmitTitle={(title) => {
+                          if (!title) return;
 
-                  listUpdateMutation.mutate({
-                    id: list.id,
-                    body: {
-                      title,
-                    },
-                  });
-                }}
-                onClickRemove={() => {
-                  listDeleteMutation.mutate({ id: list.id });
-                }}
-              />
-            ))}
-            {isCreateListFormOpen ? (
-              <CreateListForm
-                onRequestClose={() => setIsCreateListFormOpen(false)}
-                onSubmit={(title) => {
-                  if (!title) return;
+                          listUpdateMutation.mutate({
+                            id: list.id,
+                            body: {
+                              title,
+                            },
+                          });
+                        }}
+                        onClickRemove={() => {
+                          listDeleteMutation.mutate({ id: list.id });
+                        }}
+                      />
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+              {isCreateListFormOpen ? (
+                <CreateListForm
+                  onRequestClose={() => setIsCreateListFormOpen(false)}
+                  onSubmit={(title) => {
+                    if (!title) return;
 
-                  listCreateMutation.mutate({
-                    body: {
-                      title,
-                      index: lists.length,
-                      board_id: board.id,
-                    },
-                  });
-                }}
-              />
-            ) : (
-              <CreateListButton onClick={() => setIsCreateListFormOpen(true)} />
-            )}
-            <div className="shrink-0 w-4 h-4" />
+                    listCreateMutation.mutate({
+                      body: {
+                        title,
+                        index: lists.length,
+                        board_id: board.id,
+                      },
+                    });
+                  }}
+                />
+              ) : (
+                <CreateListButton
+                  onClick={() => setIsCreateListFormOpen(true)}
+                />
+              )}
+              <div className="shrink-0 w-4 h-4" />
+            </DragDropContext>
           </div>
         </div>
       </div>
