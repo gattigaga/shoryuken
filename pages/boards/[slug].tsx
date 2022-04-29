@@ -21,6 +21,7 @@ import {
   postList,
   putListById,
 } from "../../api/lists";
+import { moveElement } from "../../helpers/data-structures";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { slug } = params as {
@@ -72,7 +73,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
 
   const { data: lists } = useQuery(
     "lists",
-    () => getListsByBoardId({ board_id: board.id }),
+    () => getListsByBoardId({ board_id: initialBoard.id }),
     {
       initialData: [],
     }
@@ -111,7 +112,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const listUpdateMutation = useMutation(putListById, {
     onSuccess: () => {
       queryClient.invalidateQueries("lists");
-      toast.success("List successfully updated.");
     },
     onError: () => {
       toast.error("Failed to update a list.");
@@ -160,7 +160,32 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
         </div>
         <div className="overflow-x-auto flex-1">
           <div className="flex items-start">
-            <DragDropContext onDragEnd={() => {}}>
+            <DragDropContext
+              onDragEnd={(result) => {
+                const id = result.draggableId.replace("list-", "");
+                const index = result.destination?.index;
+
+                if (index === undefined) return;
+
+                listUpdateMutation.mutate({
+                  id,
+                  body: {
+                    index,
+                  },
+                });
+
+                const newLists = moveElement(
+                  lists,
+                  result.source.index,
+                  index
+                ).map((list, index) => ({
+                  ...list,
+                  index,
+                }));
+
+                queryClient.setQueryData("lists", newLists);
+              }}
+            >
               <div className="shrink-0 w-4 h-4" />
               <Droppable droppableId="lists" direction="horizontal">
                 {(provided) => (
