@@ -4,7 +4,7 @@ export const moveElement = (items: any[], from: number, to: number) => {
     const firstPart = raw.slice(0, to);
     const secondPart = raw.slice(to);
 
-    return [...firstPart, from, ...secondPart];
+    return [...firstPart, items[from], ...secondPart];
   }
 
   return items;
