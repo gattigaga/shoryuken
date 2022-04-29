@@ -56,22 +56,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw userError;
       }
 
-      const { title, index, board_id } = req.body as {
+      const { title, board_id } = req.body as {
         title: string;
-        index: number;
         board_id: string | number;
       };
 
       const { data: lists, error: listsError } = await supabase
         .from("lists")
-        .insert([{ title, index, board_id }]);
+        .select("*")
+        .eq("board_id", board_id);
 
       if (listsError) {
         throw listsError;
       }
 
+      const { data: list, error: listError } = await supabase
+        .from("lists")
+        .insert([{ title, board_id, index: lists.length }])
+        .limit(1)
+        .single();
+
+      if (listError) {
+        throw listError;
+      }
+
       res.status(200).json({
-        data: lists,
+        data: list,
         message: "List successfully created.",
       });
     } catch (error: any) {
