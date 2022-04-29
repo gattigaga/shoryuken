@@ -15,7 +15,6 @@ export const getListsByBoardId = async (payload: {
 export const postList = async (payload: {
   body: {
     title: string;
-    index: number;
     board_id: string | number;
   };
 }) => {

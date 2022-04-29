@@ -203,7 +203,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                     listCreateMutation.mutate({
                       body: {
                         title,
-                        index: lists.length,
                         board_id: board.id,
                       },
                     });
