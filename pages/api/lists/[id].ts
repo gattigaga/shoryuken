@@ -65,17 +65,43 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { data: lists, error: listsError } = await supabase
+      // Delete a list by id.
+      const { data: deletedList, error: deletedListError } = await supabase
         .from("lists")
         .delete()
-        .eq("id", id);
+        .eq("id", id)
+        .limit(1)
+        .single();
 
-      if (listsError) {
-        throw listsError;
+      if (deletedListError) {
+        throw deletedListError;
+      }
+
+      // Get lists by board ID in order by index.
+      const { data: orderedLists, error: orderedListsError } = await supabase
+        .from("lists")
+        .select("*")
+        .eq("board_id", deletedList.board_id)
+        .order("index");
+
+      if (orderedListsError) {
+        throw orderedListsError;
+      }
+
+      // Update the index of each list.
+      for (const [index, orderedList] of orderedLists.entries()) {
+        const { error } = await supabase
+          .from("lists")
+          .update({ index })
+          .eq("id", orderedList.id);
+
+        if (error) {
+          throw error;
+        }
       }
 
       res.status(200).json({
-        data: lists[0],
+        data: deletedList,
         message: "List successfully deleted.",
       });
     } catch (error: any) {
