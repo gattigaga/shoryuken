@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { getSlug } from "../../../helpers/formatter";
 import supabase from "../../../helpers/supabase";
+import { moveElement } from "../../../helpers/data-structures";
 
 type Content = {
   data?: any;
@@ -34,17 +34,66 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         index: number;
       };
 
-      const { data: lists, error: listsError } = await supabase
+      // Get a list that want to update.
+      const { data: list, error: listError } = await supabase
         .from("lists")
-        .update({ title, index })
+        .select("*")
+        .eq("id", id)
+        .limit(1)
+        .single();
+
+      if (listError) {
+        throw listError;
+      }
+
+      // Update the index of each list.
+      if (index !== undefined && index !== list.index) {
+        const { data: orderedLists, error: orderedListsError } = await supabase
+          .from("lists")
+          .select("*")
+          .eq("board_id", list.board_id)
+          .order("index");
+
+        if (orderedListsError) {
+          throw orderedListsError;
+        }
+
+        const newIndices = (() => {
+          const prevIndex = list.index;
+          const newIndex = index;
+          const indices = orderedLists.map((list) => list.index);
+          const result = moveElement(indices, prevIndex, newIndex);
+
+          return result;
+        })();
+
+        for (const [index, orderedList] of orderedLists.entries()) {
+          const newIndex = newIndices.findIndex(
+            (newIndex) => newIndex === index
+          );
+
+          const { error } = await supabase
+            .from("lists")
+            .update({ index: newIndex })
+            .eq("id", orderedList.id);
+
+          if (error) {
+            throw error;
+          }
+        }
+      }
+
+      const { data: newLists, error: newListsError } = await supabase
+        .from("lists")
+        .update({ title })
         .eq("id", id);
 
-      if (listsError) {
-        throw listsError;
+      if (newListsError) {
+        throw newListsError;
       }
 
       res.status(200).json({
-        data: lists[0],
+        data: newLists[0],
         message: "List successfully updated.",
       });
     } catch (error: any) {
