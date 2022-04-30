@@ -7,6 +7,8 @@ import { Formik } from "formik";
 import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
 import axios from "axios";
+import cookie from "cookie";
+import { addDays } from "date-fns";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -63,7 +65,14 @@ const SignInPage = () => {
 
                   const accessToken = res.data.data.session.access_token;
 
-                  document.cookie = `access_token=${accessToken}; Path=/api`;
+                  document.cookie = cookie.serialize(
+                    "access_token",
+                    accessToken,
+                    {
+                      expires: addDays(new Date(), 7),
+                      path: "/",
+                    }
+                  );
 
                   await router.push("/dashboard");
                 } catch (error) {

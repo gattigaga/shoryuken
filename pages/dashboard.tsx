@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import { useQuery } from "react-query";
@@ -9,6 +9,15 @@ import ModalCreateBoard from "../components/ModalCreateBoard";
 import { getBoards } from "../api/boards";
 import Layout from "../components/Layout";
 import { getMe } from "../api/user";
+import { withAuthGuard } from "../helpers/server";
+
+export const getServerSideProps: GetServerSideProps = withAuthGuard(
+  async () => {
+    return {
+      props: {},
+    };
+  }
+);
 
 const DashboardPage: NextPage = () => {
   const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false);
