@@ -70,6 +70,7 @@ const SignInPage = () => {
                     accessToken,
                     {
                       expires: addDays(new Date(), 7),
+                      path: "/",
                     }
                   );
 
