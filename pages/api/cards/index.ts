@@ -16,6 +16,38 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
   const token = req.cookies.access_token;
 
+  // Get all cards user has.
+  if (req.method === "GET") {
+    try {
+      const { error: userError } = await supabase.auth.api.getUser(token);
+
+      if (userError) {
+        throw userError;
+      }
+
+      const { list_id } = req.query as {
+        list_id: string | number;
+      };
+
+      const { data: cards, error: cardsError } = await supabase
+        .from("cards")
+        .select("*")
+        .eq("list_id", list_id)
+        .order("index");
+
+      if (cardsError) {
+        throw cardsError;
+      }
+
+      res.status(200).json({
+        data: cards,
+        message: "There are existing cards.",
+      });
+    } catch (error: any) {
+      res.status(error.status).json({ message: error.message });
+    }
+  }
+
   // Create a new card for a user.
   if (req.method === "POST") {
     try {
