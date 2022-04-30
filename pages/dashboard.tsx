@@ -9,24 +9,15 @@ import ModalCreateBoard from "../components/ModalCreateBoard";
 import { getBoards } from "../api/boards";
 import Layout from "../components/Layout";
 import { getMe } from "../api/user";
-import { getAuthStatus } from "../helpers/server";
+import { withAuthGuard } from "../helpers/server";
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const isAuthenticated = await getAuthStatus(req.headers?.cookie || "");
-
-  if (!isAuthenticated) {
+export const getServerSideProps: GetServerSideProps = withAuthGuard(
+  async () => {
     return {
-      redirect: {
-        destination: "/auth/signin",
-        permanent: false,
-      },
+      props: {},
     };
   }
-
-  return {
-    props: {},
-  };
-};
+);
 
 const DashboardPage: NextPage = () => {
   const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false);
