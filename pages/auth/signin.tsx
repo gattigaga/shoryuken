@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -63,7 +64,9 @@ const SignInPage = () => {
 
                   const accessToken = res.data.data.session.access_token;
 
-                  document.cookie = `access_token=${accessToken}; Path=/api`;
+                  Cookies.set("access_token", accessToken, {
+                    expires: 7,
+                  });
 
                   await router.push("/dashboard");
                 } catch (error) {
