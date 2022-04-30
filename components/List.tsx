@@ -99,7 +99,7 @@ const List: React.FC<Props> = ({
           <div style={{ maxHeight }} className="overflow-auto px-2">
             {children}
             {isCreateCardFormOpen && (
-              <div className="py-2">
+              <div className={`${children ? "py-2" : "pb-2"}`}>
                 <div className="bg-white rounded shadow mb-2">
                   <textarea
                     ref={refCardTitleInput}
