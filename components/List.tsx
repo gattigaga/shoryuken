@@ -31,7 +31,7 @@ const List: React.FC<Props> = ({
       {(provided) => (
         <div
           ref={provided.innerRef}
-          className="shrink-0 w-80 p-2 bg-slate-300 rounded mr-2"
+          className="shrink-0 w-72 p-2 bg-slate-300 rounded mr-2"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
