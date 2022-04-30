@@ -22,33 +22,36 @@ import {
   putListById,
 } from "../../api/lists";
 import { moveElement } from "../../helpers/data-structures";
+import { withAuthGuard } from "../../helpers/server";
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { slug } = params as {
-    slug: string;
-  };
+export const getServerSideProps: GetServerSideProps = withAuthGuard(
+  async ({ params }) => {
+    const { slug } = params as {
+      slug: string;
+    };
 
-  const { data: boards, error: boardsError } = await supabase
-    .from("boards")
-    .select("*")
-    .eq("slug", slug);
+    const { data: boards, error: boardsError } = await supabase
+      .from("boards")
+      .select("*")
+      .eq("slug", slug);
 
-  if (boardsError) {
-    throw boardsError;
-  }
+    if (boardsError) {
+      throw boardsError;
+    }
 
-  if (!boards.length) {
+    if (!boards.length) {
+      return {
+        notFound: true,
+      };
+    }
+
     return {
-      notFound: true,
+      props: {
+        initialBoard: boards[0],
+      },
     };
   }
-
-  return {
-    props: {
-      initialBoard: boards[0],
-    },
-  };
-};
+);
 
 type Props = NextPage & {
   initialBoard: {
