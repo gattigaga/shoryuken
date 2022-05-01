@@ -55,7 +55,7 @@ const List: React.FC<Props> = ({
 
   const maxHeight = (() => {
     const viewportHeight = window?.innerHeight || 0;
-    const footerHeight = isCreateCardFormOpen ? 48 : 0;
+    const footerHeight = isCreateCardFormOpen ? 40 : 0;
 
     return viewportHeight * 0.6 + footerHeight;
   })();
@@ -137,7 +137,7 @@ const List: React.FC<Props> = ({
             })}
             {/* Create card form */}
             {isCreateCardFormOpen && (
-              <div className={cards?.length ? "py-2" : "pb-2"}>
+              <div className="pb-2">
                 <div className="bg-white rounded shadow mb-2">
                   <textarea
                     ref={refCardTitleInput}
@@ -194,7 +194,7 @@ const List: React.FC<Props> = ({
 
           {/* Footer */}
           {!isCreateCardFormOpen && (
-            <div className="px-2 h-12 flex items-center">
+            <div className="px-2 h-10 flex items-start">
               <button
                 className="w-full px-2 py-1 rounded flex items-center text-slate-500 hover:text-slate-600 hover:bg-slate-400"
                 type="button"

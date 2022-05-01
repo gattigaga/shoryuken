@@ -12,7 +12,7 @@ const Card: React.FC<Props> = ({ title, href, hasDescription }) => {
   return (
     <Link href={href}>
       <a>
-        <div className="group p-2 bg-white rounded shadow flex hover:bg-slate-200">
+        <div className="mb-2 group p-2 bg-white rounded shadow flex hover:bg-slate-200">
           <div className="flex-1 mr-4">
             <p className="text-xs break-all">{title}</p>
             {hasDescription && (
