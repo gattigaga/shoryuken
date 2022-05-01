@@ -3,31 +3,55 @@ import { MdAdd, MdClose } from "react-icons/md";
 import { Draggable } from "react-beautiful-dnd";
 
 import Button from "./Button";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import toast from "react-hot-toast";
+import { getCardsByListId, postCard } from "../api/cards";
+import Card from "./Card";
 
 type Props = {
   id: string | number;
   index: number;
   title: string;
-  children?: JSX.Element | JSX.Element[];
   onSubmitTitle?: (value: string) => void;
   onClickRemove?: () => void;
-  onClickAddCard?: (value: string) => void;
 };
 
 const List: React.FC<Props> = ({
   id,
   index,
   title,
-  children,
   onSubmitTitle,
   onClickRemove,
-  onClickAddCard,
 }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isCreateCardFormOpen, setIsCreateCardFormOpen] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const refListTitleInput = useRef<HTMLInputElement>(null);
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
+  const queryClient = useQueryClient();
+
+  const { data: cards } = useQuery<any[]>(
+    ["cards", { list_id: id }],
+    () => getCardsByListId({ list_id: id }),
+    {
+      initialData: [],
+    }
+  );
+
+  const cardCreateMutation = useMutation(postCard, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cards", { list_id: id }]);
+    },
+    onError: () => {
+      toast.error("Failed to create a card.");
+    },
+  });
+
+  const createCard = (body: { title: string; list_id: string | number }) => {
+    cardCreateMutation.mutate({
+      body,
+    });
+  };
 
   const maxHeight = (() => {
     const viewportHeight = window?.innerHeight || 0;
@@ -97,9 +121,23 @@ const List: React.FC<Props> = ({
 
           {/* Children */}
           <div style={{ maxHeight }} className="overflow-auto px-2">
-            {children}
+            {/* Card list */}
+            {cards?.map((card, index) => {
+              const isLast = index === cards?.length - 1;
+
+              return (
+                <div key={card.id} className={`${isLast ? "" : "mb-2"}`}>
+                  <Card
+                    title={card.title}
+                    href="/"
+                    hasDescription={!!card.description}
+                  />
+                </div>
+              );
+            })}
+            {/* Create card form */}
             {isCreateCardFormOpen && (
-              <div className={`${children ? "py-2" : "pb-2"}`}>
+              <div className={cards?.length ? "py-2" : "pb-2"}>
                 <div className="bg-white rounded shadow mb-2">
                   <textarea
                     ref={refCardTitleInput}
@@ -111,7 +149,7 @@ const List: React.FC<Props> = ({
                       switch (event.key) {
                         case "Enter":
                           event.preventDefault();
-                          onClickAddCard?.(cardTitle);
+                          createCard({ title: cardTitle, list_id: id });
                           setIsCreateCardFormOpen(false);
                           setCardTitle("");
                           break;
@@ -132,7 +170,7 @@ const List: React.FC<Props> = ({
                     className="outline-black mr-2"
                     type="button"
                     onClick={() => {
-                      onClickAddCard?.(cardTitle);
+                      createCard({ title: cardTitle, list_id: id });
                       setIsCreateCardFormOpen(false);
                       setCardTitle("");
                     }}
