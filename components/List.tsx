@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import Button from "./Button";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -122,19 +122,25 @@ const List: React.FC<Props> = ({
           {/* Children */}
           <div style={{ maxHeight }} className="overflow-auto px-2">
             {/* Card list */}
-            {cards?.map((card, index) => {
-              const isLast = index === cards?.length - 1;
-
-              return (
-                <div key={card.id} className={`${isLast ? "" : "mb-2"}`}>
-                  <Card
-                    title={card.title}
-                    href="/"
-                    hasDescription={!!card.description}
-                  />
+            <Droppable droppableId={`list-${id}`} type="CARD">
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {cards?.map((card, index) => {
+                    return (
+                      <Card
+                        key={card.id}
+                        id={card.id}
+                        index={index}
+                        title={card.title}
+                        href="/"
+                        hasDescription={!!card.description}
+                      />
+                    );
+                  })}
+                  {provided.placeholder}
                 </div>
-              );
-            })}
+              )}
+            </Droppable>
             {/* Create card form */}
             {isCreateCardFormOpen && (
               <div className="pb-2">
