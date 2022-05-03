@@ -8,7 +8,7 @@ type Body = {
   username: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  confirm_password: string;
 };
 
 const postSignUp = async (body: Body): Promise<Response> => {
