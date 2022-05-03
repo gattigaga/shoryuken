@@ -7,21 +7,22 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 import { getCardsByListId, postCard } from "../api/cards";
 import Card from "./Card";
+import useDeleteListMutation from "../hooks/lists/use-delete-list-mutation";
 
 type Props = {
   id: string | number;
+  boardId: string | number;
   index: number;
   title: string;
   onSubmitTitle?: (value: string) => void;
-  onClickRemove?: () => void;
 };
 
 const List: React.FC<Props> = ({
   id,
+  boardId,
   index,
   title,
   onSubmitTitle,
-  onClickRemove,
 }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isCreateCardFormOpen, setIsCreateCardFormOpen] = useState(false);
@@ -29,6 +30,7 @@ const List: React.FC<Props> = ({
   const refListTitleInput = useRef<HTMLInputElement>(null);
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
   const queryClient = useQueryClient();
+  const deleteListMutation = useDeleteListMutation();
 
   const { data: cards } = useQuery<any[]>(
     ["cards", { list_id: id }],
@@ -59,6 +61,15 @@ const List: React.FC<Props> = ({
 
     return viewportHeight * 0.6 + footerHeight;
   })();
+
+  const deleteList = async () => {
+    try {
+      await deleteListMutation.mutateAsync(id);
+      await queryClient.invalidateQueries(["lists", { board_id: boardId }]);
+    } catch (error) {
+      toast.error("Failed to delete a list.");
+    }
+  };
 
   // Set focus on list title input if title editing form opened.
   useEffect(() => {
@@ -113,7 +124,7 @@ const List: React.FC<Props> = ({
             <button
               className="ml-2 w-8 h-8 flex items-center justify-center rounded text-slate-500 hover:text-slate-600 hover:bg-slate-400"
               type="button"
-              onClick={onClickRemove}
+              onClick={deleteList}
             >
               <MdClose size={24} />
             </button>

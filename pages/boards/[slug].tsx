@@ -79,16 +79,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     },
   });
 
-  const listDeleteMutation = useMutation(deleteListById, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("lists");
-      toast.success("List successfully deleted.");
-    },
-    onError: () => {
-      toast.error("Failed to delete a list.");
-    },
-  });
-
   const cardUpdateMutation = useMutation(putCardById);
 
   const updateBoardTitle = async (title: string) => {
@@ -226,6 +216,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                       <List
                         key={list.id}
                         id={list.id}
+                        boardId={board.id}
                         index={index}
                         title={list.title}
                         onSubmitTitle={(title) => {
@@ -237,9 +228,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                               title,
                             },
                           });
-                        }}
-                        onClickRemove={() => {
-                          listDeleteMutation.mutate({ id: list.id });
                         }}
                       />
                     ))}
