@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import { Formik } from "formik";
 import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
-import cookie from "cookie";
 import { addDays } from "date-fns";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -60,14 +60,10 @@ const SignInPage = () => {
                   const response = await signInMutation.mutateAsync(values);
                   const accessToken = response.session.access_token;
 
-                  document.cookie = cookie.serialize(
-                    "access_token",
-                    accessToken,
-                    {
-                      expires: addDays(new Date(), 7),
-                      path: "/",
-                    }
-                  );
+                  Cookies.set("access_token", accessToken, {
+                    expires: addDays(new Date(), 7),
+                    path: "/",
+                  });
 
                   await router.push("/dashboard");
                 } catch (error) {

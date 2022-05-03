@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useQuery } from "react-query";
-import { useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 import Avatar from "./Avatar";
 import { getMe } from "../api/user";
-import { postSignOut } from "../api/auth";
-import { useRouter } from "next/router";
+import useSignOutMutation from "../hooks/auth/use-sign-out-mutation";
 
 type Props = {};
 
@@ -16,21 +17,25 @@ const NavBar: React.FC<Props> = ({}) => {
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const { data: myself } = useQuery("me", getMe);
   const queryClient = useQueryClient();
-
-  const mutation = useMutation(postSignOut, {
-    onSuccess: () => {
-      router.replace("/auth/signin");
-      queryClient.invalidateQueries("me");
-    },
-    onError: () => {
-      toast.error("Failed to create a board.");
-    },
-  });
+  const signOutMutation = useSignOutMutation();
 
   const fullname = myself?.user_metadata?.fullname || "";
   const email = myself?.email || "";
 
-  const signOut = () => mutation.mutate();
+  const signOut = async () => {
+    try {
+      await signOutMutation.mutateAsync();
+
+      router.replace("/auth/signin");
+      queryClient.invalidateQueries("me");
+
+      Cookies.remove("access_token", {
+        path: "/",
+      });
+    } catch (error) {
+      toast.error("Failed to sign out.");
+    }
+  };
 
   return (
     <div className="h-12 bg-blue-700 flex flex-row justify-between items-center px-4">
