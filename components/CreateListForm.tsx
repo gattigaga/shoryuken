@@ -16,7 +16,7 @@ const CreateListForm: React.FC<Props> = ({ onRequestClose, onSubmit }) => {
   }, []);
 
   return (
-    <div className="shrink-0 w-80 p-2 bg-slate-300 rounded">
+    <div className="shrink-0 w-72 p-2 bg-slate-300 rounded">
       <input
         ref={refInput}
         className="w-full py-3 rounded text-xs border-slate-400 outline-blue-500 mb-2"

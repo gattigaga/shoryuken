@@ -23,6 +23,7 @@ import {
 } from "../../api/lists";
 import { moveElement } from "../../helpers/data-structures";
 import { withAuthGuard } from "../../helpers/server";
+import { putCardById } from "../../api/cards";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
   async ({ params }) => {
@@ -131,6 +132,8 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     },
   });
 
+  const cardUpdateMutation = useMutation(putCardById);
+
   return (
     <Layout>
       <Head>
@@ -165,32 +168,78 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           <div className="flex items-start">
             <DragDropContext
               onDragEnd={(result) => {
-                const id = result.draggableId.replace("list-", "");
-                const index = result.destination?.index;
+                const fromIndex = result.source.index;
+                const toIndex = result.destination?.index;
 
-                if (index === undefined) return;
+                if (result.type === "LIST") {
+                  const id = result.draggableId.replace("list-", "");
 
-                listUpdateMutation.mutate({
-                  id,
-                  body: {
-                    index,
-                  },
-                });
+                  if (toIndex === undefined) return;
 
-                const newLists = moveElement(
-                  lists,
-                  result.source.index,
-                  index
-                ).map((list, index) => ({
-                  ...list,
-                  index,
-                }));
+                  listUpdateMutation.mutate({
+                    id,
+                    body: {
+                      index: toIndex,
+                    },
+                  });
 
-                queryClient.setQueryData("lists", newLists);
+                  const newLists = moveElement(lists, fromIndex, toIndex).map(
+                    (list, index) => ({
+                      ...list,
+                      index,
+                    })
+                  );
+
+                  queryClient.setQueryData("lists", newLists);
+
+                  return;
+                }
+
+                if (result.type === "CARD") {
+                  const id = result.draggableId.replace("card-", "");
+
+                  if (toIndex === undefined) return;
+
+                  cardUpdateMutation.mutate(
+                    {
+                      id,
+                      body: {
+                        index: toIndex,
+                      },
+                    },
+                    {
+                      onSuccess: () => {
+                        queryClient.invalidateQueries([
+                          "cards",
+                          { list_id: id },
+                        ]);
+                      },
+                      onError: () => {
+                        toast.error("Failed to update a card.");
+                      },
+                    }
+                  );
+
+                  // const newCards = moveElement(
+                  //   cards,
+                  //   fromIndex,
+                  //   index
+                  // ).map((card, index) => ({
+                  //   ...card,
+                  //   index,
+                  // }));
+
+                  // queryClient.setQueryData(
+                  //   ["cards", { list_id: id }],
+                  //   newCards
+                  // );
+
+                  return;
+                }
               }}
             >
               <div className="shrink-0 w-4 h-4" />
-              <Droppable droppableId="lists" direction="horizontal">
+              <Droppable droppableId="lists" direction="horizontal" type="LIST">
                 {(provided) => (
                   <div
                     ref={provided.innerRef}
