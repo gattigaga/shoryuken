@@ -8,7 +8,7 @@ import CreateBoardButton from "../components/CreateBoardButton";
 import ModalCreateBoard from "../components/ModalCreateBoard";
 import Layout from "../components/Layout";
 import { withAuthGuard } from "../helpers/server";
-import useBoardsQuery from "../hooks/boards/useBoardsQuery";
+import useBoardsQuery from "../hooks/boards/use-boards-query";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
   async () => {

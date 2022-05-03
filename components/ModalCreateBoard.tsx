@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from "react";
 import Modal from "react-modal";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
+import toast from "react-hot-toast";
 
 import Button from "./Button";
-import { postBoard } from "../api/boards";
-import toast from "react-hot-toast";
+import useBoardMutation from "../hooks/boards/use-board-mutation";
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -23,18 +23,7 @@ type Props = {
 const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
-
-  const mutation = useMutation(postBoard, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("boards");
-      onRequestClose && onRequestClose();
-      toast.success("Board successfully created.");
-    },
-    onError: () => {
-      onRequestClose && onRequestClose();
-      toast.error("Failed to create a board.");
-    },
-  });
+  const createBoardMutation = useBoardMutation();
 
   useEffect(() => {
     if (isOpen) {
@@ -72,10 +61,17 @@ const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
         }}
         validationSchema={validationSchema}
         validateOnMount
-        onSubmit={(values) => {
-          mutation.mutate({
-            title: values.title,
-          });
+        onSubmit={async (values) => {
+          try {
+            await createBoardMutation.mutateAsync(values);
+
+            queryClient.invalidateQueries("boards");
+            toast.success("Board successfully created.");
+          } catch (error) {
+            toast.error("Failed to create a board.");
+          } finally {
+            onRequestClose?.();
+          }
         }}
       >
         {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
