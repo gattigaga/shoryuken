@@ -6,7 +6,7 @@ import { useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 
 import Button from "./Button";
-import useBoardMutation from "../hooks/boards/use-board-mutation";
+import useCreateBoardMutation from "../hooks/boards/use-create-board-mutation";
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -23,7 +23,7 @@ type Props = {
 const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
-  const createBoardMutation = useBoardMutation();
+  const createBoardMutation = useCreateBoardMutation();
 
   useEffect(() => {
     if (isOpen) {

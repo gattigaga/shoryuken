@@ -7,13 +7,13 @@ type Body = {
   title: string;
 };
 
-const postBoard = async (body: Body): Promise<Response> => {
+const createBoard = async (body: Body): Promise<Response> => {
   const res = await axios.post("/api/boards", body);
   const data = res.data.data;
 
   return data;
 };
 
-const useBoardMutation = () => useMutation(postBoard);
+const useCreateBoardMutation = () => useMutation(createBoard);
 
-export default useBoardMutation;
+export default useCreateBoardMutation;
