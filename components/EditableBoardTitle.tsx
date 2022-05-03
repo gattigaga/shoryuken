@@ -5,7 +5,7 @@ type Props = {
   onSubmit?: (value: string) => void;
 };
 
-const EditableText: React.FC<Props> = ({ value, onSubmit }) => {
+const EditableBoardTitle: React.FC<Props> = ({ value, onSubmit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputWidth, setInputWidth] = useState(0);
   const refText = useRef<HTMLHeadingElement>(null);
@@ -60,4 +60,4 @@ const EditableText: React.FC<Props> = ({ value, onSubmit }) => {
   );
 };
 
-export default EditableText;
+export default EditableBoardTitle;

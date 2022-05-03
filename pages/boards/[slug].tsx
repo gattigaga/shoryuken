@@ -8,7 +8,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import Layout from "../../components/Layout";
 import supabase from "../../helpers/supabase";
-import EditableText from "../../components/EditableText";
+import EditableBoardTitle from "../../components/EditableBoardTitle";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import CreateListButton from "../../components/CreateListButton";
@@ -156,7 +156,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               </div>
             </a>
           </Link>
-          <EditableText value={board.title} onSubmit={updateBoardTitle} />
+          <EditableBoardTitle value={board.title} onSubmit={updateBoardTitle} />
           <button
             className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
             onClick={deleteBoard}
