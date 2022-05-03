@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
@@ -14,18 +14,14 @@ import { useRouter } from "next/router";
 import CreateListButton from "../../components/CreateListButton";
 import CreateListForm from "../../components/CreateListForm";
 import List from "../../components/List";
-import {
-  deleteListById,
-  getListsByBoardId,
-  postList,
-  putListById,
-} from "../../api/lists";
+import { deleteListById, postList, putListById } from "../../api/lists";
 import { moveElement } from "../../helpers/data-structures";
 import { withAuthGuard } from "../../helpers/server";
 import { putCardById } from "../../api/cards";
 import useBoardQuery from "../../hooks/boards/use-board-query";
 import useUpdateBoardMutation from "../../hooks/boards/use-update-board-mutation";
 import useDeleteBoardMutation from "../../hooks/boards/use-delete-board-mutation";
+import useListsQuery from "../../hooks/lists/use-lists-query";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
   async ({ params }) => {
@@ -70,15 +66,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const router = useRouter();
 
   const { data: board } = useBoardQuery(initialBoard.id, initialBoard);
-
-  const { data: lists } = useQuery(
-    "lists",
-    () => getListsByBoardId({ board_id: initialBoard.id }),
-    {
-      initialData: [],
-    }
-  );
-
+  const { data: lists } = useListsQuery(initialBoard.id);
   const updateBoardMutation = useUpdateBoardMutation();
   const deleteBoardMutation = useDeleteBoardMutation();
 
