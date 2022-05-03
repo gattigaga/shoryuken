@@ -1,29 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-
-import Button from "./Button";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
+
+import Button from "./Button";
 import { getCardsByListId, postCard } from "../api/cards";
 import Card from "./Card";
 import useDeleteListMutation from "../hooks/lists/use-delete-list-mutation";
+import useUpdateListBoardMutation from "../hooks/lists/use-update-list-mutation";
 
 type Props = {
   id: string | number;
   boardId: string | number;
   index: number;
   title: string;
-  onSubmitTitle?: (value: string) => void;
 };
 
-const List: React.FC<Props> = ({
-  id,
-  boardId,
-  index,
-  title,
-  onSubmitTitle,
-}) => {
+const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isCreateCardFormOpen, setIsCreateCardFormOpen] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
@@ -31,6 +25,7 @@ const List: React.FC<Props> = ({
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
   const queryClient = useQueryClient();
   const deleteListMutation = useDeleteListMutation();
+  const updateListMutation = useUpdateListBoardMutation();
 
   const { data: cards } = useQuery<any[]>(
     ["cards", { list_id: id }],
@@ -68,6 +63,24 @@ const List: React.FC<Props> = ({
       await queryClient.invalidateQueries(["lists", { board_id: boardId }]);
     } catch (error) {
       toast.error("Failed to delete a list.");
+    }
+  };
+
+  const updateListTitle = async (title: string) => {
+    if (!title) return;
+
+    try {
+      await updateListMutation.mutateAsync({
+        id,
+        body: {
+          title,
+        },
+      });
+      await queryClient.invalidateQueries(["lists", { board_id: boardId }]);
+    } catch (error) {
+      toast.error("Failed to update a list.");
+    } finally {
+      setIsEditingTitle(false);
     }
   };
 
@@ -116,8 +129,7 @@ const List: React.FC<Props> = ({
                   }
                 }}
                 onBlur={(event) => {
-                  setIsEditingTitle(false);
-                  onSubmitTitle?.(event.target.value);
+                  updateListTitle(event.target.value);
                 }}
               />
             )}

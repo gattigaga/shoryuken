@@ -219,16 +219,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                         boardId={board.id}
                         index={index}
                         title={list.title}
-                        onSubmitTitle={(title) => {
-                          if (!title) return;
-
-                          listUpdateMutation.mutate({
-                            id: list.id,
-                            body: {
-                              title,
-                            },
-                          });
-                        }}
                       />
                     ))}
                     {provided.placeholder}
