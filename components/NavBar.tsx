@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { useQuery } from "react-query";
 import { useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 import Avatar from "./Avatar";
-import { getMe } from "../api/user";
 import useSignOutMutation from "../hooks/auth/use-sign-out-mutation";
+import useUserQuery from "../hooks/user/use-user-query";
 
 type Props = {};
 
 const NavBar: React.FC<Props> = ({}) => {
   const router = useRouter();
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
-  const { data: myself } = useQuery("me", getMe);
+  const { data: myself } = useUserQuery();
   const queryClient = useQueryClient();
   const signOutMutation = useSignOutMutation();
 

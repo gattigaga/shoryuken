@@ -8,7 +8,7 @@ import CreateBoardButton from "../components/CreateBoardButton";
 import ModalCreateBoard from "../components/ModalCreateBoard";
 import { getBoards } from "../api/boards";
 import Layout from "../components/Layout";
-import { getMe } from "../api/user";
+import useUserQuery from "../hooks/user/use-user-query";
 import { withAuthGuard } from "../helpers/server";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = withAuthGuard(
 
 const DashboardPage: NextPage = () => {
   const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false);
-  const { data: myself } = useQuery("me", getMe);
+  const { data: myself } = useUserQuery();
 
   const { data: boards } = useQuery("boards", getBoards, {
     initialData: [],
