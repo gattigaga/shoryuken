@@ -1,15 +1,38 @@
 import React, { useState, useRef, useEffect } from "react";
+import toast from "react-hot-toast";
 import { MdClose } from "react-icons/md";
+import { useQueryClient } from "react-query";
+
+import useCreateListMutation from "../hooks/lists/use-create-list-mutation";
 import Button from "./Button";
 
 type Props = {
+  boardId: string | number;
   onRequestClose?: () => void;
-  onSubmit?: (value: string) => void;
 };
 
-const CreateListForm: React.FC<Props> = ({ onRequestClose, onSubmit }) => {
+const CreateListForm: React.FC<Props> = ({ boardId, onRequestClose }) => {
   const [title, setTitle] = useState("");
   const refInput = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
+  const createListMutation = useCreateListMutation();
+
+  const createList = async () => {
+    if (!title) return;
+
+    try {
+      await createListMutation.mutateAsync({
+        title,
+        board_id: boardId,
+      });
+
+      await queryClient.invalidateQueries(["lists", { board_id: boardId }]);
+    } catch (error) {
+      toast.error("Failed to create a list.");
+    } finally {
+      onRequestClose?.();
+    }
+  };
 
   useEffect(() => {
     refInput.current?.focus();
@@ -29,7 +52,7 @@ const CreateListForm: React.FC<Props> = ({ onRequestClose, onSubmit }) => {
         onKeyDown={(event) => {
           switch (event.key) {
             case "Enter":
-              onSubmit?.(title);
+              createList();
               break;
 
             case "Escape":
@@ -45,7 +68,7 @@ const CreateListForm: React.FC<Props> = ({ onRequestClose, onSubmit }) => {
         <Button
           className="outline-black mr-2"
           type="button"
-          onClick={() => onSubmit?.(title)}
+          onClick={createList}
         >
           Add list
         </Button>

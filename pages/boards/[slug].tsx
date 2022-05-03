@@ -70,18 +70,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const updateBoardMutation = useUpdateBoardMutation();
   const deleteBoardMutation = useDeleteBoardMutation();
 
-  const listCreateMutation = useMutation(postList, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("lists");
-      toast.success("List successfully created.");
-      setIsCreateListFormOpen(false);
-    },
-    onError: () => {
-      toast.error("Failed to create a list.");
-      setIsCreateListFormOpen(false);
-    },
-  });
-
   const listUpdateMutation = useMutation(putListById, {
     onSuccess: () => {
       queryClient.invalidateQueries("lists");
@@ -261,17 +249,8 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               </Droppable>
               {isCreateListFormOpen ? (
                 <CreateListForm
+                  boardId={board.id}
                   onRequestClose={() => setIsCreateListFormOpen(false)}
-                  onSubmit={(title) => {
-                    if (!title) return;
-
-                    listCreateMutation.mutate({
-                      body: {
-                        title,
-                        board_id: board.id,
-                      },
-                    });
-                  }}
                 />
               ) : (
                 <CreateListButton
