@@ -9,7 +9,6 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Layout from "../../components/Layout";
 import supabase from "../../helpers/supabase";
 import EditableText from "../../components/EditableText";
-import { deleteBoardById, getBoardById, putBoardById } from "../../api/boards";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import CreateListButton from "../../components/CreateListButton";
@@ -24,6 +23,9 @@ import {
 import { moveElement } from "../../helpers/data-structures";
 import { withAuthGuard } from "../../helpers/server";
 import { putCardById } from "../../api/cards";
+import useBoardQuery from "../../hooks/boards/use-board-query";
+import useUpdateBoardMutation from "../../hooks/boards/use-update-board-mutation";
+import useDeleteBoardMutation from "../../hooks/boards/use-delete-board-mutation";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
   async ({ params }) => {
@@ -67,13 +69,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { data: board } = useQuery(
-    "boardDetail",
-    getBoardById(initialBoard.id),
-    {
-      initialData: initialBoard,
-    }
-  );
+  const { data: board } = useBoardQuery(initialBoard.id, initialBoard);
 
   const { data: lists } = useQuery(
     "lists",
@@ -83,23 +79,8 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     }
   );
 
-  const boardUpdateMutation = useMutation(putBoardById(board.id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries("boardDetail");
-    },
-    onError: () => {
-      toast.error("Failed to update board title.");
-    },
-  });
-
-  const boardDeleteMutation = useMutation(deleteBoardById(board.id), {
-    onSuccess: () => {
-      router.replace("/dashboard");
-    },
-    onError: () => {
-      toast.error("Failed to delete a board.");
-    },
-  });
+  const updateBoardMutation = useUpdateBoardMutation();
+  const deleteBoardMutation = useDeleteBoardMutation();
 
   const listCreateMutation = useMutation(postList, {
     onSuccess: () => {
@@ -134,6 +115,32 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
 
   const cardUpdateMutation = useMutation(putCardById);
 
+  const updateBoardTitle = async (title: string) => {
+    if (!title) return;
+
+    try {
+      await updateBoardMutation.mutateAsync({
+        id: board.id,
+        body: {
+          title,
+        },
+      });
+
+      queryClient.invalidateQueries(["boards", board.id]);
+    } catch (error) {
+      toast.error("Failed to update board title.");
+    }
+  };
+
+  const deleteBoard = async () => {
+    try {
+      await deleteBoardMutation.mutateAsync(board.id);
+      router.replace("/dashboard");
+    } catch (error) {
+      toast.error("Failed to delete a board.");
+    }
+  };
+
   return (
     <Layout>
       <Head>
@@ -149,17 +156,10 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               </div>
             </a>
           </Link>
-          <EditableText
-            value={board.title}
-            onSubmit={(value) => {
-              boardUpdateMutation.mutate({
-                title: value,
-              });
-            }}
-          />
+          <EditableText value={board.title} onSubmit={updateBoardTitle} />
           <button
             className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
-            onClick={() => boardDeleteMutation.mutate()}
+            onClick={deleteBoard}
           >
             Delete
           </button>
