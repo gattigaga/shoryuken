@@ -6,11 +6,11 @@ import { useRouter } from "next/router";
 import { Formik } from "formik";
 import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
-import axios from "axios";
+import toast from "react-hot-toast";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
-import toast from "react-hot-toast";
+import useSignUpMutation from "../../../hooks/auth/use-sign-up-mutation";
 
 const validationSchema = Yup.object({
   fullname: Yup.string()
@@ -35,6 +35,7 @@ const validationSchema = Yup.object({
 
 const SignUpPage = () => {
   const router = useRouter();
+  const signUpMutation = useSignUpMutation();
 
   return (
     <div className="min-h-screen md:bg-slate-50">
@@ -79,7 +80,7 @@ const SignUpPage = () => {
                     confirmPassword,
                   } = values;
 
-                  await axios.post("/api/auth/signup", {
+                  await signUpMutation.mutateAsync({
                     fullname,
                     username,
                     email,

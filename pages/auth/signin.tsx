@@ -6,13 +6,13 @@ import { useRouter } from "next/router";
 import { Formik } from "formik";
 import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
-import axios from "axios";
-import cookie from "cookie";
 import { addDays } from "date-fns";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import toast from "react-hot-toast";
+import useSignInMutation from "../../hooks/auth/use-sign-in-mutation";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -23,6 +23,7 @@ const validationSchema = Yup.object({
 
 const SignInPage = () => {
   const router = useRouter();
+  const signInMutation = useSignInMutation();
 
   return (
     <div className="min-h-screen md:bg-slate-50">
@@ -56,23 +57,13 @@ const SignInPage = () => {
                 try {
                   setSubmitting(true);
 
-                  const { email, password } = values;
+                  const response = await signInMutation.mutateAsync(values);
+                  const accessToken = response.session.access_token;
 
-                  const res = await axios.post("/api/auth/signin", {
-                    email,
-                    password,
+                  Cookies.set("access_token", accessToken, {
+                    expires: addDays(new Date(), 7),
+                    path: "/",
                   });
-
-                  const accessToken = res.data.data.session.access_token;
-
-                  document.cookie = cookie.serialize(
-                    "access_token",
-                    accessToken,
-                    {
-                      expires: addDays(new Date(), 7),
-                      path: "/",
-                    }
-                  );
 
                   await router.push("/dashboard");
                 } catch (error) {
