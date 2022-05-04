@@ -11,8 +11,8 @@ import useCardsQuery from "../hooks/cards/use-cards-query";
 import useCreateCardMutation from "../hooks/cards/use-create-card-mutation";
 
 type Props = {
-  id: string | number;
-  boardId: string | number;
+  id: number;
+  boardId: number;
   index: number;
   title: string;
 };
