@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
@@ -14,18 +14,13 @@ import { useRouter } from "next/router";
 import CreateListButton from "../../components/CreateListButton";
 import CreateListForm from "../../components/CreateListForm";
 import List from "../../components/List";
-import {
-  deleteListById,
-  getListsByBoardId,
-  postList,
-  putListById,
-} from "../../api/lists";
-import { moveElement } from "../../helpers/data-structures";
 import { withAuthGuard } from "../../helpers/server";
 import { putCardById } from "../../api/cards";
 import useBoardQuery from "../../hooks/boards/use-board-query";
 import useUpdateBoardMutation from "../../hooks/boards/use-update-board-mutation";
 import useDeleteBoardMutation from "../../hooks/boards/use-delete-board-mutation";
+import useListsQuery from "../../hooks/lists/use-lists-query";
+import useUpdateListMutation from "../../hooks/lists/use-update-list-mutation";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
   async ({ params }) => {
@@ -70,48 +65,10 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const router = useRouter();
 
   const { data: board } = useBoardQuery(initialBoard.id, initialBoard);
-
-  const { data: lists } = useQuery(
-    "lists",
-    () => getListsByBoardId({ board_id: initialBoard.id }),
-    {
-      initialData: [],
-    }
-  );
-
+  const { data: lists } = useListsQuery(initialBoard.id);
   const updateBoardMutation = useUpdateBoardMutation();
   const deleteBoardMutation = useDeleteBoardMutation();
-
-  const listCreateMutation = useMutation(postList, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("lists");
-      toast.success("List successfully created.");
-      setIsCreateListFormOpen(false);
-    },
-    onError: () => {
-      toast.error("Failed to create a list.");
-      setIsCreateListFormOpen(false);
-    },
-  });
-
-  const listUpdateMutation = useMutation(putListById, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("lists");
-    },
-    onError: () => {
-      toast.error("Failed to update a list.");
-    },
-  });
-
-  const listDeleteMutation = useMutation(deleteListById, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("lists");
-      toast.success("List successfully deleted.");
-    },
-    onError: () => {
-      toast.error("Failed to delete a list.");
-    },
-  });
+  const updateListMutation = useUpdateListMutation();
 
   const cardUpdateMutation = useMutation(putCardById);
 
@@ -125,8 +82,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           title,
         },
       });
-
-      queryClient.invalidateQueries(["boards", board.id]);
     } catch (error) {
       toast.error("Failed to update board title.");
     }
@@ -138,6 +93,20 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
       router.replace("/dashboard");
     } catch (error) {
       toast.error("Failed to delete a board.");
+    }
+  };
+
+  const moveList = async (listId: string | number, toIndex: number) => {
+    try {
+      await updateListMutation.mutateAsync({
+        id: Number(listId),
+        boardId: board.id,
+        body: {
+          index: toIndex,
+        },
+      });
+    } catch (error) {
+      toast.error("Failed to move a list.");
     }
   };
 
@@ -168,29 +137,14 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           <div className="flex items-start">
             <DragDropContext
               onDragEnd={(result) => {
-                const fromIndex = result.source.index;
                 const toIndex = result.destination?.index;
+
+                if (toIndex === undefined) return;
 
                 if (result.type === "LIST") {
                   const id = result.draggableId.replace("list-", "");
 
-                  if (toIndex === undefined) return;
-
-                  listUpdateMutation.mutate({
-                    id,
-                    body: {
-                      index: toIndex,
-                    },
-                  });
-
-                  const newLists = moveElement(lists, fromIndex, toIndex).map(
-                    (list, index) => ({
-                      ...list,
-                      index,
-                    })
-                  );
-
-                  queryClient.setQueryData("lists", newLists);
+                  moveList(id, toIndex);
 
                   return;
                 }
@@ -250,21 +204,9 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                       <List
                         key={list.id}
                         id={list.id}
+                        boardId={board.id}
                         index={index}
                         title={list.title}
-                        onSubmitTitle={(title) => {
-                          if (!title) return;
-
-                          listUpdateMutation.mutate({
-                            id: list.id,
-                            body: {
-                              title,
-                            },
-                          });
-                        }}
-                        onClickRemove={() => {
-                          listDeleteMutation.mutate({ id: list.id });
-                        }}
                       />
                     ))}
                     {provided.placeholder}
@@ -273,17 +215,8 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               </Droppable>
               {isCreateListFormOpen ? (
                 <CreateListForm
+                  boardId={board.id}
                   onRequestClose={() => setIsCreateListFormOpen(false)}
-                  onSubmit={(title) => {
-                    if (!title) return;
-
-                    listCreateMutation.mutate({
-                      body: {
-                        title,
-                        board_id: board.id,
-                      },
-                    });
-                  }}
                 />
               ) : (
                 <CreateListButton

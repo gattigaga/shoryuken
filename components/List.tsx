@@ -1,34 +1,31 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-
-import Button from "./Button";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
+
+import Button from "./Button";
 import { getCardsByListId, postCard } from "../api/cards";
 import Card from "./Card";
+import useDeleteListMutation from "../hooks/lists/use-delete-list-mutation";
+import useUpdateListBoardMutation from "../hooks/lists/use-update-list-mutation";
 
 type Props = {
   id: string | number;
+  boardId: string | number;
   index: number;
   title: string;
-  onSubmitTitle?: (value: string) => void;
-  onClickRemove?: () => void;
 };
 
-const List: React.FC<Props> = ({
-  id,
-  index,
-  title,
-  onSubmitTitle,
-  onClickRemove,
-}) => {
+const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isCreateCardFormOpen, setIsCreateCardFormOpen] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const refListTitleInput = useRef<HTMLInputElement>(null);
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
   const queryClient = useQueryClient();
+  const deleteListMutation = useDeleteListMutation();
+  const updateListMutation = useUpdateListBoardMutation();
 
   const { data: cards } = useQuery<any[]>(
     ["cards", { list_id: id }],
@@ -59,6 +56,35 @@ const List: React.FC<Props> = ({
 
     return viewportHeight * 0.6 + footerHeight;
   })();
+
+  const deleteList = async () => {
+    try {
+      await deleteListMutation.mutateAsync({
+        id,
+        boardId,
+      });
+    } catch (error) {
+      toast.error("Failed to delete a list.");
+    }
+  };
+
+  const updateListTitle = async (title: string) => {
+    if (!title) return;
+
+    setIsEditingTitle(false);
+
+    try {
+      await updateListMutation.mutateAsync({
+        id,
+        boardId,
+        body: {
+          title,
+        },
+      });
+    } catch (error) {
+      toast.error("Failed to update a list.");
+    }
+  };
 
   // Set focus on list title input if title editing form opened.
   useEffect(() => {
@@ -105,15 +131,14 @@ const List: React.FC<Props> = ({
                   }
                 }}
                 onBlur={(event) => {
-                  setIsEditingTitle(false);
-                  onSubmitTitle?.(event.target.value);
+                  updateListTitle(event.target.value);
                 }}
               />
             )}
             <button
               className="ml-2 w-8 h-8 flex items-center justify-center rounded text-slate-500 hover:text-slate-600 hover:bg-slate-400"
               type="button"
-              onClick={onClickRemove}
+              onClick={deleteList}
             >
               <MdClose size={24} />
             </button>

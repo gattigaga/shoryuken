@@ -28,9 +28,9 @@ const DashboardPage: NextPage = () => {
         <title>Dashboard | Shoryuken</title>
       </Head>
 
-      <div className="px-8 pt-12 pb-32 min-h-full">
+      <div className="min-h-full">
         {boardsFetchStatus === "success" && (
-          <div className="w-full mx-auto sm:w-5/6">
+          <div className="px-8 pt-12 pb-32 w-full mx-auto sm:w-5/6">
             <h1 className="text-2xl font-semibold text-slate-600 mb-8">
               My Boards
             </h1>
