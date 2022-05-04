@@ -59,8 +59,10 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
 
   const deleteList = async () => {
     try {
-      await deleteListMutation.mutateAsync(id);
-      await queryClient.invalidateQueries(["lists", { board_id: boardId }]);
+      await deleteListMutation.mutateAsync({
+        id,
+        boardId,
+      });
     } catch (error) {
       toast.error("Failed to delete a list.");
     }
