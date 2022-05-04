@@ -8,7 +8,7 @@ type Response = any;
 
 type Body = {
   title: string;
-  list_id: string | number;
+  list_id: number;
 };
 
 const createCard = async (body: Body): Promise<Response> => {

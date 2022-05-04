@@ -16,8 +16,8 @@ export const updateCardById = async ({
   listId,
   body,
 }: {
-  id: string | number;
-  listId: string | number;
+  id: number;
+  listId: number;
   body: Body;
 }): Promise<Response> => {
   const res = await axios.put(`/api/cards/${id}`, body);
