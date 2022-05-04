@@ -14,7 +14,6 @@ import { useRouter } from "next/router";
 import CreateListButton from "../../components/CreateListButton";
 import CreateListForm from "../../components/CreateListForm";
 import List from "../../components/List";
-import { moveElement } from "../../helpers/data-structures";
 import { withAuthGuard } from "../../helpers/server";
 import { putCardById } from "../../api/cards";
 import useBoardQuery from "../../hooks/boards/use-board-query";
@@ -97,36 +96,18 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     }
   };
 
-  const moveList = async (
-    listId: string | number,
-    fromIndex: number,
-    toIndex: number
-  ) => {
-    updateListMutation.mutate(
-      {
-        id: listId,
+  const moveList = async (listId: string | number, toIndex: number) => {
+    try {
+      await updateListMutation.mutateAsync({
+        id: Number(listId),
+        boardId: board.id,
         body: {
           index: toIndex,
         },
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries(["lists", { board_id: board.id }]);
-        },
-        onError: () => {
-          toast.error("Failed to move a list.");
-        },
-      }
-    );
-
-    const newLists = moveElement(lists, fromIndex, toIndex).map(
-      (list, index) => ({
-        ...list,
-        index,
-      })
-    );
-
-    queryClient.setQueryData(["lists", { board_id: board.id }], newLists);
+      });
+    } catch (error) {
+      toast.error("Failed to move a list.");
+    }
   };
 
   return (
@@ -156,7 +137,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           <div className="flex items-start">
             <DragDropContext
               onDragEnd={(result) => {
-                const fromIndex = result.source.index;
                 const toIndex = result.destination?.index;
 
                 if (toIndex === undefined) return;
@@ -164,7 +144,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                 if (result.type === "LIST") {
                   const id = result.draggableId.replace("list-", "");
 
-                  moveList(id, fromIndex, toIndex);
+                  moveList(id, toIndex);
 
                   return;
                 }

@@ -71,18 +71,18 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const updateListTitle = async (title: string) => {
     if (!title) return;
 
+    setIsEditingTitle(false);
+
     try {
       await updateListMutation.mutateAsync({
         id,
+        boardId,
         body: {
           title,
         },
       });
-      await queryClient.invalidateQueries(["lists", { board_id: boardId }]);
     } catch (error) {
       toast.error("Failed to update a list.");
-    } finally {
-      setIsEditingTitle(false);
     }
   };
 
