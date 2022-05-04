@@ -14,7 +14,6 @@ import { useRouter } from "next/router";
 import CreateListButton from "../../components/CreateListButton";
 import CreateListForm from "../../components/CreateListForm";
 import List from "../../components/List";
-import { deleteListById, postList, putListById } from "../../api/lists";
 import { moveElement } from "../../helpers/data-structures";
 import { withAuthGuard } from "../../helpers/server";
 import { putCardById } from "../../api/cards";
@@ -22,6 +21,7 @@ import useBoardQuery from "../../hooks/boards/use-board-query";
 import useUpdateBoardMutation from "../../hooks/boards/use-update-board-mutation";
 import useDeleteBoardMutation from "../../hooks/boards/use-delete-board-mutation";
 import useListsQuery from "../../hooks/lists/use-lists-query";
+import useUpdateListMutation from "../../hooks/lists/use-update-list-mutation";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
   async ({ params }) => {
@@ -69,15 +69,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const { data: lists } = useListsQuery(initialBoard.id);
   const updateBoardMutation = useUpdateBoardMutation();
   const deleteBoardMutation = useDeleteBoardMutation();
-
-  const listUpdateMutation = useMutation(putListById, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("lists");
-    },
-    onError: () => {
-      toast.error("Failed to update a list.");
-    },
-  });
+  const updateListMutation = useUpdateListMutation();
 
   const cardUpdateMutation = useMutation(putCardById);
 
@@ -105,6 +97,38 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     } catch (error) {
       toast.error("Failed to delete a board.");
     }
+  };
+
+  const moveList = async (
+    listId: string | number,
+    fromIndex: number,
+    toIndex: number
+  ) => {
+    updateListMutation.mutate(
+      {
+        id: listId,
+        body: {
+          index: toIndex,
+        },
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["lists", { board_id: board.id }]);
+        },
+        onError: () => {
+          toast.error("Failed to move a list.");
+        },
+      }
+    );
+
+    const newLists = moveElement(lists, fromIndex, toIndex).map(
+      (list, index) => ({
+        ...list,
+        index,
+      })
+    );
+
+    queryClient.setQueryData(["lists", { board_id: board.id }], newLists);
   };
 
   return (
@@ -137,26 +161,12 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                 const fromIndex = result.source.index;
                 const toIndex = result.destination?.index;
 
+                if (toIndex === undefined) return;
+
                 if (result.type === "LIST") {
                   const id = result.draggableId.replace("list-", "");
 
-                  if (toIndex === undefined) return;
-
-                  listUpdateMutation.mutate({
-                    id,
-                    body: {
-                      index: toIndex,
-                    },
-                  });
-
-                  const newLists = moveElement(lists, fromIndex, toIndex).map(
-                    (list, index) => ({
-                      ...list,
-                      index,
-                    })
-                  );
-
-                  queryClient.setQueryData("lists", newLists);
+                  moveList(id, fromIndex, toIndex);
 
                   return;
                 }
