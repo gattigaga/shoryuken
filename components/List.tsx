@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 
 import Button from "./Button";
-import { getCardsByListId, postCard } from "../api/cards";
+import { postCard } from "../api/cards";
 import Card from "./Card";
 import useDeleteListMutation from "../hooks/lists/use-delete-list-mutation";
 import useUpdateListBoardMutation from "../hooks/lists/use-update-list-mutation";
+import useCardsQuery from "../hooks/cards/use-cards-query";
 
 type Props = {
   id: string | number;
@@ -27,13 +28,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const deleteListMutation = useDeleteListMutation();
   const updateListMutation = useUpdateListBoardMutation();
 
-  const { data: cards } = useQuery<any[]>(
-    ["cards", { list_id: id }],
-    () => getCardsByListId({ list_id: id }),
-    {
-      initialData: [],
-    }
-  );
+  const { data: cards } = useCardsQuery(id);
 
   const cardCreateMutation = useMutation(postCard, {
     onSuccess: () => {
