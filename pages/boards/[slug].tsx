@@ -162,11 +162,16 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           <div className="flex items-start">
             <DragDropContext
               onDragEnd={(result) => {
+                const fromIndex = result.source.index;
                 const toIndex = result.destination?.index;
 
                 if (toIndex === undefined) return;
 
                 if (result.type === "LIST") {
+                  const isUpdated = toIndex !== fromIndex;
+
+                  if (!isUpdated) return;
+
                   const id = result.draggableId.replace("list-", "");
 
                   moveList({
