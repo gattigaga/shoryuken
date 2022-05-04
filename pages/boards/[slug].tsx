@@ -83,8 +83,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           title,
         },
       });
-
-      queryClient.invalidateQueries(["boards", board.id]);
     } catch (error) {
       toast.error("Failed to update board title.");
     }

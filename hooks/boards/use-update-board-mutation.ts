@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 type Response = any;
 
@@ -20,6 +20,31 @@ export const updateBoardById = async ({
   return data;
 };
 
-const useUpdateBoardMutation = () => useMutation(updateBoardById);
+const useUpdateBoardMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(updateBoardById, {
+    onMutate: async (payload) => {
+      const key = ["boards", payload.id];
+
+      await queryClient.cancelQueries(key);
+
+      const previousBoard = queryClient.getQueryData(key);
+
+      queryClient.setQueryData(key, (oldBoard) => ({
+        ...oldBoard,
+        title: payload.body.title,
+      }));
+
+      return { previousBoard };
+    },
+    onError: (error, payload, context) => {
+      queryClient.setQueryData(["boards", payload.id], context.previousBoard);
+    },
+    onSettled: (data, error, payload) => {
+      queryClient.invalidateQueries(["boards", payload.id]);
+    },
+  });
+};
 
 export default useUpdateBoardMutation;
