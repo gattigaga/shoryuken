@@ -28,7 +28,12 @@ const useDeleteListMutation = () => {
       const previousLists = queryClient.getQueryData(key);
 
       queryClient.setQueryData(key, (oldLists) => {
-        return oldLists.filter((list) => list.id !== payload.id);
+        return oldLists
+          .filter((list) => list.id !== payload.id)
+          .map((list, index) => ({
+            ...list,
+            index,
+          }));
       });
 
       return { previousLists };
