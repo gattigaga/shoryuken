@@ -62,15 +62,14 @@ const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
         validationSchema={validationSchema}
         validateOnMount
         onSubmit={async (values) => {
+          onRequestClose?.();
+
           try {
             await createBoardMutation.mutateAsync(values);
 
-            queryClient.invalidateQueries("boards");
             toast.success("Board successfully created.");
           } catch (error) {
             toast.error("Failed to create a board.");
-          } finally {
-            onRequestClose?.();
           }
         }}
       >
