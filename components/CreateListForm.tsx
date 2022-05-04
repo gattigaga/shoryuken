@@ -14,23 +14,20 @@ type Props = {
 const CreateListForm: React.FC<Props> = ({ boardId, onRequestClose }) => {
   const [title, setTitle] = useState("");
   const refInput = useRef<HTMLInputElement>(null);
-  const queryClient = useQueryClient();
   const createListMutation = useCreateListMutation();
 
   const createList = async () => {
     if (!title) return;
+
+    onRequestClose?.();
 
     try {
       await createListMutation.mutateAsync({
         title,
         board_id: boardId,
       });
-
-      await queryClient.invalidateQueries(["lists", { board_id: boardId }]);
     } catch (error) {
       toast.error("Failed to create a list.");
-    } finally {
-      onRequestClose?.();
     }
   };
 
