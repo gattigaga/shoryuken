@@ -7,8 +7,8 @@ export const deleteListById = async ({
   id,
   boardId,
 }: {
-  id: string | number;
-  boardId: string | number;
+  id: number;
+  boardId: number;
 }): Promise<Response> => {
   const res = await axios.delete(`/api/lists/${id}`);
   const data = res.data.data;

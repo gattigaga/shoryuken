@@ -3,9 +3,7 @@ import { useQuery } from "react-query";
 
 type Response = any[];
 
-export const getListsByBoardId = async (
-  boardId: string | number
-): Promise<Response> => {
+export const getListsByBoardId = async (boardId: number): Promise<Response> => {
   const res = await axios.get("/api/lists/", {
     params: {
       board_id: boardId,
@@ -17,7 +15,7 @@ export const getListsByBoardId = async (
   return data;
 };
 
-const useListsQuery = (boardId: string | number) => {
+const useListsQuery = (boardId: number) => {
   return useQuery(
     ["lists", { board_id: boardId }],
     () => getListsByBoardId(boardId),
