@@ -2,7 +2,6 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
@@ -15,12 +14,12 @@ import CreateListButton from "../../components/CreateListButton";
 import CreateListForm from "../../components/CreateListForm";
 import List from "../../components/List";
 import { withAuthGuard } from "../../helpers/server";
-import { putCardById } from "../../api/cards";
 import useBoardQuery from "../../hooks/boards/use-board-query";
 import useUpdateBoardMutation from "../../hooks/boards/use-update-board-mutation";
 import useDeleteBoardMutation from "../../hooks/boards/use-delete-board-mutation";
 import useListsQuery from "../../hooks/lists/use-lists-query";
 import useUpdateListMutation from "../../hooks/lists/use-update-list-mutation";
+import useUpdateCardBoardMutation from "../../hooks/cards/use-update-card-mutation";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
   async ({ params }) => {
@@ -53,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = withAuthGuard(
 
 type Props = NextPage & {
   initialBoard: {
-    id: string;
+    id: number;
     title: string;
     slug: string;
   };
@@ -61,7 +60,6 @@ type Props = NextPage & {
 
 const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const [isCreateListFormOpen, setIsCreateListFormOpen] = useState(false);
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   const { data: board } = useBoardQuery(initialBoard.id, initialBoard);
@@ -69,8 +67,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const updateBoardMutation = useUpdateBoardMutation();
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
-
-  const cardUpdateMutation = useMutation(putCardById);
+  const updateCardMutation = useUpdateCardBoardMutation();
 
   const updateBoardTitle = async (title: string) => {
     if (!title) return;
@@ -96,11 +93,39 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     }
   };
 
-  const moveList = async (listId: string | number, toIndex: number) => {
+  const moveList = async ({
+    listId,
+    toIndex,
+  }: {
+    listId: number;
+    toIndex: number;
+  }) => {
     try {
       await updateListMutation.mutateAsync({
-        id: Number(listId),
+        id: listId,
         boardId: board.id,
+        body: {
+          index: toIndex,
+        },
+      });
+    } catch (error) {
+      toast.error("Failed to move a list.");
+    }
+  };
+
+  const moveCard = async ({
+    cardId,
+    fromListId,
+    toIndex,
+  }: {
+    cardId: number;
+    fromListId: number;
+    toIndex: number;
+  }) => {
+    try {
+      await updateCardMutation.mutateAsync({
+        id: cardId,
+        listId: fromListId,
         body: {
           index: toIndex,
         },
@@ -144,7 +169,10 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                 if (result.type === "LIST") {
                   const id = result.draggableId.replace("list-", "");
 
-                  moveList(id, toIndex);
+                  moveList({
+                    listId: Number(id),
+                    toIndex,
+                  });
 
                   return;
                 }
@@ -152,41 +180,21 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                 if (result.type === "CARD") {
                   const id = result.draggableId.replace("card-", "");
 
-                  if (toIndex === undefined) return;
-
-                  cardUpdateMutation.mutate(
-                    {
-                      id,
-                      body: {
-                        index: toIndex,
-                      },
-                    },
-                    {
-                      onSuccess: () => {
-                        queryClient.invalidateQueries([
-                          "cards",
-                          { list_id: id },
-                        ]);
-                      },
-                      onError: () => {
-                        toast.error("Failed to update a card.");
-                      },
-                    }
+                  const fromListId = result.source.droppableId.replace(
+                    "list-",
+                    ""
                   );
 
-                  // const newCards = moveElement(
-                  //   cards,
-                  //   fromIndex,
-                  //   index
-                  // ).map((card, index) => ({
-                  //   ...card,
-                  //   index,
-                  // }));
+                  const toListId = result.destination?.droppableId.replace(
+                    "list-",
+                    ""
+                  );
 
-                  // queryClient.setQueryData(
-                  //   ["cards", { list_id: id }],
-                  //   newCards
-                  // );
+                  moveCard({
+                    cardId: Number(id),
+                    fromListId: Number(fromListId),
+                    toIndex,
+                  });
 
                   return;
                 }
