@@ -198,10 +198,15 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                     ""
                   );
 
+                  const validToList =
+                    toListId !== fromListId && !!toListId
+                      ? Number(toListId)
+                      : undefined;
+
                   moveCard({
                     cardId: Number(id),
                     fromListId: Number(fromListId),
-                    toListId: toListId ? Number(toListId) : undefined,
+                    toListId: validToList,
                     toIndex,
                   });
 
