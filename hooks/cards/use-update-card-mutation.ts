@@ -9,6 +9,7 @@ type Body = {
   title?: string;
   description?: string;
   index?: number;
+  list_id?: number;
 };
 
 export const updateCardById = async ({
@@ -31,52 +32,92 @@ const useUpdateCardBoardMutation = () => {
 
   return useMutation(updateCardById, {
     onMutate: async (payload) => {
-      const key = ["cards", { list_id: payload.listId }];
+      const fromList = payload.listId;
+      const toList = payload.body.list_id;
+      const toIndex = payload.body.index;
+      const fromKey = ["cards", { list_id: fromList }];
+      const toKey = toList && ["cards", { list_id: toList }];
 
-      await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries(fromKey);
+      const previousFromCards = queryClient.getQueryData(fromKey);
+      const previousToCards = toKey && queryClient.getQueryData(toKey);
 
-      const previousCards = queryClient.getQueryData(key);
+      let newFromCards;
+      let newToCards;
 
-      queryClient.setQueryData(key, (oldCards) => {
-        let newCards = oldCards;
+      // Move card in a list.
+      if (toIndex !== undefined && !toList) {
+        const card = previousFromCards.find((card) => card.id === payload.id);
+        const fromIndex = card.index;
+        const toIndex = payload.body.index;
 
-        // Update index across all lists in a board.
-        if (payload.body.index !== undefined) {
-          const card = oldCards.find((card) => card.id === payload.id);
-          const fromIndex = card.index;
-          const toIndex = payload.body.index;
+        newFromCards = moveElement(previousFromCards, fromIndex, toIndex).map(
+          (card, index) => ({
+            ...card,
+            index,
+          })
+        );
+      }
 
-          newCards = moveElement(oldCards, fromIndex, toIndex).map(
-            (card, index) => ({
-              ...card,
-              index,
-            })
-          );
+      // Move card in across 2 lists.
+      if (toList) {
+        const card = previousFromCards.find((card) => card.id === payload.id);
+
+        newFromCards = previousFromCards
+          .filter((fromCard) => {
+            return fromCard.id !== card.id;
+          })
+          .map((fromCard, index) => ({ ...fromCard, index }));
+
+        newToCards = [
+          ...previousToCards.slice(0, payload.body.index),
+          card,
+          ...previousToCards.slice(payload.body.index),
+        ].map((toCard, index) => ({ ...toCard, index }));
+      }
+
+      newFromCards = newFromCards.map((card) => {
+        if (card.id === payload.id) {
+          return {
+            ...card,
+            title: payload.body.title || card.title,
+            description: payload.body.description || card.description,
+          };
         }
 
-        return newCards.map((card) => {
-          if (card.id === payload.id) {
-            return {
-              ...card,
-              title: payload.body.title || card.title,
-              description: payload.body.description || card.description,
-            };
-          }
-
-          return card;
-        });
+        return card;
       });
 
-      return { previousCards };
+      queryClient.setQueryData(fromKey, newFromCards);
+
+      if (toKey) {
+        queryClient.setQueryData(toKey, newToCards);
+      }
+
+      return { previousFromCards, previousToCards };
     },
     onError: (error, payload, context) => {
       queryClient.setQueryData(
         ["cards", { list_id: payload.listId }],
-        context.previousCards
+        context.previousFromCards
       );
+
+      if (payload.body.list_id) {
+        queryClient.setQueryData(
+          ["cards", { list_id: payload.body.list_id }],
+          context.previousToCards
+        );
+      }
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
+
+      if (payload.body.list_id) {
+        queryClient.invalidateQueries([
+          "cards",
+          { list_id: payload.body.list_id },
+        ]);
+      }
     },
   });
 };
