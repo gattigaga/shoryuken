@@ -3,14 +3,14 @@ import { useQuery } from "react-query";
 
 type Response = any;
 
-export const getBoardById = async (id: string | number): Promise<Response> => {
+export const getBoardById = async (id: number): Promise<Response> => {
   const res = await axios.get(`/api/boards/${id}`);
   const data = res.data.data;
 
   return data;
 };
 
-const useBoardQuery = (id: string | number, initialData: any) => {
+const useBoardQuery = (id: number, initialData: any) => {
   return useQuery(["boards", id], () => getBoardById(id), {
     initialData,
   });

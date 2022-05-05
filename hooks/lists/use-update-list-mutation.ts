@@ -15,8 +15,8 @@ export const updateListById = async ({
   boardId,
   body,
 }: {
-  id: string | number;
-  boardId: string | number;
+  id: number;
+  boardId: number;
   body: Body;
 }): Promise<Response> => {
   const res = await axios.put(`/api/lists/${id}`, body);

@@ -6,7 +6,7 @@ type Response = any;
 
 type Body = {
   title: string;
-  board_id: string | number;
+  board_id: number;
 };
 
 const createList = async (body: Body): Promise<Response> => {

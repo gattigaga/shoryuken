@@ -1,18 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 
 import Button from "./Button";
-import { getCardsByListId, postCard } from "../api/cards";
 import Card from "./Card";
 import useDeleteListMutation from "../hooks/lists/use-delete-list-mutation";
 import useUpdateListBoardMutation from "../hooks/lists/use-update-list-mutation";
+import useCardsQuery from "../hooks/cards/use-cards-query";
+import useCreateCardMutation from "../hooks/cards/use-create-card-mutation";
 
 type Props = {
-  id: string | number;
-  boardId: string | number;
+  id: number;
+  boardId: number;
   index: number;
   title: string;
 };
@@ -23,32 +23,11 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const [cardTitle, setCardTitle] = useState("");
   const refListTitleInput = useRef<HTMLInputElement>(null);
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
-  const queryClient = useQueryClient();
   const deleteListMutation = useDeleteListMutation();
   const updateListMutation = useUpdateListBoardMutation();
+  const createCardMutation = useCreateCardMutation();
 
-  const { data: cards } = useQuery<any[]>(
-    ["cards", { list_id: id }],
-    () => getCardsByListId({ list_id: id }),
-    {
-      initialData: [],
-    }
-  );
-
-  const cardCreateMutation = useMutation(postCard, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["cards", { list_id: id }]);
-    },
-    onError: () => {
-      toast.error("Failed to create a card.");
-    },
-  });
-
-  const createCard = (body: { title: string; list_id: string | number }) => {
-    cardCreateMutation.mutate({
-      body,
-    });
-  };
+  const { data: cards } = useCardsQuery(id);
 
   const maxHeight = (() => {
     const viewportHeight = window?.innerHeight || 0;
@@ -83,6 +62,17 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
       });
     } catch (error) {
       toast.error("Failed to update a list.");
+    }
+  };
+
+  const createCard = async () => {
+    try {
+      await createCardMutation.mutateAsync({
+        title: cardTitle,
+        list_id: id,
+      });
+    } catch (error) {
+      toast.error("Failed to delete a card.");
     }
   };
 
@@ -180,7 +170,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                       switch (event.key) {
                         case "Enter":
                           event.preventDefault();
-                          createCard({ title: cardTitle, list_id: id });
+                          createCard();
                           setIsCreateCardFormOpen(false);
                           setCardTitle("");
                           break;
@@ -201,7 +191,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                     className="outline-black mr-2"
                     type="button"
                     onClick={() => {
-                      createCard({ title: cardTitle, list_id: id });
+                      createCard();
                       setIsCreateCardFormOpen(false);
                       setCardTitle("");
                     }}

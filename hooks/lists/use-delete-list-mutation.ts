@@ -7,8 +7,8 @@ export const deleteListById = async ({
   id,
   boardId,
 }: {
-  id: string | number;
-  boardId: string | number;
+  id: number;
+  boardId: number;
 }): Promise<Response> => {
   const res = await axios.delete(`/api/lists/${id}`);
   const data = res.data.data;
@@ -28,7 +28,12 @@ const useDeleteListMutation = () => {
       const previousLists = queryClient.getQueryData(key);
 
       queryClient.setQueryData(key, (oldLists) => {
-        return oldLists.filter((list) => list.id !== payload.id);
+        return oldLists
+          .filter((list) => list.id !== payload.id)
+          .map((list, index) => ({
+            ...list,
+            index,
+          }));
       });
 
       return { previousLists };

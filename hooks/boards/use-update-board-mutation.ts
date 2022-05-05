@@ -11,7 +11,7 @@ export const updateBoardById = async ({
   id,
   body,
 }: {
-  id: string | number;
+  id: number;
   body: Body;
 }): Promise<Response> => {
   const res = await axios.put(`/api/boards/${id}`, body);

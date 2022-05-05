@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import { MdClose } from "react-icons/md";
-import { useQueryClient } from "react-query";
 
 import useCreateListMutation from "../hooks/lists/use-create-list-mutation";
 import Button from "./Button";
 
 type Props = {
-  boardId: string | number;
+  boardId: number;
   onRequestClose?: () => void;
 };
 

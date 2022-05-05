@@ -47,7 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
       }
 
       // Update the index of each list.
-      if (index !== undefined && index !== list.index) {
+      if (index !== undefined) {
         const { data: orderedLists, error: orderedListsError } = await supabase
           .from("lists")
           .select("*")
