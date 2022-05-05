@@ -29,10 +29,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { title, description, index } = req.body as {
+      const { title, description, index, list_id } = req.body as {
         title: string;
         description: string;
         index: number;
+        list_id: number;
       };
 
       // Get a card that want to update.
@@ -47,8 +48,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw cardError;
       }
 
-      // Update the index of each card.
-      if (index !== undefined && index !== card.index) {
+      // Move card in a list.
+      if (index !== undefined && !list_id) {
         const { data: orderedCards, error: orderedCardsError } = await supabase
           .from("cards")
           .select("*")
@@ -77,6 +78,64 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
             .from("cards")
             .update({ index: newIndex })
             .eq("id", orderedCard.id);
+
+          if (error) {
+            throw error;
+          }
+        }
+      }
+
+      // Move card in across 2 lists.
+      if (list_id) {
+        const fromList = card.list_id;
+        const toList = list_id;
+
+        const { data: fromCards, error: fromCardsError } = await supabase
+          .from("cards")
+          .select("*")
+          .eq("list_id", fromList)
+          .order("index");
+
+        if (fromCardsError) {
+          throw fromCardsError;
+        }
+
+        const { data: toCards, error: toCardsError } = await supabase
+          .from("cards")
+          .select("*")
+          .eq("list_id", toList)
+          .order("index");
+
+        if (toCardsError) {
+          throw toCardsError;
+        }
+
+        const updatedFromCards = fromCards.filter((fromCard) => {
+          return fromCard.id !== card.id;
+        });
+
+        const updatedToCards = [
+          ...toCards.slice(0, index),
+          card,
+          ...toCards.slice(index),
+        ];
+
+        for (const [index, fromCard] of updatedFromCards.entries()) {
+          const { error } = await supabase
+            .from("cards")
+            .update({ index })
+            .eq("id", fromCard.id);
+
+          if (error) {
+            throw error;
+          }
+        }
+
+        for (const [index, toCard] of updatedToCards.entries()) {
+          const { error } = await supabase
+            .from("cards")
+            .update({ index, list_id: toList })
+            .eq("id", toCard.id);
 
           if (error) {
             throw error;
