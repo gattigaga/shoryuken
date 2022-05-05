@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
+import classnames from "classnames";
 
 import Button from "./Button";
 import Card from "./Card";
@@ -92,10 +93,15 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
 
   return (
     <Draggable draggableId={`list-${id}`} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
-          className="shrink-0 w-72 bg-slate-300 rounded mr-2 flex flex-col"
+          className={classnames(
+            "shrink-0 w-72 bg-slate-300 rounded mr-2 flex flex-col",
+            {
+              "shadow-xl": snapshot.isDragging,
+            }
+          )}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
