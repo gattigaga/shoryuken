@@ -132,9 +132,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         }
 
         for (const [index, toCard] of updatedToCards.entries()) {
+          const listId = card.id === toCard.id ? toList : toCard.list_id;
+
           const { error } = await supabase
             .from("cards")
-            .update({ index, list_id: toList })
+            .update({ index, list_id: listId })
             .eq("id", toCard.id);
 
           if (error) {
