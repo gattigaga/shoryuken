@@ -10,7 +10,7 @@ export const getBoardById = async (id: number): Promise<Response> => {
   return data;
 };
 
-const useBoardQuery = (id: number, initialData: any) => {
+const useBoardQuery = (id: number, initialData?: any) => {
   return useQuery(["boards", id], () => getBoardById(id), {
     initialData,
   });
