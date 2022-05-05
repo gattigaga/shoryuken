@@ -10,10 +10,10 @@ export const getCardById = async (id: number): Promise<Response> => {
   return data;
 };
 
-const useBoardQuery = (id: number, initialData: any) => {
+const useCardQuery = (id: number, initialData: any) => {
   return useQuery(["cards", id], () => getCardById(id), {
     initialData,
   });
 };
 
-export default useBoardQuery;
+export default useCardQuery;
