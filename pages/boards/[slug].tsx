@@ -116,10 +116,12 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const moveCard = async ({
     cardId,
     fromListId,
+    toListId,
     toIndex,
   }: {
     cardId: number;
     fromListId: number;
+    toListId?: number;
     toIndex: number;
   }) => {
     try {
@@ -128,10 +130,11 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
         listId: fromListId,
         body: {
           index: toIndex,
+          list_id: toListId,
         },
       });
     } catch (error) {
-      toast.error("Failed to move a list.");
+      toast.error("Failed to move a card.");
     }
   };
 
@@ -198,6 +201,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                   moveCard({
                     cardId: Number(id),
                     fromListId: Number(fromListId),
+                    toListId: toListId ? Number(toListId) : undefined,
                     toIndex,
                   });
 
