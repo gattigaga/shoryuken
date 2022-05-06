@@ -77,6 +77,15 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
     }
   };
 
+  const handleCardTitleHeight = () => {
+    if (!refCardTitleInput.current) return;
+
+    refCardTitleInput.current.style.height = "64px";
+
+    refCardTitleInput.current.style.height =
+      refCardTitleInput.current.scrollHeight + "px";
+  };
+
   // Set focus on list title input if title editing form opened.
   useEffect(() => {
     if (isEditingTitle) {
@@ -191,6 +200,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                           break;
                       }
                     }}
+                    onInput={handleCardTitleHeight}
                   />
                 </div>
                 <div className="flex items-center">
