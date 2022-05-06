@@ -100,6 +100,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
               onChange={(event) => setDescription(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Escape") {
+                  event.stopPropagation();
                   setIsEditing(false);
                   setDescription(card?.description);
                 }

@@ -70,6 +70,7 @@ const CardTitle: React.FC<Props> = ({ id }) => {
             defaultValue={card?.title}
             onKeyDown={(event) => {
               if (["Enter", "Escape"].includes(event.key)) {
+                event.stopPropagation();
                 refInput.current?.blur();
               }
             }}
