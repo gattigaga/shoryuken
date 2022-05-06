@@ -24,6 +24,7 @@ const NavBar: React.FC<Props> = ({}) => {
   const signOut = async () => {
     try {
       await signOutMutation.mutateAsync();
+    } finally {
       await router.replace("/auth/signin");
 
       queryClient.resetQueries();
@@ -31,8 +32,6 @@ const NavBar: React.FC<Props> = ({}) => {
       Cookies.remove("access_token", {
         path: "/",
       });
-    } catch (error) {
-      toast.error("Failed to sign out.");
     }
   };
 

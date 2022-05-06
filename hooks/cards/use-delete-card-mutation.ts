@@ -16,7 +16,7 @@ export const deleteCardById = async ({
   return data;
 };
 
-const useDeleteCardBoardMutation = () => {
+const useDeleteCardMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(deleteCardById, {
@@ -50,4 +50,4 @@ const useDeleteCardBoardMutation = () => {
   });
 };
 
-export default useDeleteCardBoardMutation;
+export default useDeleteCardMutation;
