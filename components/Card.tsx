@@ -31,7 +31,7 @@ const Card: React.FC<Props> = ({
           href={{
             pathname: `/boards/${board.slug}`,
             query: {
-              card: slug,
+              card: `${id}-${slug}`,
             },
           }}
         >
