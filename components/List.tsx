@@ -151,9 +151,10 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                       <Card
                         key={card.id}
                         id={card.id}
+                        boardId={boardId}
                         index={index}
                         title={card.title}
-                        href="/"
+                        slug={card.slug}
                         hasDescription={!!card.description}
                       />
                     );

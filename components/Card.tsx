@@ -3,19 +3,38 @@ import React from "react";
 import { MdEdit, MdSubject } from "react-icons/md";
 import { Draggable } from "react-beautiful-dnd";
 
+import useBoardQuery from "../hooks/boards/use-board-query";
+
 type Props = {
-  id: string | number;
+  id: number;
+  boardId: number;
   index: number;
   title: string;
-  href: string;
+  slug: string;
   hasDescription?: boolean;
 };
 
-const Card: React.FC<Props> = ({ id, index, title, href, hasDescription }) => {
+const Card: React.FC<Props> = ({
+  id,
+  boardId,
+  index,
+  title,
+  slug,
+  hasDescription,
+}) => {
+  const { data: board } = useBoardQuery(boardId);
+
   return (
     <Draggable draggableId={`card-${id}`} index={index}>
       {(provided) => (
-        <Link href={href}>
+        <Link
+          href={{
+            pathname: `/boards/${board.slug}`,
+            query: {
+              card: slug,
+            },
+          }}
+        >
           <a>
             <div
               className="mb-2 group p-2 bg-white rounded shadow flex hover:bg-slate-200"
