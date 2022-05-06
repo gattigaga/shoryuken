@@ -42,16 +42,16 @@ const useUpdateCardMutation = () => {
       const previousFromCards = queryClient.getQueryData(fromKey);
       const previousToCards = toKey && queryClient.getQueryData(toKey);
 
-      let newFromCards;
+      let newFromCards = previousFromCards;
       let newToCards;
 
       // Move card in a list.
       if (toIndex !== undefined && !toList) {
-        const card = previousFromCards.find((card) => card.id === payload.id);
+        const card = newFromCards.find((card) => card.id === payload.id);
         const fromIndex = card.index;
         const toIndex = payload.body.index;
 
-        newFromCards = moveElement(previousFromCards, fromIndex, toIndex).map(
+        newFromCards = moveElement(newFromCards, fromIndex, toIndex).map(
           (card, index) => ({
             ...card,
             index,
@@ -61,9 +61,9 @@ const useUpdateCardMutation = () => {
 
       // Move card in across 2 lists.
       if (toList) {
-        const card = previousFromCards.find((card) => card.id === payload.id);
+        const card = newFromCards.find((card) => card.id === payload.id);
 
-        newFromCards = previousFromCards
+        newFromCards = newFromCards
           .filter((fromCard) => {
             return fromCard.id !== card.id;
           })
