@@ -8,8 +8,9 @@ import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
+import useForgotPasswordMutation from "../../../hooks/auth/use-forgot-password-mutation";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -19,6 +20,7 @@ const validationSchema = Yup.object({
 
 const ForgotPasswordPage = () => {
   const router = useRouter();
+  const forgotPasswordMutation = useForgotPasswordMutation();
 
   return (
     <div className="min-h-screen md:bg-slate-50">
@@ -51,7 +53,11 @@ const ForgotPasswordPage = () => {
                 try {
                   setSubmitting(true);
 
-                  // TODO: Write send a recovery link logic here.
+                  await forgotPasswordMutation.mutateAsync(values);
+
+                  sessionStorage.setItem("forgotPasswordEmail", values.email);
+
+                  await router.push("/auth/forgot-password/email-sent");
                 } catch (error) {
                   console.error(error);
                   toast.error("Failed to send a recovery link.");
