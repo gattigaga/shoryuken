@@ -62,7 +62,9 @@ const CardDescription: React.FC<Props> = ({ id }) => {
                   }, 100);
                 }}
               >
-                <p>{card.description}</p>
+                <p className="whitespace-pre-line break-words">
+                  {card.description}
+                </p>
               </button>
             ) : (
               <button
