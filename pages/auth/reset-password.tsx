@@ -29,7 +29,7 @@ const ResetPasswordPage = () => {
   return (
     <div className="min-h-screen md:bg-slate-50">
       <Head>
-        <title>Sign Up | Shoryuken</title>
+        <title>Reset Password | Shoryuken</title>
       </Head>
 
       <main className="py-12">
