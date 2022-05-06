@@ -19,7 +19,8 @@ import useUpdateBoardMutation from "../../hooks/boards/use-update-board-mutation
 import useDeleteBoardMutation from "../../hooks/boards/use-delete-board-mutation";
 import useListsQuery from "../../hooks/lists/use-lists-query";
 import useUpdateListMutation from "../../hooks/lists/use-update-list-mutation";
-import useUpdateCardBoardMutation from "../../hooks/cards/use-update-card-mutation";
+import useUpdateCardMutation from "../../hooks/cards/use-update-card-mutation";
+import ModalCardDetail from "../../components/ModalCardDetail";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
   async ({ params }) => {
@@ -67,7 +68,17 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const updateBoardMutation = useUpdateBoardMutation();
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
-  const updateCardMutation = useUpdateCardBoardMutation();
+  const updateCardMutation = useUpdateCardMutation();
+
+  const path = `/boards/${router.query.slug}`;
+
+  const cardId = (() => {
+    const value = (router.query.card as string)?.split("-")[0];
+
+    if (!value) return undefined;
+
+    return Number(value);
+  })();
 
   const updateBoardTitle = async (title: string) => {
     if (!title) return;
@@ -250,6 +261,13 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           </div>
         </div>
       </div>
+      {!!cardId && (
+        <ModalCardDetail
+          id={cardId}
+          isOpen={!!router.query.card}
+          onRequestClose={() => router.push(path)}
+        />
+      )}
     </Layout>
   );
 };
