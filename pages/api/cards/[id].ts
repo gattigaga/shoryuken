@@ -16,6 +16,37 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
   const token = req.cookies.access_token;
 
+  // Get a card user has.
+  if (req.method === "GET") {
+    try {
+      const { error: userError } = await supabase.auth.api.getUser(token);
+
+      if (userError) {
+        throw userError;
+      }
+
+      const { id } = req.query as {
+        id: string;
+      };
+
+      const { data: cards, error: cardsError } = await supabase
+        .from("cards")
+        .select("*")
+        .eq("id", id);
+
+      if (cardsError) {
+        throw cardsError;
+      }
+
+      res.status(200).json({
+        data: cards[0],
+        message: "There's existing card.",
+      });
+    } catch (error: any) {
+      res.status(error.status).json({ message: error.message });
+    }
+  }
+
   // Update a card user has.
   if (req.method === "PUT") {
     try {
