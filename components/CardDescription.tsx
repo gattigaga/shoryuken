@@ -46,6 +46,12 @@ const CardDescription: React.FC<Props> = ({ id }) => {
     }
   }, [card]);
 
+  useEffect(() => {
+    if (isEditing) {
+      handleInputHeight();
+    }
+  }, [isEditing]);
+
   return (
     <div className="flex flex-1">
       <span className="text-slate-700 mr-3 mt-[0.1rem]">
