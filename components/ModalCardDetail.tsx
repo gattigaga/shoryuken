@@ -29,7 +29,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
 
     if (isYes) {
       try {
-        await close();
+        await router.replace(path);
 
         await deleteCardMutation.mutateAsync({
           id,
