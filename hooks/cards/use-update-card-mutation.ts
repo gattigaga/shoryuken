@@ -35,10 +35,12 @@ const useUpdateCardMutation = () => {
       const fromList = payload.listId;
       const toList = payload.body.list_id;
       const toIndex = payload.body.index;
+      const key = ["cards", payload.id];
       const fromKey = ["cards", { list_id: fromList }];
       const toKey = toList && ["cards", { list_id: toList }];
 
       await queryClient.cancelQueries(fromKey);
+      const previousCard = queryClient.getQueryData(key);
       const previousFromCards = queryClient.getQueryData(fromKey);
       const previousToCards = toKey && queryClient.getQueryData(toKey);
 
@@ -88,15 +90,28 @@ const useUpdateCardMutation = () => {
         return card;
       });
 
+      const newCard = {
+        ...previousCard,
+        title: payload.body.title || previousCard.title,
+        description: payload.body.description || previousCard.description,
+      };
+
+      queryClient.setQueryData(key, newCard);
       queryClient.setQueryData(fromKey, newFromCards);
 
       if (toKey) {
         queryClient.setQueryData(toKey, newToCards);
       }
 
-      return { previousFromCards, previousToCards };
+      return {
+        previousCard,
+        previousFromCards,
+        previousToCards,
+      };
     },
     onError: (error, payload, context) => {
+      queryClient.setQueryData(["cards", payload.id], context.previousCard);
+
       queryClient.setQueryData(
         ["cards", { list_id: payload.listId }],
         context.previousFromCards
@@ -110,6 +125,7 @@ const useUpdateCardMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
+      queryClient.invalidateQueries(["cards", payload.id]);
       queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
 
       if (payload.body.list_id) {
