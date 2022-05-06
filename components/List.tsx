@@ -125,20 +125,22 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                 {title}
               </button>
             ) : (
-              <input
-                ref={refListTitleInput}
-                className="w-64 flex-1 px-2 py-1 text-sm text-slate-700 font-semibold rounded"
-                type="text"
-                defaultValue={title}
-                onKeyDown={(event) => {
-                  if (["Enter", "Escape"].includes(event.key)) {
-                    refListTitleInput.current?.blur();
-                  }
-                }}
-                onBlur={(event) => {
-                  updateListTitle(event.target.value);
-                }}
-              />
+              <div className="flex-1">
+                <input
+                  ref={refListTitleInput}
+                  className="w-full px-2 py-1 text-sm text-slate-700 font-semibold rounded"
+                  type="text"
+                  defaultValue={title}
+                  onKeyDown={(event) => {
+                    if (["Enter", "Escape"].includes(event.key)) {
+                      refListTitleInput.current?.blur();
+                    }
+                  }}
+                  onBlur={(event) => {
+                    updateListTitle(event.target.value);
+                  }}
+                />
+              </div>
             )}
             <button
               className="ml-2 w-8 h-8 flex items-center justify-center rounded text-slate-500 hover:text-slate-600 hover:bg-slate-400"
