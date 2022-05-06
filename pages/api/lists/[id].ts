@@ -16,6 +16,37 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
   const token = req.cookies.access_token;
 
+  // Get a list user has.
+  if (req.method === "GET") {
+    try {
+      const { error: userError } = await supabase.auth.api.getUser(token);
+
+      if (userError) {
+        throw userError;
+      }
+
+      const { id } = req.query as {
+        id: string;
+      };
+
+      const { data: lists, error: listsError } = await supabase
+        .from("lists")
+        .select("*")
+        .eq("id", id);
+
+      if (listsError) {
+        throw listsError;
+      }
+
+      res.status(200).json({
+        data: lists[0],
+        message: "There's existing list.",
+      });
+    } catch (error: any) {
+      res.status(error.status).json({ message: error.message });
+    }
+  }
+
   // Update a list user has.
   if (req.method === "PUT") {
     try {
