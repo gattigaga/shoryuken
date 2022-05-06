@@ -125,13 +125,23 @@ const SignInPage = () => {
               )}
             </Formik>
             <div className="w-full border-t my-6" />
-            <Link href="/auth/signup">
-              <a>
-                <p className="text-xs text-blue-700 text-center">
-                  Sign up for an account
-                </p>
-              </a>
-            </Link>
+            <div className="flex justify-center items-center">
+              <Link href="/auth/forgot-password">
+                <a>
+                  <p className="text-xs text-blue-700 text-center">
+                    Can&lsquo;t sign in?
+                  </p>
+                </a>
+              </Link>
+              <span className="mx-3 text-slate-600">&#8226;</span>
+              <Link href="/auth/signup">
+                <a>
+                  <p className="text-xs text-blue-700 text-center">
+                    Sign up for an account
+                  </p>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
       </main>
