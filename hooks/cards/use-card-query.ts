@@ -10,9 +10,9 @@ export const getCardById = async (id: number): Promise<Response> => {
   return data;
 };
 
-const useCardQuery = (id: number, initialData: any) => {
+const useCardQuery = (id: number) => {
   return useQuery(["cards", id], () => getCardById(id), {
-    initialData,
+    enabled: !!id,
   });
 };
 
