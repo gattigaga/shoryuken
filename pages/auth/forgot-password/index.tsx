@@ -6,29 +6,26 @@ import { useRouter } from "next/router";
 import { Formik } from "formik";
 import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
-import { addDays } from "date-fns";
 import toast from "react-hot-toast";
-import Cookies from "js-cookie";
 
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import useSignInMutation from "../../hooks/auth/use-sign-in-mutation";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
+import useForgotPasswordMutation from "../../../hooks/auth/use-forgot-password-mutation";
 
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
-  password: Yup.string().required("Password is required"),
 });
 
-const SignInPage = () => {
+const ForgotPasswordPage = () => {
   const router = useRouter();
-  const signInMutation = useSignInMutation();
+  const forgotPasswordMutation = useForgotPasswordMutation();
 
   return (
     <div className="min-h-screen md:bg-slate-50">
       <Head>
-        <title>Sign In | Shoryuken</title>
+        <title>Forgot Password | Shoryuken</title>
       </Head>
 
       <main className="py-12">
@@ -43,12 +40,11 @@ const SignInPage = () => {
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
             <h1 className="font-semibold text-center text-slate-600 mb-6">
-              Sign in to Shoryuken
+              Can&lsquo;t sign in?
             </h1>
             <Formik
               initialValues={{
                 email: "",
-                password: "",
               }}
               validationSchema={validationSchema}
               validateOnChange={false}
@@ -57,18 +53,14 @@ const SignInPage = () => {
                 try {
                   setSubmitting(true);
 
-                  const response = await signInMutation.mutateAsync(values);
-                  const accessToken = response.session.access_token;
+                  await forgotPasswordMutation.mutateAsync(values);
 
-                  Cookies.set("access_token", accessToken, {
-                    expires: addDays(new Date(), 7),
-                    path: "/",
-                  });
+                  sessionStorage.setItem("forgotPasswordEmail", values.email);
 
-                  await router.push("/dashboard");
+                  await router.push("/auth/forgot-password/email-sent");
                 } catch (error) {
                   console.error(error);
-                  toast.error("Failed to sign in.");
+                  toast.error("Failed to send a recovery link.");
                 } finally {
                   setSubmitting(false);
                 }
@@ -95,6 +87,9 @@ const SignInPage = () => {
                   ) : (
                     <form onSubmit={handleSubmit}>
                       <div className="mb-4">
+                        <p className="text-xs text-slate-600 font-semibold mb-2">
+                          We&lsquo;ll send a recovery link to
+                        </p>
                         <Input
                           className="w-full"
                           type="email"
@@ -106,42 +101,20 @@ const SignInPage = () => {
                           isError={!!errors.email}
                         />
                       </div>
-                      <div className="mb-8">
-                        <Input
-                          className="w-full"
-                          type="password"
-                          name="password"
-                          value={values.password}
-                          placeholder="Enter password"
-                          onChange={handleChange}
-                          errorMessage={errors.password}
-                          isError={!!errors.password}
-                        />
-                      </div>
-                      <Button className="w-full">Sign In</Button>
+                      <Button className="w-full">Send Recovery Link</Button>
                     </form>
                   )}
                 </>
               )}
             </Formik>
             <div className="w-full border-t my-6" />
-            <div className="flex justify-center items-center">
-              <Link href="/auth/forgot-password">
-                <a>
-                  <p className="text-xs text-blue-700 text-center">
-                    Can&lsquo;t sign in?
-                  </p>
-                </a>
-              </Link>
-              <span className="mx-3 text-slate-600">&#8226;</span>
-              <Link href="/auth/signup">
-                <a>
-                  <p className="text-xs text-blue-700 text-center">
-                    Sign up for an account
-                  </p>
-                </a>
-              </Link>
-            </div>
+            <Link href="/auth/signin">
+              <a>
+                <p className="text-xs text-blue-700 text-center">
+                  Return to sign in
+                </p>
+              </a>
+            </Link>
           </div>
         </div>
       </main>
@@ -149,4 +122,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default ForgotPasswordPage;

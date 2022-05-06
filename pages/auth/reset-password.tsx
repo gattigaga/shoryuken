@@ -6,29 +6,30 @@ import { useRouter } from "next/router";
 import { Formik } from "formik";
 import Loading from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
-import { addDays } from "date-fns";
 import toast from "react-hot-toast";
-import Cookies from "js-cookie";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import useSignInMutation from "../../hooks/auth/use-sign-in-mutation";
+import useResetPasswordMutation from "../../hooks/auth/use-reset-password-mutation";
 
 const validationSchema = Yup.object({
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string()
+    .min(8, "Password should have at least 8 characters.")
+    .max(25, "Password should no more than 25 characters.")
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Confirm Password is mismatch")
+    .required("Confirm Password is required"),
 });
 
-const SignInPage = () => {
+const ResetPasswordPage = () => {
   const router = useRouter();
-  const signInMutation = useSignInMutation();
+  const resetPasswordMutation = useResetPasswordMutation();
 
   return (
     <div className="min-h-screen md:bg-slate-50">
       <Head>
-        <title>Sign In | Shoryuken</title>
+        <title>Reset Password | Shoryuken</title>
       </Head>
 
       <main className="py-12">
@@ -43,12 +44,12 @@ const SignInPage = () => {
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
             <h1 className="font-semibold text-center text-slate-600 mb-6">
-              Sign in to Shoryuken
+              Reset your password
             </h1>
             <Formik
               initialValues={{
-                email: "",
                 password: "",
+                confirmPassword: "",
               }}
               validationSchema={validationSchema}
               validateOnChange={false}
@@ -57,18 +58,17 @@ const SignInPage = () => {
                 try {
                   setSubmitting(true);
 
-                  const response = await signInMutation.mutateAsync(values);
-                  const accessToken = response.session.access_token;
+                  const { password, confirmPassword } = values;
 
-                  Cookies.set("access_token", accessToken, {
-                    expires: addDays(new Date(), 7),
-                    path: "/",
+                  await resetPasswordMutation.mutateAsync({
+                    password,
+                    confirm_password: confirmPassword,
                   });
 
-                  await router.push("/dashboard");
+                  await router.replace("/dashboard");
                 } catch (error) {
                   console.error(error);
-                  toast.error("Failed to sign in.");
+                  toast.error("Failed to reset your password.");
                 } finally {
                   setSubmitting(false);
                 }
@@ -97,18 +97,6 @@ const SignInPage = () => {
                       <div className="mb-4">
                         <Input
                           className="w-full"
-                          type="email"
-                          name="email"
-                          value={values.email}
-                          placeholder="Enter email"
-                          onChange={handleChange}
-                          errorMessage={errors.email}
-                          isError={!!errors.email}
-                        />
-                      </div>
-                      <div className="mb-8">
-                        <Input
-                          className="w-full"
                           type="password"
                           name="password"
                           value={values.password}
@@ -118,30 +106,32 @@ const SignInPage = () => {
                           isError={!!errors.password}
                         />
                       </div>
-                      <Button className="w-full">Sign In</Button>
+                      <div className="mb-8">
+                        <Input
+                          className="w-full"
+                          type="password"
+                          name="confirmPassword"
+                          value={values.confirmPassword}
+                          placeholder="Enter password again"
+                          onChange={handleChange}
+                          errorMessage={errors.confirmPassword}
+                          isError={!!errors.confirmPassword}
+                        />
+                      </div>
+                      <Button className="w-full">Reset Password</Button>
                     </form>
                   )}
                 </>
               )}
             </Formik>
             <div className="w-full border-t my-6" />
-            <div className="flex justify-center items-center">
-              <Link href="/auth/forgot-password">
-                <a>
-                  <p className="text-xs text-blue-700 text-center">
-                    Can&lsquo;t sign in?
-                  </p>
-                </a>
-              </Link>
-              <span className="mx-3 text-slate-600">&#8226;</span>
-              <Link href="/auth/signup">
-                <a>
-                  <p className="text-xs text-blue-700 text-center">
-                    Sign up for an account
-                  </p>
-                </a>
-              </Link>
-            </div>
+            <Link href="/auth/signin">
+              <a>
+                <p className="text-xs text-blue-700 text-center">
+                  Return to sign in
+                </p>
+              </a>
+            </Link>
           </div>
         </div>
       </main>
@@ -149,4 +139,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default ResetPasswordPage;

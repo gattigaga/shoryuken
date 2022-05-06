@@ -1,7 +1,30 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { addDays } from "date-fns";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+
+  // Listen to recovery link to open reset password page.
+  useEffect(() => {
+    const rawParams = router.asPath.replace("/#", "");
+    const params = new URLSearchParams(rawParams);
+    const accessToken = params.get("access_token");
+    const type = params.get("type");
+
+    if (type === "recovery" && accessToken) {
+      Cookies.set("access_token", accessToken, {
+        expires: addDays(new Date(), 7),
+        path: "/",
+      });
+
+      router.push("/auth/reset-password");
+    }
+  }, []);
+
   return (
     <div>
       <Head>
@@ -10,11 +33,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        
-      </main>
+      <main></main>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
