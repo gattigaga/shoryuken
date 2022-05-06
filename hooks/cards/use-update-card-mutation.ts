@@ -27,7 +27,7 @@ export const updateCardById = async ({
   return data;
 };
 
-const useUpdateCardBoardMutation = () => {
+const useUpdateCardMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(updateCardById, {
@@ -122,4 +122,4 @@ const useUpdateCardBoardMutation = () => {
   });
 };
 
-export default useUpdateCardBoardMutation;
+export default useUpdateCardMutation;
