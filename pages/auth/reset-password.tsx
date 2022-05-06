@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import useResetPasswordMutation from "../../hooks/auth/use-reset-password-mutation";
 
 const validationSchema = Yup.object({
   password: Yup.string()
@@ -23,6 +24,7 @@ const validationSchema = Yup.object({
 
 const ResetPasswordPage = () => {
   const router = useRouter();
+  const resetPasswordMutation = useResetPasswordMutation();
 
   return (
     <div className="min-h-screen md:bg-slate-50">
@@ -56,7 +58,14 @@ const ResetPasswordPage = () => {
                 try {
                   setSubmitting(true);
 
-                  // TODO: Write reset password logic here.
+                  const { password, confirmPassword } = values;
+
+                  await resetPasswordMutation.mutateAsync({
+                    password,
+                    confirm_password: confirmPassword,
+                  });
+
+                  await router.replace("/dashboard");
                 } catch (error) {
                   console.error(error);
                   toast.error("Failed to reset your password.");
