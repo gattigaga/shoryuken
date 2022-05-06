@@ -40,7 +40,7 @@ const CardTitle: React.FC<Props> = ({ id }) => {
   }, [card]);
 
   return (
-    <div className="flex flex-1">
+    <div className="flex flex-1 mb-8">
       <span className="text-slate-700 mr-3 mt-1">
         <MdInbox size={24} />
       </span>
