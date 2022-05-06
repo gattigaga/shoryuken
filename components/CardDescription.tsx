@@ -33,6 +33,13 @@ const CardDescription: React.FC<Props> = ({ id }) => {
     }
   };
 
+  const handleInputHeight = () => {
+    if (!refInput.current) return;
+
+    refInput.current.style.height = "128px";
+    refInput.current.style.height = refInput.current.scrollHeight + "px";
+  };
+
   useEffect(() => {
     if (card) {
       setDescription(card.description);
@@ -45,7 +52,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
         <MdViewHeadline size={24} />
       </span>
       <div className="w-full">
-        <h2 className="text-lg text-slate-700 font-semibold mb-2">
+        <h2 className="text-lg text-slate-700 font-semibold mb-4">
           Description
         </h2>
         {!isEditing && (
@@ -62,7 +69,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
                   }, 100);
                 }}
               >
-                <p className="whitespace-pre-line break-words">
+                <p className="whitespace-pre-line break-all">
                   {card.description}
                 </p>
               </button>
@@ -87,7 +94,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
           <div>
             <textarea
               ref={refInput}
-              className="w-full h-24 p-3 rounded text-xs"
+              className="w-full h-24 p-3 rounded text-xs resize-none"
               placeholder="Add a more detailed description..."
               value={description}
               onChange={(event) => setDescription(event.target.value)}
@@ -97,6 +104,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
                   setDescription(card?.description);
                 }
               }}
+              onInput={handleInputHeight}
             />
             <div className="flex items-center">
               <Button
