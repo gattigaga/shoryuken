@@ -18,7 +18,7 @@ const NavBar: React.FC<Props> = ({}) => {
   const queryClient = useQueryClient();
   const signOutMutation = useSignOutMutation();
 
-  const fullname = myself?.user_metadata?.fullname || "";
+  const fullname = myself?.fullname || "";
   const email = myself?.email || "";
 
   const signOut = async () => {
