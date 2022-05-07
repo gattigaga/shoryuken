@@ -8,20 +8,33 @@ import { addDays } from "date-fns";
 const Home: NextPage = () => {
   const router = useRouter();
 
-  // Listen to recovery link to open reset password page.
+  // Listen to recovery link to open reset password page
+  // and listen to sign in link to sign in with password
+  // or 3rd party providers (i.e. Google).
   useEffect(() => {
     const rawParams = router.asPath.replace("/#", "");
     const params = new URLSearchParams(rawParams);
     const accessToken = params.get("access_token");
+    const providerToken = params.get("provider_token");
     const type = params.get("type");
 
-    if (type === "recovery" && accessToken) {
+    if (accessToken) {
       Cookies.set("access_token", accessToken, {
         expires: addDays(new Date(), 7),
         path: "/",
       });
 
-      router.push("/auth/reset-password");
+      if (type === "signup") {
+        router.replace("/dashboard");
+      }
+
+      if (type === "recovery") {
+        router.replace("/auth/reset-password");
+      }
+
+      if (providerToken) {
+        router.replace("/auth/account-details");
+      }
     }
   }, []);
 
