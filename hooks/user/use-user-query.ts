@@ -10,7 +10,7 @@ const getMe = async (): Promise<Response> => {
   return {
     fullname: data.user_metadata.fullname || data.user_metadata.full_name,
     username: data.user_metadata.username,
-    email: data.user_metadata.email,
+    email: data.email,
     is_confirmed: !!data.email_confirmed_at,
   };
 };
