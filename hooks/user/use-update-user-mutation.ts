@@ -17,7 +17,7 @@ export const updateUser = async (body: Body): Promise<Response> => {
   return data;
 };
 
-const useUpdateBoardMutation = () => {
+const useUpdateUserMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(updateUser, {
@@ -45,4 +45,4 @@ const useUpdateBoardMutation = () => {
   });
 };
 
-export default useUpdateBoardMutation;
+export default useUpdateUserMutation;
