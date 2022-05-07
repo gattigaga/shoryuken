@@ -135,26 +135,31 @@ const SignInPage = () => {
                         />
                       </div>
                       <Button className="w-full">Sign In</Button>
+                      <p className="text-xs text-center my-4 text-slate-600">
+                        OR
+                      </p>
+                      <Button
+                        className="w-full flex items-center justify-center bg-slate-50 shadow-md text-slate-500 hover:bg-slate-100"
+                        backgroundColor={["bg-slate-50", "bg-slate-100"]}
+                        textColor="text-slate-500"
+                        type="button"
+                        onClick={signInWithGoogle}
+                      >
+                        <Image
+                          src="/images/logo-google.png"
+                          alt="Google Logo"
+                          width={16}
+                          height={16}
+                        />
+                        <p className="ml-3">Sign in with Google</p>
+                      </Button>
                     </form>
                   )}
                 </>
               )}
             </Formik>
             <div className="w-full border-t my-6" />
-            <Button
-              className="w-full flex items-center justify-center bg-slate-50 shadow-md text-slate-500 hover:bg-slate-100"
-              type="button"
-              onClick={signInWithGoogle}
-            >
-              <Image
-                src="/images/logo-google.png"
-                alt="Google Logo"
-                width={16}
-                height={16}
-              />
-              <p className="ml-3">Sign in with Google</p>
-            </Button>
-            <div className="flex justify-center items-center mt-8">
+            <div className="flex justify-center items-center">
               <Link href="/auth/forgot-password">
                 <a>
                   <p className="text-xs text-blue-700 text-center">
