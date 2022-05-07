@@ -11,7 +11,7 @@ type Body = {
 };
 
 export const updateUser = async (body: Body): Promise<Response> => {
-  const res = await axios.put(`/api/me`, body);
+  const res = await axios.put(`/api/auth/me`, body);
   const data = res.data.data;
 
   return data;
