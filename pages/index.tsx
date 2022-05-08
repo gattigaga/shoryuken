@@ -91,63 +91,69 @@ const Home: NextPage = () => {
 
       {/* Main */}
       <main>
-        <div className="flex flex-col items-center px-4 pb-16 pt-32 bg-gradient-to-b from-blue-100 to-white">
-          <h1 className="font-semibold text-3xl text-center mb-4 text-slate-700">
-            Shoryuken helps teams move work forward.
-          </h1>
-          <p className="text-center text-slate-700 mb-8">
-            Collaborate, manage projects, and reach new productivity peaks. From
-            high rises to the home office, the way your team works is
-            unique—accomplish it all with Shoryuken.
-          </p>
-          <Link href="/auth/signup">
-            <a className="w-full">
-              <Button className="w-full" type="button">
-                Sign Up - it&lsquo;s free
-              </Button>
-            </a>
-          </Link>
-        </div>
-        <div className="flex flex-col items-center px-4 py-16">
-          <p className="font-semibold text-2xl text-center mb-4 text-slate-700">
-            It&lsquo;s more than work. It&lsquo;s a way of working together.
-          </p>
-          <p className="text-center mb-8 text-slate-700">
-            Start with a Shoryuken board, lists, and cards. Customize and expand
-            with more features as your teamwork grows. Manage projects, organize
-            tasks, and build team spirit—all in one place.
-          </p>
-          <Link href="/auth/signup">
-            <a>
-              <Button
-                className="border border-blue-500"
-                backgroundColor={["bg-white", "bg-white"]}
-                textColor="text-blue-500"
-                type="button"
-              >
-                Start doing
-              </Button>
-            </a>
-          </Link>
-        </div>
-        <div className="px-4 py-16">
-          <div className="w-full flex flex-col items-center rounded p-4 bg-gradient-to-b from-blue-500 to-cyan-500">
-            <p className="text-center text-white font-semibold mb-8">
-              Sign up and get started with Shoryuken today. A world of
-              productive teamwork awaits!
+        <div className="flex justify-center pb-16 pt-32 bg-gradient-to-b from-blue-100 to-white">
+          <div className="flex flex-col items-center px-4 max-w-[560px] md:max-w-3xl">
+            <h1 className="font-semibold text-3xl text-center mb-4 text-slate-700 md:text-5xl md:text-left">
+              Shoryuken helps teams move work forward.
+            </h1>
+            <p className="text-center text-lg text-slate-700 mb-8 md:text-left md:mb-12">
+              Collaborate, manage projects, and reach new productivity peaks.
+              From high rises to the home office, the way your team works is
+              unique—accomplish it all with Shoryuken.
             </p>
             <Link href="/auth/signup">
               <a className="w-full">
-                <Button
-                  className="w-full"
-                  backgroundColor={["bg-white", "bg-slate-50"]}
-                  textColor="text-slate-700"
-                  type="button"
-                >
-                  Sign up
+                <Button className="w-full" type="button">
+                  Sign Up - it&lsquo;s free
                 </Button>
               </a>
             </Link>
+          </div>
+        </div>
+        <div className="flex justify-center px-4 py-16">
+          <div className="flex flex-col items-center max-w-[560px] md:max-w-3xl">
+            <p className="font-semibold text-2xl text-center mb-4 text-slate-700 md:text-4xl">
+              It&lsquo;s more than work. It&lsquo;s a way of working together.
+            </p>
+            <p className="text-center text-lg text-slate-700 mb-8 md:mb-12">
+              Start with a Shoryuken board, lists, and cards. Customize and
+              expand with more features as your teamwork grows. Manage projects,
+              organize tasks, and build team spirit—all in one place.
+            </p>
+            <Link href="/auth/signup">
+              <a>
+                <Button
+                  className="border border-blue-500"
+                  backgroundColor={["bg-white", "bg-white"]}
+                  textColor="text-blue-500"
+                  type="button"
+                >
+                  Start doing
+                </Button>
+              </a>
+            </Link>
+          </div>
+        </div>
+        <div className="px-4 py-16 flex justify-center">
+          <div className="w-full max-w-md flex flex-col items-center rounded px-4 py-12 bg-gradient-to-b from-blue-500 to-cyan-500 md:max-w-3xl">
+            <div className="max-w-[560px]">
+              <p className="text-center text-white text-lg font-semibold mb-8 md:text-2xl">
+                Sign up and get started with Shoryuken today. A world of
+                productive teamwork awaits!
+              </p>
+              <Link href="/auth/signup">
+                <a className="w-full">
+                  <Button
+                    className="w-full"
+                    backgroundColor={["bg-white", "bg-slate-50"]}
+                    textColor="text-slate-700"
+                    type="button"
+                  >
+                    Sign up
+                  </Button>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
       </main>
