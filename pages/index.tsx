@@ -91,26 +91,28 @@ const Home: NextPage = () => {
 
       {/* Main */}
       <main>
-        <div className="flex justify-center pb-16 pt-32 bg-gradient-to-b from-blue-100 to-white">
-          <div className="flex flex-col items-center px-4 max-w-[560px] md:max-w-3xl">
-            <h1 className="font-semibold text-3xl text-center mb-4 text-slate-700 md:text-5xl md:text-left">
-              Shoryuken helps teams move work forward.
-            </h1>
-            <p className="text-center text-lg text-slate-700 mb-8 md:text-left md:mb-12">
-              Collaborate, manage projects, and reach new productivity peaks.
-              From high rises to the home office, the way your team works is
-              unique—accomplish it all with Shoryuken.
-            </p>
-            <Link href="/auth/signup">
-              <a className="w-full">
-                <Button className="w-full" type="button">
-                  Sign Up - it&lsquo;s free
-                </Button>
-              </a>
-            </Link>
+        <div className="pb-16 pt-32 bg-gradient-to-b from-blue-100 to-white lg:pt-56">
+          <div className="flex flex-col items-center px-4 lg:items-start lg:px-16">
+            <div className="max-w-[560px] md:max-w-3xl lg:max-w-2xl">
+              <h1 className="font-semibold text-3xl text-center mb-4 text-slate-700 md:text-5xl md:text-left">
+                Shoryuken helps teams move work forward.
+              </h1>
+              <p className="text-center text-lg text-slate-700 mb-8 md:text-left md:mb-12">
+                Collaborate, manage projects, and reach new productivity peaks.
+                From high rises to the home office, the way your team works is
+                unique—accomplish it all with Shoryuken.
+              </p>
+              <Link href="/auth/signup">
+                <a className="w-full lg:w-auto">
+                  <Button className="w-full lg:w-auto" type="button">
+                    Sign Up - it&lsquo;s free
+                  </Button>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
-        <div className="flex justify-center px-4 py-16">
+        <div className="flex justify-center px-4 py-16 lg:py-32">
           <div className="flex flex-col items-center max-w-[560px] md:max-w-3xl">
             <p className="font-semibold text-2xl text-center mb-4 text-slate-700 md:text-4xl">
               It&lsquo;s more than work. It&lsquo;s a way of working together.
@@ -134,7 +136,7 @@ const Home: NextPage = () => {
             </Link>
           </div>
         </div>
-        <div className="px-4 py-16 flex justify-center">
+        <div className="px-4 py-16 flex justify-center lg:py-32">
           <div className="w-full max-w-md flex flex-col items-center rounded px-4 py-12 bg-gradient-to-b from-blue-500 to-cyan-500 md:max-w-3xl">
             <div className="max-w-[560px]">
               <p className="text-center text-white text-lg font-semibold mb-8 md:text-2xl">
