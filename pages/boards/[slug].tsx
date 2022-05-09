@@ -95,8 +95,8 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
 
   const deleteBoard = async () => {
     try {
+      await router.replace("/dashboard");
       await deleteBoardMutation.mutateAsync(board.id);
-      router.replace("/dashboard");
     } catch (error) {
       toast.error("Failed to delete a board.");
     }
