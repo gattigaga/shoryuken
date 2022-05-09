@@ -66,8 +66,6 @@ const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
 
           try {
             await createBoardMutation.mutateAsync(values);
-
-            toast.success("Board successfully created.");
           } catch (error) {
             toast.error("Failed to create a board.");
           }
