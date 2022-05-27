@@ -1,5 +1,7 @@
 # Shoryuken
 
+![Preview](preview.png)
+
 Shoryuken is Trello-like web app created with NextJS and TailwindCSS. It has some features like:
 
 - Authentication parts are like sign up, sign in, sign out, forgot password, and reset password.
