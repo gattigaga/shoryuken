@@ -1,5 +1,7 @@
 import React from "react";
+
 import NavBar from "./NavBar";
+import NetworkStatus from "./NetworkStatus";
 
 type Props = {
   children: any;
@@ -10,7 +12,10 @@ const Layout: React.FC<Props> = ({ children }) => {
     <div className="h-screen bg-slate-50 flex flex-col">
       <NavBar />
 
-      <main className="flex-1 overflow-auto flex flex-col">{children}</main>
+      <main className="flex-1 overflow-auto flex flex-col">
+        {children}
+        <NetworkStatus />
+      </main>
     </div>
   );
 };
