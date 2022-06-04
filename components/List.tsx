@@ -4,6 +4,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import classnames from "classnames";
 
+import styles from "../styles/components/List.module.css";
 import Button from "./Button";
 import Card from "./Card";
 import useDeleteListMutation from "../hooks/lists/use-delete-list-mutation";
@@ -152,7 +153,10 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
           </div>
 
           {/* Children */}
-          <div style={{ maxHeight }} className="overflow-auto px-2">
+          <div
+            style={{ maxHeight }}
+            className={classnames("overflow-y-auto px-2", styles.content)}
+          >
             {/* Card list */}
             <Droppable droppableId={`list-${id}`} type="CARD">
               {(provided) => (
