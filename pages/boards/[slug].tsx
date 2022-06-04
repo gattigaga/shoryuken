@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import classnames from "classnames";
 
+import styles from "../../styles/pages/board-detail.module.css";
 import Layout from "../../components/Layout";
 import supabase from "../../helpers/supabase";
 import EditableBoardTitle from "../../components/EditableBoardTitle";
@@ -170,92 +172,96 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
             Delete
           </button>
         </div>
-        <div className="overflow-x-auto flex-1">
-          <div className="flex items-start">
-            <DragDropContext
-              onDragEnd={(result) => {
-                const fromIndex = result.source.index;
-                const toIndex = result.destination?.index;
+        <div className="flex-1 flex pb-4 px-4">
+          <div className={classnames("overflow-x-auto flex-1", styles.content)}>
+            <div className="flex items-start">
+              <DragDropContext
+                onDragEnd={(result) => {
+                  const fromIndex = result.source.index;
+                  const toIndex = result.destination?.index;
 
-                if (toIndex === undefined) return;
+                  if (toIndex === undefined) return;
 
-                if (result.type === "LIST") {
-                  const isUpdated = toIndex !== fromIndex;
+                  if (result.type === "LIST") {
+                    const isUpdated = toIndex !== fromIndex;
 
-                  if (!isUpdated) return;
+                    if (!isUpdated) return;
 
-                  const id = result.draggableId.replace("list-", "");
+                    const id = result.draggableId.replace("list-", "");
 
-                  moveList({
-                    listId: Number(id),
-                    toIndex,
-                  });
+                    moveList({
+                      listId: Number(id),
+                      toIndex,
+                    });
 
-                  return;
-                }
+                    return;
+                  }
 
-                if (result.type === "CARD") {
-                  const id = result.draggableId.replace("card-", "");
+                  if (result.type === "CARD") {
+                    const id = result.draggableId.replace("card-", "");
 
-                  const fromListId = result.source.droppableId.replace(
-                    "list-",
-                    ""
-                  );
+                    const fromListId = result.source.droppableId.replace(
+                      "list-",
+                      ""
+                    );
 
-                  const toListId = result.destination?.droppableId.replace(
-                    "list-",
-                    ""
-                  );
+                    const toListId = result.destination?.droppableId.replace(
+                      "list-",
+                      ""
+                    );
 
-                  const validToList =
-                    toListId !== fromListId && !!toListId
-                      ? Number(toListId)
-                      : undefined;
+                    const validToList =
+                      toListId !== fromListId && !!toListId
+                        ? Number(toListId)
+                        : undefined;
 
-                  moveCard({
-                    cardId: Number(id),
-                    fromListId: Number(fromListId),
-                    toListId: validToList,
-                    toIndex,
-                  });
+                    moveCard({
+                      cardId: Number(id),
+                      fromListId: Number(fromListId),
+                      toListId: validToList,
+                      toIndex,
+                    });
 
-                  return;
-                }
-              }}
-            >
-              <div className="shrink-0 w-4 h-4" />
-              <Droppable droppableId="lists" direction="horizontal" type="LIST">
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    className="flex items-start"
-                    {...provided.droppableProps}
-                  >
-                    {lists.map((list: any, index: number) => (
-                      <List
-                        key={list.id}
-                        id={list.id}
-                        boardId={board.id}
-                        index={index}
-                        title={list.title}
-                      />
-                    ))}
-                    {provided.placeholder}
-                  </div>
+                    return;
+                  }
+                }}
+              >
+                <Droppable
+                  droppableId="lists"
+                  direction="horizontal"
+                  type="LIST"
+                >
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      className="flex items-start"
+                      {...provided.droppableProps}
+                    >
+                      {lists?.map((list: any, index: number) => (
+                        <List
+                          key={list.id}
+                          id={list.id}
+                          boardId={board.id}
+                          index={index}
+                          title={list.title}
+                        />
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+                {isCreateListFormOpen ? (
+                  <CreateListForm
+                    boardId={board.id}
+                    onRequestClose={() => setIsCreateListFormOpen(false)}
+                  />
+                ) : (
+                  <CreateListButton
+                    onClick={() => setIsCreateListFormOpen(true)}
+                  />
                 )}
-              </Droppable>
-              {isCreateListFormOpen ? (
-                <CreateListForm
-                  boardId={board.id}
-                  onRequestClose={() => setIsCreateListFormOpen(false)}
-                />
-              ) : (
-                <CreateListButton
-                  onClick={() => setIsCreateListFormOpen(true)}
-                />
-              )}
-              <div className="shrink-0 w-4 h-4" />
-            </DragDropContext>
+              </DragDropContext>
+            </div>
           </div>
         </div>
       </div>
