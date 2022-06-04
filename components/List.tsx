@@ -170,6 +170,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                       />
                     );
                   })}
+                  {!cards?.length && <div className="h-[1px]" />}
                   {provided.placeholder}
                 </div>
               )}
