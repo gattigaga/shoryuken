@@ -31,7 +31,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
       const { data: cards, error: cardsError } = await supabase
         .from("cards")
-        .select("*")
+        .select(
+          `
+          *,
+          checks(*)
+        `
+        )
         .eq("list_id", list_id)
         .order("index");
 
