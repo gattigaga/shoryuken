@@ -75,6 +75,13 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
     }
   };
 
+  // Set focus on check content input if in editing mode.
+  useEffect(() => {
+    if (isCreateCheckFormOpen) {
+      refContentInput.current?.focus();
+    }
+  }, [isCreateCheckFormOpen]);
+
   return (
     <div className="flex flex-1 mt-8">
       <span className="text-slate-700 mr-3 mt-[0.1rem]">
