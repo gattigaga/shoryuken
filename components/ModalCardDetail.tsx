@@ -51,7 +51,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={close}
-      overlayClassName="fixed inset-0 bg-black/50"
+      overlayClassName="fixed inset-0 bg-black/50 overflow-y-auto"
       className="border-0 p-0 absolute top-0 left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[90%] h-auto max-w-4xl"
     >
       <Head>
