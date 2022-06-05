@@ -187,6 +187,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw newCardsError;
       }
 
+      if (has_checklist === false) {
+        await supabase.from("checks").delete().eq("card_id", id);
+      }
+
       res.status(200).json({
         data: newCards[0],
         message: "Card successfully updated.",
