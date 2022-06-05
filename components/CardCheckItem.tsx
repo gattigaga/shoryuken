@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { MdClose } from "react-icons/md";
 
 import useUpdateCheckMutation from "../hooks/checks/use-update-check-mutation";
+import useDeleteCheckMutation from "../hooks/checks/use-delete-check-mutation";
 import Button from "./Button";
 
 type Props = {
@@ -17,6 +18,7 @@ const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
   const [checkContent, setCheckContent] = useState(content);
   const refContentInput = useRef<HTMLTextAreaElement>(null);
   const updateCheckMutation = useUpdateCheckMutation();
+  const deleteCheckMutation = useDeleteCheckMutation();
 
   const updateContent = async (content: string) => {
     if (!content) return;
@@ -31,6 +33,17 @@ const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
       });
     } catch (error) {
       toast.error("Failed to update check item content.");
+    }
+  };
+
+  const deleteItem = async () => {
+    try {
+      await deleteCheckMutation.mutateAsync({
+        id,
+        cardId,
+      });
+    } catch (error) {
+      toast.error("Failed to delete check item.");
     }
   };
 
@@ -60,8 +73,8 @@ const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
     <div className="ml-[-0.5rem]">
       {/* Static mode */}
       {!isEditing && (
-        <div className="flex p-2 rounded cursor-pointer hover:bg-slate-200">
-          <div className="w-9">
+        <div className="group flex p-2 pr-0 rounded cursor-pointer hover:bg-slate-200">
+          <div className="w-10">
             <input
               className="rounded border-2 border-slate-300 w-5 h-5"
               type="checkbox"
@@ -75,13 +88,20 @@ const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
           >
             {checkContent}
           </button>
+          <button
+            className="text-slate-100 group-hover:text-slate-500 w-8 h-6 ml-4"
+            type="button"
+            onClick={deleteItem}
+          >
+            <MdClose size={20} />
+          </button>
         </div>
       )}
 
       {/* Editing mode */}
       {isEditing && (
         <div className="flex p-2 rounded cursor-pointer hover:bg-slate-200">
-          <div className="w-9">
+          <div className="w-10">
             <input
               className="rounded border-2 border-slate-300 w-5 h-5"
               type="checkbox"
