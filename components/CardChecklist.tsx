@@ -67,8 +67,11 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
 
     try {
       await createCheckMutation.mutateAsync({
-        content,
-        card_id: id,
+        listId: card.list_id,
+        body: {
+          content,
+          card_id: id,
+        },
       });
     } catch (error) {
       toast.error("Failed to add check item.");

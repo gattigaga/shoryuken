@@ -9,7 +9,13 @@ type Body = {
   card_id: number;
 };
 
-const createCheck = async (body: Body): Promise<Response> => {
+const createCheck = async ({
+  listId,
+  body,
+}: {
+  listId: number;
+  body: Body;
+}): Promise<Response> => {
   const res = await axios.post("/api/checks", body);
   const data = res.data.data;
 
@@ -21,30 +27,66 @@ const useCreateCheckMutation = () => {
 
   return useMutation(createCheck, {
     onMutate: async (payload) => {
-      const key = ["checks", { card_id: payload.card_id }];
+      const key = ["checks", { card_id: payload.body.card_id }];
+      const cardsKey = ["cards", { list_id: payload.listId }];
 
       await queryClient.cancelQueries(key);
 
       const previousChecks = queryClient.getQueryData(key);
+      const previousCards = queryClient.getQueryData(cardsKey);
 
       const newCheck = {
         id: uuid(),
         index: previousChecks.length,
-        ...payload,
+        ...payload.body,
       };
 
       queryClient.setQueryData(key, (oldChecks) => [...oldChecks, newCheck]);
 
-      return { previousChecks };
+      queryClient.setQueryData(cardsKey, (oldCards) => {
+        return oldCards.map((card) => {
+          if (card.id === payload.body.card_id) {
+            const checks = [
+              ...card.checks,
+              {
+                id: uuid(),
+                card_id: card.id,
+                content: payload.body.content,
+                index: card.checks.length,
+                is_checked: false,
+              },
+            ];
+
+            return {
+              ...card,
+              checks,
+            };
+          }
+
+          return card;
+        });
+      });
+
+      return { previousChecks, previousCards };
     },
     onError: (error, payload, context) => {
       queryClient.setQueryData(
-        ["checks", { card_id: payload.card_id }],
+        ["checks", { card_id: payload.body.card_id }],
         context.previousChecks
+      );
+
+      queryClient.setQueryData(
+        ["cards", { list_id: payload.listId }],
+        context.previousCards
       );
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["checks", { card_id: payload.card_id }]);
+      queryClient.invalidateQueries([
+        "checks",
+        { card_id: payload.body.card_id },
+      ]);
+
+      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
     },
   });
 };
