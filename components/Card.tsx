@@ -31,7 +31,8 @@ const Card: React.FC<Props> = ({
 }) => {
   const { data: board } = useBoardQuery(boardId);
 
-  const isAllChecked = totalChecks === totalCompletedChecks;
+  const isAllChecked =
+    totalChecks === totalCompletedChecks && Number(totalChecks) > 0;
 
   return (
     <Draggable draggableId={`card-${id}`} index={index}>
