@@ -8,6 +8,7 @@ type Response = any;
 type Body = {
   content?: string;
   index?: number;
+  is_checked?: boolean;
 };
 
 export const updateCheckById = async ({
@@ -58,6 +59,7 @@ const useUpdateCheckMutation = () => {
             return {
               ...check,
               content: payload.body.content || check.content,
+              is_checked: payload.body.is_checked || check.is_checked,
             };
           }
 
