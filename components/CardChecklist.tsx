@@ -36,6 +36,9 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
     return Number.isNaN(value) || !Number.isFinite(value) ? 0 : value;
   })();
 
+  const progressColor =
+    percentage === 100 ? "rgb(34 197 94)" : "rgb(37 99 235)";
+
   const handleContentHeight = () => {
     if (!refContentInput.current) return;
 
@@ -101,7 +104,10 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
           <div className="w-full h-2 bg-slate-200 rounded-full">
             <motion.div
               className="w-0 h-full bg-blue-600 rounded-full"
-              animate={{ width: `${percentage}%` }}
+              animate={{
+                width: `${percentage}%`,
+                background: progressColor,
+              }}
               transition={{ ease: "easeInOut" }}
             />
           </div>
