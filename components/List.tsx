@@ -162,9 +162,9 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   {cards?.map((card, index) => {
-                    const totalCompletedChecks = card.checks.filter(
-                      (check: any) => check.is_checked
-                    ).length;
+                    const totalCompletedChecks =
+                      card.checks?.filter((check: any) => check.is_checked)
+                        .length || 0;
 
                     return (
                       <Card
