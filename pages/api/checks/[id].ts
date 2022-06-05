@@ -127,11 +127,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw deletedCheckError;
       }
 
-      // Get checks by check ID in order by index.
+      // Get checks by card ID in order by index.
       const { data: orderedChecks, error: orderedChecksError } = await supabase
         .from("checks")
         .select("*")
-        .eq("check_id", deletedCheck.check_id)
+        .eq("card_id", deletedCheck.card_id)
         .order("index");
 
       if (orderedChecksError) {
