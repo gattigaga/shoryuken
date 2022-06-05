@@ -32,12 +32,12 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
   // in range 0 - 100.
   const percentage = (() => {
     const value = (totalCheckItemsCompleted / totalCheckItems) * 100;
+    const result = Number.isNaN(value) || !Number.isFinite(value) ? 0 : value;
 
-    return Number.isNaN(value) || !Number.isFinite(value) ? 0 : value;
+    return Number(result.toFixed(0));
   })();
 
-  const progressColor =
-    percentage === 100 ? "rgb(34 197 94)" : "rgb(37 99 235)";
+  const progressColor = percentage >= 100 ? "rgb(34 197 94)" : "rgb(37 99 235)";
 
   const handleContentHeight = () => {
     if (!refContentInput.current) return;
