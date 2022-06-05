@@ -29,9 +29,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { content, index } = req.body as {
+      const { content, index, is_checked } = req.body as {
         content: string;
         index: number;
+        is_checked: boolean;
       };
 
       // Get a check that want to update.
@@ -86,7 +87,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
       const { data: newChecks, error: newChecksError } = await supabase
         .from("checks")
-        .update({ content })
+        .update({ content, is_checked })
         .eq("id", id);
 
       if (newChecksError) {
