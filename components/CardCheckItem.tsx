@@ -44,9 +44,11 @@ const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
   };
 
   // Set focus on check content input if in editing mode.
+  // And set input auto height/
   useEffect(() => {
     if (isEditing) {
       refContentInput.current?.select();
+      handleContentHeight();
     }
   }, [isEditing]);
 
