@@ -20,6 +20,20 @@ const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
   const updateCheckMutation = useUpdateCheckMutation();
   const deleteCheckMutation = useDeleteCheckMutation();
 
+  const updateCheck = async () => {
+    try {
+      await updateCheckMutation.mutateAsync({
+        id,
+        cardId,
+        body: {
+          is_checked: !isChecked,
+        },
+      });
+    } catch (error) {
+      toast.error("Failed to update check item.");
+    }
+  };
+
   const updateContent = async (content: string) => {
     if (!content) return;
 
@@ -79,6 +93,7 @@ const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
               className="rounded border-2 border-slate-300 w-5 h-5"
               type="checkbox"
               checked={isChecked}
+              onChange={updateCheck}
             />
           </div>
           <button
