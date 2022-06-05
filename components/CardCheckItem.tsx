@@ -8,12 +8,19 @@ import Button from "./Button";
 
 type Props = {
   id: number;
+  listId: number;
   cardId: number;
   content: string;
   isChecked?: boolean;
 };
 
-const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
+const CardCheckItem: React.FC<Props> = ({
+  id,
+  listId,
+  cardId,
+  content,
+  isChecked,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [checkContent, setCheckContent] = useState(content);
   const refContentInput = useRef<HTMLTextAreaElement>(null);
@@ -24,6 +31,7 @@ const CardCheckItem: React.FC<Props> = ({ id, cardId, content, isChecked }) => {
     try {
       await updateCheckMutation.mutateAsync({
         id,
+        listId,
         cardId,
         body: {
           is_checked: !isChecked,

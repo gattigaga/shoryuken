@@ -13,10 +13,12 @@ type Body = {
 
 export const updateCheckById = async ({
   id,
+  listId,
   cardId,
   body,
 }: {
   id: number;
+  listId: number;
   cardId: number;
   body: Body;
 }): Promise<Response> => {
@@ -32,10 +34,12 @@ const useUpdateCheckMutation = () => {
   return useMutation(updateCheckById, {
     onMutate: async (payload) => {
       const key = ["checks", { card_id: payload.cardId }];
+      const cardsKey = ["cards", { list_id: payload.listId }];
 
       await queryClient.cancelQueries(key);
 
       const previousChecks = queryClient.getQueryData(key);
+      const previousCards = queryClient.getQueryData(cardsKey);
 
       queryClient.setQueryData(key, (oldChecks) => {
         let newChecks = oldChecks;
@@ -67,16 +71,46 @@ const useUpdateCheckMutation = () => {
         });
       });
 
-      return { previousLists: previousChecks };
+      queryClient.setQueryData(cardsKey, (oldCards) => {
+        return oldCards.map((card) => {
+          if (card.id === payload.cardId) {
+            const checks = card.checks.map((check) => {
+              if (check.id === payload.id) {
+                return {
+                  ...check,
+                  is_checked: !check.is_checked,
+                };
+              }
+
+              return check;
+            });
+
+            return {
+              ...card,
+              checks,
+            };
+          }
+
+          return card;
+        });
+      });
+
+      return { previousChecks, previousCards };
     },
     onError: (error, payload, context) => {
       queryClient.setQueryData(
         ["checks", { card_id: payload.cardId }],
         context.previousChecks
       );
+
+      queryClient.setQueryData(
+        ["cards", { list_id: payload.listId }],
+        context.previousCards
+      );
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries(["checks", { card_id: payload.cardId }]);
+      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
     },
   });
 };

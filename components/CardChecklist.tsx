@@ -119,6 +119,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
             <CardCheckItem
               key={check.id}
               id={check.id}
+              listId={card.list_id}
               cardId={check.card_id}
               content={check.content}
               isChecked={check.is_checked}
