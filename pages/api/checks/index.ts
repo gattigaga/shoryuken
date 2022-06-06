@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
   const token = req.cookies.access_token;
 
-  // Get all cards user has.
+  // Get all checks in a card.
   if (req.method === "GET") {
     try {
       const { error: userError } = await supabase.auth.api.getUser(token);
@@ -25,35 +25,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw userError;
       }
 
-      const { list_id } = req.query as {
-        list_id: string | number;
+      const { card_id } = req.query as {
+        card_id: string | number;
       };
 
-      const { data: cards, error: cardsError } = await supabase
-        .from("cards")
-        .select(
-          `
-          *,
-          checks(*)
-        `
-        )
-        .eq("list_id", list_id)
+      const { data: checks, error: checksError } = await supabase
+        .from("checks")
+        .select("*")
+        .eq("card_id", card_id)
         .order("index");
 
-      if (cardsError) {
-        throw cardsError;
+      if (checksError) {
+        throw checksError;
       }
 
       res.status(200).json({
-        data: cards,
-        message: "There are existing cards.",
+        data: checks,
+        message: "There are existing checks.",
       });
     } catch (error: any) {
       res.status(error.status).json({ message: error.message });
     }
   }
 
-  // Create a new card for a user.
+  // Create a new check for a card.
   if (req.method === "POST") {
     try {
       const { error: userError } = await supabase.auth.api.getUser(token);
@@ -62,41 +57,38 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw userError;
       }
 
-      const { title, list_id } = req.body as {
-        title: string;
-        list_id: string | number;
+      const { content, card_id } = req.body as {
+        content: string;
+        card_id: string | number;
       };
 
-      const slug = getSlug(title);
-
-      const { data: cards, error: cardsError } = await supabase
-        .from("cards")
+      const { data: checks, error: checksError } = await supabase
+        .from("checks")
         .select("*")
-        .eq("list_id", list_id);
+        .eq("card_id", card_id);
 
-      if (cardsError) {
-        throw cardsError;
+      if (checksError) {
+        throw checksError;
       }
 
-      const { data: card, error: cardError } = await supabase
-        .from("cards")
+      const { data: check, error: checkError } = await supabase
+        .from("checks")
         .insert([
           {
-            title,
-            slug,
-            list_id,
-            index: cards.length,
+            content,
+            card_id,
+            index: checks.length,
           },
         ])
         .limit(1)
         .single();
 
-      if (cardError) {
-        throw cardError;
+      if (checkError) {
+        throw checkError;
       }
 
       res.status(200).json({
-        data: card,
+        data: check,
         message: "Card successfully created.",
       });
     } catch (error: any) {

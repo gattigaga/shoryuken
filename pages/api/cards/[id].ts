@@ -60,12 +60,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { title, description, index, list_id } = req.body as {
-        title: string;
-        description: string;
-        index: number;
-        list_id: number;
-      };
+      const { title, description, index, has_checklist, list_id } =
+        req.body as {
+          title: string;
+          description: string;
+          index: number;
+          has_checklist: boolean;
+          list_id: number;
+        };
 
       // Get a card that want to update.
       const { data: card, error: cardError } = await supabase
@@ -178,11 +180,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
       const { data: newCards, error: newCardsError } = await supabase
         .from("cards")
-        .update({ title, description })
+        .update({ title, description, has_checklist })
         .eq("id", id);
 
       if (newCardsError) {
         throw newCardsError;
+      }
+
+      if (has_checklist === false) {
+        await supabase.from("checks").delete().eq("card_id", id);
       }
 
       res.status(200).json({

@@ -9,6 +9,7 @@ type Body = {
   title?: string;
   description?: string;
   index?: number;
+  has_checklist?: boolean;
   list_id?: number;
 };
 
@@ -87,10 +88,16 @@ const useUpdateCardMutation = () => {
               ? body.description
               : card.description;
 
+          const hasChecklist =
+            body.has_checklist !== undefined
+              ? body.has_checklist
+              : card.has_checklist;
+
           return {
             ...card,
             title,
             description,
+            has_checklist: hasChecklist,
           };
         }
 
@@ -106,10 +113,16 @@ const useUpdateCardMutation = () => {
             ? body.description
             : previousCard?.description;
 
+        const hasChecklist =
+          body.has_checklist !== undefined
+            ? body.has_checklist
+            : previousCard?.has_checklist;
+
         return {
           ...previousCard,
           title,
           description,
+          has_checklist: hasChecklist,
         };
       })();
 
