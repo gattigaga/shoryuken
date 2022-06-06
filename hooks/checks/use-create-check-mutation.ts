@@ -52,7 +52,7 @@ const useCreateCheckMutation = () => {
                 id: uuid(),
                 card_id: card.id,
                 content: payload.body.content,
-                index: card.checks.length,
+                index: card.checks?.length || 0,
                 is_checked: false,
               },
             ];
