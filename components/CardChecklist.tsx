@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { MdOutlineCheckBox } from "react-icons/md";
 import { motion } from "framer-motion";
+import { Droppable, DragDropContext } from "react-beautiful-dnd";
 
 import useChecksQuery from "../hooks/checks/use-checks-query";
 import useCreateCheckMutation from "../hooks/checks/use-create-check-mutation";
@@ -9,6 +10,7 @@ import Button from "./Button";
 import CardCheckItem from "./CardCheckItem";
 import useUpdateCardMutation from "../hooks/cards/use-update-card-mutation";
 import useCardQuery from "../hooks/cards/use-card-query";
+import useUpdateCheckMutation from "../hooks/checks/use-update-check-mutation";
 
 type Props = {
   id: number;
@@ -21,6 +23,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
   const [checkContent, setCheckContent] = useState("");
   const refContentInput = useRef<HTMLTextAreaElement>(null);
   const createCheckMutation = useCreateCheckMutation();
+  const updateCheckMutation = useUpdateCheckMutation();
   const updateCardMutation = useUpdateCardMutation();
 
   const totalCheckItems = checks?.length || 0;
@@ -78,6 +81,27 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
     }
   };
 
+  const moveCheck = async ({
+    checkId,
+    toIndex,
+  }: {
+    checkId: number;
+    toIndex: number;
+  }) => {
+    try {
+      await updateCheckMutation.mutateAsync({
+        id: checkId,
+        listId: card.list_id,
+        cardId: card.id,
+        body: {
+          index: toIndex,
+        },
+      });
+    } catch (error) {
+      toast.error("Failed to move a check item.");
+    }
+  };
+
   // Set focus on check content input if in editing mode.
   useEffect(() => {
     if (isCreateCheckFormOpen) {
@@ -125,16 +149,46 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
 
         {/* Checklist */}
         <div className="mb-2">
-          {checks?.map((check) => (
-            <CardCheckItem
-              key={check.id}
-              id={check.id}
-              listId={card.list_id}
-              cardId={check.card_id}
-              content={check.content}
-              isChecked={check.is_checked}
-            />
-          ))}
+          <DragDropContext
+            onDragEnd={(result) => {
+              const fromIndex = result.source.index;
+              const toIndex = result.destination?.index;
+
+              if (toIndex === undefined) return;
+
+              const isUpdated = toIndex !== fromIndex;
+
+              if (!isUpdated) return;
+
+              const id = result.draggableId.replace("check-", "");
+
+              moveCheck({
+                checkId: Number(id),
+                toIndex,
+              });
+
+              return;
+            }}
+          >
+            <Droppable droppableId="cards" type="CHECK">
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {checks?.map((check) => (
+                    <CardCheckItem
+                      key={check.id}
+                      id={check.id}
+                      index={check.index}
+                      listId={card.list_id}
+                      cardId={check.card_id}
+                      content={check.content}
+                      isChecked={check.is_checked}
+                    />
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
 
         {/* Add new check item form */}
