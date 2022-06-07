@@ -2,8 +2,14 @@ import Head from "next/head";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { MdClose, MdDelete, MdOutlineCheckBox } from "react-icons/md";
+import {
+  MdClose,
+  MdDelete,
+  MdErrorOutline,
+  MdOutlineCheckBox,
+} from "react-icons/md";
 import toast from "react-hot-toast";
+import Loading from "react-spinners/ScaleLoader";
 
 import useCardQuery from "../hooks/cards/use-card-query";
 import useDeleteCardMutation from "../hooks/cards/use-delete-card-mutation";
@@ -18,7 +24,7 @@ type Props = {
 };
 
 const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
-  const { data: card, refetch } = useCardQuery(id);
+  const { data: card, status: cardFetchStatus, refetch } = useCardQuery(id);
   const deleteCardMutation = useDeleteCardMutation();
   const updateCardMutation = useUpdateCardMutation();
   const router = useRouter();
@@ -74,63 +80,85 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
       isOpen={isOpen}
       onRequestClose={close}
       overlayClassName="fixed inset-0 bg-black/50 overflow-y-auto"
-      className="border-0 p-0 absolute top-0 left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[90%] h-auto max-w-4xl"
+      className="border-0 p-0 absolute top-4 left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[90%] h-auto max-w-4xl md:top-16"
     >
       <Head>
         <title>{card?.title && `${card.title} | Shoryuken`}</title>
       </Head>
 
-      <div className="py-4 w-full md:py-16">
-        <div className="w-full rounded bg-slate-100 p-5 pb-10">
-          {/* Header Side */}
-          <div className="flex items-start">
-            <CardTitle id={id} />
-            <button
-              className="text-slate-500 ml-12"
-              type="button"
-              onClick={close}
-            >
-              <MdClose size={24} />
-            </button>
-          </div>
-
-          <div className="flex flex-col md:flex-row">
-            <div className="flex-1">
-              <CardDescription id={id} />
-              {card?.has_checklist && <CardChecklist id={id} />}
+      <div className="w-full rounded bg-slate-100 p-5 pb-10 min-h-[480px] flex flex-col">
+        {cardFetchStatus === "success" && (
+          <>
+            {/* Header Side */}
+            <div className="flex items-start">
+              <CardTitle id={id} />
+              <button
+                className="text-slate-500 ml-12"
+                type="button"
+                onClick={close}
+              >
+                <MdClose size={24} />
+              </button>
             </div>
 
-            {/* Right Side Menu */}
-            <div className="w-full mt-16 md:mt-0 md:w-48 md:ml-16">
-              <div className="mb-8">
-                <p className="font-semibold text-xs text-slate-700 mb-3">
-                  Add to card
-                </p>
-                <button
-                  className="flex items-center rounded bg-slate-200 hover:bg-slate-300 text-slate-700 w-full px-2 py-2"
-                  type="button"
-                  onClick={addChecklist}
-                >
-                  <MdOutlineCheckBox size={20} />
-                  <p className="text-sm ml-3">Checklist</p>
-                </button>
+            {/* Content */}
+            <div className="flex flex-col md:flex-row">
+              <div className="flex-1">
+                <CardDescription id={id} />
+                {card?.has_checklist && <CardChecklist id={id} />}
               </div>
-              <div>
-                <p className="font-semibold text-xs text-slate-700 mb-3">
-                  Actions
-                </p>
-                <button
-                  className="flex items-center rounded bg-red-700 hover:bg-red-800 text-white w-full px-2 py-2"
-                  type="button"
-                  onClick={deleteCard}
-                >
-                  <MdDelete size={20} />
-                  <p className="text-sm ml-3">Delete</p>
-                </button>
+
+              {/* Right Side Menu */}
+              <div className="w-full mt-16 md:mt-0 md:w-48 md:ml-16">
+                <div className="mb-8">
+                  <p className="font-semibold text-xs text-slate-700 mb-3">
+                    Add to card
+                  </p>
+                  <button
+                    className="flex items-center rounded bg-slate-200 hover:bg-slate-300 text-slate-700 w-full px-2 py-2"
+                    type="button"
+                    onClick={addChecklist}
+                  >
+                    <MdOutlineCheckBox size={20} />
+                    <p className="text-sm ml-3">Checklist</p>
+                  </button>
+                </div>
+                <div>
+                  <p className="font-semibold text-xs text-slate-700 mb-3">
+                    Actions
+                  </p>
+                  <button
+                    className="flex items-center rounded bg-red-700 hover:bg-red-800 text-white w-full px-2 py-2"
+                    type="button"
+                    onClick={deleteCard}
+                  >
+                    <MdDelete size={20} />
+                    <p className="text-sm ml-3">Delete</p>
+                  </button>
+                </div>
               </div>
             </div>
+          </>
+        )}
+        {cardFetchStatus === "loading" && (
+          <div className="flex-1 flex justify-center items-center">
+            <Loading
+              height={36}
+              width={4}
+              radius={8}
+              margin={2}
+              color="rgb(203 213 225)"
+            />
           </div>
-        </div>
+        )}
+        {cardFetchStatus === "error" && (
+          <div className="flex-1 flex flex-col justify-center items-center border border-black">
+            <MdErrorOutline size={48} color="rgb(203 213 225)" />
+            <p className="text-xs text-slate-700 mt-4">
+              Failed to fetch card detail.
+            </p>
+          </div>
+        )}
       </div>
     </Modal>
   );

@@ -42,7 +42,13 @@ const useUpdateCardMutation = () => {
       const fromKey = ["cards", { list_id: fromList }];
       const toKey = toList && ["cards", { list_id: toList }];
 
+      await queryClient.cancelQueries(key);
       await queryClient.cancelQueries(fromKey);
+
+      if (toKey) {
+        await queryClient.cancelQueries(toKey);
+      }
+
       const previousCard = queryClient.getQueryData(key);
       const previousFromCards = queryClient.getQueryData(fromKey);
       const previousToCards = toKey && queryClient.getQueryData(toKey);

@@ -4,14 +4,11 @@ import { MdEdit, MdOutlineCheckBox, MdSubject } from "react-icons/md";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
 
-import useBoardQuery from "../hooks/boards/use-board-query";
-
 type Props = {
   id: number;
-  boardId: number;
+  href: string;
   index: number;
   title: string;
-  slug: string;
   totalChecks?: number;
   totalCompletedChecks?: number;
   hasDescription?: boolean;
@@ -20,31 +17,21 @@ type Props = {
 
 const Card: React.FC<Props> = ({
   id,
-  boardId,
+  href,
   index,
   title,
-  slug,
   totalChecks,
   totalCompletedChecks,
   hasDescription,
   hasChecklist,
 }) => {
-  const { data: board } = useBoardQuery(boardId);
-
   const isAllChecked =
     totalChecks === totalCompletedChecks && Number(totalChecks) > 0;
 
   return (
     <Draggable draggableId={`card-${id}`} index={index}>
       {(provided) => (
-        <Link
-          href={{
-            pathname: `/boards/${board.slug}`,
-            query: {
-              card: `${id}-${slug}`,
-            },
-          }}
-        >
+        <Link href={href}>
           <a>
             <div
               className="mb-2 group p-2 bg-white rounded shadow flex hover:bg-slate-200"

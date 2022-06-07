@@ -26,23 +26,41 @@ const useUpdateBoardMutation = () => {
   return useMutation(updateBoardById, {
     onMutate: async (payload) => {
       const key = ["boards", payload.id];
+      const listKey = "boards";
 
       await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries(listKey);
 
       const previousBoard = queryClient.getQueryData(key);
+      const previousBoards = queryClient.getQueryData(listKey);
 
       queryClient.setQueryData(key, (oldBoard) => ({
         ...oldBoard,
         title: payload.body.title,
       }));
 
-      return { previousBoard };
+      queryClient.setQueryData(listKey, (oldBoards) => {
+        return oldBoards.map((board) => {
+          if (board.id === payload.id) {
+            return {
+              ...board,
+              title: payload.body.title,
+            };
+          }
+
+          return board;
+        });
+      });
+
+      return { previousBoard, previousBoards };
     },
     onError: (error, payload, context) => {
       queryClient.setQueryData(["boards", payload.id], context.previousBoard);
+      queryClient.setQueryData("boards", context.previousBoards);
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries(["boards", payload.id]);
+      queryClient.invalidateQueries("boards");
     },
   });
 };

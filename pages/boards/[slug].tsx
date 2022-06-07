@@ -5,12 +5,12 @@ import { useState } from "react";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import classnames from "classnames";
+import toast from "react-hot-toast";
 
 import styles from "../../styles/pages/board-detail.module.css";
 import Layout from "../../components/Layout";
 import supabase from "../../helpers/supabase";
-import EditableBoardTitle from "../../components/EditableBoardTitle";
-import toast from "react-hot-toast";
+import BoardTitle from "../../components/BoardTitle";
 import { useRouter } from "next/router";
 import CreateListButton from "../../components/CreateListButton";
 import CreateListForm from "../../components/CreateListForm";
@@ -67,7 +67,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
 
   const { data: board } = useBoardQuery(initialBoard.id, initialBoard);
   const { data: lists } = useListsQuery(initialBoard.id);
-  const updateBoardMutation = useUpdateBoardMutation();
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
   const updateCardMutation = useUpdateCardMutation();
@@ -79,21 +78,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
 
     return Number(value);
   })();
-
-  const updateBoardTitle = async (title: string) => {
-    if (!title) return;
-
-    try {
-      await updateBoardMutation.mutateAsync({
-        id: board.id,
-        body: {
-          title,
-        },
-      });
-    } catch (error) {
-      toast.error("Failed to update board title.");
-    }
-  };
 
   const deleteBoard = async () => {
     try {
@@ -164,7 +148,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               </div>
             </a>
           </Link>
-          <EditableBoardTitle value={board.title} onSubmit={updateBoardTitle} />
+          <BoardTitle id={board.id} />
           <button
             className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
             onClick={deleteBoard}

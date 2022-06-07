@@ -11,6 +11,7 @@ import useDeleteListMutation from "../hooks/lists/use-delete-list-mutation";
 import useUpdateListBoardMutation from "../hooks/lists/use-update-list-mutation";
 import useCardsQuery from "../hooks/cards/use-cards-query";
 import useCreateCardMutation from "../hooks/cards/use-create-card-mutation";
+import useBoardQuery from "../hooks/boards/use-board-query";
 
 type Props = {
   id: number;
@@ -25,6 +26,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const [cardTitle, setCardTitle] = useState("");
   const refListTitleInput = useRef<HTMLInputElement>(null);
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
+  const { data: board } = useBoardQuery(boardId);
   const deleteListMutation = useDeleteListMutation();
   const updateListMutation = useUpdateListBoardMutation();
   const createCardMutation = useCreateCardMutation();
@@ -168,14 +170,15 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                       card.checks?.filter((check: any) => check.is_checked)
                         .length || 0;
 
+                    const href = `/boards/${board.slug}?card=${card.id}-${card.slug}`;
+
                     return (
                       <Card
                         key={card.id}
                         id={card.id}
-                        boardId={boardId}
+                        href={href}
                         index={index}
                         title={card.title}
-                        slug={card.slug}
                         totalChecks={totalChecks}
                         totalCompletedChecks={totalCompletedChecks}
                         hasDescription={!!card.description}
