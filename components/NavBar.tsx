@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useQueryClient } from "react-query";
 import toast from "react-hot-toast";
@@ -14,6 +14,8 @@ type Props = {};
 const NavBar: React.FC<Props> = ({}) => {
   const router = useRouter();
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+  const refAvatar = useRef<HTMLDivElement>(null);
+  const refMenu = useRef<HTMLDivElement>(null);
   const { data: myself } = useUserQuery();
   const queryClient = useQueryClient();
   const signOutMutation = useSignOutMutation();
@@ -35,6 +37,26 @@ const NavBar: React.FC<Props> = ({}) => {
     }
   };
 
+  // Close menu if outside is clicked.
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (refAvatar.current && refMenu.current) {
+        if (
+          !refAvatar.current.contains(event.target) &&
+          !refMenu.current.contains(event.target)
+        ) {
+          setIsAccountMenuOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="h-12 bg-blue-700 flex flex-row justify-between items-center px-4">
       <Image
@@ -44,12 +66,17 @@ const NavBar: React.FC<Props> = ({}) => {
         height={28}
       />
       <div className="relative">
-        <Avatar
-          fullname={fullname}
-          onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-        />
+        <div ref={refAvatar}>
+          <Avatar
+            fullname={fullname}
+            onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
+          />
+        </div>
         {isAccountMenuOpen && (
-          <div className="w-72 bg-white rounded border shadow-lg absolute top-10 right-0">
+          <div
+            ref={refMenu}
+            className="w-72 bg-white rounded border shadow-lg absolute top-10 right-0"
+          >
             <div className="p-4 border-b">
               <p className="text-center text-xs text-slate-500">Account</p>
             </div>
