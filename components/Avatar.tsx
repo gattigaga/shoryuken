@@ -9,6 +9,7 @@ const Avatar: React.FC<Props> = ({ fullname, onClick }) => {
   const initials = fullname
     .split(" ")
     .map((word) => word[0])
+    .slice(0, 3)
     .join("")
     .toUpperCase();
 
