@@ -37,6 +37,7 @@ const useUpdateCheckMutation = () => {
       const cardsKey = ["cards", { list_id: payload.listId }];
 
       await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries(cardsKey);
 
       const previousChecks = queryClient.getQueryData(key);
       const previousCards = queryClient.getQueryData(cardsKey);
