@@ -6,6 +6,7 @@ import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import classnames from "classnames";
 import toast from "react-hot-toast";
+import Loading from "react-spinners/ScaleLoader";
 
 import styles from "../../styles/pages/board-detail.module.css";
 import Layout from "../../components/Layout";
@@ -17,7 +18,6 @@ import CreateListForm from "../../components/CreateListForm";
 import List from "../../components/List";
 import { withAuthGuard } from "../../helpers/server";
 import useBoardQuery from "../../hooks/boards/use-board-query";
-import useUpdateBoardMutation from "../../hooks/boards/use-update-board-mutation";
 import useDeleteBoardMutation from "../../hooks/boards/use-delete-board-mutation";
 import useListsQuery from "../../hooks/lists/use-lists-query";
 import useUpdateListMutation from "../../hooks/lists/use-update-list-mutation";
@@ -66,7 +66,11 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const router = useRouter();
 
   const { data: board } = useBoardQuery(initialBoard.id, initialBoard);
-  const { data: lists } = useListsQuery(initialBoard.id);
+
+  const { data: lists, status: listsFetchStatus } = useListsQuery(
+    initialBoard.id
+  );
+
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
   const updateCardMutation = useUpdateCardMutation();
@@ -157,96 +161,111 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           </button>
         </div>
         <div className="flex-1 flex pb-4 px-4">
-          <div className={classnames("overflow-x-auto flex-1", styles.content)}>
-            <div className="flex items-start">
-              <DragDropContext
-                onDragEnd={(result) => {
-                  const fromIndex = result.source.index;
-                  const toIndex = result.destination?.index;
+          {listsFetchStatus === "success" && (
+            <div
+              className={classnames("overflow-x-auto flex-1", styles.content)}
+            >
+              <div className="flex items-start">
+                <DragDropContext
+                  onDragEnd={(result) => {
+                    const fromIndex = result.source.index;
+                    const toIndex = result.destination?.index;
 
-                  if (toIndex === undefined) return;
+                    if (toIndex === undefined) return;
 
-                  if (result.type === "LIST") {
-                    const isUpdated = toIndex !== fromIndex;
+                    if (result.type === "LIST") {
+                      const isUpdated = toIndex !== fromIndex;
 
-                    if (!isUpdated) return;
+                      if (!isUpdated) return;
 
-                    const id = result.draggableId.replace("list-", "");
+                      const id = result.draggableId.replace("list-", "");
 
-                    moveList({
-                      listId: Number(id),
-                      toIndex,
-                    });
+                      moveList({
+                        listId: Number(id),
+                        toIndex,
+                      });
 
-                    return;
-                  }
+                      return;
+                    }
 
-                  if (result.type === "CARD") {
-                    const id = result.draggableId.replace("card-", "");
+                    if (result.type === "CARD") {
+                      const id = result.draggableId.replace("card-", "");
 
-                    const fromListId = result.source.droppableId.replace(
-                      "list-",
-                      ""
-                    );
+                      const fromListId = result.source.droppableId.replace(
+                        "list-",
+                        ""
+                      );
 
-                    const toListId = result.destination?.droppableId.replace(
-                      "list-",
-                      ""
-                    );
+                      const toListId = result.destination?.droppableId.replace(
+                        "list-",
+                        ""
+                      );
 
-                    const validToList =
-                      toListId !== fromListId && !!toListId
-                        ? Number(toListId)
-                        : undefined;
+                      const validToList =
+                        toListId !== fromListId && !!toListId
+                          ? Number(toListId)
+                          : undefined;
 
-                    moveCard({
-                      cardId: Number(id),
-                      fromListId: Number(fromListId),
-                      toListId: validToList,
-                      toIndex,
-                    });
+                      moveCard({
+                        cardId: Number(id),
+                        fromListId: Number(fromListId),
+                        toListId: validToList,
+                        toIndex,
+                      });
 
-                    return;
-                  }
-                }}
-              >
-                <Droppable
-                  droppableId="lists"
-                  direction="horizontal"
-                  type="LIST"
+                      return;
+                    }
+                  }}
                 >
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      className="flex items-start"
-                      {...provided.droppableProps}
-                    >
-                      {lists?.map((list: any, index: number) => (
-                        <List
-                          key={list.id}
-                          id={list.id}
-                          boardId={board.id}
-                          index={index}
-                          title={list.title}
-                        />
-                      ))}
-                      {provided.placeholder}
-                    </div>
+                  <Droppable
+                    droppableId="lists"
+                    direction="horizontal"
+                    type="LIST"
+                  >
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        className="flex items-start"
+                        {...provided.droppableProps}
+                      >
+                        {lists?.map((list: any, index: number) => (
+                          <List
+                            key={list.id}
+                            id={list.id}
+                            boardId={board.id}
+                            index={index}
+                            title={list.title}
+                          />
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                  {isCreateListFormOpen ? (
+                    <CreateListForm
+                      boardId={board.id}
+                      onRequestClose={() => setIsCreateListFormOpen(false)}
+                    />
+                  ) : (
+                    <CreateListButton
+                      onClick={() => setIsCreateListFormOpen(true)}
+                    />
                   )}
-                </Droppable>
-                {isCreateListFormOpen ? (
-                  <CreateListForm
-                    boardId={board.id}
-                    onRequestClose={() => setIsCreateListFormOpen(false)}
-                  />
-                ) : (
-                  <CreateListButton
-                    onClick={() => setIsCreateListFormOpen(true)}
-                  />
-                )}
-              </DragDropContext>
+                </DragDropContext>
+              </div>
             </div>
-          </div>
+          )}
+          {listsFetchStatus === "loading" && (
+            <div className="h-full w-full flex justify-center items-center">
+              <Loading
+                height={72}
+                width={8}
+                radius={16}
+                margin={4}
+                color="rgb(29 78 216)"
+              />
+            </div>
+          )}
         </div>
       </div>
       {!!cardId && <ModalCardDetail id={cardId} isOpen={!!router.query.card} />}
