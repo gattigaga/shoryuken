@@ -73,28 +73,31 @@ const useUpdateCheckMutation = () => {
       });
 
       queryClient.setQueryData(cardsKey, (oldCards) => {
-        return oldCards.map((card) => {
-          if (card.id === payload.cardId) {
-            const checks =
-              card.checks?.map((check) => {
-                if (check.id === payload.id) {
-                  return {
-                    ...check,
-                    is_checked: !check.is_checked,
-                  };
-                }
+        return (
+          oldCards &&
+          oldCards.map((card) => {
+            if (card.id === payload.cardId) {
+              const checks =
+                card.checks?.map((check) => {
+                  if (check.id === payload.id) {
+                    return {
+                      ...check,
+                      is_checked: !check.is_checked,
+                    };
+                  }
 
-                return check;
-              }) || [];
+                  return check;
+                }) || [];
 
-            return {
-              ...card,
-              checks,
-            };
-          }
+              return {
+                ...card,
+                checks,
+              };
+            }
 
-          return card;
-        });
+            return card;
+          })
+        );
       });
 
       return { previousChecks, previousCards };
