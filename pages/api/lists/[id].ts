@@ -145,11 +145,45 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
+      // Get cards that list has.
+      const { data: cards, error: cardsError } = await supabase
+        .from("cards")
+        .select("*")
+        .eq("list_id", id)
+        .order("index");
+
+      if (cardsError) {
+        throw cardsError;
+      }
+
+      // Delete checks that card has.
+      for (const card of cards) {
+        const { error } = await supabase
+          .from("checks")
+          .delete()
+          .eq("card_id", card.id);
+
+        if (error) {
+          throw error;
+        }
+      }
+
+      // Delete cards that list has.
+      const { error: deletedCardsError } = await supabase
+        .from("cards")
+        .delete()
+        .eq("list_id", id);
+
+      if (deletedCardsError) {
+        throw deletedCardsError;
+      }
+
       // Delete a list by id.
       const { data: deletedList, error: deletedListError } = await supabase
         .from("lists")
         .delete()
         .eq("id", id)
+        .order("id")
         .limit(1)
         .single();
 
