@@ -20,7 +20,7 @@ const useDeleteBoardMutation = () => {
       const previousBoards = queryClient.getQueryData("boards");
 
       queryClient.setQueryData("boards", (oldBoards) => {
-        return oldBoards.filter((board) => board.id !== payload);
+        return oldBoards && oldBoards.filter((board) => board.id !== payload);
       });
 
       return { previousBoards };
