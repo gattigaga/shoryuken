@@ -187,8 +187,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw newCardsError;
       }
 
+      // Delete checks that card has
+      // if checklist disabled.
       if (has_checklist === false) {
-        await supabase.from("checks").delete().eq("card_id", id);
+        const { error: deletedChecksError } = await supabase
+          .from("checks")
+          .delete()
+          .eq("card_id", id);
+
+        if (deletedChecksError) {
+          throw deletedChecksError;
+        }
       }
 
       res.status(200).json({
