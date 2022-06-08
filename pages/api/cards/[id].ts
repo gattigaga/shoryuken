@@ -213,11 +213,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
+      // Delete checks that card has
+      const { error: deletedChecksError } = await supabase
+        .from("checks")
+        .delete()
+        .eq("card_id", id);
+
+      if (deletedChecksError) {
+        throw deletedChecksError;
+      }
+
       // Delete a card by id.
       const { data: deletedCard, error: deletedCardError } = await supabase
         .from("cards")
         .delete()
         .eq("id", id)
+        .order("id")
         .limit(1)
         .single();
 
