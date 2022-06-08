@@ -121,6 +121,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         .from("checks")
         .delete()
         .eq("id", id)
+        .order("id")
         .limit(1)
         .single();
 
