@@ -401,6 +401,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-calendar@^3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@types/react-calendar/-/react-calendar-3.5.1.tgz#5597f5e58d69bd13972f88546b50f9a3b98518db"
+  integrity sha512-d71cKkkSN8CA4PWx87jQOrEyElc2uY3hwpXmceroaPMrMaZ9fPlLFPLP0OCaay5nlJ6ErNmHVb75lE1huharPQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@18.0.1":
   version "18.0.1"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.1.tgz#cb3cc10ea91141b12c71001fede1017acfbce4db"

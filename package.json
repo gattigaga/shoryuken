@@ -15,6 +15,7 @@
     "@types/cookie": "^0.5.1",
     "@types/js-cookie": "^3.0.2",
     "@types/react-beautiful-dnd": "^13.1.2",
+    "@types/react-calendar": "^3.5.1",
     "@types/react-modal": "^3.13.1",
     "@types/uuid": "^8.3.4",
     "axios": "^0.26.1",
