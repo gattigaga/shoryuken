@@ -1,17 +1,18 @@
 import axios from "axios";
 import { useMutation } from "react-query";
 
-type Response = any;
+type Response = void;
 
 type Body = {
   email: string;
 };
 
-const postForgotPassword = async (body: Body): Promise<Response> => {
-  const res = await axios.post("/api/auth/forgot-password", body);
-  const data = res.data.data;
+type Payload = {
+  body: Body;
+};
 
-  return data;
+const postForgotPassword = async (payload: Payload): Promise<Response> => {
+  await axios.post("/api/auth/forgot-password", payload.body);
 };
 
 const useForgotPasswordMutation = () => useMutation(postForgotPassword);
