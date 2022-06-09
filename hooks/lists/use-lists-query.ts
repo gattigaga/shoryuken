@@ -1,7 +1,15 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-type Response = any[];
+type List = {
+  id: number;
+  board_id: number;
+  index: number;
+  title: string;
+  created_at: string;
+};
+
+type Response = List[];
 
 export const getListsByBoardId = async (boardId: number): Promise<Response> => {
   const res = await axios.get("/api/lists/", {
@@ -16,12 +24,8 @@ export const getListsByBoardId = async (boardId: number): Promise<Response> => {
 };
 
 const useListsQuery = (boardId: number) => {
-  return useQuery(
-    ["lists", { board_id: boardId }],
-    () => getListsByBoardId(boardId),
-    {
-      initialData: [],
-    }
+  return useQuery<List[], Error>(["lists", { board_id: boardId }], () =>
+    getListsByBoardId(boardId)
   );
 };
 
