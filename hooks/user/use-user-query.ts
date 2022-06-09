@@ -1,7 +1,14 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-type Response = any;
+type User = {
+  fullname: string;
+  username: string;
+  email: string;
+  is_confirmed: boolean;
+};
+
+type Response = User;
 
 const getMe = async (): Promise<Response> => {
   const res = await axios.get("/api/auth/me");
@@ -15,6 +22,6 @@ const getMe = async (): Promise<Response> => {
   };
 };
 
-const useUserQuery = () => useQuery("me", getMe);
+const useUserQuery = () => useQuery<User, Error>("me", getMe);
 
 export default useUserQuery;
