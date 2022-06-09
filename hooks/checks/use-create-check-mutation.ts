@@ -27,7 +27,7 @@ type Context = {
   previousCards?: Card[];
 };
 
-type Response = Check[];
+type Response = Check;
 
 type Body = {
   content: string;
