@@ -1,7 +1,18 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-type Response = any[];
+type Card = {
+  id: number;
+  list_id: number;
+  index: number;
+  title: string;
+  description: string;
+  slug: string;
+  has_checklist: boolean;
+  created_at: string;
+};
+
+type Response = Card[];
 
 export const getCardsByListId = async (listId: number): Promise<Response> => {
   const res = await axios.get("/api/cards/", {
@@ -16,7 +27,7 @@ export const getCardsByListId = async (listId: number): Promise<Response> => {
 };
 
 const useCardsQuery = (listId: number) => {
-  return useQuery(
+  return useQuery<Card[], Error>(
     ["cards", { list_id: listId }],
     () => getCardsByListId(listId),
     {
