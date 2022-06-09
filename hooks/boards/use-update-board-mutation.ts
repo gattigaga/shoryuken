@@ -14,7 +14,7 @@ type Context = {
   previousBoards?: Board[];
 };
 
-type Response = any;
+type Response = Board;
 
 type Body = {
   title: string;
@@ -53,7 +53,7 @@ const useUpdateBoardMutation = () => {
           title: body.title,
         };
 
-        queryClient.setQueryData(key, newBoard);
+        queryClient.setQueryData<Board>(key, newBoard);
       }
 
       if (previousBoards) {
@@ -68,7 +68,7 @@ const useUpdateBoardMutation = () => {
           return board;
         });
 
-        queryClient.setQueryData(listKey, newBoards);
+        queryClient.setQueryData<Board[]>(listKey, newBoards);
       }
 
       return { previousBoard, previousBoards };
