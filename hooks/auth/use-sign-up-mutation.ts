@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useMutation } from "react-query";
 
-type Response = any;
+type Response = void;
 
 type Body = {
   fullname: string;
@@ -11,11 +11,12 @@ type Body = {
   confirm_password: string;
 };
 
-const postSignUp = async (body: Body): Promise<Response> => {
-  const res = await axios.post("/api/auth/signup", body);
-  const data = res.data.data;
+type Payload = {
+  body: Body;
+};
 
-  return data;
+const postSignUp = async (payload: Payload): Promise<Response> => {
+  await axios.post("/api/auth/signup", payload.body);
 };
 
 const useSignUpMutation = () => useMutation(postSignUp);
