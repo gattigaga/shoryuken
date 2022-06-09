@@ -1,17 +1,40 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { v4 as uuid } from "uuid";
 
 import { getSlug } from "../../helpers/formatter";
 
-type Response = any;
+type Board = {
+  id: number;
+  user_id: string;
+  title: string;
+  slug: string;
+  created_at: string;
+};
+
+type User = {
+  id: string;
+  fullname: string;
+  username: string;
+  email: string;
+  is_confirmed: boolean;
+};
+
+type Context = {
+  previousBoards?: Board[];
+};
+
+type Response = Board;
 
 type Body = {
   title: string;
 };
 
-const createBoard = async (body: Body): Promise<Response> => {
-  const res = await axios.post("/api/boards", body);
+type Payload = {
+  body: Body;
+};
+
+const createBoard = async (payload: Payload): Promise<Response> => {
+  const res = await axios.post("/api/boards", payload.body);
   const data = res.data.data;
 
   return data;
@@ -22,27 +45,35 @@ const useCreateBoardMutation = () => {
 
   return useMutation(createBoard, {
     onMutate: async (payload) => {
-      await queryClient.cancelQueries("boards");
+      const key = "boards";
 
-      const previousBoards = queryClient.getQueryData("boards");
-      const myself = queryClient.getQueryData("me");
+      await queryClient.cancelQueries(key);
 
-      const newBoard = {
-        id: uuid(),
-        user_id: myself?.id,
-        slug: getSlug(payload.title),
-        ...payload,
-      };
+      const previousBoards = queryClient.getQueryData<Board[]>(key);
+      const previousMe = queryClient.getQueryData<User>("me");
+      const { body } = payload;
 
-      queryClient.setQueryData("boards", (oldBoards) => [
-        ...oldBoards,
-        newBoard,
-      ]);
+      if (previousBoards && previousMe) {
+        const newBoard: Board = {
+          id: Date.now(),
+          user_id: previousMe.id,
+          slug: getSlug(body.title),
+          created_at: new Date().toISOString(),
+          ...body,
+        };
+
+        queryClient.setQueryData<Board[]>("boards", [
+          ...previousBoards,
+          newBoard,
+        ]);
+      }
 
       return { previousBoards };
     },
-    onError: (error, payload, context) => {
-      queryClient.setQueryData("boards", context.previousBoards);
+    onError: (error, payload, context?: Context) => {
+      if (context?.previousBoards) {
+        queryClient.setQueryData<Board[]>("boards", context.previousBoards);
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries("boards");
