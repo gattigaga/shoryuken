@@ -2,6 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 
 type User = {
+  id: string;
   fullname: string;
   username: string;
   email: string;
@@ -15,6 +16,7 @@ const getMe = async (): Promise<Response> => {
   const data = res.data.data;
 
   return {
+    id: data.id,
     fullname: data.user_metadata.fullname || data.user_metadata.full_name,
     username: data.user_metadata.username,
     email: data.email,
