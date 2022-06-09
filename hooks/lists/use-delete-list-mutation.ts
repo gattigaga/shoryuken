@@ -1,16 +1,27 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
-type Response = any;
+type List = {
+  id: number;
+  board_id: number;
+  index: number;
+  title: string;
+  created_at: string;
+};
 
-export const deleteListById = async ({
-  id,
-  boardId,
-}: {
+type Context = {
+  previousLists?: List[];
+};
+
+type Response = List;
+
+type Payload = {
   id: number;
   boardId: number;
-}): Promise<Response> => {
-  const res = await axios.delete(`/api/lists/${id}`);
+};
+
+export const deleteListById = async (payload: Payload): Promise<Response> => {
+  const res = await axios.delete(`/api/lists/${payload.id}`);
   const data = res.data.data;
 
   return data;
@@ -25,24 +36,28 @@ const useDeleteListMutation = () => {
 
       await queryClient.cancelQueries(key);
 
-      const previousLists = queryClient.getQueryData(key);
+      const previousLists = queryClient.getQueryData<List[]>(key);
 
-      queryClient.setQueryData(key, (oldLists) => {
-        return oldLists
+      if (previousLists) {
+        const newLists = previousLists
           .filter((list) => list.id !== payload.id)
           .map((list, index) => ({
             ...list,
             index,
           }));
-      });
+
+        queryClient.setQueryData<List[]>(key, newLists);
+      }
 
       return { previousLists };
     },
-    onError: (error, payload, context) => {
-      queryClient.setQueryData(
-        ["lists", { board_id: payload.boardId }],
-        context.previousLists
-      );
+    onError: (error, payload, context?: Context) => {
+      if (context?.previousLists) {
+        queryClient.setQueryData<List[]>(
+          ["lists", { board_id: payload.boardId }],
+          context.previousLists
+        );
+      }
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries(["lists", { board_id: payload.boardId }]);
