@@ -3,7 +3,24 @@ import { useMutation, useQueryClient } from "react-query";
 
 import { moveElement } from "../../helpers/data-structures";
 
-type Response = any;
+type Card = {
+  id: number;
+  list_id: number;
+  index: number;
+  title: string;
+  description: string;
+  slug: string;
+  has_checklist: boolean;
+  created_at: string;
+};
+
+type Context = {
+  previousCard?: Card;
+  previousFromCards?: Card[];
+  previousToCards?: Card[];
+};
+
+type Response = Card;
 
 type Body = {
   title?: string;
@@ -13,16 +30,14 @@ type Body = {
   list_id?: number;
 };
 
-export const updateCardById = async ({
-  id,
-  listId,
-  body,
-}: {
+type Payload = {
   id: number;
   listId: number;
   body: Body;
-}): Promise<Response> => {
-  const res = await axios.put(`/api/cards/${id}`, body);
+};
+
+export const updateCardById = async (payload: Payload): Promise<Response> => {
+  const res = await axios.put(`/api/cards/${payload.id}`, payload.body);
   const data = res.data.data;
 
   return data;
@@ -40,7 +55,7 @@ const useUpdateCardMutation = () => {
       const toIndex = body.index;
       const key = ["cards", id];
       const fromKey = ["cards", { list_id: fromList }];
-      const toKey = toList && ["cards", { list_id: toList }];
+      const toKey = toList ? ["cards", { list_id: toList }] : undefined;
 
       await queryClient.cancelQueries(key);
       await queryClient.cancelQueries(fromKey);
@@ -49,94 +64,103 @@ const useUpdateCardMutation = () => {
         await queryClient.cancelQueries(toKey);
       }
 
-      const previousCard = queryClient.getQueryData(key);
-      const previousFromCards = queryClient.getQueryData(fromKey);
-      const previousToCards = toKey && queryClient.getQueryData(toKey);
+      const previousCard = queryClient.getQueryData<Card>(key);
+      const previousFromCards = queryClient.getQueryData<Card[]>(fromKey);
+      const previousToCards = toKey && queryClient.getQueryData<Card[]>(toKey);
 
-      let newFromCards = previousFromCards as any[];
-      let newToCards;
-
-      // Move card in a list.
-      if (toIndex !== undefined && !toList) {
-        const card = newFromCards.find((card) => card.id === id);
-        const fromIndex = card.index;
-        const toIndex = body.index;
-
-        newFromCards = moveElement(newFromCards, fromIndex, toIndex).map(
-          (card, index) => ({
-            ...card,
-            index,
-          })
-        );
-      }
-
-      // Move card in across 2 lists.
-      if (toList) {
-        const card = newFromCards.find((card) => card.id === id);
-
-        newFromCards = newFromCards
-          .filter((fromCard) => fromCard.id !== card.id)
-          .map((fromCard, index) => ({ ...fromCard, index }));
-
-        newToCards = [
-          ...previousToCards.slice(0, body.index),
-          card,
-          ...previousToCards.slice(body.index),
-        ].map((toCard, index) => ({ ...toCard, index }));
-      }
-
-      newFromCards = newFromCards.map((card) => {
-        if (card.id === id) {
-          const title = body.title !== undefined ? body.title : card.title;
+      if (previousCard) {
+        const newCard: Card = (() => {
+          const title =
+            body.title !== undefined ? body.title : previousCard?.title;
 
           const description =
             body.description !== undefined
               ? body.description
-              : card.description;
+              : previousCard?.description;
 
           const hasChecklist =
             body.has_checklist !== undefined
               ? body.has_checklist
-              : card.has_checklist;
+              : previousCard?.has_checklist;
 
           return {
-            ...card,
+            ...previousCard,
             title,
             description,
             has_checklist: hasChecklist,
           };
+        })();
+
+        queryClient.setQueryData<Card>(key, newCard);
+      }
+
+      if (previousFromCards) {
+        let newFromCards = [...previousFromCards];
+        let newToCards: Card[] = [];
+
+        // Move card in a list.
+        if (toIndex !== undefined && !toList) {
+          const card = newFromCards.find((card) => card.id === id);
+          const fromIndex = card?.index;
+          const toIndex = body.index;
+
+          if (fromIndex && toIndex) {
+            newFromCards = moveElement(newFromCards, fromIndex, toIndex).map(
+              (card, index) => ({
+                ...card,
+                index,
+              })
+            );
+          }
         }
 
-        return card;
-      });
+        // Move card in across 2 lists.
+        if (toList) {
+          const card = newFromCards.find((card) => card.id === id);
 
-      const newCard = (() => {
-        const title =
-          body.title !== undefined ? body.title : previousCard?.title;
+          if (card && previousToCards) {
+            newFromCards = newFromCards
+              .filter((fromCard) => fromCard.id !== card.id)
+              .map((fromCard, index) => ({ ...fromCard, index }));
 
-        const description =
-          body.description !== undefined
-            ? body.description
-            : previousCard?.description;
+            newToCards = [
+              ...previousToCards.slice(0, body.index),
+              card,
+              ...previousToCards.slice(body.index),
+            ].map((toCard, index) => ({ ...toCard, index }));
+          }
+        }
 
-        const hasChecklist =
-          body.has_checklist !== undefined
-            ? body.has_checklist
-            : previousCard?.has_checklist;
+        newFromCards = newFromCards.map((card) => {
+          if (card.id === id) {
+            const title = body.title !== undefined ? body.title : card.title;
 
-        return {
-          ...previousCard,
-          title,
-          description,
-          has_checklist: hasChecklist,
-        };
-      })();
+            const description =
+              body.description !== undefined
+                ? body.description
+                : card.description;
 
-      queryClient.setQueryData(key, newCard);
-      queryClient.setQueryData(fromKey, newFromCards);
+            const hasChecklist =
+              body.has_checklist !== undefined
+                ? body.has_checklist
+                : card.has_checklist;
 
-      if (toKey) {
-        queryClient.setQueryData(toKey, newToCards);
+            return {
+              ...card,
+              title,
+              description,
+              has_checklist: hasChecklist,
+            };
+          }
+
+          return card;
+        });
+
+        queryClient.setQueryData<Card[]>(fromKey, newFromCards);
+
+        if (toKey) {
+          queryClient.setQueryData<Card[]>(toKey, newToCards);
+        }
       }
 
       return {
@@ -145,18 +169,22 @@ const useUpdateCardMutation = () => {
         previousToCards,
       };
     },
-    onError: (error, payload, context) => {
+    onError: (error, payload, context?: Context) => {
       const { id, listId, body } = payload;
 
-      queryClient.setQueryData(["cards", id], context.previousCard);
+      if (context?.previousCard) {
+        queryClient.setQueryData<Card>(["cards", id], context.previousCard);
+      }
 
-      queryClient.setQueryData(
-        ["cards", { list_id: listId }],
-        context.previousFromCards
-      );
+      if (context?.previousFromCards) {
+        queryClient.setQueryData<Card[]>(
+          ["cards", { list_id: listId }],
+          context.previousFromCards
+        );
+      }
 
-      if (body.list_id) {
-        queryClient.setQueryData(
+      if (body.list_id && context?.previousToCards) {
+        queryClient.setQueryData<Card[]>(
           ["cards", { list_id: body.list_id }],
           context.previousToCards
         );
