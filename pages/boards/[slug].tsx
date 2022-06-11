@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import { MdChevronLeft } from "react-icons/md";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import classnames from "classnames";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
@@ -65,12 +65,8 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const [isCreateListFormOpen, setIsCreateListFormOpen] = useState(false);
   const router = useRouter();
 
-  const { data: board } = useBoardQuery(initialBoard.id, initialBoard);
-
-  const { data: lists, status: listsFetchStatus } = useListsQuery(
-    initialBoard.id
-  );
-
+  const boardQuery = useBoardQuery(initialBoard.id, initialBoard);
+  const listsQuery = useListsQuery(initialBoard.id);
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
   const updateCardMutation = useUpdateCardMutation();
@@ -86,7 +82,10 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const deleteBoard = async () => {
     try {
       await router.replace("/dashboard");
-      await deleteBoardMutation.mutateAsync(board.id);
+
+      await deleteBoardMutation.mutateAsync({
+        id: boardQuery.data!.id,
+      });
     } catch (error) {
       toast.error("Failed to delete a board.");
     }
@@ -102,7 +101,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     try {
       await updateListMutation.mutateAsync({
         id: listId,
-        boardId: board.id,
+        boardId: boardQuery.data!.id,
         body: {
           index: toIndex,
         },
@@ -137,10 +136,50 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     }
   };
 
+  const handleMovement = (result: DropResult) => {
+    const fromIndex = result.source.index;
+    const toIndex = result.destination?.index;
+
+    if (toIndex === undefined) return;
+
+    if (result.type === "LIST") {
+      const isUpdated = toIndex !== fromIndex;
+
+      if (!isUpdated) return;
+
+      const id = result.draggableId.replace("list-", "");
+
+      moveList({
+        listId: Number(id),
+        toIndex,
+      });
+
+      return;
+    }
+
+    if (result.type === "CARD") {
+      const id = result.draggableId.replace("card-", "");
+      const fromListId = result.source.droppableId.replace("list-", "");
+      const toListId = result.destination?.droppableId.replace("list-", "");
+
+      const validToList =
+        toListId !== fromListId && !!toListId ? Number(toListId) : undefined;
+
+      moveCard({
+        cardId: Number(id),
+        fromListId: Number(fromListId),
+        toListId: validToList,
+        toIndex,
+      });
+
+      return;
+    }
+  };
+
   return (
     <Layout>
       <Head>
-        <title>{board.title} | Shoryuken</title>
+        <title>{boardQuery.data!.title} | Shoryuken</title>
       </Head>
 
       <div className="bg-blue-600 h-screen flex flex-col">
@@ -152,7 +191,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               </div>
             </a>
           </Link>
-          <BoardTitle id={board.id} />
+          <BoardTitle id={boardQuery.data!.id} />
           <button
             className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
             onClick={deleteBoard}
@@ -161,62 +200,12 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           </button>
         </div>
         <div className="flex-1 flex pb-4 px-4">
-          {listsFetchStatus === "success" && (
+          {listsQuery.status === "success" && (
             <div
               className={classnames("overflow-x-auto flex-1", styles.content)}
             >
               <div className="flex items-start">
-                <DragDropContext
-                  onDragEnd={(result) => {
-                    const fromIndex = result.source.index;
-                    const toIndex = result.destination?.index;
-
-                    if (toIndex === undefined) return;
-
-                    if (result.type === "LIST") {
-                      const isUpdated = toIndex !== fromIndex;
-
-                      if (!isUpdated) return;
-
-                      const id = result.draggableId.replace("list-", "");
-
-                      moveList({
-                        listId: Number(id),
-                        toIndex,
-                      });
-
-                      return;
-                    }
-
-                    if (result.type === "CARD") {
-                      const id = result.draggableId.replace("card-", "");
-
-                      const fromListId = result.source.droppableId.replace(
-                        "list-",
-                        ""
-                      );
-
-                      const toListId = result.destination?.droppableId.replace(
-                        "list-",
-                        ""
-                      );
-
-                      const validToList =
-                        toListId !== fromListId && !!toListId
-                          ? Number(toListId)
-                          : undefined;
-
-                      moveCard({
-                        cardId: Number(id),
-                        fromListId: Number(fromListId),
-                        toListId: validToList,
-                        toIndex,
-                      });
-
-                      return;
-                    }
-                  }}
-                >
+                <DragDropContext onDragEnd={handleMovement}>
                   <Droppable
                     droppableId="lists"
                     direction="horizontal"
@@ -228,11 +217,11 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                         className="flex items-start"
                         {...provided.droppableProps}
                       >
-                        {lists?.map((list: any, index: number) => (
+                        {listsQuery.data.map((list: any, index: number) => (
                           <List
                             key={list.id}
                             id={list.id}
-                            boardId={board.id}
+                            boardId={boardQuery.data!.id}
                             index={index}
                             title={list.title}
                           />
@@ -243,7 +232,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                   </Droppable>
                   {isCreateListFormOpen ? (
                     <CreateListForm
-                      boardId={board.id}
+                      boardId={boardQuery.data!.id}
                       onRequestClose={() => setIsCreateListFormOpen(false)}
                     />
                   ) : (
@@ -255,7 +244,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               </div>
             </div>
           )}
-          {listsFetchStatus === "loading" && (
+          {listsQuery.status === "loading" && (
             <div className="h-full w-full flex justify-center items-center">
               <Loading
                 height={72}
