@@ -3,6 +3,15 @@ import { useMutation, useQueryClient } from "react-query";
 
 import { moveElement } from "../../helpers/data-structures";
 
+type Check = {
+  id: number;
+  card_id: number;
+  index: number;
+  content: string;
+  is_checked: boolean;
+  created_at: string;
+};
+
 type Card = {
   id: number;
   list_id: number;
@@ -12,6 +21,7 @@ type Card = {
   slug: string;
   has_checklist: boolean;
   created_at: string;
+  checks?: Check[];
 };
 
 type Context = {
