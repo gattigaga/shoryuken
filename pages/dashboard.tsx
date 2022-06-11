@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = withAuthGuard(
 
 const DashboardPage: NextPage = () => {
   const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false);
-  const { status: boardsFetchStatus, data: boards } = useBoardsQuery();
+  const boardsQuery = useBoardsQuery();
 
   return (
     <Layout>
@@ -29,13 +29,13 @@ const DashboardPage: NextPage = () => {
       </Head>
 
       <div className="min-h-full">
-        {boardsFetchStatus === "success" && (
+        {boardsQuery.status === "success" && (
           <div className="px-8 pt-12 pb-32 w-full mx-auto sm:w-5/6">
             <h1 className="text-2xl font-semibold text-slate-600 mb-8">
               My Boards
             </h1>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {boards.map((board: any) => {
+              {boardsQuery.data.map((board: any) => {
                 return (
                   <Board
                     key={board.id}
@@ -48,7 +48,7 @@ const DashboardPage: NextPage = () => {
             </div>
           </div>
         )}
-        {boardsFetchStatus === "loading" && (
+        {boardsQuery.status === "loading" && (
           <div className="h-full flex justify-center items-center">
             <Loading
               height={72}
