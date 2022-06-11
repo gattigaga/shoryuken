@@ -81,11 +81,13 @@ const SignUpPage = () => {
                   } = values;
 
                   await signUpMutation.mutateAsync({
-                    fullname,
-                    username,
-                    email,
-                    password,
-                    confirm_password: confirmPassword,
+                    body: {
+                      fullname,
+                      username,
+                      email,
+                      password,
+                      confirm_password: confirmPassword,
+                    },
                   });
 
                   sessionStorage.setItem("signupEmail", email);

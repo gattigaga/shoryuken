@@ -127,10 +127,12 @@ const AccountDetailsPage: React.FC<Props> = ({ user }) => {
                     values;
 
                   await updateUserMutation.mutateAsync({
-                    fullname,
-                    username,
-                    password,
-                    confirm_password: confirmPassword,
+                    body: {
+                      fullname,
+                      username,
+                      password,
+                      confirm_password: confirmPassword,
+                    },
                   });
 
                   await router.replace("/dashboard");

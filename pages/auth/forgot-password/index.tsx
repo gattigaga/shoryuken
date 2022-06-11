@@ -53,7 +53,9 @@ const ForgotPasswordPage = () => {
                 try {
                   setSubmitting(true);
 
-                  await forgotPasswordMutation.mutateAsync(values);
+                  await forgotPasswordMutation.mutateAsync({
+                    body: values,
+                  });
 
                   sessionStorage.setItem("forgotPasswordEmail", values.email);
 
