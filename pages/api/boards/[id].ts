@@ -29,17 +29,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { data: boards, error: boardsError } = await supabase
+      const { data: board, error: boardError } = await supabase
         .from("boards")
         .select("*")
-        .eq("id", id);
+        .eq("id", id)
+        .limit(1)
+        .single();
 
-      if (boardsError) {
-        throw boardsError;
+      if (boardError) {
+        throw boardError;
       }
 
       res.status(200).json({
-        data: boards[0],
+        data: board,
         message: "There's existing board.",
       });
     } catch (error: any) {
@@ -66,17 +68,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
       const slug = getSlug(title);
 
-      const { data: boards, error: boardsError } = await supabase
+      const { data: board, error: boardError } = await supabase
         .from("boards")
         .update({ title, slug })
-        .eq("id", id);
+        .eq("id", id)
+        .order("id")
+        .limit(1)
+        .single();
 
-      if (boardsError) {
-        throw boardsError;
+      if (boardError) {
+        throw boardError;
       }
 
       res.status(200).json({
-        data: boards[0],
+        data: board,
         message: "Board successfully updated.",
       });
     } catch (error: any) {
@@ -153,17 +158,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw deletedListsError;
       }
 
-      const { data: boards, error: boardsError } = await supabase
+      const { data: board, error: boardError } = await supabase
         .from("boards")
         .delete()
-        .eq("id", id);
+        .eq("id", id)
+        .order("id")
+        .limit(1)
+        .single();
 
-      if (boardsError) {
-        throw boardsError;
+      if (boardError) {
+        throw boardError;
       }
 
       res.status(200).json({
-        data: boards[0],
+        data: board,
         message: "Board successfully deleted.",
       });
     } catch (error: any) {

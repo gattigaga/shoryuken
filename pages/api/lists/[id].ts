@@ -29,17 +29,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { data: lists, error: listsError } = await supabase
+      const { data: list, error: listError } = await supabase
         .from("lists")
         .select("*")
-        .eq("id", id);
+        .eq("id", id)
+        .limit(1)
+        .single();
 
-      if (listsError) {
-        throw listsError;
+      if (listError) {
+        throw listError;
       }
 
       res.status(200).json({
-        data: lists[0],
+        data: list,
         message: "There's existing list.",
       });
     } catch (error: any) {
@@ -114,17 +116,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         }
       }
 
-      const { data: newLists, error: newListsError } = await supabase
+      const { data: newList, error: newListError } = await supabase
         .from("lists")
         .update({ title })
-        .eq("id", id);
+        .eq("id", id)
+        .order("id")
+        .limit(1)
+        .single();
 
-      if (newListsError) {
-        throw newListsError;
+      if (newListError) {
+        throw newListError;
       }
 
       res.status(200).json({
-        data: newLists[0],
+        data: newList,
         message: "List successfully updated.",
       });
     } catch (error: any) {
