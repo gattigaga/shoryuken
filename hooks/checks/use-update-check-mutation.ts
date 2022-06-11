@@ -75,7 +75,7 @@ const useUpdateCheckMutation = () => {
           const fromIndex = check?.index;
           const toIndex = body.index;
 
-          if (fromIndex && toIndex) {
+          if (fromIndex !== undefined && toIndex !== undefined) {
             newChecks = moveElement(previousChecks, fromIndex, toIndex).map(
               (check, index) => ({
                 ...check,
@@ -87,10 +87,15 @@ const useUpdateCheckMutation = () => {
 
         newChecks = newChecks.map((check) => {
           if (check.id === payload.id) {
+            const isChecked =
+              body.is_checked !== undefined
+                ? body.is_checked
+                : check.is_checked;
+
             return {
               ...check,
               content: body.content || check.content,
-              is_checked: body.is_checked || check.is_checked,
+              is_checked: isChecked,
             };
           }
 
@@ -106,9 +111,14 @@ const useUpdateCheckMutation = () => {
             const checks =
               card.checks?.map((check) => {
                 if (check.id === payload.id) {
+                  const isChecked =
+                    body.is_checked !== undefined
+                      ? body.is_checked
+                      : check.is_checked;
+
                   return {
                     ...check,
-                    is_checked: !check.is_checked,
+                    is_checked: isChecked,
                   };
                 }
 
