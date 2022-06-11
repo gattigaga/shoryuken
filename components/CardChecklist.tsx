@@ -17,8 +17,8 @@ type Props = {
 };
 
 const CardChecklist: React.FC<Props> = ({ id }) => {
-  const { data: card } = useCardQuery(id);
-  const { data: checks } = useChecksQuery(id);
+  const cardQuery = useCardQuery(id);
+  const checksQuery = useChecksQuery(id);
   const [isCreateCheckFormOpen, setIsCreateCheckFormOpen] = useState(false);
   const [checkContent, setCheckContent] = useState("");
   const refContentInput = useRef<HTMLTextAreaElement>(null);
@@ -26,11 +26,12 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
   const updateCheckMutation = useUpdateCheckMutation();
   const updateCardMutation = useUpdateCardMutation();
 
-  const totalCheckItems = checks?.length || 0;
+  const totalCheckItems = checksQuery.data?.length || 0;
 
-  const totalCheckItemsCompleted = checks?.reduce((acc, check) => {
-    return acc + Number(check.is_checked);
-  }, 0);
+  const totalCheckItemsCompleted =
+    checksQuery.data?.reduce((acc, check) => {
+      return acc + Number(check.is_checked);
+    }, 0) || 0;
 
   // in range 0 - 100.
   const percentage = (() => {
@@ -52,10 +53,12 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
   };
 
   const deleteChecklist = async () => {
+    if (!cardQuery.data) return;
+
     try {
       await updateCardMutation.mutateAsync({
         id,
-        listId: card.list_id,
+        listId: cardQuery.data.list_id,
         body: {
           has_checklist: false,
         },
@@ -66,11 +69,11 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
   };
 
   const addCheckItem = async (content: string) => {
-    if (!content) return;
+    if (!cardQuery.data || !content) return;
 
     try {
       await createCheckMutation.mutateAsync({
-        listId: card.list_id,
+        listId: cardQuery.data.list_id,
         body: {
           content,
           card_id: id,
@@ -88,11 +91,13 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
     checkId: number;
     toIndex: number;
   }) => {
+    if (!cardQuery.data) return;
+
     try {
       await updateCheckMutation.mutateAsync({
         id: checkId,
-        listId: card.list_id,
-        cardId: card.id,
+        listId: cardQuery.data.list_id,
+        cardId: cardQuery.data.id,
         body: {
           index: toIndex,
         },
@@ -173,12 +178,12 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
             <Droppable droppableId="cards" type="CHECK">
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {checks?.map((check) => (
+                  {checksQuery.data?.map((check) => (
                     <CardCheckItem
                       key={check.id}
                       id={check.id}
                       index={check.index}
-                      listId={card.list_id}
+                      listId={cardQuery.data!.list_id}
                       cardId={check.card_id}
                       content={check.content}
                       isChecked={check.is_checked}

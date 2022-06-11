@@ -53,6 +53,7 @@ const CardCheckItem: React.FC<Props> = ({
       await updateCheckMutation.mutateAsync({
         id,
         cardId,
+        listId,
         body: {
           content,
         },

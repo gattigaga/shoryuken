@@ -26,12 +26,11 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const [cardTitle, setCardTitle] = useState("");
   const refListTitleInput = useRef<HTMLInputElement>(null);
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
-  const { data: board } = useBoardQuery(boardId);
+  const boardQuery = useBoardQuery(boardId);
+  const cardsQuery = useCardsQuery(id);
   const deleteListMutation = useDeleteListMutation();
   const updateListMutation = useUpdateListBoardMutation();
   const createCardMutation = useCreateCardMutation();
-
-  const { data: cards } = useCardsQuery(id);
 
   const maxHeight = (() => {
     const viewportHeight = window?.innerHeight || 0;
@@ -72,8 +71,10 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const createCard = async () => {
     try {
       await createCardMutation.mutateAsync({
-        title: cardTitle,
-        list_id: id,
+        body: {
+          title: cardTitle,
+          list_id: id,
+        },
       });
     } catch (error) {
       toast.error("Failed to delete a card.");
@@ -163,30 +164,34 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
             <Droppable droppableId={`list-${id}`} type="CARD">
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {cards?.map((card, index) => {
-                    const totalChecks = card.checks?.length || 0;
+                  {cardsQuery.status === "success" && (
+                    <>
+                      {cardsQuery.data.map((card, index) => {
+                        const totalChecks = card.checks?.length || 0;
 
-                    const totalCompletedChecks =
-                      card.checks?.filter((check: any) => check.is_checked)
-                        .length || 0;
+                        const totalCompletedChecks =
+                          card.checks?.filter((check: any) => check.is_checked)
+                            .length || 0;
 
-                    const href = `/boards/${board.slug}?card=${card.id}-${card.slug}`;
+                        const href = `/boards/${boardQuery.data?.slug}?card=${card.id}-${card.slug}`;
 
-                    return (
-                      <Card
-                        key={card.id}
-                        id={card.id}
-                        href={href}
-                        index={index}
-                        title={card.title}
-                        totalChecks={totalChecks}
-                        totalCompletedChecks={totalCompletedChecks}
-                        hasDescription={!!card.description}
-                        hasChecklist={card.has_checklist}
-                      />
-                    );
-                  })}
-                  {!cards?.length && <div className="h-[1px]" />}
+                        return (
+                          <Card
+                            key={card.id}
+                            id={card.id}
+                            href={href}
+                            index={index}
+                            title={card.title}
+                            totalChecks={totalChecks}
+                            totalCompletedChecks={totalCompletedChecks}
+                            hasDescription={!!card.description}
+                            hasChecklist={card.has_checklist}
+                          />
+                        );
+                      })}
+                    </>
+                  )}
+                  {!cardsQuery.data?.length && <div className="h-[1px]" />}
                   {provided.placeholder}
                 </div>
               )}
