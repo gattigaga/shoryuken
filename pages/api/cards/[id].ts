@@ -29,17 +29,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { data: cards, error: cardsError } = await supabase
+      const { data: card, error: cardError } = await supabase
         .from("cards")
         .select("*")
-        .eq("id", id);
+        .eq("id", id)
+        .limit(1)
+        .single();
 
-      if (cardsError) {
-        throw cardsError;
+      if (cardError) {
+        throw cardError;
       }
 
       res.status(200).json({
-        data: cards[0],
+        data: card,
         message: "There's existing card.",
       });
     } catch (error: any) {
@@ -178,7 +180,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         }
       }
 
-      const { data: newCards, error: newCardsError } = await supabase
+      const { error: newCardsError } = await supabase
         .from("cards")
         .update({ title, description, has_checklist })
         .eq("id", id);
@@ -187,12 +189,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw newCardsError;
       }
 
+      const { data: newCard, error: newCardError } = await supabase
+        .from("cards")
+        .select("*")
+        .eq("id", id)
+        .limit(1)
+        .single();
+
+      if (newCardError) {
+        throw newCardError;
+      }
+
+      // Delete checks that card has
+      // if checklist disabled.
       if (has_checklist === false) {
-        await supabase.from("checks").delete().eq("card_id", id);
+        const { error: deletedChecksError } = await supabase
+          .from("checks")
+          .delete()
+          .eq("card_id", id);
+
+        if (deletedChecksError) {
+          throw deletedChecksError;
+        }
       }
 
       res.status(200).json({
-        data: newCards[0],
+        data: newCard,
         message: "Card successfully updated.",
       });
     } catch (error: any) {
@@ -213,11 +235,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
+      // Delete checks that card has
+      const { error: deletedChecksError } = await supabase
+        .from("checks")
+        .delete()
+        .eq("card_id", id);
+
+      if (deletedChecksError) {
+        throw deletedChecksError;
+      }
+
       // Delete a card by id.
       const { data: deletedCard, error: deletedCardError } = await supabase
         .from("cards")
         .delete()
         .eq("id", id)
+        .order("id")
         .limit(1)
         .single();
 

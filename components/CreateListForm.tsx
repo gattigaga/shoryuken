@@ -22,8 +22,10 @@ const CreateListForm: React.FC<Props> = ({ boardId, onRequestClose }) => {
 
     try {
       await createListMutation.mutateAsync({
-        title,
-        board_id: boardId,
+        body: {
+          title,
+          board_id: boardId,
+        },
       });
     } catch (error) {
       toast.error("Failed to create a list.");

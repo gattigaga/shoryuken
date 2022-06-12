@@ -61,8 +61,10 @@ const ResetPasswordPage = () => {
                   const { password, confirmPassword } = values;
 
                   await resetPasswordMutation.mutateAsync({
-                    password,
-                    confirm_password: confirmPassword,
+                    body: {
+                      password,
+                      confirm_password: confirmPassword,
+                    },
                   });
 
                   await router.replace("/dashboard");

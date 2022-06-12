@@ -1,7 +1,16 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-type Response = any[];
+type Check = {
+  id: number;
+  card_id: number;
+  index: number;
+  content: string;
+  is_checked: boolean;
+  created_at: string;
+};
+
+type Response = Check[];
 
 export const getChecksByCardId = async (cardId: number): Promise<Response> => {
   const res = await axios.get("/api/checks", {
@@ -16,7 +25,7 @@ export const getChecksByCardId = async (cardId: number): Promise<Response> => {
 };
 
 const useChecksQuery = (cardId: number) => {
-  return useQuery(
+  return useQuery<Check[], Error>(
     ["checks", { card_id: cardId }],
     () => getChecksByCardId(cardId),
     {

@@ -29,17 +29,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { data: lists, error: listsError } = await supabase
+      const { data: list, error: listError } = await supabase
         .from("lists")
         .select("*")
-        .eq("id", id);
+        .eq("id", id)
+        .limit(1)
+        .single();
 
-      if (listsError) {
-        throw listsError;
+      if (listError) {
+        throw listError;
       }
 
       res.status(200).json({
-        data: lists[0],
+        data: list,
         message: "There's existing list.",
       });
     } catch (error: any) {
@@ -114,17 +116,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         }
       }
 
-      const { data: newLists, error: newListsError } = await supabase
+      const { data: newList, error: newListError } = await supabase
         .from("lists")
         .update({ title })
-        .eq("id", id);
+        .eq("id", id)
+        .order("id")
+        .limit(1)
+        .single();
 
-      if (newListsError) {
-        throw newListsError;
+      if (newListError) {
+        throw newListError;
       }
 
       res.status(200).json({
-        data: newLists[0],
+        data: newList,
         message: "List successfully updated.",
       });
     } catch (error: any) {
@@ -145,11 +150,45 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
+      // Get cards that list has.
+      const { data: cards, error: cardsError } = await supabase
+        .from("cards")
+        .select("*")
+        .eq("list_id", id)
+        .order("index");
+
+      if (cardsError) {
+        throw cardsError;
+      }
+
+      // Delete checks that card has.
+      for (const card of cards) {
+        const { error } = await supabase
+          .from("checks")
+          .delete()
+          .eq("card_id", card.id);
+
+        if (error) {
+          throw error;
+        }
+      }
+
+      // Delete cards that list has.
+      const { error: deletedCardsError } = await supabase
+        .from("cards")
+        .delete()
+        .eq("list_id", id);
+
+      if (deletedCardsError) {
+        throw deletedCardsError;
+      }
+
       // Delete a list by id.
       const { data: deletedList, error: deletedListError } = await supabase
         .from("lists")
         .delete()
         .eq("id", id)
+        .order("id")
         .limit(1)
         .single();
 

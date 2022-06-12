@@ -1,7 +1,28 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-type Response = any[];
+type Check = {
+  id: number;
+  card_id: number;
+  index: number;
+  content: string;
+  is_checked: boolean;
+  created_at: string;
+};
+
+type Card = {
+  id: number;
+  list_id: number;
+  index: number;
+  title: string;
+  description: string;
+  slug: string;
+  has_checklist: boolean;
+  created_at: string;
+  checks?: Check[];
+};
+
+type Response = Card[];
 
 export const getCardsByListId = async (listId: number): Promise<Response> => {
   const res = await axios.get("/api/cards/", {
@@ -16,7 +37,7 @@ export const getCardsByListId = async (listId: number): Promise<Response> => {
 };
 
 const useCardsQuery = (listId: number) => {
-  return useQuery(
+  return useQuery<Card[], Error>(
     ["cards", { list_id: listId }],
     () => getCardsByListId(listId),
     {

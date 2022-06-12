@@ -29,17 +29,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { data: boards, error: boardsError } = await supabase
+      const { data: board, error: boardError } = await supabase
         .from("boards")
         .select("*")
-        .eq("id", id);
+        .eq("id", id)
+        .limit(1)
+        .single();
 
-      if (boardsError) {
-        throw boardsError;
+      if (boardError) {
+        throw boardError;
       }
 
       res.status(200).json({
-        data: boards[0],
+        data: board,
         message: "There's existing board.",
       });
     } catch (error: any) {
@@ -66,17 +68,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
       const slug = getSlug(title);
 
-      const { data: boards, error: boardsError } = await supabase
+      const { data: board, error: boardError } = await supabase
         .from("boards")
         .update({ title, slug })
-        .eq("id", id);
+        .eq("id", id)
+        .order("id")
+        .limit(1)
+        .single();
 
-      if (boardsError) {
-        throw boardsError;
+      if (boardError) {
+        throw boardError;
       }
 
       res.status(200).json({
-        data: boards[0],
+        data: board,
         message: "Board successfully updated.",
       });
     } catch (error: any) {
@@ -97,17 +102,76 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
-      const { data: boards, error: boardsError } = await supabase
+      // Get lists that board has.
+      const { data: lists, error: listsError } = await supabase
+        .from("lists")
+        .select("*")
+        .eq("board_id", id)
+        .order("index");
+
+      if (listsError) {
+        throw listsError;
+      }
+
+      for (const list of lists) {
+        // Get cards that list has.
+        const { data: cards, error: cardsError } = await supabase
+          .from("cards")
+          .select("*")
+          .eq("list_id", list.id)
+          .order("index");
+
+        if (cardsError) {
+          throw cardsError;
+        }
+
+        // Delete checks that card has.
+        for (const card of cards) {
+          const { error } = await supabase
+            .from("checks")
+            .delete()
+            .eq("card_id", card.id);
+
+          if (error) {
+            throw error;
+          }
+        }
+
+        // Delete cards that list has.
+        const { error: deletedCardsError } = await supabase
+          .from("cards")
+          .delete()
+          .eq("list_id", list.id);
+
+        if (deletedCardsError) {
+          throw deletedCardsError;
+        }
+      }
+
+      // Delete lists that board has.
+      const { error: deletedListsError } = await supabase
+        .from("lists")
+        .delete()
+        .eq("board_id", id);
+
+      if (deletedListsError) {
+        throw deletedListsError;
+      }
+
+      const { data: board, error: boardError } = await supabase
         .from("boards")
         .delete()
-        .eq("id", id);
+        .eq("id", id)
+        .order("id")
+        .limit(1)
+        .single();
 
-      if (boardsError) {
-        throw boardsError;
+      if (boardError) {
+        throw boardError;
       }
 
       res.status(200).json({
-        data: boards[0],
+        data: board,
         message: "Board successfully deleted.",
       });
     } catch (error: any) {

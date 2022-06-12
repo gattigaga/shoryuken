@@ -1,22 +1,46 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { v4 as uuid } from "uuid";
 
-type Response = any;
+type Check = {
+  id: number;
+  card_id: number;
+  index: number;
+  content: string;
+  is_checked: boolean;
+  created_at: string;
+};
+
+type Card = {
+  id: number;
+  list_id: number;
+  index: number;
+  title: string;
+  description: string;
+  slug: string;
+  has_checklist: boolean;
+  created_at: string;
+  checks?: Check[];
+};
+
+type Context = {
+  previousChecks?: Check[];
+  previousCards?: Card[];
+};
+
+type Response = Check;
 
 type Body = {
   content: string;
   card_id: number;
 };
 
-const createCheck = async ({
-  listId,
-  body,
-}: {
+type Payload = {
   listId: number;
   body: Body;
-}): Promise<Response> => {
-  const res = await axios.post("/api/checks", body);
+};
+
+const createCheck = async (payload: Payload): Promise<Response> => {
+  const res = await axios.post("/api/checks", payload.body);
   const data = res.data.data;
 
   return data;
@@ -27,34 +51,40 @@ const useCreateCheckMutation = () => {
 
   return useMutation(createCheck, {
     onMutate: async (payload) => {
-      const key = ["checks", { card_id: payload.body.card_id }];
+      const { body } = payload;
+      const key = ["checks", { card_id: body.card_id }];
       const cardsKey = ["cards", { list_id: payload.listId }];
 
       await queryClient.cancelQueries(key);
       await queryClient.cancelQueries(cardsKey);
 
-      const previousChecks = queryClient.getQueryData(key);
-      const previousCards = queryClient.getQueryData(cardsKey);
+      const previousChecks = queryClient.getQueryData<Check[]>(key);
+      const previousCards = queryClient.getQueryData<Card[]>(cardsKey);
 
-      const newCheck = {
-        id: uuid(),
-        index: previousChecks.length,
-        ...payload.body,
-      };
+      if (previousChecks) {
+        const newCheck = {
+          id: Date.now(),
+          index: previousChecks.length,
+          is_checked: false,
+          created_at: new Date().toISOString(),
+          ...body,
+        };
 
-      queryClient.setQueryData(key, (oldChecks) => [...oldChecks, newCheck]);
+        queryClient.setQueryData<Check[]>(key, [...previousChecks, newCheck]);
+      }
 
-      queryClient.setQueryData(cardsKey, (oldCards) => {
-        return oldCards.map((card) => {
-          if (card.id === payload.body.card_id) {
+      if (previousCards) {
+        const newCards = previousCards.map((card) => {
+          if (card.id === body.card_id) {
             const checks = [
-              ...card.checks,
+              ...(card.checks || []),
               {
-                id: uuid(),
+                id: Date.now(),
                 card_id: card.id,
-                content: payload.body.content,
+                content: body.content,
                 index: card.checks?.length || 0,
                 is_checked: false,
+                created_at: new Date().toISOString(),
               },
             ];
 
@@ -66,20 +96,26 @@ const useCreateCheckMutation = () => {
 
           return card;
         });
-      });
+
+        queryClient.setQueryData<Card[]>(cardsKey, newCards);
+      }
 
       return { previousChecks, previousCards };
     },
-    onError: (error, payload, context) => {
-      queryClient.setQueryData(
-        ["checks", { card_id: payload.body.card_id }],
-        context.previousChecks
-      );
+    onError: (error, payload, context?: Context) => {
+      if (context?.previousChecks) {
+        queryClient.setQueryData<Check[]>(
+          ["checks", { card_id: payload.body.card_id }],
+          context.previousChecks
+        );
+      }
 
-      queryClient.setQueryData(
-        ["cards", { list_id: payload.listId }],
-        context.previousCards
-      );
+      if (context?.previousCards) {
+        queryClient.setQueryData<Card[]>(
+          ["cards", { list_id: payload.listId }],
+          context.previousCards
+        );
+      }
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries([

@@ -1,20 +1,32 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
-type Response = any;
+type Board = {
+  id: number;
+  user_id: string;
+  title: string;
+  slug: string;
+  created_at: string;
+};
+
+type Context = {
+  previousBoard?: Board;
+  previousBoards?: Board[];
+};
+
+type Response = Board;
 
 type Body = {
   title: string;
 };
 
-export const updateBoardById = async ({
-  id,
-  body,
-}: {
+type Payload = {
   id: number;
   body: Body;
-}): Promise<Response> => {
-  const res = await axios.put(`/api/boards/${id}`, body);
+};
+
+export const updateBoardById = async (payload: Payload): Promise<Response> => {
+  const res = await axios.put(`/api/boards/${payload.id}`, payload.body);
   const data = res.data.data;
 
   return data;
@@ -31,32 +43,47 @@ const useUpdateBoardMutation = () => {
       await queryClient.cancelQueries(key);
       await queryClient.cancelQueries(listKey);
 
-      const previousBoard = queryClient.getQueryData(key);
-      const previousBoards = queryClient.getQueryData(listKey);
+      const previousBoard = queryClient.getQueryData<Board>(key);
+      const previousBoards = queryClient.getQueryData<Board[]>(listKey);
+      const { body } = payload;
 
-      queryClient.setQueryData(key, (oldBoard) => ({
-        ...oldBoard,
-        title: payload.body.title,
-      }));
+      if (previousBoard) {
+        const newBoard: Board = {
+          ...previousBoard,
+          title: body.title,
+        };
 
-      queryClient.setQueryData(listKey, (oldBoards) => {
-        return oldBoards.map((board) => {
+        queryClient.setQueryData<Board>(key, newBoard);
+      }
+
+      if (previousBoards) {
+        const newBoards = previousBoards.map((board) => {
           if (board.id === payload.id) {
             return {
               ...board,
-              title: payload.body.title,
+              title: body.title,
             };
           }
 
           return board;
         });
-      });
+
+        queryClient.setQueryData<Board[]>(listKey, newBoards);
+      }
 
       return { previousBoard, previousBoards };
     },
-    onError: (error, payload, context) => {
-      queryClient.setQueryData(["boards", payload.id], context.previousBoard);
-      queryClient.setQueryData("boards", context.previousBoards);
+    onError: (error, payload, context?: Context) => {
+      if (context?.previousBoard) {
+        queryClient.setQueryData<Board>(
+          ["boards", payload.id],
+          context.previousBoard
+        );
+      }
+
+      if (context?.previousBoards) {
+        queryClient.setQueryData<Board[]>("boards", context.previousBoards);
+      }
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries(["boards", payload.id]);

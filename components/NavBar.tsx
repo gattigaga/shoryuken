@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useQueryClient } from "react-query";
-import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
@@ -16,12 +15,9 @@ const NavBar: React.FC<Props> = ({}) => {
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const refAvatar = useRef<HTMLDivElement>(null);
   const refMenu = useRef<HTMLDivElement>(null);
-  const { data: myself } = useUserQuery();
+  const userQuery = useUserQuery();
   const queryClient = useQueryClient();
   const signOutMutation = useSignOutMutation();
-
-  const fullname = myself?.fullname || "";
-  const email = myself?.email || "";
 
   const signOut = async () => {
     try {
@@ -65,39 +61,41 @@ const NavBar: React.FC<Props> = ({}) => {
         width={144}
         height={28}
       />
-      <div className="relative">
-        <div ref={refAvatar}>
-          <Avatar
-            fullname={fullname}
-            onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-          />
-        </div>
-        {isAccountMenuOpen && (
-          <div
-            ref={refMenu}
-            className="w-72 bg-white rounded border shadow-lg absolute top-10 right-0"
-          >
-            <div className="p-4 border-b">
-              <p className="text-center text-xs text-slate-500">Account</p>
-            </div>
-            <div className="p-4 border-b">
-              <p className="text-xs text-slate-600 font-semibold mb-1">
-                {fullname}
-              </p>
-              <p className="text-xs text-slate-400">{email}</p>
-            </div>
-            <div className="p-4">
-              <button
-                className="w-full text-left text-xs text-red-500"
-                type="button"
-                onClick={signOut}
-              >
-                Sign out
-              </button>
-            </div>
+      {userQuery.status === "success" && (
+        <div className="relative">
+          <div ref={refAvatar}>
+            <Avatar
+              fullname={userQuery.data.fullname}
+              onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
+            />
           </div>
-        )}
-      </div>
+          {isAccountMenuOpen && (
+            <div
+              ref={refMenu}
+              className="w-72 bg-white rounded border shadow-lg absolute top-10 right-0"
+            >
+              <div className="p-4 border-b">
+                <p className="text-center text-xs text-slate-500">Account</p>
+              </div>
+              <div className="p-4 border-b">
+                <p className="text-xs text-slate-600 font-semibold mb-1">
+                  {userQuery.data.fullname}
+                </p>
+                <p className="text-xs text-slate-400">{userQuery.data.email}</p>
+              </div>
+              <div className="p-4">
+                <button
+                  className="w-full text-left text-xs text-red-500"
+                  type="button"
+                  onClick={signOut}
+                >
+                  Sign out
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

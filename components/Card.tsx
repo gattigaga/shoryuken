@@ -28,6 +28,8 @@ const Card: React.FC<Props> = ({
   const isAllChecked =
     totalChecks === totalCompletedChecks && Number(totalChecks) > 0;
 
+  const hasContent = hasDescription || hasChecklist;
+
   return (
     <Draggable draggableId={`card-${id}`} index={index}>
       {(provided) => (
@@ -41,7 +43,7 @@ const Card: React.FC<Props> = ({
             >
               <div className="flex-1 mr-4">
                 <p className="text-xs break-all">{title}</p>
-                {hasDescription && (
+                {hasContent && (
                   <div className="flex items-center mt-2">
                     {hasDescription && (
                       <span className="text-slate-500 mr-2">

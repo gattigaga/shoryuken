@@ -73,8 +73,9 @@ const SignInPage = () => {
                 try {
                   setSubmitting(true);
 
-                  const response = await signInMutation.mutateAsync(values);
-                  const accessToken = response.session.access_token;
+                  const accessToken = await signInMutation.mutateAsync({
+                    body: values,
+                  });
 
                   Cookies.set("access_token", accessToken, {
                     expires: addDays(new Date(), 7),

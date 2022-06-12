@@ -11,19 +11,21 @@ type Props = {
 };
 
 const CardDescription: React.FC<Props> = ({ id }) => {
-  const { data: card } = useCardQuery(id);
+  const cardQuery = useCardQuery(id);
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState("");
   const refInput = useRef<HTMLTextAreaElement>(null);
   const updateCardMutation = useUpdateCardMutation();
 
   const applyDescription = async () => {
+    if (!cardQuery.data) return;
+
     setIsEditing(false);
 
     try {
       await updateCardMutation.mutateAsync({
         id,
-        listId: card.list_id,
+        listId: cardQuery.data.list_id,
         body: {
           description,
         },
@@ -41,10 +43,10 @@ const CardDescription: React.FC<Props> = ({ id }) => {
   };
 
   useEffect(() => {
-    if (card) {
-      setDescription(card.description);
+    if (cardQuery.data) {
+      setDescription(cardQuery.data.description);
     }
-  }, [card]);
+  }, [cardQuery.data]);
 
   useEffect(() => {
     if (isEditing) {
@@ -63,7 +65,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
         </h2>
         {!isEditing && (
           <>
-            {card?.description ? (
+            {cardQuery.data?.description ? (
               <button
                 className="w-full text-left flex text-slate-700 text-xs rounded py-1"
                 type="button"
@@ -76,7 +78,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
                 }}
               >
                 <p className="whitespace-pre-line break-all">
-                  {card.description}
+                  {cardQuery.data.description}
                 </p>
               </button>
             ) : (
@@ -108,7 +110,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
                 if (event.key === "Escape") {
                   event.stopPropagation();
                   setIsEditing(false);
-                  setDescription(card?.description);
+                  setDescription(cardQuery.data?.description || "");
                 }
               }}
               onInput={handleInputHeight}
@@ -129,7 +131,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
                 type="button"
                 onClick={() => {
                   setIsEditing(false);
-                  setDescription(card?.description);
+                  setDescription(cardQuery.data?.description || "");
                 }}
               >
                 <MdClose size={24} />

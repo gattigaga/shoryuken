@@ -24,7 +24,7 @@ type Props = {
 };
 
 const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
-  const { data: card, status: cardFetchStatus, refetch } = useCardQuery(id);
+  const cardQuery = useCardQuery(id);
   const deleteCardMutation = useDeleteCardMutation();
   const updateCardMutation = useUpdateCardMutation();
   const router = useRouter();
@@ -34,7 +34,9 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
   const close = () => router.push(path);
 
   const addChecklist = async () => {
-    if (card.has_checklist) {
+    if (!cardQuery.data) return;
+
+    if (cardQuery.data.has_checklist) {
       toast.error("This card already has checklist.");
       return;
     }
@@ -42,7 +44,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
     try {
       await updateCardMutation.mutateAsync({
         id,
-        listId: card.list_id,
+        listId: cardQuery.data.list_id,
         body: {
           has_checklist: true,
         },
@@ -53,6 +55,8 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
   };
 
   const deleteCard = async () => {
+    if (!cardQuery.data) return;
+
     const isYes = confirm("Are you sure you want to delete this card ?");
 
     if (isYes) {
@@ -61,7 +65,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
 
         await deleteCardMutation.mutateAsync({
           id,
-          listId: card.list_id,
+          listId: cardQuery.data.list_id,
         });
       } catch (error) {
         toast.error("Failed to delete a card.");
@@ -71,7 +75,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
 
   useEffect(() => {
     if (isOpen) {
-      refetch();
+      cardQuery.refetch();
     }
   }, [isOpen]);
 
@@ -83,11 +87,13 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
       className="border-0 p-0 absolute top-4 left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[90%] h-auto max-w-4xl md:top-16"
     >
       <Head>
-        <title>{card?.title && `${card.title} | Shoryuken`}</title>
+        <title>
+          {cardQuery.data?.title && `${cardQuery.data.title} | Shoryuken`}
+        </title>
       </Head>
 
       <div className="w-full rounded bg-slate-100 p-5 pb-10 min-h-[480px] flex flex-col">
-        {cardFetchStatus === "success" && (
+        {cardQuery.status === "success" && (
           <>
             {/* Header Side */}
             <div className="flex items-start">
@@ -105,7 +111,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
             <div className="flex flex-col md:flex-row">
               <div className="flex-1">
                 <CardDescription id={id} />
-                {card?.has_checklist && <CardChecklist id={id} />}
+                {cardQuery.data.has_checklist && <CardChecklist id={id} />}
               </div>
 
               {/* Right Side Menu */}
@@ -140,7 +146,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
             </div>
           </>
         )}
-        {cardFetchStatus === "loading" && (
+        {cardQuery.status === "loading" && (
           <div className="flex-1 flex justify-center items-center">
             <Loading
               height={36}
@@ -151,8 +157,8 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
             />
           </div>
         )}
-        {cardFetchStatus === "error" && (
-          <div className="flex-1 flex flex-col justify-center items-center border border-black">
+        {cardQuery.status === "error" && (
+          <div className="flex-1 flex flex-col justify-center items-center">
             <MdErrorOutline size={48} color="rgb(203 213 225)" />
             <p className="text-xs text-slate-700 mt-4">
               Failed to fetch card detail.

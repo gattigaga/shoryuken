@@ -3,23 +3,33 @@ import { useMutation, useQueryClient } from "react-query";
 
 import { moveElement } from "../../helpers/data-structures";
 
-type Response = any;
+type List = {
+  id: number;
+  board_id: number;
+  index: number;
+  title: string;
+  created_at: string;
+};
+
+type Context = {
+  previousLists?: List[];
+};
+
+type Response = List;
 
 type Body = {
   title?: string;
   index?: number;
 };
 
-export const updateListById = async ({
-  id,
-  boardId,
-  body,
-}: {
+type Payload = {
   id: number;
   boardId: number;
   body: Body;
-}): Promise<Response> => {
-  const res = await axios.put(`/api/lists/${id}`, body);
+};
+
+export const updateListById = async (payload: Payload): Promise<Response> => {
+  const res = await axios.put(`/api/lists/${payload.id}`, payload.body);
   const data = res.data.data;
 
   return data;
@@ -34,44 +44,51 @@ const useUpdateListBoardMutation = () => {
 
       await queryClient.cancelQueries(key);
 
-      const previousLists = queryClient.getQueryData(key);
+      const previousLists = queryClient.getQueryData<List[]>(key);
+      const { body } = payload;
 
-      queryClient.setQueryData(key, (oldLists) => {
-        let newLists = oldLists;
+      if (previousLists) {
+        let newLists = [...previousLists];
 
         // Update index across all lists in a board.
-        if (payload.body.index !== undefined) {
-          const list = oldLists.find((list) => list.id === payload.id);
-          const fromIndex = list.index;
-          const toIndex = payload.body.index;
+        if (body.index !== undefined) {
+          const list = previousLists.find((list) => list.id === payload.id);
+          const fromIndex = list?.index;
+          const toIndex = body.index;
 
-          newLists = moveElement(oldLists, fromIndex, toIndex).map(
-            (list, index) => ({
-              ...list,
-              index,
-            })
-          );
+          if (fromIndex) {
+            newLists = moveElement(newLists, fromIndex, toIndex).map(
+              (list, index) => ({
+                ...list,
+                index,
+              })
+            );
+          }
         }
 
-        return newLists.map((list) => {
+        newLists = newLists.map((list) => {
           if (list.id === payload.id) {
             return {
               ...list,
-              title: payload.body.title || list.title,
+              title: body.title || list.title,
             };
           }
 
           return list;
         });
-      });
+
+        queryClient.setQueryData<List[]>(key, newLists);
+      }
 
       return { previousLists };
     },
-    onError: (error, payload, context) => {
-      queryClient.setQueryData(
-        ["lists", { board_id: payload.boardId }],
-        context.previousLists
-      );
+    onError: (error, payload, context?: Context) => {
+      if (context?.previousLists) {
+        queryClient.setQueryData<List[]>(
+          ["lists", { board_id: payload.boardId }],
+          context.previousLists
+        );
+      }
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries(["lists", { board_id: payload.boardId }]);

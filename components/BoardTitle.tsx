@@ -13,7 +13,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
   const [inputWidth, setInputWidth] = useState(0);
   const refText = useRef<HTMLHeadingElement>(null);
   const refInput = useRef<HTMLInputElement>(null);
-  const { data: board } = useBoardQuery(id);
+  const boardsQuery = useBoardQuery(id);
   const updateBoardMutation = useUpdateBoardMutation();
 
   const updateTitle = async (title: string) => {
@@ -21,7 +21,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
 
     try {
       await updateBoardMutation.mutateAsync({
-        id: board.id,
+        id,
         body: {
           title,
         },
@@ -35,7 +35,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
     if (refText.current) {
       setInputWidth(refText.current.offsetWidth + 24);
     }
-  }, [board.title]);
+  }, [boardsQuery.data?.title]);
 
   return (
     <div>
@@ -55,7 +55,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
             ref={refText}
             className="text-white text-lg font-semibold inline-block"
           >
-            {board.title}
+            {boardsQuery.data?.title}
           </h1>
         </button>
       )}
@@ -67,7 +67,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
           className="py-0 px-1 rounded text-lg font-semibold"
           style={{ width: inputWidth }}
           type="text"
-          defaultValue={board.title}
+          defaultValue={boardsQuery.data?.title}
           onKeyDown={(event) => {
             if (["Enter", "Escape"].includes(event.key)) {
               refInput.current?.blur();

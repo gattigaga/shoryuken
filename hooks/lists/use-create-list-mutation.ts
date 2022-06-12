@@ -1,16 +1,31 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { v4 as uuid } from "uuid";
 
-type Response = any;
+type List = {
+  id: number;
+  board_id: number;
+  index: number;
+  title: string;
+  created_at: string;
+};
+
+type Context = {
+  previousLists?: List[];
+};
+
+type Response = List;
 
 type Body = {
   title: string;
   board_id: number;
 };
 
-const createList = async (body: Body): Promise<Response> => {
-  const res = await axios.post("/api/lists", body);
+type Payload = {
+  body: Body;
+};
+
+const createList = async (payload: Payload): Promise<Response> => {
+  const res = await axios.post("/api/lists", payload.body);
   const data = res.data.data;
 
   return data;
@@ -21,30 +36,39 @@ const useCreateListMutation = () => {
 
   return useMutation(createList, {
     onMutate: async (payload) => {
-      const key = ["lists", { board_id: payload.board_id }];
+      const { body } = payload;
+      const key = ["lists", { board_id: body.board_id }];
 
       await queryClient.cancelQueries(key);
 
-      const previousLists = queryClient.getQueryData(key);
+      const previousLists = queryClient.getQueryData<List[]>(key);
 
-      const newList = {
-        id: uuid(),
-        index: previousLists.length,
-        ...payload,
-      };
+      if (previousLists) {
+        const newList: List = {
+          id: Date.now(),
+          index: previousLists.length,
+          created_at: new Date().toISOString(),
+          ...body,
+        };
 
-      queryClient.setQueryData(key, (oldLists) => [...oldLists, newList]);
+        queryClient.setQueryData<List[]>(key, [...previousLists, newList]);
+      }
 
       return { previousLists };
     },
-    onError: (error, payload, context) => {
-      queryClient.setQueryData(
-        ["lists", { board_id: payload.board_id }],
-        context.previousLists
-      );
+    onError: (error, payload, context?: Context) => {
+      if (context?.previousLists) {
+        queryClient.setQueryData<List[]>(
+          ["lists", { board_id: payload.body.board_id }],
+          context.previousLists
+        );
+      }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["lists", { board_id: payload.board_id }]);
+      queryClient.invalidateQueries([
+        "lists",
+        { board_id: payload.body.board_id },
+      ]);
     },
   });
 };

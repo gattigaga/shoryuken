@@ -22,7 +22,6 @@ type Props = {
 
 const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
   const refInput = useRef<HTMLInputElement>(null);
-  const queryClient = useQueryClient();
   const createBoardMutation = useCreateBoardMutation();
 
   useEffect(() => {
@@ -65,7 +64,9 @@ const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
           onRequestClose?.();
 
           try {
-            await createBoardMutation.mutateAsync(values);
+            await createBoardMutation.mutateAsync({
+              body: values,
+            });
           } catch (error) {
             toast.error("Failed to create a board.");
           }
