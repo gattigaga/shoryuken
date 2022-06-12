@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef } from "react";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import classnames from "classnames";
@@ -13,7 +13,6 @@ import Layout from "../../components/Layout";
 import supabase from "../../helpers/supabase";
 import BoardTitle from "../../components/BoardTitle";
 import { useRouter } from "next/router";
-import CreateListButton from "../../components/CreateListButton";
 import CreateListForm from "../../components/CreateListForm";
 import List from "../../components/List";
 import { withAuthGuard } from "../../helpers/server";
@@ -62,7 +61,6 @@ type Props = NextPage & {
 };
 
 const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
-  const [isCreateListFormOpen, setIsCreateListFormOpen] = useState(false);
   const router = useRouter();
 
   const boardQuery = useBoardQuery(initialBoard.id, initialBoard);
@@ -236,16 +234,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
                           </div>
                         )}
                       </Droppable>
-                      {isCreateListFormOpen ? (
-                        <CreateListForm
-                          boardId={boardQuery.data!.id}
-                          onRequestClose={() => setIsCreateListFormOpen(false)}
-                        />
-                      ) : (
-                        <CreateListButton
-                          onClick={() => setIsCreateListFormOpen(true)}
-                        />
-                      )}
+                      <CreateListForm boardId={boardQuery.data!.id} />
                     </DragDropContext>
                   </div>
                 </div>
