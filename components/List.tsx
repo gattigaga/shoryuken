@@ -26,6 +26,8 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const [cardTitle, setCardTitle] = useState("");
   const refListTitleInput = useRef<HTMLInputElement>(null);
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
+  const refCreateCardForm = useRef<HTMLDivElement>(null);
+  const refChildren = useRef<HTMLDivElement>(null);
   const boardQuery = useBoardQuery(boardId);
   const cardsQuery = useCardsQuery(id);
   const deleteListMutation = useDeleteListMutation();
@@ -90,6 +92,12 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
       refCardTitleInput.current.scrollHeight + "px";
   };
 
+  const scrollToBottom = () => {
+    if (refChildren.current) {
+      refChildren.current.scrollTo(0, refChildren.current.scrollHeight);
+    }
+  };
+
   // Set focus on list title input if title editing form opened.
   useEffect(() => {
     if (isEditingTitle) {
@@ -100,9 +108,27 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   // Set focus on card title input if create card form opened.
   useEffect(() => {
     if (isCreateCardFormOpen) {
+      scrollToBottom();
       refCardTitleInput.current?.focus();
     }
   }, [isCreateCardFormOpen]);
+
+  // Close form if outside is clicked.
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (refCreateCardForm.current) {
+        if (!refCreateCardForm.current.contains(event.target)) {
+          setIsCreateCardFormOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <Draggable draggableId={`list-${id}`} index={index}>
@@ -157,6 +183,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
 
           {/* Children */}
           <div
+            ref={refChildren}
             style={{ maxHeight }}
             className={classnames("overflow-y-auto px-2", styles.content)}
           >
@@ -196,9 +223,10 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                 </div>
               )}
             </Droppable>
+
             {/* Create card form */}
             {isCreateCardFormOpen && (
-              <div className="pb-2">
+              <div ref={refCreateCardForm} className="pb-2">
                 <div className="bg-white rounded shadow mb-2">
                   <textarea
                     ref={refCardTitleInput}
@@ -211,8 +239,9 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                         case "Enter":
                           event.preventDefault();
                           createCard();
-                          setIsCreateCardFormOpen(false);
                           setCardTitle("");
+                          scrollToBottom();
+                          refCardTitleInput.current?.focus();
                           break;
 
                         case "Escape":
@@ -233,8 +262,9 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                     type="button"
                     onClick={() => {
                       createCard();
-                      setIsCreateCardFormOpen(false);
                       setCardTitle("");
+                      scrollToBottom();
+                      refCardTitleInput.current?.focus();
                     }}
                   >
                     Add card
