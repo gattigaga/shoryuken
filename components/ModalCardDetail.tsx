@@ -158,7 +158,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
           </div>
         )}
         {cardQuery.status === "error" && (
-          <div className="flex-1 flex flex-col justify-center items-center border border-black">
+          <div className="flex-1 flex flex-col justify-center items-center">
             <MdErrorOutline size={48} color="rgb(203 213 225)" />
             <p className="text-xs text-slate-700 mt-4">
               Failed to fetch card detail.
