@@ -10,7 +10,6 @@ type Props = {
 
 const BoardTitle: React.FC<Props> = ({ id }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [inputWidth, setInputWidth] = useState(0);
   const refText = useRef<HTMLHeadingElement>(null);
   const refInput = useRef<HTMLInputElement>(null);
   const boardsQuery = useBoardQuery(id);
@@ -31,33 +30,36 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
     }
   };
 
+  const handleInputWidth = (content: string) => {
+    if (!refInput.current) return;
+
+    refInput.current.style.width = `${content.length * 0.9}ch`;
+  };
+
   useEffect(() => {
-    if (refText.current) {
-      setInputWidth(refText.current.offsetWidth + 24);
+    if (isEditing) {
+      handleInputWidth(boardsQuery.data?.title || "");
     }
-  }, [boardsQuery.data?.title]);
+  }, [isEditing, boardsQuery.data?.title]);
 
   return (
     <div>
       {/* Static mode */}
       {!isEditing && (
-        <button
-          type="button"
+        <h1
+          ref={refText}
+          className="px-1 text-white text-lg font-semibold inline-block cursor-pointer"
+          tabIndex={0}
           onClick={() => {
             setIsEditing(true);
 
             setTimeout(() => {
-              refInput.current?.focus();
-            }, 100);
+              refInput.current?.select();
+            }, 0);
           }}
         >
-          <h1
-            ref={refText}
-            className="text-white text-lg font-semibold inline-block"
-          >
-            {boardsQuery.data?.title}
-          </h1>
-        </button>
+          {boardsQuery.data?.title}
+        </h1>
       )}
 
       {/* Edit mode */}
@@ -65,9 +67,11 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
         <input
           ref={refInput}
           className="py-0 px-1 rounded text-lg font-semibold"
-          style={{ width: inputWidth }}
           type="text"
           defaultValue={boardsQuery.data?.title}
+          onInput={(event) =>
+            handleInputWidth((event.target as HTMLInputElement).value)
+          }
           onKeyDown={(event) => {
             if (["Enter", "Escape"].includes(event.key)) {
               refInput.current?.blur();
