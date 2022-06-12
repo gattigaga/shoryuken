@@ -91,7 +91,7 @@ const useUpdateCardMutation = () => {
           const hasChecklist =
             body.has_checklist !== undefined
               ? body.has_checklist
-              : previousCard?.has_checklist;
+              : previousCard.has_checklist;
 
           return {
             ...previousCard,
@@ -114,7 +114,7 @@ const useUpdateCardMutation = () => {
           const fromIndex = card?.index;
           const toIndex = body.index;
 
-          if (fromIndex && toIndex) {
+          if (fromIndex !== undefined && toIndex !== undefined) {
             newFromCards = moveElement(newFromCards, fromIndex, toIndex).map(
               (card, index) => ({
                 ...card,
