@@ -85,17 +85,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         }
       }
 
-      const { data: newChecks, error: newChecksError } = await supabase
+      const { data: newCheck, error: newCheckError } = await supabase
         .from("checks")
         .update({ content, is_checked })
-        .eq("id", id);
+        .eq("id", id)
+        .order("id")
+        .limit(1)
+        .single();
 
-      if (newChecksError) {
-        throw newChecksError;
+      if (newCheckError) {
+        throw newCheckError;
       }
 
       res.status(200).json({
-        data: newChecks[0],
+        data: newCheck,
         message: "Check successfully updated.",
       });
     } catch (error: any) {
