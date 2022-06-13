@@ -216,6 +216,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
                       break;
 
                     case "Escape":
+                      event.stopPropagation();
                       setIsCreateCheckFormOpen(false);
                       setCheckContent("");
                       break;
