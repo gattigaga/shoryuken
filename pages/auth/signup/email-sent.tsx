@@ -37,7 +37,16 @@ const EmailSentPage = () => {
       <main className="py-12">
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
-            <Image src="/images/logo-with-text.svg" width={240} height={64} />
+            <Link href="/">
+              <a>
+                <Image
+                  src="/images/logo-with-text.svg"
+                  alt="Shoryuken logo"
+                  width={240}
+                  height={64}
+                />
+              </a>
+            </Link>
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
             <h1 className="font-semibold text-center text-slate-600 mb-6">
