@@ -210,9 +210,9 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
                   switch (event.key) {
                     case "Enter":
                       event.preventDefault();
-                      setIsCreateCheckFormOpen(false);
                       addCheckItem(checkContent);
                       setCheckContent("");
+                      refContentInput.current?.focus();
                       break;
 
                     case "Escape":
@@ -231,9 +231,9 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
                   className="outline-black mr-2"
                   type="button"
                   onClick={() => {
-                    setIsCreateCheckFormOpen(false);
                     addCheckItem(checkContent);
                     setCheckContent("");
+                    refContentInput.current?.focus();
                   }}
                 >
                   Add
