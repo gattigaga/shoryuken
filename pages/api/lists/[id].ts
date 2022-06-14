@@ -116,11 +116,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         }
       }
 
-      const { data: newList, error: newListError } = await supabase
+      const { error: newListsError } = await supabase
         .from("lists")
         .update({ title })
+        .eq("id", id);
+
+      if (newListsError) {
+        throw newListsError;
+      }
+
+      const { data: newList, error: newListError } = await supabase
+        .from("lists")
+        .select("*")
         .eq("id", id)
-        .order("id")
         .limit(1)
         .single();
 

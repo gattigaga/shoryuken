@@ -85,11 +85,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         }
       }
 
-      const { data: newCheck, error: newCheckError } = await supabase
+      const { error: newChecksError } = await supabase
         .from("checks")
         .update({ content, is_checked })
+        .eq("id", id);
+
+      if (newChecksError) {
+        throw newChecksError;
+      }
+
+      const { data: newCheck, error: newCheckError } = await supabase
+        .from("checks")
+        .select("*")
         .eq("id", id)
-        .order("id")
         .limit(1)
         .single();
 
