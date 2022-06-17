@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.react-calendar__navigation {
+  @apply flex items-center mb-4 mx-auto text-slate-700;
+}
+
+.react-calendar__navigation__arrow {
+  @apply w-6 text-2xl;
+}
+
+.react-calendar__navigation__label__labelText {
+  @apply text-sm font-bold;
+}
+
+.react-calendar__month-view__weekdays {
+  @apply mb-3;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  @apply text-xs text-slate-700 text-center font-bold;
+}
+
+.react-calendar__tile {
+  @apply text-xs text-slate-700 h-8 rounded;
+}
+
+.react-calendar__tile:hover {
+  @apply bg-slate-200;
+}
+
+.react-calendar__tile--now {
+  @apply text-blue-500 font-bold;
+}
+
+.react-calendar__tile--active {
+  @apply bg-blue-100;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  @apply text-slate-400;
+}
