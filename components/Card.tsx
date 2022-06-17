@@ -1,18 +1,21 @@
 import Link from "next/link";
 import React from "react";
-import { MdEdit, MdOutlineCheckBox, MdSubject } from "react-icons/md";
+import { MdEdit, MdOutlineCheckBox, MdSubject, MdTimer } from "react-icons/md";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
+import { isAfter, isTomorrow, parseISO, format } from "date-fns";
 
 type Props = {
   id: number;
   href: string;
   index: number;
   title: string;
+  dueDate?: string;
   totalChecks?: number;
   totalCompletedChecks?: number;
   hasDescription?: boolean;
   hasChecklist?: boolean;
+  isDueDateDone?: boolean;
 };
 
 const Card: React.FC<Props> = ({
@@ -20,15 +23,39 @@ const Card: React.FC<Props> = ({
   href,
   index,
   title,
+  dueDate,
   totalChecks,
   totalCompletedChecks,
   hasDescription,
   hasChecklist,
+  isDueDateDone,
 }) => {
   const isAllChecked =
     totalChecks === totalCompletedChecks && Number(totalChecks) > 0;
 
-  const hasContent = hasDescription || hasChecklist;
+  const hasContent = !!dueDate || hasDescription || hasChecklist;
+
+  const dueDateClassNames = (() => {
+    if (dueDate) {
+      const date = parseISO(dueDate);
+
+      if (isDueDateDone) {
+        return "border border-green-500 bg-green-500 text-white";
+      }
+
+      if (isTomorrow(date)) {
+        return "bordeu-yellow-400 bg-yellow-400 text-white";
+      }
+
+      if (isAfter(new Date(), date)) {
+        return "bg-red-600 text-white";
+      }
+    }
+
+    return "border text-slate-700";
+  })();
+
+  const dueDateLabel = dueDate ? format(parseISO(dueDate), "MMM dd") : "";
 
   return (
     <Draggable draggableId={`card-${id}`} index={index}>
@@ -45,6 +72,14 @@ const Card: React.FC<Props> = ({
                 <p className="text-xs break-all">{title}</p>
                 {hasContent && (
                   <div className="flex items-center mt-2">
+                    {!!dueDate && (
+                      <div
+                        className={`flex items-center rounded py-1 px-1 pr-2 mr-2 ${dueDateClassNames}`}
+                      >
+                        <MdTimer size={18} />
+                        <p className="text-xs ml-1">{dueDateLabel}</p>
+                      </div>
+                    )}
                     {hasDescription && (
                       <span className="text-slate-500 mr-2">
                         <MdSubject size={20} />
