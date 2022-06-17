@@ -34,7 +34,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         .select(
           `
           *,
-          checks(*)
+          checks(*),
+          due_dates(*)
         `
         )
         .eq("list_id", list_id)
