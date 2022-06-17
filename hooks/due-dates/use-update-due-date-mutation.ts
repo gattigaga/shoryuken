@@ -26,17 +26,19 @@ type Payload = {
   body: Body;
 };
 
-export const updateCheckById = async (payload: Payload): Promise<Response> => {
+export const updateDueDateById = async (
+  payload: Payload
+): Promise<Response> => {
   const res = await axios.put(`/api/due-dates/${payload.id}`, payload.body);
   const data = res.data.data;
 
   return data;
 };
 
-const useUpdateCheckMutation = () => {
+const useUpdateDueDateMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(updateCheckById, {
+  return useMutation(updateDueDateById, {
     onMutate: async (payload) => {
       const key = ["due_dates", { card_id: payload.cardId }];
 
@@ -80,4 +82,4 @@ const useUpdateCheckMutation = () => {
   });
 };
 
-export default useUpdateCheckMutation;
+export default useUpdateDueDateMutation;
