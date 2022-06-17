@@ -55,7 +55,7 @@ const useUpdateDueDateMutation = () => {
 
             return {
               ...dueDate,
-              content: body.timestamp || dueDate.timestamp,
+              timestamp: body.timestamp || dueDate.timestamp,
               is_done: isDone,
             };
           }
