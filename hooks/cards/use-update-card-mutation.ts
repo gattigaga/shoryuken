@@ -3,6 +3,14 @@ import { useMutation, useQueryClient } from "react-query";
 
 import { moveElement } from "../../helpers/data-structures";
 
+type DueDate = {
+  id: number;
+  card_id: number;
+  timestamp: string;
+  is_done: boolean;
+  created_at: string;
+};
+
 type Check = {
   id: number;
   card_id: number;
@@ -22,6 +30,7 @@ type Card = {
   has_checklist: boolean;
   created_at: string;
   checks?: Check[];
+  due_dates: DueDate[];
 };
 
 type Context = {

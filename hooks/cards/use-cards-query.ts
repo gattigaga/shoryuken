@@ -1,6 +1,14 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
+type DueDate = {
+  id: number;
+  card_id: number;
+  timestamp: string;
+  is_done: boolean;
+  created_at: string;
+};
+
 type Check = {
   id: number;
   card_id: number;
@@ -20,6 +28,7 @@ type Card = {
   has_checklist: boolean;
   created_at: string;
   checks?: Check[];
+  due_dates?: DueDate[];
 };
 
 type Response = Card[];
