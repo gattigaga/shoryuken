@@ -28,20 +28,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         card_id: string | number;
       };
 
-      const { data: dueDate, error: dueDateError } = await supabase
+      const { data: dueDates, error: dueDatesError } = await supabase
         .from("due_dates")
         .select("*")
-        .eq("card_id", card_id)
-        .limit(1)
-        .single();
+        .eq("card_id", card_id);
 
-      if (dueDateError) {
-        throw dueDateError;
+      if (dueDatesError) {
+        throw dueDatesError;
       }
 
       res.status(200).json({
-        data: dueDate,
-        message: "There are existing due date.",
+        data: dueDates,
+        message: "There are existing due dates.",
       });
     } catch (error: any) {
       res.status(error.status).json({ message: error.message });
