@@ -61,7 +61,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
       };
 
       const { data: dueDate, error: dueDateError } = await supabase
-        .from("checks")
+        .from("due_dates")
         .insert([
           {
             timestamp,
