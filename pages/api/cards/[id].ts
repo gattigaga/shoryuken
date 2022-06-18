@@ -235,6 +235,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         id: string;
       };
 
+      // Delete due dates that card has
+      const { error: deletedDueDatesError } = await supabase
+        .from("due_dates")
+        .delete()
+        .eq("card_id", id);
+
+      if (deletedDueDatesError) {
+        throw deletedDueDatesError;
+      }
+
       // Delete checks that card has
       const { error: deletedChecksError } = await supabase
         .from("checks")
