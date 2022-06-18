@@ -28,7 +28,7 @@ type Props = {
 };
 
 const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
-  const [isModalDueDate, setIsModalDueDateOpen] = useState(false);
+  const [isPopupDueDateOpen, setIsPopupDueDateOpen] = useState(false);
   const cardQuery = useCardQuery(id);
   const dueDatesQuery = useDueDatesQuery(id);
   const deleteCardMutation = useDeleteCardMutation();
@@ -144,7 +144,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
                         return;
                       }
 
-                      setIsModalDueDateOpen(true);
+                      setIsPopupDueDateOpen(true);
                     }}
                   >
                     <MdTimer size={20} />
@@ -154,8 +154,9 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
                   {/* Popup Parts */}
                   <PopupDueDate
                     id={id}
-                    isOpen={isModalDueDate}
-                    onClickClose={() => setIsModalDueDateOpen(false)}
+                    usage="add"
+                    isOpen={isPopupDueDateOpen}
+                    onClickClose={() => setIsPopupDueDateOpen(false)}
                   />
                 </div>
                 <div>
