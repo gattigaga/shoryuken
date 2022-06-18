@@ -11,6 +11,7 @@ import useCreateDueDateMutation from "../hooks/due-dates/use-create-due-date-mut
 import useDeleteDueDateMutation from "../hooks/due-dates/use-delete-due-date-mutation";
 import useUpdateDueDateMutation from "../hooks/due-dates/use-update-due-date-mutation";
 import useDueDatesQuery from "../hooks/due-dates/use-due-dates-query";
+import useCardQuery from "../hooks/cards/use-card-query";
 
 type Props = {
   id: number;
@@ -24,6 +25,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
 
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(format(new Date(), timePattern));
+  const cardQuery = useCardQuery(id);
   const dueDatesQuery = useDueDatesQuery(id);
   const createDueDateMutation = useCreateDueDateMutation();
   const updateDueDateMutation = useUpdateDueDateMutation();
@@ -41,6 +43,8 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
   };
 
   const save = async () => {
+    if (!cardQuery.data) return;
+
     onClickClose?.();
 
     try {
@@ -58,6 +62,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
 
       if (usage === "add") {
         await createDueDateMutation.mutateAsync({
+          listId: cardQuery.data.list_id,
           body: {
             timestamp,
             card_id: id,
@@ -68,6 +73,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
       if (usage === "update" && !!dueDate) {
         await updateDueDateMutation.mutateAsync({
           id: dueDate.id,
+          listId: cardQuery.data.list_id,
           cardId: id,
           body: {
             timestamp,
@@ -85,13 +91,14 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
   };
 
   const remove = async () => {
-    if (!dueDate) return;
+    if (!dueDate || !cardQuery.data) return;
 
     onClickClose?.();
 
     try {
       await deleteDueDateMutation.mutateAsync({
         id: dueDate.id,
+        listId: cardQuery.data.list_id,
         cardId: id,
       });
     } catch (error) {

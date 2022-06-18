@@ -1,13 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-type DueDate = {
-  id: number;
-  card_id: number;
-  timestamp: string;
-  is_done: boolean;
-  created_at: string;
-};
+import { DueDate } from "../../types/models";
 
 type Response = DueDate[];
 

@@ -2,27 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 import { moveElement } from "../../helpers/data-structures";
-
-type Check = {
-  id: number;
-  card_id: number;
-  index: number;
-  content: string;
-  is_checked: boolean;
-  created_at: string;
-};
-
-type Card = {
-  id: number;
-  list_id: number;
-  index: number;
-  title: string;
-  description: string;
-  slug: string;
-  has_checklist: boolean;
-  created_at: string;
-  checks?: Check[];
-};
+import { Card, Check } from "../../types/models";
 
 type Context = {
   previousChecks?: Check[];

@@ -1,22 +1,18 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
-type DueDate = {
-  id: number;
-  card_id: number;
-  timestamp: string;
-  is_done: boolean;
-  created_at: string;
-};
+import { Card, DueDate } from "../../types/models";
 
 type Context = {
   previousDueDates?: DueDate[];
+  previousCards?: Card[];
 };
 
 type Response = DueDate;
 
 type Payload = {
   id: number;
+  listId: number;
   cardId: number;
 };
 
@@ -35,10 +31,13 @@ const useDeleteDueDateMutation = () => {
   return useMutation(deleteDueDateById, {
     onMutate: async (payload) => {
       const key = ["due_dates", { card_id: payload.cardId }];
+      const cardsKey = ["cards", { list_id: payload.listId }];
 
       await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries(cardsKey);
 
       const previousDueDates = queryClient.getQueryData<DueDate[]>(key);
+      const previousCards = queryClient.getQueryData<Card[]>(cardsKey);
 
       if (previousDueDates) {
         const newDueDates = previousDueDates.filter(
@@ -48,7 +47,15 @@ const useDeleteDueDateMutation = () => {
         queryClient.setQueryData<DueDate[]>(key, newDueDates);
       }
 
-      return { previousDueDates };
+      if (previousCards) {
+        const newCards = previousCards.filter(
+          (card) => card.id !== payload.cardId
+        );
+
+        queryClient.setQueryData<Card[]>(cardsKey, newCards);
+      }
+
+      return { previousDueDates, previousCards };
     },
     onError: (error, payload, context?: Context) => {
       if (context?.previousDueDates) {
@@ -57,9 +64,17 @@ const useDeleteDueDateMutation = () => {
           context.previousDueDates
         );
       }
+
+      if (context?.previousCards) {
+        queryClient.setQueryData<Card[]>(
+          ["cards", { list_id: payload.listId }],
+          context.previousCards
+        );
+      }
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries(["due_dates", { card_id: payload.cardId }]);
+      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
     },
   });
 };

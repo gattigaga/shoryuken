@@ -1,16 +1,11 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
-type DueDate = {
-  id: number;
-  card_id: number;
-  timestamp: string;
-  is_done: boolean;
-  created_at: string;
-};
+import { Card, DueDate } from "../../types/models";
 
 type Context = {
   previousDueDates?: DueDate[];
+  previousCards?: Card[];
 };
 
 type Response = DueDate;
@@ -22,6 +17,7 @@ type Body = {
 
 type Payload = {
   id: number;
+  listId: number;
   cardId: number;
   body: Body;
 };
@@ -41,22 +37,21 @@ const useUpdateDueDateMutation = () => {
   return useMutation(updateDueDateById, {
     onMutate: async (payload) => {
       const key = ["due_dates", { card_id: payload.cardId }];
+      const cardsKey = ["cards", { list_id: payload.listId }];
 
       await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries(cardsKey);
 
       const previousDueDates = queryClient.getQueryData<DueDate[]>(key);
+      const previousCards = queryClient.getQueryData<Card[]>(cardsKey);
       const { body } = payload;
 
       if (previousDueDates) {
         const newDueDates = previousDueDates.map((dueDate) => {
           if (dueDate.id === payload.id) {
-            const isDone =
-              body.is_done !== undefined ? body.is_done : dueDate.is_done;
-
             return {
               ...dueDate,
-              timestamp: body.timestamp || dueDate.timestamp,
-              is_done: isDone,
+              ...body,
             };
           }
 
@@ -66,7 +61,34 @@ const useUpdateDueDateMutation = () => {
         queryClient.setQueryData<DueDate[]>(key, newDueDates);
       }
 
-      return { previousDueDates };
+      if (previousCards) {
+        const newCards = previousCards.map((card) => {
+          if (card.id === payload.cardId) {
+            const dueDates =
+              card.due_dates?.map((dueDate) => {
+                if (dueDate.id === payload.id) {
+                  return {
+                    ...dueDate,
+                    ...body,
+                  };
+                }
+
+                return dueDate;
+              }) || [];
+
+            return {
+              ...card,
+              due_dates: dueDates,
+            };
+          }
+
+          return card;
+        });
+
+        queryClient.setQueryData<Card[]>(cardsKey, newCards);
+      }
+
+      return { previousDueDates, previousCards };
     },
     onError: (error, payload, context?: Context) => {
       if (context?.previousDueDates) {
@@ -75,9 +97,17 @@ const useUpdateDueDateMutation = () => {
           context.previousDueDates
         );
       }
+
+      if (context?.previousCards) {
+        queryClient.setQueryData<Card[]>(
+          ["cards", { list_id: payload.listId }],
+          context.previousCards
+        );
+      }
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries(["due_dates", { card_id: payload.cardId }]);
+      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
     },
   });
 };

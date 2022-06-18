@@ -1,16 +1,11 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
-type DueDate = {
-  id: number;
-  card_id: number;
-  timestamp: string;
-  is_done: boolean;
-  created_at: string;
-};
+import { Card, DueDate } from "../../types/models";
 
 type Context = {
   previousDueDates?: DueDate[];
+  previousCards?: Card[];
 };
 
 type Response = DueDate;
@@ -21,6 +16,7 @@ type Body = {
 };
 
 type Payload = {
+  listId: number;
   body: Body;
 };
 
@@ -38,10 +34,13 @@ const useCreateDueDateMutation = () => {
     onMutate: async (payload) => {
       const { body } = payload;
       const key = ["due_dates", { card_id: body.card_id }];
+      const cardsKey = ["cards", { list_id: payload.listId }];
 
       await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries(cardsKey);
 
       const previousDueDates = queryClient.getQueryData<DueDate[]>(key);
+      const previousCards = queryClient.getQueryData<Card[]>(cardsKey);
 
       if (previousDueDates) {
         const newDueDate = {
@@ -57,7 +56,33 @@ const useCreateDueDateMutation = () => {
         ]);
       }
 
-      return { previousDueDates };
+      if (previousCards) {
+        const newCards = previousCards.map((card) => {
+          if (card.id === body.card_id) {
+            const dueDates = [
+              ...(card.due_dates || []),
+              {
+                id: Date.now(),
+                card_id: card.id,
+                timestamp: body.timestamp,
+                is_done: false,
+                created_at: new Date().toISOString(),
+              },
+            ];
+
+            return {
+              ...card,
+              due_dates: dueDates,
+            };
+          }
+
+          return card;
+        });
+
+        queryClient.setQueryData<Card[]>(cardsKey, newCards);
+      }
+
+      return { previousDueDates, previousCards };
     },
     onError: (error, payload, context?: Context) => {
       if (context?.previousDueDates) {
@@ -66,12 +91,21 @@ const useCreateDueDateMutation = () => {
           context.previousDueDates
         );
       }
+
+      if (context?.previousCards) {
+        queryClient.setQueryData<Card[]>(
+          ["cards", { list_id: payload.listId }],
+          context.previousCards
+        );
+      }
     },
     onSettled: (data, error, payload) => {
       queryClient.invalidateQueries([
         "due_dates",
         { card_id: payload.body.card_id },
       ]);
+
+      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
     },
   });
 };

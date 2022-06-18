@@ -2,22 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 import { getSlug } from "../../helpers/formatter";
-
-type Board = {
-  id: number;
-  user_id: string;
-  title: string;
-  slug: string;
-  created_at: string;
-};
-
-type User = {
-  id: string;
-  fullname: string;
-  username: string;
-  email: string;
-  is_confirmed: boolean;
-};
+import { Board, User } from "../../types/models";
 
 type Context = {
   previousBoards?: Board[];

@@ -1,13 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-type List = {
-  id: number;
-  board_id: number;
-  index: number;
-  title: string;
-  created_at: string;
-};
+import { List } from "../../types/models";
 
 type Response = List;
 

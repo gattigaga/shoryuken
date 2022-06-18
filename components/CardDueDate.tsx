@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 
 import useDueDatesQuery from "../hooks/due-dates/use-due-dates-query";
 import useUpdateDueDateMutation from "../hooks/due-dates/use-update-due-date-mutation";
+import useCardQuery from "../hooks/cards/use-card-query";
 import PopupDueDate from "./PopupDueDate";
 
 type Props = {
@@ -19,6 +20,7 @@ type Props = {
 
 const CardDueDate: React.FC<Props> = ({ id }) => {
   const [isPopupDueDateOpen, setIsPopupDueDateOpen] = useState(false);
+  const cardQuery = useCardQuery(id);
   const dueDatesQuery = useDueDatesQuery(id);
   const updateDueDateMutation = useUpdateDueDateMutation();
   const dueDate = dueDatesQuery.data?.[0];
@@ -66,11 +68,12 @@ const CardDueDate: React.FC<Props> = ({ id }) => {
   })();
 
   const toggleDoneStatus = async (isDone: boolean) => {
-    if (!dueDate) return;
+    if (!dueDate || !cardQuery.data) return;
 
     try {
       await updateDueDateMutation.mutateAsync({
         id: dueDate.id,
+        listId: cardQuery.data.list_id,
         cardId: id,
         body: {
           is_done: isDone,

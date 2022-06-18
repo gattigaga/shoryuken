@@ -1,14 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-type Check = {
-  id: number;
-  card_id: number;
-  index: number;
-  content: string;
-  is_checked: boolean;
-  created_at: string;
-};
+import { Check } from "../../types/models";
 
 type Response = Check[];
 
