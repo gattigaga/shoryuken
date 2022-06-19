@@ -89,7 +89,7 @@ const useUpdateCheckMutation = () => {
         const newCards = previousCards.map((card) => {
           if (card.id === payload.cardId) {
             const checks =
-              card.checks?.map((check) => {
+              card.checks.map((check) => {
                 if (check.id === payload.id) {
                   const isChecked =
                     body.is_checked !== undefined

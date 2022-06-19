@@ -48,6 +48,6 @@ export type Card = {
   slug: string;
   has_checklist: boolean;
   created_at: string;
-  checks?: Check[];
-  due_dates?: DueDate[];
+  checks: Check[];
+  due_dates: DueDate[];
 };

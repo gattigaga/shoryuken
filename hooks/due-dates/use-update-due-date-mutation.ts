@@ -65,7 +65,7 @@ const useUpdateDueDateMutation = () => {
         const newCards = previousCards.map((card) => {
           if (card.id === payload.cardId) {
             const dueDates =
-              card.due_dates?.map((dueDate) => {
+              card.due_dates.map((dueDate) => {
                 if (dueDate.id === payload.id) {
                   return {
                     ...dueDate,
