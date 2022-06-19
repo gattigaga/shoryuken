@@ -2,27 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 import { moveElement } from "../../helpers/data-structures";
-
-type Check = {
-  id: number;
-  card_id: number;
-  index: number;
-  content: string;
-  is_checked: boolean;
-  created_at: string;
-};
-
-type Card = {
-  id: number;
-  list_id: number;
-  index: number;
-  title: string;
-  description: string;
-  slug: string;
-  has_checklist: boolean;
-  created_at: string;
-  checks?: Check[];
-};
+import { Card } from "../../types/models";
 
 type Context = {
   previousCard?: Card;
@@ -79,27 +59,10 @@ const useUpdateCardMutation = () => {
       const previousToCards = toKey && queryClient.getQueryData<Card[]>(toKey);
 
       if (previousCard) {
-        const newCard: Card = (() => {
-          const title =
-            body.title !== undefined ? body.title : previousCard?.title;
-
-          const description =
-            body.description !== undefined
-              ? body.description
-              : previousCard?.description;
-
-          const hasChecklist =
-            body.has_checklist !== undefined
-              ? body.has_checklist
-              : previousCard.has_checklist;
-
-          return {
-            ...previousCard,
-            title,
-            description,
-            has_checklist: hasChecklist,
-          };
-        })();
+        const newCard: Card = {
+          ...previousCard,
+          ...body,
+        };
 
         queryClient.setQueryData<Card>(key, newCard);
       }

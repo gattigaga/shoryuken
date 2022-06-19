@@ -1,12 +1,13 @@
 import Head from "next/head";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   MdClose,
   MdDelete,
   MdErrorOutline,
   MdOutlineCheckBox,
+  MdTimer,
 } from "react-icons/md";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
@@ -17,18 +18,28 @@ import useUpdateCardMutation from "../hooks/cards/use-update-card-mutation";
 import CardTitle from "./CardTitle";
 import CardDescription from "./CardDescription";
 import CardChecklist from "./CardChecklist";
+import PopupDueDate from "./PopupDueDate";
+import CardDueDate from "./CardDueDate";
 
-type Props = {
-  id: number;
-  isOpen: boolean;
-};
+type Props = {};
 
-const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
-  const cardQuery = useCardQuery(id);
-  const deleteCardMutation = useDeleteCardMutation();
-  const updateCardMutation = useUpdateCardMutation();
+const ModalCardDetail: React.FC<Props> = ({}) => {
   const router = useRouter();
 
+  const cardId = (() => {
+    const value = (router.query.card as string)?.split("-")[0];
+
+    if (!value) return undefined;
+
+    return Number(value);
+  })();
+
+  const [isPopupDueDateOpen, setIsPopupDueDateOpen] = useState(false);
+  const cardQuery = useCardQuery(cardId);
+  const deleteCardMutation = useDeleteCardMutation();
+  const updateCardMutation = useUpdateCardMutation();
+
+  const isOpen = !!router.query.card;
   const path = `/boards/${router.query.slug}`;
 
   const close = () => router.push(path);
@@ -43,7 +54,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
 
     try {
       await updateCardMutation.mutateAsync({
-        id,
+        id: cardQuery.data.id,
         listId: cardQuery.data.list_id,
         body: {
           has_checklist: true,
@@ -64,7 +75,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
         await router.replace(path);
 
         await deleteCardMutation.mutateAsync({
-          id,
+          id: cardQuery.data.id,
           listId: cardQuery.data.list_id,
         });
       } catch (error) {
@@ -97,7 +108,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
           <>
             {/* Header Side */}
             <div className="flex items-start">
-              <CardTitle id={id} />
+              <CardTitle id={cardQuery.data.id} />
               <button
                 className="text-slate-500 ml-12"
                 type="button"
@@ -110,24 +121,52 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
             {/* Content */}
             <div className="flex flex-col md:flex-row">
               <div className="flex-1">
-                <CardDescription id={id} />
-                {cardQuery.data.has_checklist && <CardChecklist id={id} />}
+                {!!cardQuery.data.due_dates.length && (
+                  <CardDueDate id={cardQuery.data.id} />
+                )}
+                <CardDescription id={cardQuery.data.id} />
+                {cardQuery.data.has_checklist && (
+                  <CardChecklist id={cardQuery.data.id} />
+                )}
               </div>
 
               {/* Right Side Menu */}
-              <div className="w-full mt-16 md:mt-0 md:w-48 md:ml-16">
+              <div className="w-full mt-16 relative md:mt-0 md:w-48 md:ml-16">
                 <div className="mb-8">
                   <p className="font-semibold text-xs text-slate-700 mb-3">
                     Add to card
                   </p>
                   <button
-                    className="flex items-center rounded bg-slate-200 hover:bg-slate-300 text-slate-700 w-full px-2 py-2"
+                    className="flex items-center rounded bg-slate-200 hover:bg-slate-300 text-slate-700 w-full px-2 py-2 mb-1"
                     type="button"
                     onClick={addChecklist}
                   >
                     <MdOutlineCheckBox size={20} />
                     <p className="text-sm ml-3">Checklist</p>
                   </button>
+                  <button
+                    className="flex items-center rounded bg-slate-200 hover:bg-slate-300 text-slate-700 w-full px-2 py-2"
+                    type="button"
+                    onClick={() => {
+                      if (!!cardQuery.data.due_dates.length) {
+                        toast.error("This card already has due date.");
+                        return;
+                      }
+
+                      setIsPopupDueDateOpen(true);
+                    }}
+                  >
+                    <MdTimer size={20} />
+                    <p className="text-sm ml-3">Due Date</p>
+                  </button>
+
+                  {/* Popup Parts */}
+                  <PopupDueDate
+                    id={cardQuery.data.id}
+                    usage="add"
+                    isOpen={isPopupDueDateOpen}
+                    onClickClose={() => setIsPopupDueDateOpen(false)}
+                  />
                 </div>
                 <div>
                   <p className="font-semibold text-xs text-slate-700 mb-3">

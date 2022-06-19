@@ -169,15 +169,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw cardsError;
       }
 
-      // Delete checks that card has.
+      // Delete due dates and checks that card has.
       for (const card of cards) {
-        const { error } = await supabase
+        const { error: deletedDueDatesError } = await supabase
+          .from("due_dates")
+          .delete()
+          .eq("card_id", card.id);
+
+        if (deletedDueDatesError) {
+          throw deletedDueDatesError;
+        }
+
+        const { error: deletedChecksError } = await supabase
           .from("checks")
           .delete()
           .eq("card_id", card.id);
 
-        if (error) {
-          throw error;
+        if (deletedChecksError) {
+          throw deletedChecksError;
         }
       }
 

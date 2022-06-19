@@ -1,13 +1,7 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
-type Board = {
-  id: number;
-  user_id: string;
-  title: string;
-  slug: string;
-  created_at: string;
-};
+import { Board } from "../../types/models";
 
 type Context = {
   previousBoard?: Board;

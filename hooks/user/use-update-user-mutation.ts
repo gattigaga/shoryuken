@@ -1,13 +1,7 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
-type User = {
-  id: string;
-  fullname: string;
-  username: string;
-  email: string;
-  is_confirmed: boolean;
-};
+import { User } from "../../types/models";
 
 type Context = {
   previousUser?: User;

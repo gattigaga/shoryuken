@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import supabase from "../../../helpers/supabase";
-import { getSlug } from "../../../helpers/formatter";
 
 type Content = {
   data?: any;
@@ -16,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
   const token = req.cookies.access_token;
 
-  // Get all cards user has.
+  // Get due date in a card.
   if (req.method === "GET") {
     try {
       const { error: userError } = await supabase.auth.api.getUser(token);
@@ -25,36 +24,29 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw userError;
       }
 
-      const { list_id } = req.query as {
-        list_id: string | number;
+      const { card_id } = req.query as {
+        card_id: string | number;
       };
 
-      const { data: cards, error: cardsError } = await supabase
-        .from("cards")
-        .select(
-          `
-          *,
-          checks(*),
-          due_dates(*)
-        `
-        )
-        .eq("list_id", list_id)
-        .order("index");
+      const { data: dueDates, error: dueDatesError } = await supabase
+        .from("due_dates")
+        .select("*")
+        .eq("card_id", card_id);
 
-      if (cardsError) {
-        throw cardsError;
+      if (dueDatesError) {
+        throw dueDatesError;
       }
 
       res.status(200).json({
-        data: cards,
-        message: "There are existing cards.",
+        data: dueDates,
+        message: "There are existing due dates.",
       });
     } catch (error: any) {
       res.status(error.status).json({ message: error.message });
     }
   }
 
-  // Create a new card for a user.
+  // Create a new due date for a card.
   if (req.method === "POST") {
     try {
       const { error: userError } = await supabase.auth.api.getUser(token);
@@ -63,42 +55,29 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw userError;
       }
 
-      const { title, list_id } = req.body as {
-        title: string;
-        list_id: string | number;
+      const { timestamp, card_id } = req.body as {
+        timestamp: string;
+        card_id: string | number;
       };
 
-      const slug = getSlug(title);
-
-      const { data: cards, error: cardsError } = await supabase
-        .from("cards")
-        .select("*")
-        .eq("list_id", list_id);
-
-      if (cardsError) {
-        throw cardsError;
-      }
-
-      const { data: card, error: cardError } = await supabase
-        .from("cards")
+      const { data: dueDate, error: dueDateError } = await supabase
+        .from("due_dates")
         .insert([
           {
-            title,
-            slug,
-            list_id,
-            index: cards.length,
+            timestamp,
+            card_id,
           },
         ])
         .limit(1)
         .single();
 
-      if (cardError) {
-        throw cardError;
+      if (dueDateError) {
+        throw dueDateError;
       }
 
       res.status(200).json({
-        data: card,
-        message: "Card successfully created.",
+        data: dueDate,
+        message: "Due date successfully created.",
       });
     } catch (error: any) {
       res.status(error.status).json({ message: error.message });

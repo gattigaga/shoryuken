@@ -2,14 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 import { moveElement } from "../../helpers/data-structures";
-
-type List = {
-  id: number;
-  board_id: number;
-  index: number;
-  title: string;
-  created_at: string;
-};
+import { List } from "../../types/models";
 
 type Context = {
   previousLists?: List[];

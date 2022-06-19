@@ -31,7 +31,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
       const { data: card, error: cardError } = await supabase
         .from("cards")
-        .select("*")
+        .select(
+          `
+          *,
+          checks(*),
+          due_dates(*)
+        `
+        )
         .eq("id", id)
         .limit(1)
         .single();
@@ -234,6 +240,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
       const { id } = req.query as {
         id: string;
       };
+
+      // Delete due dates that card has
+      const { error: deletedDueDatesError } = await supabase
+        .from("due_dates")
+        .delete()
+        .eq("card_id", id);
+
+      if (deletedDueDatesError) {
+        throw deletedDueDatesError;
+      }
 
       // Delete checks that card has
       const { error: deletedChecksError } = await supabase

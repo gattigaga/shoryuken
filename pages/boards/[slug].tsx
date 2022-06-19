@@ -69,14 +69,6 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   const updateListMutation = useUpdateListMutation();
   const updateCardMutation = useUpdateCardMutation();
 
-  const cardId = (() => {
-    const value = (router.query.card as string)?.split("-")[0];
-
-    if (!value) return undefined;
-
-    return Number(value);
-  })();
-
   const deleteBoard = async () => {
     try {
       await deleteBoardMutation.mutateAsync({
@@ -265,7 +257,7 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
           </div>
         )}
       </div>
-      {!!cardId && <ModalCardDetail id={cardId} isOpen={!!router.query.card} />}
+      <ModalCardDetail />
     </Layout>
   );
 };

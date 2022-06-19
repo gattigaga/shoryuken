@@ -209,10 +209,12 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                             href={href}
                             index={index}
                             title={card.title}
+                            dueDate={card.due_dates?.[0]?.timestamp}
                             totalChecks={totalChecks}
                             totalCompletedChecks={totalCompletedChecks}
                             hasDescription={!!card.description}
                             hasChecklist={card.has_checklist}
+                            isDueDateDone={!!card.due_dates?.[0]?.is_done}
                           />
                         );
                       })}

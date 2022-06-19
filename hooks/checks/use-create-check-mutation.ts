@@ -1,26 +1,7 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
-type Check = {
-  id: number;
-  card_id: number;
-  index: number;
-  content: string;
-  is_checked: boolean;
-  created_at: string;
-};
-
-type Card = {
-  id: number;
-  list_id: number;
-  index: number;
-  title: string;
-  description: string;
-  slug: string;
-  has_checklist: boolean;
-  created_at: string;
-  checks?: Check[];
-};
+import { Card, Check } from "../../types/models";
 
 type Context = {
   previousChecks?: Check[];
@@ -77,12 +58,12 @@ const useCreateCheckMutation = () => {
         const newCards = previousCards.map((card) => {
           if (card.id === body.card_id) {
             const checks = [
-              ...(card.checks || []),
+              ...card.checks,
               {
                 id: Date.now(),
                 card_id: card.id,
                 content: body.content,
-                index: card.checks?.length || 0,
+                index: card.checks.length || 0,
                 is_checked: false,
                 created_at: new Date().toISOString(),
               },
