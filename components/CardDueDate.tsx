@@ -9,7 +9,6 @@ import {
 } from "date-fns";
 import toast from "react-hot-toast";
 
-import useDueDatesQuery from "../hooks/due-dates/use-due-dates-query";
 import useUpdateDueDateMutation from "../hooks/due-dates/use-update-due-date-mutation";
 import useCardQuery from "../hooks/cards/use-card-query";
 import PopupDueDate from "./PopupDueDate";
@@ -21,9 +20,9 @@ type Props = {
 const CardDueDate: React.FC<Props> = ({ id }) => {
   const [isPopupDueDateOpen, setIsPopupDueDateOpen] = useState(false);
   const cardQuery = useCardQuery(id);
-  const dueDatesQuery = useDueDatesQuery(id);
   const updateDueDateMutation = useUpdateDueDateMutation();
-  const dueDate = dueDatesQuery.data?.[0];
+
+  const dueDate = cardQuery.data?.due_dates[0];
 
   const dateLabel = (() => {
     if (dueDate) {
@@ -93,7 +92,7 @@ const CardDueDate: React.FC<Props> = ({ id }) => {
         onChange={(event) => toggleDoneStatus(event.target.checked)}
       />
       <button
-        className="flex items-center bg-slate-200 rounded px-3 py-2"
+        className="flex items-center bg-slate-200 rounded px-3 py-2 hover:bg-slate-300"
         type="button"
         onClick={() => setIsPopupDueDateOpen(true)}
       >

@@ -10,7 +10,6 @@ import Popup from "./Popup";
 import useCreateDueDateMutation from "../hooks/due-dates/use-create-due-date-mutation";
 import useDeleteDueDateMutation from "../hooks/due-dates/use-delete-due-date-mutation";
 import useUpdateDueDateMutation from "../hooks/due-dates/use-update-due-date-mutation";
-import useDueDatesQuery from "../hooks/due-dates/use-due-dates-query";
 import useCardQuery from "../hooks/cards/use-card-query";
 
 type Props = {
@@ -26,13 +25,12 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(format(new Date(), timePattern));
   const cardQuery = useCardQuery(id);
-  const dueDatesQuery = useDueDatesQuery(id);
   const createDueDateMutation = useCreateDueDateMutation();
   const updateDueDateMutation = useUpdateDueDateMutation();
   const deleteDueDateMutation = useDeleteDueDateMutation();
   const refButton = useRef<HTMLButtonElement>(null);
 
-  const dueDate = dueDatesQuery.data?.[0];
+  const dueDate = cardQuery.data?.due_dates[0];
 
   const validateTime = (event: any) => {
     const parsed = parse(event.target.value, timePattern, new Date());

@@ -1,12 +1,8 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { Card, DueDate } from "../../types/models";
-
-type Context = {
-  previousDueDates?: DueDate[];
-  previousCards?: Card[];
-};
 
 type Response = DueDate;
 
@@ -31,81 +27,36 @@ const useCreateDueDateMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(createDueDate, {
-    onMutate: async (payload) => {
+    onSuccess: async (response, payload) => {
       const { body } = payload;
-      const key = ["due_dates", { card_id: body.card_id }];
+      const key = ["cards", body.card_id];
       const cardsKey = ["cards", { list_id: payload.listId }];
 
-      await queryClient.cancelQueries(key);
-      await queryClient.cancelQueries(cardsKey);
+      await queryClient.cancelQueries("cards");
 
-      const previousDueDates = queryClient.getQueryData<DueDate[]>(key);
+      const previousCard = queryClient.getQueryData<Card>(key);
       const previousCards = queryClient.getQueryData<Card[]>(cardsKey);
 
-      if (previousDueDates) {
-        const newDueDate = {
-          id: Date.now(),
-          is_done: false,
-          created_at: new Date().toISOString(),
-          ...body,
-        };
+      if (previousCard) {
+        const data = produce(previousCard, (draft) => {
+          draft.due_dates = [response];
+        });
 
-        queryClient.setQueryData<DueDate[]>(key, [
-          ...previousDueDates,
-          newDueDate,
-        ]);
+        queryClient.setQueryData<Card>(key, data);
       }
 
       if (previousCards) {
-        const newCards = previousCards.map((card) => {
-          if (card.id === body.card_id) {
-            const dueDates = [
-              ...(card.due_dates || []),
-              {
-                id: Date.now(),
-                card_id: card.id,
-                timestamp: body.timestamp,
-                is_done: false,
-                created_at: new Date().toISOString(),
-              },
-            ];
+        const data = produce(previousCards, (draft) => {
+          const index = draft.findIndex((item) => item.id === body.card_id);
 
-            return {
-              ...card,
-              due_dates: dueDates,
-            };
-          }
-
-          return card;
+          draft[index].due_dates = [response];
         });
 
-        queryClient.setQueryData<Card[]>(cardsKey, newCards);
-      }
-
-      return { previousDueDates, previousCards };
-    },
-    onError: (error, payload, context?: Context) => {
-      if (context?.previousDueDates) {
-        queryClient.setQueryData<DueDate[]>(
-          ["due_dates", { card_id: payload.body.card_id }],
-          context.previousDueDates
-        );
-      }
-
-      if (context?.previousCards) {
-        queryClient.setQueryData<Card[]>(
-          ["cards", { list_id: payload.listId }],
-          context.previousCards
-        );
+        queryClient.setQueryData<Card[]>(cardsKey, data);
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries([
-        "due_dates",
-        { card_id: payload.body.card_id },
-      ]);
-
-      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
+      queryClient.invalidateQueries("cards");
     },
   });
 };

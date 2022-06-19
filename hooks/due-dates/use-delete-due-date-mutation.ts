@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { Card, DueDate } from "../../types/models";
 
 type Context = {
-  previousDueDates?: DueDate[];
+  previousCard?: Card;
   previousCards?: Card[];
 };
 
@@ -30,38 +31,41 @@ const useDeleteDueDateMutation = () => {
 
   return useMutation(deleteDueDateById, {
     onMutate: async (payload) => {
-      const key = ["due_dates", { card_id: payload.cardId }];
+      const key = ["cards", payload.cardId];
       const cardsKey = ["cards", { list_id: payload.listId }];
 
-      await queryClient.cancelQueries(key);
-      await queryClient.cancelQueries(cardsKey);
+      await queryClient.cancelQueries("cards");
 
-      const previousDueDates = queryClient.getQueryData<DueDate[]>(key);
+      const previousCard = queryClient.getQueryData<Card>(key);
       const previousCards = queryClient.getQueryData<Card[]>(cardsKey);
 
-      if (previousDueDates) {
-        const newDueDates = previousDueDates.filter(
-          (dueDate) => dueDate.id !== payload.id
-        );
+      if (previousCard) {
+        const data = produce(previousCard, (draft) => {
+          draft.due_dates = [];
+        });
 
-        queryClient.setQueryData<DueDate[]>(key, newDueDates);
+        queryClient.setQueryData<Card>(key, data);
       }
 
       if (previousCards) {
-        const newCards = previousCards.filter(
-          (card) => card.id !== payload.cardId
-        );
+        const data = produce(previousCards, (draft) => {
+          const index = draft.findIndex((item) => item.id === payload.cardId);
 
-        queryClient.setQueryData<Card[]>(cardsKey, newCards);
+          if (index !== -1) {
+            draft[index].due_dates = [];
+          }
+        });
+
+        queryClient.setQueryData<Card[]>(cardsKey, data);
       }
 
-      return { previousDueDates, previousCards };
+      return { previousCard, previousCards };
     },
     onError: (error, payload, context?: Context) => {
-      if (context?.previousDueDates) {
-        queryClient.setQueryData(
-          ["due_dates", { card_id: payload.cardId }],
-          context.previousDueDates
+      if (context?.previousCard) {
+        queryClient.setQueryData<Card>(
+          ["cards", payload.cardId],
+          context.previousCard
         );
       }
 
@@ -73,8 +77,7 @@ const useDeleteDueDateMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["due_dates", { card_id: payload.cardId }]);
-      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
+      queryClient.invalidateQueries("cards");
     },
   });
 };
