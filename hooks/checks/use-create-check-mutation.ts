@@ -58,12 +58,12 @@ const useCreateCheckMutation = () => {
         const newCards = previousCards.map((card) => {
           if (card.id === body.card_id) {
             const checks = [
-              ...(card.checks || []),
+              ...card.checks,
               {
                 id: Date.now(),
                 card_id: card.id,
                 content: body.content,
-                index: card.checks?.length || 0,
+                index: card.checks.length || 0,
                 is_checked: false,
                 created_at: new Date().toISOString(),
               },

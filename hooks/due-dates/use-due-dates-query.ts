@@ -6,7 +6,7 @@ import { DueDate } from "../../types/models";
 type Response = DueDate[];
 
 export const getDueDatesByCardId = async (
-  cardId: number
+  cardId?: number
 ): Promise<Response> => {
   const res = await axios.get("/api/due-dates", {
     params: {
@@ -19,12 +19,12 @@ export const getDueDatesByCardId = async (
   return data;
 };
 
-const useDueDatesQuery = (cardId: number) => {
+const useDueDatesQuery = (cardId?: number) => {
   return useQuery<DueDate[], Error>(
     ["due_dates", { card_id: cardId }],
     () => getDueDatesByCardId(cardId),
     {
-      initialData: [],
+      enabled: !!cardId,
     }
   );
 };
