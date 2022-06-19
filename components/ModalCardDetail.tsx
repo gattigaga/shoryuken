@@ -15,26 +15,31 @@ import Loading from "react-spinners/ScaleLoader";
 import useCardQuery from "../hooks/cards/use-card-query";
 import useDeleteCardMutation from "../hooks/cards/use-delete-card-mutation";
 import useUpdateCardMutation from "../hooks/cards/use-update-card-mutation";
-import useDueDatesQuery from "../hooks/due-dates/use-due-dates-query";
 import CardTitle from "./CardTitle";
 import CardDescription from "./CardDescription";
 import CardChecklist from "./CardChecklist";
 import PopupDueDate from "./PopupDueDate";
 import CardDueDate from "./CardDueDate";
 
-type Props = {
-  id: number;
-  isOpen: boolean;
-};
+type Props = {};
 
-const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
-  const [isPopupDueDateOpen, setIsPopupDueDateOpen] = useState(false);
-  const cardQuery = useCardQuery(id);
-  const dueDatesQuery = useDueDatesQuery(id);
-  const deleteCardMutation = useDeleteCardMutation();
-  const updateCardMutation = useUpdateCardMutation();
+const ModalCardDetail: React.FC<Props> = ({}) => {
   const router = useRouter();
 
+  const cardId = (() => {
+    const value = (router.query.card as string)?.split("-")[0];
+
+    if (!value) return undefined;
+
+    return Number(value);
+  })();
+
+  const [isPopupDueDateOpen, setIsPopupDueDateOpen] = useState(false);
+  const cardQuery = useCardQuery(cardId);
+  const deleteCardMutation = useDeleteCardMutation();
+  const updateCardMutation = useUpdateCardMutation();
+
+  const isOpen = !!router.query.card;
   const path = `/boards/${router.query.slug}`;
 
   const close = () => router.push(path);
@@ -49,7 +54,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
 
     try {
       await updateCardMutation.mutateAsync({
-        id,
+        id: cardQuery.data.id,
         listId: cardQuery.data.list_id,
         body: {
           has_checklist: true,
@@ -70,7 +75,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
         await router.replace(path);
 
         await deleteCardMutation.mutateAsync({
-          id,
+          id: cardQuery.data.id,
           listId: cardQuery.data.list_id,
         });
       } catch (error) {
@@ -103,7 +108,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
           <>
             {/* Header Side */}
             <div className="flex items-start">
-              <CardTitle id={id} />
+              <CardTitle id={cardQuery.data.id} />
               <button
                 className="text-slate-500 ml-12"
                 type="button"
@@ -116,9 +121,13 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
             {/* Content */}
             <div className="flex flex-col md:flex-row">
               <div className="flex-1">
-                {!!dueDatesQuery.data?.length && <CardDueDate id={id} />}
-                <CardDescription id={id} />
-                {cardQuery.data.has_checklist && <CardChecklist id={id} />}
+                {!!cardQuery.data.due_dates.length && (
+                  <CardDueDate id={cardQuery.data.id} />
+                )}
+                <CardDescription id={cardQuery.data.id} />
+                {cardQuery.data.has_checklist && (
+                  <CardChecklist id={cardQuery.data.id} />
+                )}
               </div>
 
               {/* Right Side Menu */}
@@ -139,7 +148,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
                     className="flex items-center rounded bg-slate-200 hover:bg-slate-300 text-slate-700 w-full px-2 py-2"
                     type="button"
                     onClick={() => {
-                      if (!!dueDatesQuery.data?.[0]) {
+                      if (!!cardQuery.data.due_dates.length) {
                         toast.error("This card already has due date.");
                         return;
                       }
@@ -153,7 +162,7 @@ const ModalCardDetail: React.FC<Props> = ({ id, isOpen }) => {
 
                   {/* Popup Parts */}
                   <PopupDueDate
-                    id={id}
+                    id={cardQuery.data.id}
                     usage="add"
                     isOpen={isPopupDueDateOpen}
                     onClickClose={() => setIsPopupDueDateOpen(false)}
