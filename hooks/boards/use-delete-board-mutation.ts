@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { Board } from "../../types/models";
 
@@ -32,11 +33,11 @@ const useDeleteBoardMutation = () => {
       const previousBoards = queryClient.getQueryData<Board[]>(key);
 
       if (previousBoards) {
-        const newBoards = previousBoards.filter(
-          (board) => board.id !== payload.id
-        );
+        const data = produce(previousBoards, (draft) => {
+          return draft.filter((item) => item.id !== payload.id);
+        });
 
-        queryClient.setQueryData<Board[]>(key, newBoards);
+        queryClient.setQueryData<Board[]>(key, data);
       }
 
       return { previousBoards };
