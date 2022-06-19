@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { List } from "../../types/models";
 
@@ -28,19 +29,21 @@ const useDeleteListMutation = () => {
     onMutate: async (payload) => {
       const key = ["lists", { board_id: payload.boardId }];
 
-      await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries("lists");
 
       const previousLists = queryClient.getQueryData<List[]>(key);
 
       if (previousLists) {
-        const newLists = previousLists
-          .filter((list) => list.id !== payload.id)
-          .map((list, index) => ({
-            ...list,
-            index,
-          }));
+        const data = produce(previousLists, (draft) => {
+          return draft
+            .filter((list) => list.id !== payload.id)
+            .map((list, index) => ({
+              ...list,
+              index,
+            }));
+        });
 
-        queryClient.setQueryData<List[]>(key, newLists);
+        queryClient.setQueryData<List[]>(key, data);
       }
 
       return { previousLists };
@@ -54,7 +57,7 @@ const useDeleteListMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["lists", { board_id: payload.boardId }]);
+      queryClient.invalidateQueries("lists");
     },
   });
 };

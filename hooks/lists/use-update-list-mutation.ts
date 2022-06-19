@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { moveElement } from "../../helpers/data-structures";
 import { List } from "../../types/models";
@@ -35,42 +36,36 @@ const useUpdateListBoardMutation = () => {
     onMutate: async (payload) => {
       const key = ["lists", { board_id: payload.boardId }];
 
-      await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries("lists");
 
       const previousLists = queryClient.getQueryData<List[]>(key);
       const { body } = payload;
 
       if (previousLists) {
-        let newLists = [...previousLists];
+        const data = produce(previousLists, (draft) => {
+          const index = draft.findIndex((item) => item.id === payload.id);
 
-        // Update index across all lists in a board.
-        if (body.index !== undefined) {
-          const list = previousLists.find((list) => list.id === payload.id);
-          const fromIndex = list?.index;
-          const toIndex = body.index;
+          if (index !== -1) {
+            // Update index across all lists in a board.
+            if (body.index !== undefined) {
+              const fromIndex = index;
+              const toIndex = body.index;
 
-          if (fromIndex) {
-            newLists = moveElement(newLists, fromIndex, toIndex).map(
-              (list, index) => ({
-                ...list,
-                index,
-              })
-            );
+              return moveElement(draft, fromIndex, toIndex).map(
+                (list, index) => ({
+                  ...list,
+                  index,
+                })
+              );
+            }
+
+            if (body.title) {
+              draft[index].title = body.title;
+            }
           }
-        }
-
-        newLists = newLists.map((list) => {
-          if (list.id === payload.id) {
-            return {
-              ...list,
-              title: body.title || list.title,
-            };
-          }
-
-          return list;
         });
 
-        queryClient.setQueryData<List[]>(key, newLists);
+        queryClient.setQueryData<List[]>(key, data);
       }
 
       return { previousLists };
@@ -84,7 +79,7 @@ const useUpdateListBoardMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["lists", { board_id: payload.boardId }]);
+      queryClient.invalidateQueries("lists");
     },
   });
 };
