@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { User } from "../../types/models";
 
@@ -40,11 +41,17 @@ const useUpdateUserMutation = () => {
       const { body } = payload;
 
       if (previousUser) {
-        queryClient.setQueryData<User>(key, {
-          ...previousUser,
-          fullname: body.fullname || previousUser.fullname,
-          username: body.username || previousUser.username,
+        const data = produce(previousUser, (draft) => {
+          if (body.fullname) {
+            draft.fullname = body.fullname;
+          }
+
+          if (body.username) {
+            draft.username = body.username;
+          }
         });
+
+        queryClient.setQueryData<User>(key, data);
       }
 
       return { previousUser };
