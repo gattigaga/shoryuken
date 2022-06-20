@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { Check } from "../../types/models";
 
@@ -28,19 +29,21 @@ const useDeleteCheckMutation = () => {
     onMutate: async (payload) => {
       const key = ["checks", { card_id: payload.cardId }];
 
-      await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries("checks");
 
       const previousChecks = queryClient.getQueryData<Check[]>(key);
 
       if (previousChecks) {
-        const newChecks = previousChecks
-          .filter((check) => check.id !== payload.id)
-          .map((check, index) => ({
-            ...check,
-            index,
-          }));
+        const data = produce(previousChecks, (draft) => {
+          return draft
+            .filter((check) => check.id !== payload.id)
+            .map((check, index) => ({
+              ...check,
+              index,
+            }));
+        });
 
-        queryClient.setQueryData<Check[]>(key, newChecks);
+        queryClient.setQueryData<Check[]>(key, data);
       }
 
       return { previousChecks };
@@ -54,7 +57,7 @@ const useDeleteCheckMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["checks", { card_id: payload.cardId }]);
+      queryClient.invalidateQueries("checks");
     },
   });
 };
