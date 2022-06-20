@@ -172,6 +172,7 @@ const CardCheckItem: React.FC<Props> = ({
                           break;
 
                         case "Escape":
+                          event.stopPropagation();
                           setIsEditing(false);
                           setCheckContent(content);
                           break;
@@ -181,6 +182,10 @@ const CardCheckItem: React.FC<Props> = ({
                       }
                     }}
                     onInput={handleContentHeight}
+                    onBlur={() => {
+                      setIsEditing(false);
+                      setCheckContent(content);
+                    }}
                   />
                   <div className="flex items-center">
                     <Button
