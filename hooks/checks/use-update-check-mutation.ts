@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { moveElement } from "../../helpers/data-structures";
 import { Card, Check } from "../../types/models";
@@ -39,82 +40,62 @@ const useUpdateCheckMutation = () => {
       const key = ["checks", { card_id: payload.cardId }];
       const cardsKey = ["cards", { list_id: payload.listId }];
 
-      await queryClient.cancelQueries(key);
-      await queryClient.cancelQueries(cardsKey);
+      await queryClient.cancelQueries("checks");
+      await queryClient.cancelQueries("cards");
 
       const previousChecks = queryClient.getQueryData<Check[]>(key);
       const previousCards = queryClient.getQueryData<Card[]>(cardsKey);
       const { body } = payload;
 
       if (previousChecks) {
-        let newChecks = [...previousChecks];
+        const data = produce(previousChecks, (draft) => {
+          const index = draft.findIndex((item) => item.id === payload.id);
 
-        // Move a check in the card.
-        if (body.index !== undefined) {
-          const check = previousChecks.find((check) => check.id === payload.id);
-          const fromIndex = check?.index;
-          const toIndex = body.index;
+          if (index !== -1) {
+            // Move a check in the card.
+            if (body.index !== undefined) {
+              const fromIndex = index;
+              const toIndex = body.index;
 
-          if (fromIndex !== undefined && toIndex !== undefined) {
-            newChecks = moveElement(previousChecks, fromIndex, toIndex).map(
-              (check, index) => ({
-                ...check,
-                index,
-              })
-            );
+              if (toIndex !== undefined) {
+                return moveElement(draft, fromIndex, toIndex).map(
+                  (check, index) => ({
+                    ...check,
+                    index,
+                  })
+                );
+              }
+            }
+
+            if (body.content) {
+              draft[index].content = body.content;
+            }
+
+            if (body.is_checked !== undefined) {
+              draft[index].is_checked = body.is_checked;
+            }
           }
-        }
-
-        newChecks = newChecks.map((check) => {
-          if (check.id === payload.id) {
-            const isChecked =
-              body.is_checked !== undefined
-                ? body.is_checked
-                : check.is_checked;
-
-            return {
-              ...check,
-              content: body.content || check.content,
-              is_checked: isChecked,
-            };
-          }
-
-          return check;
         });
 
-        queryClient.setQueryData<Check[]>(key, newChecks);
+        queryClient.setQueryData<Check[]>(key, data);
       }
 
       if (previousCards) {
-        const newCards = previousCards.map((card) => {
-          if (card.id === payload.cardId) {
-            const checks =
-              card.checks.map((check) => {
-                if (check.id === payload.id) {
-                  const isChecked =
-                    body.is_checked !== undefined
-                      ? body.is_checked
-                      : check.is_checked;
+        const data = produce(previousCards, (draft) => {
+          const index = draft.findIndex((item) => item.id === payload.cardId);
 
-                  return {
-                    ...check,
-                    is_checked: isChecked,
-                  };
-                }
+          if (index !== -1) {
+            const checkIndex = draft[index].checks.findIndex(
+              (item) => item.id === payload.id
+            );
 
-                return check;
-              }) || [];
-
-            return {
-              ...card,
-              checks,
-            };
+            if (checkIndex !== -1 && body.is_checked !== undefined) {
+              draft[index].checks[checkIndex].is_checked = body.is_checked;
+            }
           }
-
-          return card;
         });
 
-        queryClient.setQueryData<Card[]>(cardsKey, newCards);
+        queryClient.setQueryData<Card[]>(cardsKey, data);
       }
 
       return { previousChecks, previousCards };
@@ -135,8 +116,8 @@ const useUpdateCheckMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["checks", { card_id: payload.cardId }]);
-      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
+      queryClient.invalidateQueries("checks");
+      queryClient.invalidateQueries("cards");
     },
   });
 };

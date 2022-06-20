@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { List } from "../../types/models";
 
@@ -33,7 +34,7 @@ const useCreateListMutation = () => {
       const { body } = payload;
       const key = ["lists", { board_id: body.board_id }];
 
-      await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries("lists");
 
       const previousLists = queryClient.getQueryData<List[]>(key);
 
@@ -45,7 +46,11 @@ const useCreateListMutation = () => {
           ...body,
         };
 
-        queryClient.setQueryData<List[]>(key, [...previousLists, newList]);
+        const data = produce(previousLists, (draft) => {
+          draft.push(newList);
+        });
+
+        queryClient.setQueryData<List[]>(key, data);
       }
 
       return { previousLists };
@@ -59,10 +64,7 @@ const useCreateListMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries([
-        "lists",
-        { board_id: payload.body.board_id },
-      ]);
+      queryClient.invalidateQueries("lists");
     },
   });
 };

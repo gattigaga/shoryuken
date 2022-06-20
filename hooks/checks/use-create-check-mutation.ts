@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { Card, Check } from "../../types/models";
 
@@ -36,14 +37,14 @@ const useCreateCheckMutation = () => {
       const key = ["checks", { card_id: body.card_id }];
       const cardsKey = ["cards", { list_id: payload.listId }];
 
-      await queryClient.cancelQueries(key);
-      await queryClient.cancelQueries(cardsKey);
+      await queryClient.cancelQueries("checks");
+      await queryClient.cancelQueries("cards");
 
       const previousChecks = queryClient.getQueryData<Check[]>(key);
       const previousCards = queryClient.getQueryData<Card[]>(cardsKey);
 
       if (previousChecks) {
-        const newCheck = {
+        const newCheck: Check = {
           id: Date.now(),
           index: previousChecks.length,
           is_checked: false,
@@ -51,34 +52,31 @@ const useCreateCheckMutation = () => {
           ...body,
         };
 
-        queryClient.setQueryData<Check[]>(key, [...previousChecks, newCheck]);
-      }
-
-      if (previousCards) {
-        const newCards = previousCards.map((card) => {
-          if (card.id === body.card_id) {
-            const checks = [
-              ...card.checks,
-              {
-                id: Date.now(),
-                card_id: card.id,
-                content: body.content,
-                index: card.checks.length || 0,
-                is_checked: false,
-                created_at: new Date().toISOString(),
-              },
-            ];
-
-            return {
-              ...card,
-              checks,
-            };
-          }
-
-          return card;
+        const data = produce(previousChecks, (draft) => {
+          draft.push(newCheck);
         });
 
-        queryClient.setQueryData<Card[]>(cardsKey, newCards);
+        queryClient.setQueryData<Check[]>(key, data);
+      }
+
+      if (previousCards && previousChecks) {
+        const newCheck: Check = {
+          id: Date.now(),
+          index: previousChecks.length,
+          is_checked: false,
+          created_at: new Date().toISOString(),
+          ...body,
+        };
+
+        const data = produce(previousCards, (draft) => {
+          const index = draft.findIndex((item) => item.id === body.card_id);
+
+          if (index !== -1) {
+            draft[index].checks.push(newCheck);
+          }
+        });
+
+        queryClient.setQueryData<Card[]>(cardsKey, data);
       }
 
       return { previousChecks, previousCards };
@@ -99,12 +97,8 @@ const useCreateCheckMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries([
-        "checks",
-        { card_id: payload.body.card_id },
-      ]);
-
-      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
+      queryClient.invalidateQueries("checks");
+      queryClient.invalidateQueries("cards");
     },
   });
 };

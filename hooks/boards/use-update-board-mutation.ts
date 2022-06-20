@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { Board } from "../../types/models";
 
@@ -34,35 +35,30 @@ const useUpdateBoardMutation = () => {
       const key = ["boards", payload.id];
       const listKey = "boards";
 
-      await queryClient.cancelQueries(key);
-      await queryClient.cancelQueries(listKey);
+      await queryClient.cancelQueries("boards");
 
       const previousBoard = queryClient.getQueryData<Board>(key);
       const previousBoards = queryClient.getQueryData<Board[]>(listKey);
       const { body } = payload;
 
       if (previousBoard) {
-        const newBoard: Board = {
-          ...previousBoard,
-          title: body.title,
-        };
+        const data = produce(previousBoard, (draft) => {
+          draft.title = body.title;
+        });
 
-        queryClient.setQueryData<Board>(key, newBoard);
+        queryClient.setQueryData<Board>(key, data);
       }
 
       if (previousBoards) {
-        const newBoards = previousBoards.map((board) => {
-          if (board.id === payload.id) {
-            return {
-              ...board,
-              title: body.title,
-            };
-          }
+        const data = produce(previousBoards, (draft) => {
+          const index = draft.findIndex((item) => item.id === payload.id);
 
-          return board;
+          if (index !== -1) {
+            draft[index].title = body.title;
+          }
         });
 
-        queryClient.setQueryData<Board[]>(listKey, newBoards);
+        queryClient.setQueryData<Board[]>(listKey, data);
       }
 
       return { previousBoard, previousBoards };
@@ -80,7 +76,6 @@ const useUpdateBoardMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["boards", payload.id]);
       queryClient.invalidateQueries("boards");
     },
   });

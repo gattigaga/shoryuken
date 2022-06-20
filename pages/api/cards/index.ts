@@ -79,7 +79,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         throw cardsError;
       }
 
-      const { data: card, error: cardError } = await supabase
+      const { data: createdCard, error: createdCardError } = await supabase
         .from("cards")
         .insert([
           {
@@ -89,6 +89,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
             index: cards.length,
           },
         ])
+        .limit(1)
+        .single();
+
+      if (createdCardError) {
+        throw createdCardError;
+      }
+
+      const { data: card, error: cardError } = await supabase
+        .from("cards")
+        .select(
+          `
+          *,
+          checks(*),
+          due_dates(*)
+        `
+        )
+        .eq("id", createdCard.id)
         .limit(1)
         .single();
 

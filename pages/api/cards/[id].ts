@@ -197,7 +197,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
 
       const { data: newCard, error: newCardError } = await supabase
         .from("cards")
-        .select("*")
+        .select(
+          `
+          *,
+          checks(*),
+          due_dates(*)
+        `
+        )
         .eq("id", id)
         .limit(1)
         .single();

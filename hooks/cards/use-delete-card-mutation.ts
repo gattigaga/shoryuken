@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { Card } from "../../types/models";
 
@@ -28,19 +29,21 @@ const useDeleteCardMutation = () => {
     onMutate: async (payload) => {
       const key = ["cards", { list_id: payload.listId }];
 
-      await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries("cards");
 
       const previousCards = queryClient.getQueryData<Card[]>(key);
 
       if (previousCards) {
-        const newCards = previousCards
-          .filter((card) => card.id !== payload.id)
-          .map((card, index) => ({
-            ...card,
-            index,
-          }));
+        const data = produce(previousCards, (draft) => {
+          return draft
+            .filter((card) => card.id !== payload.id)
+            .map((card, index) => ({
+              ...card,
+              index,
+            }));
+        });
 
-        queryClient.setQueryData<Card[]>(key, newCards);
+        queryClient.setQueryData<Card[]>(key, data);
       }
 
       return { previousCards };
@@ -54,7 +57,7 @@ const useDeleteCardMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries(["cards", { list_id: payload.listId }]);
+      queryClient.invalidateQueries("cards");
     },
   });
 };
