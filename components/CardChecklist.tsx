@@ -226,6 +226,10 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
                   }
                 }}
                 onInput={handleContentHeight}
+                onBlur={() => {
+                  setIsCreateCheckFormOpen(false);
+                  setCheckContent("");
+                }}
               />
               <div className="flex items-center">
                 <Button
