@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { moveElement } from "../../helpers/data-structures";
 import { Card } from "../../types/models";
@@ -47,92 +48,82 @@ const useUpdateCardMutation = () => {
       const fromKey = ["cards", { list_id: fromList }];
       const toKey = toList ? ["cards", { list_id: toList }] : undefined;
 
-      await queryClient.cancelQueries(key);
-      await queryClient.cancelQueries(fromKey);
-
-      if (toKey) {
-        await queryClient.cancelQueries(toKey);
-      }
+      await queryClient.cancelQueries("cards");
 
       const previousCard = queryClient.getQueryData<Card>(key);
       const previousFromCards = queryClient.getQueryData<Card[]>(fromKey);
       const previousToCards = toKey && queryClient.getQueryData<Card[]>(toKey);
 
       if (previousCard) {
-        const newCard: Card = {
-          ...previousCard,
-          ...body,
-        };
+        const data = produce(previousCard, (draft) => {
+          const hasChecklist = draft.has_checklist;
 
-        queryClient.setQueryData<Card>(key, newCard);
+          Object.assign(draft, body);
+
+          draft.has_checklist = hasChecklist;
+        });
+
+        queryClient.setQueryData<Card>(key, data);
       }
 
       if (previousFromCards) {
-        let newFromCards = [...previousFromCards];
-        let newToCards: Card[] = [];
+        const fromCardsData = produce(previousFromCards, (draft) => {
+          const index = draft.findIndex((item) => item.id === id);
 
-        // Move card in a list.
-        if (toIndex !== undefined && !toList) {
-          const card = newFromCards.find((card) => card.id === id);
-          const fromIndex = card?.index;
-          const toIndex = body.index;
+          if (index !== -1) {
+            // Move card in a list.
+            if (toIndex !== undefined && !toList) {
+              const fromIndex = index;
+              const toIndex = body.index;
 
-          if (fromIndex !== undefined && toIndex !== undefined) {
-            newFromCards = moveElement(newFromCards, fromIndex, toIndex).map(
-              (card, index) => ({
-                ...card,
-                index,
-              })
-            );
+              if (toIndex !== undefined) {
+                return moveElement(draft, fromIndex, toIndex).map(
+                  (card, index) => ({
+                    ...card,
+                    index,
+                  })
+                );
+              }
+            }
+
+            // Move card in across 2 lists.
+            if (toList) {
+              return draft
+                .filter((fromCard) => fromCard.id !== id)
+                .map((fromCard, index) => ({ ...fromCard, index }));
+            }
+
+            if (body.title) {
+              draft[index].title = body.title;
+            }
+
+            if (body.description !== undefined) {
+              draft[index].description = body.description;
+            }
           }
-        }
-
-        // Move card in across 2 lists.
-        if (toList) {
-          const card = newFromCards.find((card) => card.id === id);
-
-          if (card && previousToCards) {
-            newFromCards = newFromCards
-              .filter((fromCard) => fromCard.id !== card.id)
-              .map((fromCard, index) => ({ ...fromCard, index }));
-
-            newToCards = [
-              ...previousToCards.slice(0, body.index),
-              card,
-              ...previousToCards.slice(body.index),
-            ].map((toCard, index) => ({ ...toCard, index }));
-          }
-        }
-
-        newFromCards = newFromCards.map((card) => {
-          if (card.id === id) {
-            const title = body.title !== undefined ? body.title : card.title;
-
-            const description =
-              body.description !== undefined
-                ? body.description
-                : card.description;
-
-            const hasChecklist =
-              body.has_checklist !== undefined
-                ? body.has_checklist
-                : card.has_checklist;
-
-            return {
-              ...card,
-              title,
-              description,
-              has_checklist: hasChecklist,
-            };
-          }
-
-          return card;
         });
 
-        queryClient.setQueryData<Card[]>(fromKey, newFromCards);
+        queryClient.setQueryData<Card[]>(fromKey, fromCardsData);
+      }
+
+      if (previousFromCards && previousToCards) {
+        const toCardsData = produce(previousToCards, (draft) => {
+          // Move card in across 2 lists.
+          if (toList) {
+            const card = previousFromCards.find((card) => card.id === id);
+
+            if (card) {
+              return [
+                ...draft.slice(0, body.index),
+                card,
+                ...draft.slice(body.index),
+              ].map((toCard, index) => ({ ...toCard, index }));
+            }
+          }
+        });
 
         if (toKey) {
-          queryClient.setQueryData<Card[]>(toKey, newToCards);
+          queryClient.setQueryData<Card[]>(toKey, toCardsData);
         }
       }
 
@@ -141,6 +132,30 @@ const useUpdateCardMutation = () => {
         previousFromCards,
         previousToCards,
       };
+    },
+    onSuccess: (response, payload) => {
+      const key = ["cards", payload.id];
+      const fromKey = ["cards", { list_id: payload.listId }];
+      const previousCard = queryClient.getQueryData<Card>(key);
+      const previousFromCards = queryClient.getQueryData<Card[]>(fromKey);
+
+      if (previousCard) {
+        const data = produce(previousCard, () => response);
+
+        queryClient.setQueryData<Card>(key, data);
+      }
+
+      if (previousFromCards) {
+        const data = produce(previousFromCards, (draft) => {
+          const index = draft.findIndex((item) => item.id === payload.id);
+
+          if (index !== -1) {
+            draft[index] = response;
+          }
+        });
+
+        queryClient.setQueryData<Card[]>(fromKey, data);
+      }
     },
     onError: (error, payload, context?: Context) => {
       const { id, listId, body } = payload;
@@ -164,14 +179,7 @@ const useUpdateCardMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      const { id, listId, body } = payload;
-
-      queryClient.invalidateQueries(["cards", id]);
-      queryClient.invalidateQueries(["cards", { list_id: listId }]);
-
-      if (body.list_id) {
-        queryClient.invalidateQueries(["cards", { list_id: body.list_id }]);
-      }
+      queryClient.invalidateQueries("cards");
     },
   });
 };

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import produce from "immer";
 
 import { getSlug } from "../../helpers/formatter";
 import { Card } from "../../types/models";
@@ -34,7 +35,7 @@ const useCreateCardMutation = () => {
       const { body } = payload;
       const key = ["cards", { list_id: body.list_id }];
 
-      await queryClient.cancelQueries(key);
+      await queryClient.cancelQueries("cards");
 
       const previousCards = queryClient.getQueryData<Card[]>(key);
 
@@ -46,10 +47,16 @@ const useCreateCardMutation = () => {
           description: "",
           has_checklist: false,
           created_at: new Date().toISOString(),
+          checks: [],
+          due_dates: [],
           ...body,
         };
 
-        queryClient.setQueryData<Card[]>(key, [...previousCards, newCard]);
+        const data = produce(previousCards, (draft) => {
+          draft.push(newCard);
+        });
+
+        queryClient.setQueryData<Card[]>(key, data);
       }
 
       return { previousCards };
@@ -63,10 +70,7 @@ const useCreateCardMutation = () => {
       }
     },
     onSettled: (data, error, payload) => {
-      queryClient.invalidateQueries([
-        "cards",
-        { list_id: payload.body.list_id },
-      ]);
+      queryClient.invalidateQueries("cards");
     },
   });
 };
