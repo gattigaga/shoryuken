@@ -19,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
   // Get a board user has.
   if (req.method === "GET") {
     try {
-      const { error: userError } = await supabase.auth.api.getUser(token);
+      const { user, error: userError } = await supabase.auth.api.getUser(token);
 
       if (userError) {
         throw userError;
@@ -33,6 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Content>) => {
         .from("boards")
         .select("*")
         .eq("id", id)
+        .eq("user_id", user!.id)
         .limit(1)
         .single();
 
