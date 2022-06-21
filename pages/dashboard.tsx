@@ -41,6 +41,7 @@ const DashboardPage: NextPage = () => {
                     key={board.id}
                     title={board.title}
                     href={`/boards/${board.slug}`}
+                    isDisabled={board.id > 10000}
                   />
                 );
               })}
