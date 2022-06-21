@@ -16,6 +16,7 @@ type Props = {
   hasDescription?: boolean;
   hasChecklist?: boolean;
   isDueDateDone?: boolean;
+  isDisabled?: boolean;
 };
 
 const Card: React.FC<Props> = ({
@@ -29,6 +30,7 @@ const Card: React.FC<Props> = ({
   hasDescription,
   hasChecklist,
   isDueDateDone,
+  isDisabled,
 }) => {
   const isAllChecked =
     totalChecks === totalCompletedChecks && Number(totalChecks) > 0;
@@ -57,6 +59,56 @@ const Card: React.FC<Props> = ({
 
   const dueDateLabel = dueDate ? format(parseISO(dueDate), "MMM dd") : "";
 
+  const content = (
+    <>
+      <div className="flex-1 mr-4">
+        <p className="text-xs break-all">{title}</p>
+        {hasContent && (
+          <div className="flex items-center mt-2">
+            {!!dueDate && (
+              <div
+                className={`flex items-center rounded py-1 px-1 pr-2 mr-2 ${dueDateClassNames}`}
+              >
+                <MdTimer size={18} />
+                <p className="text-xs ml-1">{dueDateLabel}</p>
+              </div>
+            )}
+            {hasDescription && (
+              <span className="text-slate-500 mr-2">
+                <MdSubject size={20} />
+              </span>
+            )}
+            {hasChecklist && (
+              <div
+                className={classnames("flex items-center rounded p-1 pr-2", {
+                  "bg-green-500": isAllChecked,
+                  "text-white": isAllChecked,
+                  "text-slate-500": !isAllChecked,
+                })}
+              >
+                <MdOutlineCheckBox className="mr-1" size={20} />
+                <span className="text-xs">
+                  {totalCompletedChecks}/{totalChecks}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <span className="text-white group-hover:text-slate-500">
+        <MdEdit size={16} />
+      </span>
+    </>
+  );
+
+  if (isDisabled) {
+    return (
+      <div className="mb-2 group p-2 bg-white rounded shadow flex hover:bg-slate-200">
+        {content}
+      </div>
+    );
+  }
+
   return (
     <Draggable draggableId={`card-${id}`} index={index}>
       {(provided) => (
@@ -68,46 +120,7 @@ const Card: React.FC<Props> = ({
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              <div className="flex-1 mr-4">
-                <p className="text-xs break-all">{title}</p>
-                {hasContent && (
-                  <div className="flex items-center mt-2">
-                    {!!dueDate && (
-                      <div
-                        className={`flex items-center rounded py-1 px-1 pr-2 mr-2 ${dueDateClassNames}`}
-                      >
-                        <MdTimer size={18} />
-                        <p className="text-xs ml-1">{dueDateLabel}</p>
-                      </div>
-                    )}
-                    {hasDescription && (
-                      <span className="text-slate-500 mr-2">
-                        <MdSubject size={20} />
-                      </span>
-                    )}
-                    {hasChecklist && (
-                      <div
-                        className={classnames(
-                          "flex items-center rounded p-1 pr-2",
-                          {
-                            "bg-green-500": isAllChecked,
-                            "text-white": isAllChecked,
-                            "text-slate-500": !isAllChecked,
-                          }
-                        )}
-                      >
-                        <MdOutlineCheckBox className="mr-1" size={20} />
-                        <span className="text-xs">
-                          {totalCompletedChecks}/{totalChecks}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              <span className="text-white group-hover:text-slate-500">
-                <MdEdit size={16} />
-              </span>
+              {content}
             </div>
           </a>
         </Link>

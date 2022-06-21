@@ -42,7 +42,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
   const isOpen = !!router.query.card;
   const path = `/boards/${router.query.slug}`;
 
-  const close = () => router.push(path);
+  const close = () => router.replace(path);
 
   const addChecklist = async () => {
     if (!cardQuery.data) return;
@@ -99,7 +99,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
     >
       <Head>
         <title>
-          {cardQuery.data?.title && `${cardQuery.data.title} | Shoryuken`}
+          {cardQuery.data?.title && `${cardQuery.data.title} | `}Shoryuken
         </title>
       </Head>
 

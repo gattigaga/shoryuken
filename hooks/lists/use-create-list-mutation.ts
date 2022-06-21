@@ -55,6 +55,9 @@ const useCreateListMutation = () => {
 
       return { previousLists };
     },
+    onSuccess: (response) => {
+      queryClient.setQueryData<List>(["lists", response.id], response);
+    },
     onError: (error, payload, context?: Context) => {
       if (context?.previousLists) {
         queryClient.setQueryData<List[]>(
