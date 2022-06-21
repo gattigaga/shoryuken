@@ -200,7 +200,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                           card.checks?.filter((check: any) => check.is_checked)
                             .length || 0;
 
-                        const href = `/boards/${boardQuery.data?.slug}?card=${card.id}-${card.slug}`;
+                        const href = `/boards/${boardQuery.data?.id}-${boardQuery.data?.slug}?card=${card.id}-${card.slug}`;
 
                         return (
                           <Card
@@ -215,6 +215,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                             hasDescription={!!card.description}
                             hasChecklist={card.has_checklist}
                             isDueDateDone={!!card.due_dates?.[0]?.is_done}
+                            isDisabled={card.id > 10000}
                           />
                         );
                       })}
