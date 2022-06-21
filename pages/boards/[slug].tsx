@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useRef } from "react";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import classnames from "classnames";
@@ -10,7 +9,6 @@ import Loading from "react-spinners/ScaleLoader";
 
 import styles from "../../styles/pages/board-detail.module.css";
 import Layout from "../../components/Layout";
-import supabase from "../../helpers/supabase";
 import BoardTitle from "../../components/BoardTitle";
 import { useRouter } from "next/router";
 import CreateListForm from "../../components/CreateListForm";
@@ -24,55 +22,32 @@ import useUpdateCardMutation from "../../hooks/cards/use-update-card-mutation";
 import ModalCardDetail from "../../components/ModalCardDetail";
 
 export const getServerSideProps: GetServerSideProps = withAuthGuard(
-  async ({ params }) => {
-    const { slug } = params as {
-      slug: string;
-    };
-
-    const { data: boards, error: boardsError } = await supabase
-      .from("boards")
-      .select("*")
-      .eq("slug", slug);
-
-    if (boardsError) {
-      throw boardsError;
-    }
-
-    if (!boards.length) {
-      return {
-        notFound: true,
-      };
-    }
-
+  async () => {
     return {
-      props: {
-        initialBoard: boards[0],
-      },
+      props: {},
     };
   }
 );
 
-type Props = NextPage & {
-  initialBoard: {
-    id: number;
-    title: string;
-    slug: string;
-  };
-};
+type Props = NextPage;
 
-const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
+const BoardDetailPage: React.FC<Props> = ({}) => {
   const router = useRouter();
 
-  const boardQuery = useBoardQuery(initialBoard.id, initialBoard);
-  const listsQuery = useListsQuery(initialBoard.id);
+  const boardId = Number((router.query.slug as string)?.split("-")[0]);
+
+  const boardQuery = useBoardQuery(boardId);
+  const listsQuery = useListsQuery(boardId);
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
   const updateCardMutation = useUpdateCardMutation();
 
   const deleteBoard = async () => {
+    if (!boardQuery.data) return;
+
     try {
       await deleteBoardMutation.mutateAsync({
-        id: boardQuery.data!.id,
+        id: boardQuery.data.id,
       });
 
       await router.replace("/dashboard");
@@ -88,10 +63,12 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
     listId: number;
     toIndex: number;
   }) => {
+    if (!boardQuery.data) return;
+
     try {
       await updateListMutation.mutateAsync({
         id: listId,
-        boardId: boardQuery.data!.id,
+        boardId: boardQuery.data.id,
         body: {
           index: toIndex,
         },
@@ -169,83 +146,89 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
   return (
     <Layout>
       <Head>
-        <title>{boardQuery.data!.title} | Shoryuken</title>
+        <title>
+          {boardQuery.data && `${boardQuery.data.title} | `}Shoryuken
+        </title>
       </Head>
 
       <div className="bg-blue-600 h-screen flex flex-col">
-        {deleteBoardMutation.status === "idle" && (
-          <>
-            <div className="flex items-center my-4 px-4">
-              <Link href="/dashboard">
-                <a className="mr-4">
-                  <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
-                    <MdChevronLeft color="white" size={24} />
-                  </div>
-                </a>
-              </Link>
-              <BoardTitle id={boardQuery.data!.id} />
-              <button
-                className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
-                type="button"
-                onClick={deleteBoard}
-              >
-                Delete
-              </button>
-            </div>
-            <div className="flex-1 flex pb-4 px-4">
-              {listsQuery.status === "success" && (
-                <div
-                  className={classnames(
-                    "overflow-x-auto flex-1",
-                    styles.content
-                  )}
+        {deleteBoardMutation.status === "idle" &&
+          boardQuery.status === "success" && (
+            <>
+              <div className="flex items-center my-4 px-4">
+                <Link href="/dashboard">
+                  <a className="mr-4">
+                    <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+                      <MdChevronLeft color="white" size={24} />
+                    </div>
+                  </a>
+                </Link>
+                <BoardTitle id={boardQuery.data.id} />
+                <button
+                  className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
+                  type="button"
+                  onClick={deleteBoard}
                 >
-                  <div className="flex items-start">
-                    <DragDropContext onDragEnd={handleMovement}>
-                      <Droppable
-                        droppableId="lists"
-                        direction="horizontal"
-                        type="LIST"
-                      >
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            className="flex items-start"
-                            {...provided.droppableProps}
-                          >
-                            {listsQuery.data.map((list: any, index: number) => (
-                              <List
-                                key={list.id}
-                                id={list.id}
-                                boardId={boardQuery.data!.id}
-                                index={index}
-                                title={list.title}
-                              />
-                            ))}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
-                      <CreateListForm boardId={boardQuery.data!.id} />
-                    </DragDropContext>
+                  Delete
+                </button>
+              </div>
+              <div className="flex-1 flex pb-4 px-4">
+                {listsQuery.status === "success" && (
+                  <div
+                    className={classnames(
+                      "overflow-x-auto flex-1",
+                      styles.content
+                    )}
+                  >
+                    <div className="flex items-start">
+                      <DragDropContext onDragEnd={handleMovement}>
+                        <Droppable
+                          droppableId="lists"
+                          direction="horizontal"
+                          type="LIST"
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              className="flex items-start"
+                              {...provided.droppableProps}
+                            >
+                              {listsQuery.data.map(
+                                (list: any, index: number) => (
+                                  <List
+                                    key={list.id}
+                                    id={list.id}
+                                    boardId={boardQuery.data.id}
+                                    index={index}
+                                    title={list.title}
+                                  />
+                                )
+                              )}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                        <CreateListForm boardId={boardQuery.data.id} />
+                      </DragDropContext>
+                    </div>
                   </div>
-                </div>
-              )}
-              {listsQuery.status === "loading" && (
-                <div className="h-full w-full flex justify-center items-center">
-                  <Loading
-                    height={72}
-                    width={8}
-                    radius={16}
-                    margin={4}
-                    color="rgb(29 78 216)"
-                  />
-                </div>
-              )}
-            </div>
-          </>
-        )}
-        {deleteBoardMutation.status === "loading" && (
+                )}
+                {listsQuery.status === "loading" && (
+                  <div className="h-full w-full flex justify-center items-center">
+                    <Loading
+                      height={72}
+                      width={8}
+                      radius={16}
+                      margin={4}
+                      color="rgb(29 78 216)"
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        {(deleteBoardMutation.status === "loading" ||
+          boardQuery.status === "loading") && (
           <div className="h-full w-full flex justify-center items-center">
             <Loading
               height={72}
@@ -254,6 +237,24 @@ const BoardDetailPage: React.FC<Props> = ({ initialBoard }) => {
               margin={4}
               color="rgb(29 78 216)"
             />
+          </div>
+        )}
+        {boardQuery.status === "error" && (
+          <div className="h-full w-full flex flex-col items-center pt-32">
+            <p className="font-semibold text-white text-3xl mb-6">
+              Board not found
+            </p>
+            <p className="text-white text-sm text-center px-4 max-w-lg mb-8">
+              This board may be private. If someone gave you this link, they may
+              need to invite you to one of their boards or Workspaces.
+            </p>
+            <button
+              className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
+              type="button"
+              onClick={() => router.replace("/dashboard")}
+            >
+              Go Back
+            </button>
           </div>
         )}
       </div>

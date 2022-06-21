@@ -40,7 +40,7 @@ const DashboardPage: NextPage = () => {
                   <Board
                     key={board.id}
                     title={board.title}
-                    href={`/boards/${board.slug}`}
+                    href={`/boards/${board.id}-${board.slug}`}
                     isDisabled={board.id > 10000}
                   />
                 );
