@@ -1,6 +1,6 @@
 # Shoryuken
 
-![Preview](preview.png)
+![Thumbnail](./docs/images/thumbnail.png)
 
 Shoryuken is Trello-like web app created with NextJS and TailwindCSS. It has some features like:
 
@@ -27,14 +27,20 @@ yarn
 
 3. Sign in and create a project in [Supabase](https://supabase.com/).
 
-4. Create `.env.local` in root directory and fill it with supabase url and anon key you got from this [page](https://app.supabase.io/project/YOUR_PROJECT_ID/settings/api) in Supabase.
+4. Create database with this schema below in this [page](https://app.supabase.com/project/YOUR_PROJECT_ID/editor).
+
+![DB Schema](./docs/images/db-schema.png)
+
+5. Setup to enable Google Authentication in Supabase with this [guide](https://supabase.com/docs/guides/auth/auth-google).
+
+6. Create `.env.local` in root directory and fill it with supabase url and anon key you got from this [page](https://app.supabase.io/project/YOUR_PROJECT_ID/settings/api) in Supabase.
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
-5. Run the project with `yarn`.
+7. Run the project with `yarn`.
 
 ```bash
 yarn dev
