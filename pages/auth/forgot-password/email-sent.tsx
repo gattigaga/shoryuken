@@ -38,14 +38,12 @@ const EmailSentPage = () => {
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
             <Link href="/">
-              <a>
-                <Image
-                  src="/images/logo-with-text.svg"
-                  alt="Shoryuken logo"
-                  width={240}
-                  height={64}
-                />
-              </a>
+              <Image
+                src="/images/logo-with-text.svg"
+                alt="Shoryuken logo"
+                width={240}
+                height={64}
+              />
             </Link>
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
@@ -60,9 +58,7 @@ const EmailSentPage = () => {
               {email}
             </p>
             <Link href="/auth/signin">
-              <a>
-                <Button className="w-full">Back to Sign In</Button>
-              </a>
+              <Button className="w-full">Back to Sign In</Button>
             </Link>
           </div>
         </div>

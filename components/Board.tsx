@@ -20,11 +20,7 @@ const Board: React.FC<Props> = ({ title, href, isDisabled }) => {
 
   if (isDisabled) return content;
 
-  return (
-    <Link href={href}>
-      <a>{content}</a>
-    </Link>
-  );
+  return <Link href={href}>{content}</Link>;
 };
 
 export default Board;

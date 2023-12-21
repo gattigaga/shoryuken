@@ -98,14 +98,12 @@ const AccountDetailsPage: React.FC<Props> = ({ user }) => {
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
             <Link href="/">
-              <a>
-                <Image
-                  src="/images/logo-with-text.svg"
-                  alt="Shoryuken logo"
-                  width={240}
-                  height={64}
-                />
-              </a>
+              <Image
+                src="/images/logo-with-text.svg"
+                alt="Shoryuken logo"
+                width={240}
+                height={64}
+              />
             </Link>
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
@@ -229,14 +227,12 @@ const AccountDetailsPage: React.FC<Props> = ({ user }) => {
                       </div>
                       <p className="text-xs text-slate-500 leading-normal mb-8 px-2">
                         By signing up, I accept the{" "}
-                        <Link href="/">
-                          <a className="text-blue-700">
-                            Shoryuken Terms of Service
-                          </a>
+                        <Link href="/" className="text-blue-700">
+                          Shoryuken Terms of Service
                         </Link>{" "}
                         and acknowledge the{" "}
-                        <Link href="/">
-                          <a className="text-blue-700">Privacy Policy</a>
+                        <Link href="/" className="text-blue-700">
+                          Privacy Policy
                         </Link>
                         .
                       </p>

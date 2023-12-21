@@ -156,12 +156,10 @@ const BoardDetailPage: React.FC<Props> = ({}) => {
           boardQuery.status === "success" && (
             <>
               <div className="flex items-center my-4 px-4">
-                <Link href="/dashboard">
-                  <a className="mr-4">
-                    <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
-                      <MdChevronLeft color="white" size={24} />
-                    </div>
-                  </a>
+                <Link href="/dashboard" className="mr-4">
+                  <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+                    <MdChevronLeft color="white" size={24} />
+                  </div>
                 </Link>
                 <BoardTitle id={boardQuery.data.id} />
                 <button

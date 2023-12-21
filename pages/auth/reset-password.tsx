@@ -36,14 +36,12 @@ const ResetPasswordPage = () => {
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
             <Link href="/">
-              <a>
-                <Image
-                  src="/images/logo-with-text.svg"
-                  alt="Shoryuken logo"
-                  width={240}
-                  height={64}
-                />
-              </a>
+              <Image
+                src="/images/logo-with-text.svg"
+                alt="Shoryuken logo"
+                width={240}
+                height={64}
+              />
             </Link>
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
@@ -132,11 +130,9 @@ const ResetPasswordPage = () => {
             </Formik>
             <div className="w-full border-t my-6" />
             <Link href="/auth/signin">
-              <a>
-                <p className="text-xs text-blue-700 text-center">
-                  Return to sign in
-                </p>
-              </a>
+              <p className="text-xs text-blue-700 text-center">
+                Return to sign in
+              </p>
             </Link>
           </div>
         </div>

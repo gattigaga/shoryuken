@@ -113,16 +113,14 @@ const Card: React.FC<Props> = ({
     <Draggable draggableId={`card-${id}`} index={index}>
       {(provided) => (
         <Link href={href}>
-          <a>
-            <div
-              className="mb-2 group p-2 bg-white rounded shadow flex hover:bg-slate-200"
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-            >
-              {content}
-            </div>
-          </a>
+          <div
+            className="mb-2 group p-2 bg-white rounded shadow flex hover:bg-slate-200"
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            {content}
+          </div>
         </Link>
       )}
     </Draggable>

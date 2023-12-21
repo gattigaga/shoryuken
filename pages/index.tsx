@@ -95,15 +95,14 @@ const Home: NextPage = () => {
               width={128}
               height={64}
             />
-            <Link href="/auth/signin">
-              <a className="text-xs font-semibold text-slate-700 ml-auto mr-4">
-                Sign In
-              </a>
+            <Link
+              href="/auth/signin"
+              className="text-xs font-semibold text-slate-700 ml-auto mr-4"
+            >
+              Sign In
             </Link>
             <Link href="/auth/signup">
-              <a>
-                <Button type="button">Sign Up</Button>
-              </a>
+              <Button type="button">Sign Up</Button>
             </Link>
           </header>
 
@@ -120,12 +119,10 @@ const Home: NextPage = () => {
                     peaks. From high rises to the home office, the way your team
                     works is unique—accomplish it all with Shoryuken.
                   </p>
-                  <Link href="/auth/signup">
-                    <a className="w-full lg:w-auto">
-                      <Button className="w-full lg:w-auto" type="button">
-                        Sign Up - it&lsquo;s free
-                      </Button>
-                    </a>
+                  <Link href="/auth/signup" className="w-full lg:w-auto">
+                    <Button className="w-full lg:w-auto" type="button">
+                      Sign Up - it&lsquo;s free
+                    </Button>
                   </Link>
                 </div>
               </div>
@@ -143,16 +140,14 @@ const Home: NextPage = () => {
                   place.
                 </p>
                 <Link href="/auth/signup">
-                  <a>
-                    <Button
-                      className="border border-blue-500"
-                      backgroundColor={["bg-white", "bg-white"]}
-                      textColor="text-blue-500"
-                      type="button"
-                    >
-                      Start doing
-                    </Button>
-                  </a>
+                  <Button
+                    className="border border-blue-500"
+                    backgroundColor={["bg-white", "bg-white"]}
+                    textColor="text-blue-500"
+                    type="button"
+                  >
+                    Start doing
+                  </Button>
                 </Link>
               </div>
             </div>
@@ -163,17 +158,15 @@ const Home: NextPage = () => {
                     Sign up and get started with Shoryuken today. A world of
                     productive teamwork awaits!
                   </p>
-                  <Link href="/auth/signup">
-                    <a className="w-full">
-                      <Button
-                        className="w-full"
-                        backgroundColor={["bg-white", "bg-slate-50"]}
-                        textColor="text-slate-700"
-                        type="button"
-                      >
-                        Sign up
-                      </Button>
-                    </a>
+                  <Link href="/auth/signup" className="w-full">
+                    <Button
+                      className="w-full"
+                      backgroundColor={["bg-white", "bg-slate-50"]}
+                      textColor="text-slate-700"
+                      type="button"
+                    >
+                      Sign up
+                    </Button>
                   </Link>
                 </div>
               </div>

@@ -51,14 +51,12 @@ const SignInPage = () => {
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
             <Link href="/">
-              <a>
-                <Image
-                  src="/images/logo-with-text.svg"
-                  alt="Shoryuken logo"
-                  width={240}
-                  height={64}
-                />
-              </a>
+              <Image
+                src="/images/logo-with-text.svg"
+                alt="Shoryuken logo"
+                width={240}
+                height={64}
+              />
             </Link>
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
@@ -166,19 +164,15 @@ const SignInPage = () => {
             <div className="w-full border-t my-6" />
             <div className="flex justify-center items-center">
               <Link href="/auth/forgot-password">
-                <a>
-                  <p className="text-xs text-blue-700 text-center">
-                    Can&lsquo;t sign in?
-                  </p>
-                </a>
+                <p className="text-xs text-blue-700 text-center">
+                  Can&lsquo;t sign in?
+                </p>
               </Link>
               <span className="mx-3 text-slate-600">&#8226;</span>
               <Link href="/auth/signup">
-                <a>
-                  <p className="text-xs text-blue-700 text-center">
-                    Sign up for an account
-                  </p>
-                </a>
+                <p className="text-xs text-blue-700 text-center">
+                  Sign up for an account
+                </p>
               </Link>
             </div>
           </div>
