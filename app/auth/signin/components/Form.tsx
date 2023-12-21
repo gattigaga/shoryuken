@@ -22,9 +22,7 @@ const validationSchema = Yup.object({
   password: Yup.string().required("Password is required"),
 });
 
-type Props = {};
-
-const Form: FC<Props> = () => {
+const Form: FC = () => {
   const router = useRouter();
   const signInMutation = useSignInMutation();
 

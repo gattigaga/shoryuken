@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Sign Up | Shoryuken",
 };
 
-const SignInPage: NextPage = () => {
+const SignUpPage: NextPage = () => {
   return (
     <div className="min-h-screen md:bg-slate-50">
       <main className="py-12">
@@ -26,30 +26,39 @@ const SignInPage: NextPage = () => {
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
             <h1 className="font-semibold text-center text-slate-600 mb-6">
-              Sign in to Shoryuken
+              Sign up for your account
             </h1>
 
             <Form />
 
             <div className="w-full border-t my-6" />
-            <div className="flex justify-center items-center">
-              <Link href="/auth/forgot-password">
-                <p className="text-xs text-blue-700 text-center">
-                  Can&lsquo;t sign in?
-                </p>
-              </Link>
-              <span className="mx-3 text-slate-600">&#8226;</span>
-              <Link href="/auth/signup">
-                <p className="text-xs text-blue-700 text-center">
-                  Sign up for an account
-                </p>
-              </Link>
-            </div>
+            <Link href="/auth/signin">
+              <p className="text-xs text-blue-700 text-center">
+                Already have an account? Sign in
+              </p>
+            </Link>
           </div>
+          <p className="text-xs text-slate-500 text-center leading-normalm mt-8">
+            This page is protected by reCAPTCHA and the Google{" "}
+            <a
+              href="https://www.google.com/policies/privacy/"
+              className="text-blue-700"
+            >
+              Privacy Policy
+            </a>
+            and{" "}
+            <a
+              href="https://www.google.com/policies/terms/"
+              className="text-blue-700"
+            >
+              Terms of Service
+            </a>{" "}
+            apply
+          </p>
         </div>
       </main>
     </div>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
