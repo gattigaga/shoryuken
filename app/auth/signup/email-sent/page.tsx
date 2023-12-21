@@ -1,39 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { Metadata } from "next";
 
 import Button from "../../../components/Button";
+import Email from "./components/Email";
+
+export const metadata: Metadata = {
+  title: "Verify your email | Shoryuken",
+};
 
 const EmailSentPage = () => {
-  const [email, setEmail] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const newEmail = sessionStorage.getItem("signupEmail") || "";
-
-      if (!newEmail) {
-        router.replace("/auth/signup");
-        return;
-      }
-
-      setEmail(newEmail);
-      return;
-    }
-  }, []);
-
-  if (!email) {
-    return null;
-  }
-
   return (
     <div className="min-h-screen md:bg-slate-50">
-      <Head>
-        <title>Verify your email | Shoryuken</title>
-      </Head>
-
       <main className="py-12">
         <div className="w-80 mx-auto md:w-96">
           <div className="flex justify-center mb-6">
@@ -54,9 +33,9 @@ const EmailSentPage = () => {
               To complete setup and log in, click the verification link in the
               email we&lsquo;ve sent to
             </p>
-            <p className="text-sm font-semibold text-slate-600 leading-normal mb-8">
-              {email}
-            </p>
+
+            <Email />
+
             <Link href="/auth/signin">
               <Button className="w-full">Back to Sign In</Button>
             </Link>
