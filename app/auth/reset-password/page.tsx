@@ -1,16 +1,15 @@
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { Metadata, NextPage } from "next";
+import Link from "next/link";
+import Image from "next/image";
 
-import Button from "../../../components/Button";
-import Email from "./components/Email";
+import Form from "./components/Form";
 
 export const metadata: Metadata = {
-  title: "Verify your email | Shoryuken",
+  title: "Reset Password | Shoryuken",
 };
 
-const EmailSentPage: NextPage = () => {
+const ResetPasswordPage: NextPage = () => {
   return (
     <div className="min-h-screen md:bg-slate-50">
       <main className="py-12">
@@ -27,17 +26,16 @@ const EmailSentPage: NextPage = () => {
           </div>
           <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
             <h1 className="font-semibold text-center text-slate-600 mb-6">
-              Check your inbox to log in
+              Reset your password
             </h1>
-            <p className="text-xs text-slate-500 leading-normal mb-2">
-              To complete setup and log in, click the verification link in the
-              email we&lsquo;ve sent to
-            </p>
 
-            <Email />
+            <Form />
 
+            <div className="w-full border-t my-6" />
             <Link href="/auth/signin">
-              <Button className="w-full">Back to Sign In</Button>
+              <p className="text-xs text-blue-700 text-center">
+                Return to sign in
+              </p>
             </Link>
           </div>
         </div>
@@ -46,4 +44,4 @@ const EmailSentPage: NextPage = () => {
   );
 };
 
-export default EmailSentPage;
+export default ResetPasswordPage;
