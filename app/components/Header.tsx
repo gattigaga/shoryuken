@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { addDays } from "date-fns";
 
@@ -11,20 +11,17 @@ import Button from "./Button";
 
 const Header: FC = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const refHeader = useRef<HTMLDivElement>(null);
 
   // Listen to recovery link to open reset password page
   // and listen to sign in link to sign in with password
   // or 3rd party providers (i.e. Google).
   useEffect(() => {
-    if (!searchParams) {
-      return;
-    }
-
-    const accessToken = searchParams.get("access_token");
-    const providerToken = searchParams.get("provider_token");
-    const type = searchParams.get("type");
+    const queryString = window.location.hash.replace("#", "");
+    const params = new URLSearchParams(queryString);
+    const accessToken = params.get("access_token");
+    const providerToken = params.get("provider_token");
+    const type = params.get("type");
 
     if (accessToken) {
       Cookies.set("access_token", accessToken, {
@@ -44,7 +41,7 @@ const Header: FC = () => {
         router.replace("/auth/account-details");
       }
     }
-  }, [searchParams]);
+  }, []);
 
   // Handle style of the header.
   useEffect(() => {
