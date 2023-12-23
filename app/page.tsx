@@ -1,4 +1,4 @@
-import type { Metadata, NextPage } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Shoryuken | Manage Your Projects",
 };
 
-const HomePage: NextPage = () => {
+const HomePage = () => {
   const year = new Date().getFullYear();
 
   return (
