@@ -1,16 +1,11 @@
-import React from "react";
+import { FC } from "react";
 
 type Props = JSX.IntrinsicElements["input"] & {
   errorMessage?: string;
   isError?: boolean;
 };
 
-const Input: React.FC<Props> = ({
-  className,
-  errorMessage,
-  isError,
-  ...rest
-}) => {
+const Input: FC<Props> = ({ className, errorMessage, isError, ...rest }) => {
   return (
     <>
       <input

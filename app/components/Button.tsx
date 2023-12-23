@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 
 type Props = JSX.IntrinsicElements["button"] & {
   backgroundColor?: string[];

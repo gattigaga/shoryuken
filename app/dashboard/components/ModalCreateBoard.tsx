@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from "react";
+"use client";
+
+import { FC, useEffect, useRef } from "react";
 import Modal from "react-modal";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 
-import Button from "./Button";
-import useCreateBoardMutation from "../hooks/boards/use-create-board-mutation";
+import Button from "../../components/Button";
+import useCreateBoardMutation from "../../../hooks/boards/use-create-board-mutation";
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -20,7 +21,7 @@ type Props = {
   onRequestClose?: () => void;
 };
 
-const ModalCreateBoard: React.FC<Props> = ({ isOpen, onRequestClose }) => {
+const ModalCreateBoard: FC<Props> = ({ isOpen, onRequestClose }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const createBoardMutation = useCreateBoardMutation();
 

@@ -1,10 +1,10 @@
-import React from "react";
+import { FC } from "react";
 
 type Props = {
   onClick?: () => void;
 };
 
-const CreateBoardButton: React.FC<Props> = ({ onClick }) => {
+const CreateBoardButton: FC<Props> = ({ onClick }) => {
   return (
     <button
       className="p-4 h-32 bg-slate-200 rounded hover:bg-slate-300"

@@ -1,33 +1,19 @@
-import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
-import { useState } from "react";
-import Loading from "react-spinners/ScaleLoader";
+"use client";
 
-import Board from "../components/Board";
-import CreateBoardButton from "../components/CreateBoardButton";
-import ModalCreateBoard from "../components/ModalCreateBoard";
-import Layout from "../components/Layout";
-import { withAuthGuard } from "../helpers/server";
-import useBoardsQuery from "../hooks/boards/use-boards-query";
+import { FC, useState } from "react";
+import Spinner from "react-spinners/ScaleLoader";
 
-export const getServerSideProps: GetServerSideProps = withAuthGuard(
-  async () => {
-    return {
-      props: {},
-    };
-  }
-);
+import useBoardsQuery from "../../../hooks/boards/use-boards-query";
+import ModalCreateBoard from "./ModalCreateBoard";
+import CreateBoardButton from "./CreateBoardButton";
+import Board from "./Board";
 
-const DashboardPage: NextPage = () => {
+const Boards: FC = () => {
   const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false);
   const boardsQuery = useBoardsQuery();
 
   return (
-    <Layout>
-      <Head>
-        <title>Dashboard | Shoryuken</title>
-      </Head>
-
+    <>
       <div className="min-h-full">
         {boardsQuery.status === "success" && (
           <div className="px-8 pt-12 pb-32 w-full mx-auto sm:w-5/6">
@@ -51,7 +37,7 @@ const DashboardPage: NextPage = () => {
         )}
         {boardsQuery.status === "loading" && (
           <div className="h-full flex justify-center items-center">
-            <Loading
+            <Spinner
               height={72}
               width={8}
               radius={16}
@@ -65,8 +51,8 @@ const DashboardPage: NextPage = () => {
         onRequestClose={() => setIsCreateBoardOpen(false)}
         isOpen={isCreateBoardOpen}
       />
-    </Layout>
+    </>
   );
 };
 
-export default DashboardPage;
+export default Boards;
