@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import {
   isAfter,
@@ -9,8 +11,8 @@ import {
 } from "date-fns";
 import toast from "react-hot-toast";
 
-import useUpdateDueDateMutation from "../hooks/due-dates/use-update-due-date-mutation";
-import useCardQuery from "../hooks/cards/use-card-query";
+import useUpdateDueDateMutation from "../../../../../hooks/due-dates/use-update-due-date-mutation";
+import useCardQuery from "../../../../../hooks/cards/use-card-query";
 import PopupDueDate from "./PopupDueDate";
 
 type Props = {

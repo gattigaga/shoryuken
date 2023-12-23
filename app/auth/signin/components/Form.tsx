@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import * as Yup from "yup";
 
-import Input from "../../components/Input";
+import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import useSignInMutation from "../hooks/use-sign-in-mutation";
 import supabase from "../../../../helpers/supabase";
@@ -63,7 +63,7 @@ const Form: FC = () => {
             path: "/",
           });
 
-          await router.push("/dashboard");
+          router.push("/dashboard");
         } catch (error) {
           console.error(error);
           toast.error("Failed to sign in.");

@@ -19,6 +19,7 @@ export const getUser = async () => {
   }
 
   const newUser = {
+    id: user.id,
     fullname: user.user_metadata.fullname || user.user_metadata.full_name || "",
     username: user.user_metadata.username || "",
     email: user.email || "",

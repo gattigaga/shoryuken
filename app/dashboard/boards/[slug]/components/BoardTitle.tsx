@@ -1,8 +1,10 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-import useBoardQuery from "../hooks/boards/use-board-query";
-import useUpdateBoardMutation from "../hooks/boards/use-update-board-mutation";
+import useBoardQuery from "../../../../../hooks/boards/use-board-query";
+import useUpdateBoardMutation from "../../../../../hooks/boards/use-update-board-mutation";
 
 type Props = {
   id: number;

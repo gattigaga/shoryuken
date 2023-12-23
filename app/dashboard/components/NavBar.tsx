@@ -23,7 +23,7 @@ const NavBar: FC = () => {
     try {
       await signOutMutation.mutateAsync();
     } finally {
-      await router.replace("/auth/signin");
+      router.replace("/auth/signin");
 
       queryClient.resetQueries();
 

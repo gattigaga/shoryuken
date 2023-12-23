@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 
 import useForgotPasswordMutation from "../../../../hooks/auth/use-forgot-password-mutation";
-import Input from "../../components/Input";
+import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 
 const validationSchema = Yup.object({

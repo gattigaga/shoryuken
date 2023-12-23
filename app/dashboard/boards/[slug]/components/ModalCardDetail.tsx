@@ -1,6 +1,8 @@
+"use client";
+
 import Head from "next/head";
 import Modal from "react-modal";
-import { useRouter } from "next/router";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   MdClose,
@@ -12,9 +14,9 @@ import {
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
 
-import useCardQuery from "../hooks/cards/use-card-query";
-import useDeleteCardMutation from "../hooks/cards/use-delete-card-mutation";
-import useUpdateCardMutation from "../hooks/cards/use-update-card-mutation";
+import useCardQuery from "../../../../../hooks/cards/use-card-query";
+import useDeleteCardMutation from "../../../../../hooks/cards/use-delete-card-mutation";
+import useUpdateCardMutation from "../../../../../hooks/cards/use-update-card-mutation";
 import CardTitle from "./CardTitle";
 import CardDescription from "./CardDescription";
 import CardChecklist from "./CardChecklist";
@@ -25,9 +27,13 @@ type Props = {};
 
 const ModalCardDetail: React.FC<Props> = ({}) => {
   const router = useRouter();
+  const params = useParams();
+  const searchParams = useSearchParams();
+
+  const cardSlug = searchParams?.get("card");
 
   const cardId = (() => {
-    const value = (router.query.card as string)?.split("-")[0];
+    const value = cardSlug?.split("-")[0];
 
     if (!value) return undefined;
 
@@ -39,8 +45,8 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
   const deleteCardMutation = useDeleteCardMutation();
   const updateCardMutation = useUpdateCardMutation();
 
-  const isOpen = !!router.query.card;
-  const path = `/boards/${router.query.slug}`;
+  const isOpen = !!cardSlug;
+  const path = `/dashboard/boards/${params?.slug}`;
 
   const close = () => router.replace(path);
 
@@ -72,7 +78,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
 
     if (isYes) {
       try {
-        await router.replace(path);
+        router.replace(path);
 
         await deleteCardMutation.mutateAsync({
           id: cardQuery.data.id,

@@ -1,11 +1,13 @@
+"use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import { MdAdd, MdClose } from "react-icons/md";
 import { motion } from "framer-motion";
-
-import useCreateListMutation from "../hooks/lists/use-create-list-mutation";
-import Button from "./Button";
 import classnames from "classnames";
+
+import useCreateListMutation from "../../../../../hooks/lists/use-create-list-mutation";
+import Button from "../../../../components/Button";
 
 type Props = {
   boardId: number;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import Boards from "./components/Boards";
+import Content from "./components/Content";
 import { getUser } from "../helpers/auth";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ const DashboardPage = async () => {
     redirect("/auth/signin");
   }
 
-  return <Boards />;
+  return <Content />;
 };
 
 export default DashboardPage;

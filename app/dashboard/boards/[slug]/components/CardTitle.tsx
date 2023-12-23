@@ -1,10 +1,12 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { MdInbox } from "react-icons/md";
 
-import useCardQuery from "../hooks/cards/use-card-query";
-import useUpdateCardMutation from "../hooks/cards/use-update-card-mutation";
-import useListQuery from "../hooks/lists/use-list-query";
+import useCardQuery from "../../../../../hooks/cards/use-card-query";
+import useUpdateCardMutation from "../../../../../hooks/cards/use-update-card-mutation";
+import useListQuery from "../../../../../hooks/lists/use-list-query";
 
 type Props = {
   id: number;

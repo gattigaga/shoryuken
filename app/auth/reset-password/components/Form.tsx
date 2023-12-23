@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 
 import useResetPasswordMutation from "../../../../hooks/auth/use-reset-password-mutation";
-import Input from "../../components/Input";
+import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 
 const validationSchema = Yup.object({
@@ -47,7 +47,7 @@ const Form: FC = () => {
             },
           });
 
-          await router.replace("/dashboard");
+          router.replace("/dashboard");
         } catch (error) {
           console.error(error);
           toast.error("Failed to reset your password.");

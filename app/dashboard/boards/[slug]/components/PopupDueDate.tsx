@@ -1,16 +1,18 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import { format, formatISO, isValid, parse, parseISO } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 import toast from "react-hot-toast";
 
-import Button from "./Button";
-import Input from "./Input";
+import Button from "../../../../components/Button";
+import Input from "../../../../components/Input";
 import Popup from "./Popup";
-import useCreateDueDateMutation from "../hooks/due-dates/use-create-due-date-mutation";
-import useDeleteDueDateMutation from "../hooks/due-dates/use-delete-due-date-mutation";
-import useUpdateDueDateMutation from "../hooks/due-dates/use-update-due-date-mutation";
-import useCardQuery from "../hooks/cards/use-card-query";
+import useCreateDueDateMutation from "../../../../../hooks/due-dates/use-create-due-date-mutation";
+import useDeleteDueDateMutation from "../../../../../hooks/due-dates/use-delete-due-date-mutation";
+import useUpdateDueDateMutation from "../../../../../hooks/due-dates/use-update-due-date-mutation";
+import useCardQuery from "../../../../../hooks/cards/use-card-query";
 
 type Props = {
   id: number;

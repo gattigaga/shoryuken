@@ -1,40 +1,32 @@
-import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
+"use client";
+
+import { FC } from "react";
 import Link from "next/link";
+import { useRouter, useParams } from "next/navigation";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import classnames from "classnames";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
 
-import styles from "../../styles/pages/board-detail.module.css";
-import Layout from "../../components/Layout";
-import BoardTitle from "../../components/BoardTitle";
-import { useRouter } from "next/router";
-import CreateListForm from "../../components/CreateListForm";
-import List from "../../components/List";
-import { withAuthGuard } from "../../helpers/server";
-import useBoardQuery from "../../hooks/boards/use-board-query";
-import useDeleteBoardMutation from "../../hooks/boards/use-delete-board-mutation";
-import useListsQuery from "../../hooks/lists/use-lists-query";
-import useUpdateListMutation from "../../hooks/lists/use-update-list-mutation";
-import useUpdateCardMutation from "../../hooks/cards/use-update-card-mutation";
-import ModalCardDetail from "../../components/ModalCardDetail";
+import styles from "../../../../../styles/pages/board-detail.module.css";
+import BoardTitle from "./BoardTitle";
+import CreateListForm from "./CreateListForm";
+import List from "./List";
+import useBoardQuery from "../../../../../hooks/boards/use-board-query";
+import useDeleteBoardMutation from "../../../../../hooks/boards/use-delete-board-mutation";
+import useListsQuery from "../../../../../hooks/lists/use-lists-query";
+import useUpdateListMutation from "../../../../../hooks/lists/use-update-list-mutation";
+import useUpdateCardMutation from "../../../../../hooks/cards/use-update-card-mutation";
+import ModalCardDetail from "./ModalCardDetail";
 
-export const getServerSideProps: GetServerSideProps = withAuthGuard(
-  async () => {
-    return {
-      props: {},
-    };
-  }
-);
+type Props = {};
 
-type Props = NextPage;
-
-const BoardDetailPage: React.FC<Props> = ({}) => {
+const Content: FC<Props> = ({}) => {
   const router = useRouter();
+  const params = useParams();
 
-  const boardId = Number((router.query.slug as string)?.split("-")[0]);
+  const boardId = Number(((params?.slug as string) || "").split("-")[0]);
 
   const boardQuery = useBoardQuery(boardId);
   const listsQuery = useListsQuery(boardId);
@@ -50,7 +42,7 @@ const BoardDetailPage: React.FC<Props> = ({}) => {
         id: boardQuery.data.id,
       });
 
-      await router.replace("/dashboard");
+      router.replace("/dashboard");
     } catch (error) {
       toast.error("Failed to delete a board.");
     }
@@ -144,13 +136,7 @@ const BoardDetailPage: React.FC<Props> = ({}) => {
   };
 
   return (
-    <Layout>
-      <Head>
-        <title>
-          {boardQuery.data && `${boardQuery.data.title} | `}Shoryuken
-        </title>
-      </Head>
-
+    <>
       <div className="bg-blue-600 h-screen flex flex-col">
         {deleteBoardMutation.status === "idle" &&
           boardQuery.status === "success" && (
@@ -257,8 +243,8 @@ const BoardDetailPage: React.FC<Props> = ({}) => {
         )}
       </div>
       <ModalCardDetail />
-    </Layout>
+    </>
   );
 };
 
-export default BoardDetailPage;
+export default Content;

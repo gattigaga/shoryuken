@@ -1,16 +1,18 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { MdOutlineCheckBox } from "react-icons/md";
 import { motion } from "framer-motion";
 import { Droppable, DragDropContext } from "react-beautiful-dnd";
 
-import useChecksQuery from "../hooks/checks/use-checks-query";
-import useCreateCheckMutation from "../hooks/checks/use-create-check-mutation";
-import Button from "./Button";
+import useChecksQuery from "../../../../../hooks/checks/use-checks-query";
+import useCreateCheckMutation from "../../../../../hooks/checks/use-create-check-mutation";
+import useUpdateCardMutation from "../../../../../hooks/cards/use-update-card-mutation";
+import useCardQuery from "../../../../../hooks/cards/use-card-query";
+import useUpdateCheckMutation from "../../../../../hooks/checks/use-update-check-mutation";
 import CardCheckItem from "./CardCheckItem";
-import useUpdateCardMutation from "../hooks/cards/use-update-card-mutation";
-import useCardQuery from "../hooks/cards/use-card-query";
-import useUpdateCheckMutation from "../hooks/checks/use-update-check-mutation";
+import Button from "../../../../components/Button";
 
 type Props = {
   id: number;

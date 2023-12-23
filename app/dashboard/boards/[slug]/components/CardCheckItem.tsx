@@ -1,12 +1,14 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { MdClose } from "react-icons/md";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
 
-import useUpdateCheckMutation from "../hooks/checks/use-update-check-mutation";
-import useDeleteCheckMutation from "../hooks/checks/use-delete-check-mutation";
-import Button from "./Button";
+import useUpdateCheckMutation from "../../../../../hooks/checks/use-update-check-mutation";
+import useDeleteCheckMutation from "../../../../../hooks/checks/use-delete-check-mutation";
+import Button from "../../../../components/Button";
 
 type Props = {
   id: number;

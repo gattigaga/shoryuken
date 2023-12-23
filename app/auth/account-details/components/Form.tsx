@@ -8,7 +8,7 @@ import Spinner from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 
-import Input from "../../components/Input";
+import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import useUpdateUserMutation from "../../../../hooks/user/use-update-user-mutation";
 
@@ -72,7 +72,7 @@ const Form: FC<Props> = ({ defaultValues }) => {
             },
           });
 
-          await router.replace("/dashboard");
+          router.replace("/dashboard");
         } catch (error) {
           console.error(error);
           toast.error("Failed to submit account details.");

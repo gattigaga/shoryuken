@@ -8,7 +8,7 @@ import ModalCreateBoard from "./ModalCreateBoard";
 import CreateBoardButton from "./CreateBoardButton";
 import Board from "./Board";
 
-const Boards: FC = () => {
+const Content: FC = () => {
   const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false);
   const boardsQuery = useBoardsQuery();
 
@@ -26,7 +26,7 @@ const Boards: FC = () => {
                   <Board
                     key={board.id}
                     title={board.title}
-                    href={`/boards/${board.id}-${board.slug}`}
+                    href={`dashboard/boards/${board.id}-${board.slug}`}
                     isDisabled={board.id > 10000}
                   />
                 );
@@ -55,4 +55,4 @@ const Boards: FC = () => {
   );
 };
 
-export default Boards;
+export default Content;

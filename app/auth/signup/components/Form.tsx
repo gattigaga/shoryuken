@@ -8,7 +8,7 @@ import Loading from "react-spinners/ScaleLoader";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 
-import Input from "../../components/Input";
+import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import useSignUpMutation from "../hooks/use-sign-up-mutation";
 
@@ -68,7 +68,7 @@ const Form: FC = () => {
 
           sessionStorage.setItem("signupEmail", email);
 
-          await router.push("/auth/signup/email-sent");
+          router.push("/auth/signup/email-sent");
         } catch (error) {
           console.error(error);
           toast.error("Failed to sign up.");

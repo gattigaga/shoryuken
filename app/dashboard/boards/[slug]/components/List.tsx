@@ -1,17 +1,19 @@
+"use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import classnames from "classnames";
 
-import styles from "../styles/components/List.module.css";
-import Button from "./Button";
+import styles from "../../../../../styles/components/List.module.css";
+import Button from "../../../../components/Button";
 import Card from "./Card";
-import useDeleteListMutation from "../hooks/lists/use-delete-list-mutation";
-import useUpdateListBoardMutation from "../hooks/lists/use-update-list-mutation";
-import useCardsQuery from "../hooks/cards/use-cards-query";
-import useCreateCardMutation from "../hooks/cards/use-create-card-mutation";
-import useBoardQuery from "../hooks/boards/use-board-query";
+import useDeleteListMutation from "../../../../../hooks/lists/use-delete-list-mutation";
+import useUpdateListBoardMutation from "../../../../../hooks/lists/use-update-list-mutation";
+import useCardsQuery from "../../../../../hooks/cards/use-cards-query";
+import useCreateCardMutation from "../../../../../hooks/cards/use-create-card-mutation";
+import useBoardQuery from "../../../../../hooks/boards/use-board-query";
 
 type Props = {
   id: number;
@@ -200,7 +202,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                           card.checks?.filter((check: any) => check.is_checked)
                             .length || 0;
 
-                        const href = `/boards/${boardQuery.data?.id}-${boardQuery.data?.slug}?card=${card.id}-${card.slug}`;
+                        const href = `/dashboard/boards/${boardQuery.data?.id}-${boardQuery.data?.slug}?card=${card.id}-${card.slug}`;
 
                         return (
                           <Card
