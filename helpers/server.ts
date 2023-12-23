@@ -6,7 +6,7 @@ import {
 } from "next";
 import { ParsedUrlQuery } from "querystring";
 
-import supabase from "./supabase";
+import supabase from "../app/helpers/supabase";
 
 export const withAuthGuard =
   (callback: GetServerSideProps) =>

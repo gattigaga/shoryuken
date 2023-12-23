@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import supabase from "../../../helpers/supabase";
+import supabase from "../../../app/helpers/supabase";
 import { moveElement } from "../../../helpers/data-structures";
 
 type Content = {

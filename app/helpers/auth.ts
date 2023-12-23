@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-import supabase from "../../helpers/supabase";
+import supabase from "./supabase";
 
 export const getUser = async () => {
   const cookiesStore = cookies();

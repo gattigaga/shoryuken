@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import Loading from "./components/Loading";
 
 export const metadata: Metadata = {
-  title: "Shoryuken",
+  title: "Shoryuken | Manage Your Projects",
 };
 
 const HomePage: NextPage = () => {

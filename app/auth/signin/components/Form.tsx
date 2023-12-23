@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import useSignInMutation from "../hooks/use-sign-in-mutation";
-import supabase from "../../../../helpers/supabase";
+import supabase from "../../../helpers/supabase";
 
 const validationSchema = Yup.object({
   email: Yup.string()
