@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Metadata, NextPage } from "next";
+import { Metadata } from "next";
 
 import Button from "../../../components/Button";
 import Email from "./components/Email";
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Verify your email | Shoryuken",
 };
 
-const EmailSentPage: NextPage = () => {
+const EmailSentPage = () => {
   return (
     <div className="min-h-screen md:bg-slate-50">
       <main className="py-12">

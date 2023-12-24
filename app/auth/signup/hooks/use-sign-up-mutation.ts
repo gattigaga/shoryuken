@@ -8,17 +8,20 @@ type Body = {
   username: string;
   email: string;
   password: string;
-  confirm_password: string;
+  confirmPassword: string;
 };
 
 type Payload = {
   body: Body;
 };
 
-const postSignUp = async (payload: Payload): Promise<Response> => {
-  await axios.post("/api/auth/signup", payload.body);
+const action = async (payload: Payload): Promise<Response> => {
+  await axios.post("/api/auth/signup", {
+    ...payload.body,
+    confirm_password: payload.body.confirmPassword,
+  });
 };
 
-const useSignUpMutation = () => useMutation(postSignUp);
+const useSignUpMutation = () => useMutation(action);
 
 export default useSignUpMutation;

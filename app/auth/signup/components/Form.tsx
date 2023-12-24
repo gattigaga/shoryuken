@@ -4,34 +4,40 @@ import { FC } from "react";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Loading from "react-spinners/ScaleLoader";
+import Spinner from "react-spinners/ScaleLoader";
 import toast from "react-hot-toast";
-import * as Yup from "yup";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import { z } from "zod";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import useSignUpMutation from "../hooks/use-sign-up-mutation";
 
-const validationSchema = Yup.object({
-  fullname: Yup.string()
-    .min(5, "Full Name should have at least 5 characters.")
-    .max(50, "Full Name should no more than 50 characters.")
-    .required("Full Name is required"),
-  username: Yup.string()
-    .min(8, "Username should have at least 8 characters.")
-    .max(15, "Username should no more than 15 characters.")
-    .required("Username is required"),
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(8, "Password should have at least 8 characters.")
-    .max(25, "Password should no more than 25 characters.")
-    .required("Password is required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Confirm Password is mismatch")
-    .required("Confirm Password is required"),
-});
+const validationSchema = z
+  .object({
+    fullname: z
+      .string({ required_error: "Full Name is required" })
+      .min(5, "Full Name should have at least 5 characters")
+      .max(50, "Full Name should no more than 50 characters"),
+    username: z
+      .string({ required_error: "Username is required" })
+      .min(8, "Username should have at least 8 characters")
+      .max(15, "Username should no more than 15 characters"),
+    email: z
+      .string({ required_error: "Email is required" })
+      .email("Invalid email format."),
+    password: z
+      .string({ required_error: "Password is required" })
+      .min(8, "Password should have at least 8 characters")
+      .max(25, "Password should no more than 25 characters"),
+    confirmPassword: z.string({
+      required_error: "Confirm Password is required",
+    }),
+  })
+  .refine((values) => values.password === values.confirmPassword, {
+    message: "Confirm Password is mismatch",
+    path: ["confirmPassword"],
+  });
 
 const Form: FC = () => {
   const router = useRouter();
@@ -46,24 +52,17 @@ const Form: FC = () => {
         password: "",
         confirmPassword: "",
       }}
-      validationSchema={validationSchema}
+      validationSchema={toFormikValidationSchema(validationSchema)}
       validateOnChange={false}
-      validateOnBlur
+      validateOnBlur={true}
       onSubmit={async (values, { setSubmitting }) => {
         try {
           setSubmitting(true);
 
-          const { fullname, username, email, password, confirmPassword } =
-            values;
+          const { email } = values;
 
           await signUpMutation.mutateAsync({
-            body: {
-              fullname,
-              username,
-              email,
-              password,
-              confirm_password: confirmPassword,
-            },
+            body: values,
           });
 
           sessionStorage.setItem("signupEmail", email);
@@ -77,11 +76,19 @@ const Form: FC = () => {
         }
       }}
     >
-      {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
+      {({
+        values,
+        touched,
+        errors,
+        isSubmitting,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+      }) => (
         <>
           {isSubmitting ? (
             <div className="flex justify-center py-4">
-              <Loading
+              <Spinner
                 height={36}
                 width={4}
                 radius={8}
@@ -97,9 +104,10 @@ const Form: FC = () => {
                   name="fullname"
                   value={values.fullname}
                   placeholder="Enter full name"
-                  onChange={handleChange}
                   errorMessage={errors.fullname}
-                  isError={!!errors.fullname}
+                  isError={!!touched.fullname && !!errors.fullname}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
               <div className="mb-4">
@@ -108,9 +116,10 @@ const Form: FC = () => {
                   name="username"
                   value={values.username}
                   placeholder="Enter username"
-                  onChange={handleChange}
                   errorMessage={errors.username}
-                  isError={!!errors.username}
+                  isError={!!touched.username && !!errors.username}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
               <div className="mb-4">
@@ -120,9 +129,10 @@ const Form: FC = () => {
                   name="email"
                   value={values.email}
                   placeholder="Enter email"
-                  onChange={handleChange}
                   errorMessage={errors.email}
-                  isError={!!errors.email}
+                  isError={!!touched.email && !!errors.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
               <div className="mb-4">
@@ -132,9 +142,10 @@ const Form: FC = () => {
                   name="password"
                   value={values.password}
                   placeholder="Enter password"
-                  onChange={handleChange}
                   errorMessage={errors.password}
-                  isError={!!errors.password}
+                  isError={!!touched.password && !!errors.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
               <div className="mb-8">
@@ -144,11 +155,15 @@ const Form: FC = () => {
                   name="confirmPassword"
                   value={values.confirmPassword}
                   placeholder="Enter password again"
-                  onChange={handleChange}
                   errorMessage={errors.confirmPassword}
-                  isError={!!errors.confirmPassword}
+                  isError={
+                    !!touched.confirmPassword && !!errors.confirmPassword
+                  }
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
+
               <p className="text-xs text-slate-500 leading-normal mb-8 px-2">
                 By signing up, I accept the{" "}
                 <Link href="/" className="text-blue-700">
@@ -160,6 +175,7 @@ const Form: FC = () => {
                 </Link>
                 .
               </p>
+
               <Button className="w-full">Sign Up</Button>
             </form>
           )}
