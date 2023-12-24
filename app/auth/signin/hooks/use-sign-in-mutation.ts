@@ -12,13 +12,13 @@ type Payload = {
   body: Body;
 };
 
-const postSignIn = async (payload: Payload): Promise<Response> => {
+const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.post("/api/auth/signin", payload.body);
   const data = res.data.data.session.access_token;
 
   return data;
 };
 
-const useSignInMutation = () => useMutation(postSignIn);
+const useSignInMutation = () => useMutation(action);
 
 export default useSignInMutation;
