@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { Card, DueDate } from "../../types/models";
+import { Card, DueDate } from "../../../../../types/models";
 
 type Response = DueDate;
 
@@ -16,7 +16,7 @@ type Payload = {
   body: Body;
 };
 
-const createDueDate = async (payload: Payload): Promise<Response> => {
+const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.post("/api/due-dates", payload.body);
   const data = res.data.data;
 
@@ -26,7 +26,7 @@ const createDueDate = async (payload: Payload): Promise<Response> => {
 const useCreateDueDateMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(createDueDate, {
+  return useMutation(action, {
     onSuccess: async (response, payload) => {
       const { body } = payload;
       const key = ["cards", body.card_id];
