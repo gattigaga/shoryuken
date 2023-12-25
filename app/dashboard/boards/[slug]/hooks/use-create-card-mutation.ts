@@ -2,8 +2,8 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { getSlug } from "../../helpers/formatter";
-import { Card } from "../../types/models";
+import { getSlug } from "../../../../../helpers/formatter";
+import { Card } from "../../../../../types/models";
 
 type Context = {
   previousCards?: Card[];
@@ -20,7 +20,7 @@ type Payload = {
   body: Body;
 };
 
-const createCard = async (payload: Payload): Promise<Response> => {
+const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.post("/api/cards", payload.body);
   const data = res.data.data;
 
@@ -30,7 +30,7 @@ const createCard = async (payload: Payload): Promise<Response> => {
 const useCreateCardMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(createCard, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const { body } = payload;
       const key = ["cards", { list_id: body.list_id }];

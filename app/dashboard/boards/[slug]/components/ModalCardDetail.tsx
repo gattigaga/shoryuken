@@ -14,9 +14,9 @@ import {
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
 
-import useCardQuery from "../../../../../hooks/cards/use-card-query";
-import useDeleteCardMutation from "../../../../../hooks/cards/use-delete-card-mutation";
-import useUpdateCardMutation from "../../../../../hooks/cards/use-update-card-mutation";
+import useCardQuery from "../hooks/use-card-query";
+import useDeleteCardMutation from "../hooks/use-delete-card-mutation";
+import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import CardTitle from "./CardTitle";
 import CardDescription from "./CardDescription";
 import CardChecklist from "./CardChecklist";

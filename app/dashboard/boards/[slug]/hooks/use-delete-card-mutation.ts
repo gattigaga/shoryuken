@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { Card } from "../../types/models";
+import { Card } from "../../../../../types/models";
 
 type Context = {
   previousCards?: Card[];
@@ -15,7 +15,7 @@ type Payload = {
   listId: number;
 };
 
-export const deleteCardById = async (payload: Payload): Promise<Response> => {
+export const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.delete(`/api/cards/${payload.id}`);
   const data = res.data.data;
 
@@ -25,7 +25,7 @@ export const deleteCardById = async (payload: Payload): Promise<Response> => {
 const useDeleteCardMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(deleteCardById, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const key = ["cards", { list_id: payload.listId }];
 

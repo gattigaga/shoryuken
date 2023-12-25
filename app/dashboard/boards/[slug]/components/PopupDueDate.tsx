@@ -12,7 +12,7 @@ import Popup from "./Popup";
 import useCreateDueDateMutation from "../../../../../hooks/due-dates/use-create-due-date-mutation";
 import useDeleteDueDateMutation from "../../../../../hooks/due-dates/use-delete-due-date-mutation";
 import useUpdateDueDateMutation from "../../../../../hooks/due-dates/use-update-due-date-mutation";
-import useCardQuery from "../../../../../hooks/cards/use-card-query";
+import useCardQuery from "../hooks/use-card-query";
 
 type Props = {
   id: number;

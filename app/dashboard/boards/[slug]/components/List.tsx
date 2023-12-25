@@ -11,8 +11,8 @@ import Button from "../../../../components/Button";
 import Card from "./Card";
 import useDeleteListMutation from "../../../../../hooks/lists/use-delete-list-mutation";
 import useUpdateListBoardMutation from "../../../../../hooks/lists/use-update-list-mutation";
-import useCardsQuery from "../../../../../hooks/cards/use-cards-query";
-import useCreateCardMutation from "../../../../../hooks/cards/use-create-card-mutation";
+import useCardsQuery from "../hooks/use-cards-query";
+import useCreateCardMutation from "../hooks/use-create-card-mutation";
 import useBoardQuery from "../hooks/use-board-query";
 
 type Props = {

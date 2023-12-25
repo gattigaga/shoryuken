@@ -2,8 +2,8 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { moveElement } from "../../helpers/data-structures";
-import { Card } from "../../types/models";
+import { moveElement } from "../../../../../helpers/data-structures";
+import { Card } from "../../../../../types/models";
 
 type Context = {
   previousCard?: Card;
@@ -27,7 +27,7 @@ type Payload = {
   body: Body;
 };
 
-export const updateCardById = async (payload: Payload): Promise<Response> => {
+export const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.put(`/api/cards/${payload.id}`, payload.body);
   const data = res.data.data;
 
@@ -37,7 +37,7 @@ export const updateCardById = async (payload: Payload): Promise<Response> => {
 const useUpdateCardMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(updateCardById, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const { id, listId, body } = payload;
 

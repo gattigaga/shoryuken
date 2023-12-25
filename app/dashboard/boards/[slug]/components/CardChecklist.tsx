@@ -8,8 +8,8 @@ import { Droppable, DragDropContext } from "react-beautiful-dnd";
 
 import useChecksQuery from "../../../../../hooks/checks/use-checks-query";
 import useCreateCheckMutation from "../../../../../hooks/checks/use-create-check-mutation";
-import useUpdateCardMutation from "../../../../../hooks/cards/use-update-card-mutation";
-import useCardQuery from "../../../../../hooks/cards/use-card-query";
+import useUpdateCardMutation from "../hooks/use-update-card-mutation";
+import useCardQuery from "../hooks/use-card-query";
 import useUpdateCheckMutation from "../../../../../hooks/checks/use-update-check-mutation";
 import CardCheckItem from "./CardCheckItem";
 import Button from "../../../../components/Button";
