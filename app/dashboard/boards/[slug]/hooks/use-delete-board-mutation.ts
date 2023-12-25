@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { Board } from "../../../../../types/models";
+import { Board } from "../../../../types/models";
 
 type Context = {
   previousBoards?: Board[];

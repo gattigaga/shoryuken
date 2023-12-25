@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { Card } from "../../../../../types/models";
+import { Card } from "../../../../types/models";
 
 type Response = Card;
 

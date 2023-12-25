@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { List } from "../../../../../types/models";
+import { List } from "../../../../types/models";
 
 type Context = {
   previousLists?: List[];

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { Card } from "../../../../../types/models";
+import { Card } from "../../../../types/models";
 
 type Context = {
   previousCards?: Card[];

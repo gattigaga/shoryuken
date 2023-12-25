@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { List } from "../../../../../types/models";
+import { List } from "../../../../types/models";
 
 type Response = List[];
 

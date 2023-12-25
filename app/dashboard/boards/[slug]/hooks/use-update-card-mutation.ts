@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
 import { moveElement } from "../../../../helpers/data-structures";
-import { Card } from "../../../../../types/models";
+import { Card } from "../../../../types/models";
 
 type Context = {
   previousCard?: Card;

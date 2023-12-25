@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { User } from "../../../../types/models";
+import { User } from "../../../types/models";
 
 type Context = {
   previousUser?: User;

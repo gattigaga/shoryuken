@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { Card, Check } from "../../../../../types/models";
+import { Card, Check } from "../../../../types/models";
 
 type Context = {
   previousChecks?: Check[];

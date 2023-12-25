@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { User } from "../../../types/models";
+import { User } from "../../types/models";
 
 type Response = User;
 

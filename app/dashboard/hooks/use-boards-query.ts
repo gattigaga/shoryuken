@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { Board } from "../../../types/models";
+import { Board } from "../../types/models";
 
 type Response = Board[];
 

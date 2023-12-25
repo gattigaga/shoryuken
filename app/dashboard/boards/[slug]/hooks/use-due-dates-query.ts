@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { DueDate } from "../../../../../types/models";
+import { DueDate } from "../../../../types/models";
 
 type Response = DueDate[];
 

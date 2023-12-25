@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
 import { getSlug } from "../../../../helpers/formatter";
-import { Card } from "../../../../../types/models";
+import { Card } from "../../../../types/models";
 
 type Context = {
   previousCards?: Card[];
