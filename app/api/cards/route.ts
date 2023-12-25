@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 import supabase from "../../helpers/supabase";
-import { getSlug } from "../../../helpers/formatter";
+import { getSlug } from "../../helpers/formatter";
 
 export const GET = async (request: NextRequest) => {
   try {

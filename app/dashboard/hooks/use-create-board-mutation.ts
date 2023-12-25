@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { getSlug } from "../../../helpers/formatter";
+import { getSlug } from "../../helpers/formatter";
 import { Board, User } from "../../../types/models";
 
 type Context = {

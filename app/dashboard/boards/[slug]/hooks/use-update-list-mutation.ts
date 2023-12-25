@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { moveElement } from "../../../../../helpers/data-structures";
+import { moveElement } from "../../../../helpers/data-structures";
 import { List } from "../../../../../types/models";
 
 type Context = {
