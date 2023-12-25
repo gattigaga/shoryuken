@@ -2,8 +2,8 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { moveElement } from "../../helpers/data-structures";
-import { List } from "../../types/models";
+import { moveElement } from "../../../../../helpers/data-structures";
+import { List } from "../../../../../types/models";
 
 type Context = {
   previousLists?: List[];
@@ -22,7 +22,7 @@ type Payload = {
   body: Body;
 };
 
-export const updateListById = async (payload: Payload): Promise<Response> => {
+export const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.put(`/api/lists/${payload.id}`, payload.body);
   const data = res.data.data;
 
@@ -32,7 +32,7 @@ export const updateListById = async (payload: Payload): Promise<Response> => {
 const useUpdateListBoardMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(updateListById, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const key = ["lists", { board_id: payload.boardId }];
 

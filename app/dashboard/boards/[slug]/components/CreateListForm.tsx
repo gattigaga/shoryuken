@@ -6,7 +6,7 @@ import { MdAdd, MdClose } from "react-icons/md";
 import { motion } from "framer-motion";
 import classnames from "classnames";
 
-import useCreateListMutation from "../../../../../hooks/lists/use-create-list-mutation";
+import useCreateListMutation from "../hooks/use-create-list-mutation";
 import Button from "../../../../components/Button";
 
 type Props = {

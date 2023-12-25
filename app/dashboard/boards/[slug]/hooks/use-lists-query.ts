@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { List } from "../../types/models";
+import { List } from "../../../../../types/models";
 
 type Response = List[];
 
-export const getListsByBoardId = async (boardId: number): Promise<Response> => {
+export const action = async (boardId: number): Promise<Response> => {
   const res = await axios.get("/api/lists/", {
     params: {
       board_id: boardId,
@@ -19,7 +19,7 @@ export const getListsByBoardId = async (boardId: number): Promise<Response> => {
 
 const useListsQuery = (boardId: number) => {
   return useQuery<List[], Error>(["lists", { board_id: boardId }], () =>
-    getListsByBoardId(boardId)
+    action(boardId)
   );
 };
 

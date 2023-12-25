@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { List } from "../../types/models";
+import { List } from "../../../../../types/models";
 
 type Response = List;
 
-export const getListById = async (id: number): Promise<Response> => {
+export const action = async (id: number): Promise<Response> => {
   const res = await axios.get(`/api/lists/${id}`);
   const data = res.data.data;
 
@@ -13,7 +13,7 @@ export const getListById = async (id: number): Promise<Response> => {
 };
 
 const useListQuery = (id: number) => {
-  return useQuery<List, Error>(["lists", id], () => getListById(id), {
+  return useQuery<List, Error>(["lists", id], () => action(id), {
     enabled: !!id,
   });
 };

@@ -6,7 +6,7 @@ import { MdInbox } from "react-icons/md";
 
 import useCardQuery from "../hooks/use-card-query";
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
-import useListQuery from "../../../../../hooks/lists/use-list-query";
+import useListQuery from "../hooks/use-list-query";
 
 type Props = {
   id: number;
