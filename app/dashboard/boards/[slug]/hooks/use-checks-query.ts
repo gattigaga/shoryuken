@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { Check } from "../../types/models";
+import { Check } from "../../../../../types/models";
 
 type Response = Check[];
 
-export const getChecksByCardId = async (cardId: number): Promise<Response> => {
+export const action = async (cardId: number): Promise<Response> => {
   const res = await axios.get("/api/checks", {
     params: {
       card_id: cardId,
@@ -20,7 +20,7 @@ export const getChecksByCardId = async (cardId: number): Promise<Response> => {
 const useChecksQuery = (cardId: number) => {
   return useQuery<Check[], Error>(
     ["checks", { card_id: cardId }],
-    () => getChecksByCardId(cardId),
+    () => action(cardId),
     {
       initialData: [],
     }

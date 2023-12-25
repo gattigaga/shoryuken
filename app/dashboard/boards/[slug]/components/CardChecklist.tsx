@@ -6,11 +6,11 @@ import { MdOutlineCheckBox } from "react-icons/md";
 import { motion } from "framer-motion";
 import { Droppable, DragDropContext } from "react-beautiful-dnd";
 
-import useChecksQuery from "../../../../../hooks/checks/use-checks-query";
-import useCreateCheckMutation from "../../../../../hooks/checks/use-create-check-mutation";
+import useChecksQuery from "../hooks/use-checks-query";
+import useCreateCheckMutation from "../hooks/use-create-check-mutation";
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import useCardQuery from "../hooks/use-card-query";
-import useUpdateCheckMutation from "../../../../../hooks/checks/use-update-check-mutation";
+import useUpdateCheckMutation from "../hooks/use-update-check-mutation";
 import CardCheckItem from "./CardCheckItem";
 import Button from "../../../../components/Button";
 

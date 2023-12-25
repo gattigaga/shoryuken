@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { Card, Check } from "../../types/models";
+import { Card, Check } from "../../../../../types/models";
 
 type Context = {
   previousChecks?: Check[];
@@ -21,7 +21,7 @@ type Payload = {
   body: Body;
 };
 
-const createCheck = async (payload: Payload): Promise<Response> => {
+const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.post("/api/checks", payload.body);
   const data = res.data.data;
 
@@ -31,7 +31,7 @@ const createCheck = async (payload: Payload): Promise<Response> => {
 const useCreateCheckMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(createCheck, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const { body } = payload;
       const key = ["checks", { card_id: body.card_id }];

@@ -2,8 +2,8 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { moveElement } from "../../helpers/data-structures";
-import { Card, Check } from "../../types/models";
+import { moveElement } from "../../../../../helpers/data-structures";
+import { Card, Check } from "../../../../../types/models";
 
 type Context = {
   previousChecks?: Check[];
@@ -25,7 +25,7 @@ type Payload = {
   body: Body;
 };
 
-export const updateCheckById = async (payload: Payload): Promise<Response> => {
+export const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.put(`/api/checks/${payload.id}`, payload.body);
   const data = res.data.data;
 
@@ -35,7 +35,7 @@ export const updateCheckById = async (payload: Payload): Promise<Response> => {
 const useUpdateCheckMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(updateCheckById, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const key = ["checks", { card_id: payload.cardId }];
       const cardsKey = ["cards", { list_id: payload.listId }];
