@@ -11,10 +11,10 @@ type Payload = {
   body: Body;
 };
 
-const postForgotPassword = async (payload: Payload): Promise<Response> => {
+const action = async (payload: Payload): Promise<Response> => {
   await axios.post("/api/auth/forgot-password", payload.body);
 };
 
-const useForgotPasswordMutation = () => useMutation(postForgotPassword);
+const useForgotPasswordMutation = () => useMutation(action);
 
 export default useForgotPasswordMutation;

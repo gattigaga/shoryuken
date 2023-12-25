@@ -7,7 +7,7 @@ import Spinner from "react-spinners/ScaleLoader";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 
-import useResetPasswordMutation from "../../../../hooks/auth/use-reset-password-mutation";
+import useResetPasswordMutation from "../hooks/use-reset-password-mutation";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 

@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
-import useUpdateUserMutation from "../../../../hooks/user/use-update-user-mutation";
+import useUpdateUserMutation from "../hooks/use-update-user-mutation";
 
 const validationSchema = Yup.object({
   fullname: Yup.string()

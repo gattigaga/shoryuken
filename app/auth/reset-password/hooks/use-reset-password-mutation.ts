@@ -12,10 +12,10 @@ type Payload = {
   body: Body;
 };
 
-const postResetPassword = async (payload: Payload): Promise<Response> => {
+const action = async (payload: Payload): Promise<Response> => {
   await axios.post("/api/auth/reset-password", payload.body);
 };
 
-const useResetPasswordMutation = () => useMutation(postResetPassword);
+const useResetPasswordMutation = () => useMutation(action);
 
 export default useResetPasswordMutation;

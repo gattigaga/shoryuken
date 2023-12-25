@@ -3,10 +3,10 @@ import { useMutation } from "react-query";
 
 type Response = void;
 
-const postSignOut = async (): Promise<Response> => {
+const action = async (): Promise<Response> => {
   await axios.post("/api/auth/signout");
 };
 
-const useSignOutMutation = () => useMutation(postSignOut);
+const useSignOutMutation = () => useMutation(action);
 
 export default useSignOutMutation;

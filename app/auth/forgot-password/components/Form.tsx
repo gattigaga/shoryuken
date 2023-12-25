@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 
-import useForgotPasswordMutation from "../../../../hooks/auth/use-forgot-password-mutation";
+import useForgotPasswordMutation from "../hooks/use-forgot-password-mutation";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { User } from "../../types/models";
+import { User } from "../../../../types/models";
 
 type Context = {
   previousUser?: User;
@@ -21,7 +21,7 @@ type Payload = {
   body: Body;
 };
 
-export const updateUser = async (payload: Payload): Promise<Response> => {
+export const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.put(`/api/auth/me`, payload.body);
   const data = res.data.data;
 
@@ -31,7 +31,7 @@ export const updateUser = async (payload: Payload): Promise<Response> => {
 const useUpdateUserMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(updateUser, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const key = "me";
 
