@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 
 import Button from "../../components/Button";
-import useCreateBoardMutation from "../../../hooks/boards/use-create-board-mutation";
+import useCreateBoardMutation from "../hooks/use-create-board-mutation";
 
 const validationSchema = Yup.object({
   title: Yup.string()

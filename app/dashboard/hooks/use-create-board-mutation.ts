@@ -2,7 +2,8 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { Board } from "../../types/models";
+import { getSlug } from "../../../helpers/formatter";
+import { Board, User } from "../../../types/models";
 
 type Context = {
   previousBoards?: Board[];
@@ -10,31 +11,45 @@ type Context = {
 
 type Response = Board;
 
-type Payload = {
-  id: number;
+type Body = {
+  title: string;
 };
 
-export const deleteBoardById = async (payload: Payload): Promise<Response> => {
-  const res = await axios.delete(`/api/boards/${payload.id}`);
+type Payload = {
+  body: Body;
+};
+
+const action = async (payload: Payload): Promise<Response> => {
+  const res = await axios.post("/api/boards", payload.body);
   const data = res.data.data;
 
   return data;
 };
 
-const useDeleteBoardMutation = () => {
+const useCreateBoardMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(deleteBoardById, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const key = "boards";
 
       await queryClient.cancelQueries(key);
 
       const previousBoards = queryClient.getQueryData<Board[]>(key);
+      const previousMe = queryClient.getQueryData<User>("me");
+      const { body } = payload;
 
-      if (previousBoards) {
+      if (previousBoards && previousMe) {
+        const newBoard: Board = {
+          id: Date.now(),
+          user_id: previousMe.id,
+          slug: getSlug(body.title),
+          created_at: new Date().toISOString(),
+          ...body,
+        };
+
         const data = produce(previousBoards, (draft) => {
-          return draft.filter((item) => item.id !== payload.id);
+          draft.push(newBoard);
         });
 
         queryClient.setQueryData<Board[]>(key, data);
@@ -53,4 +68,4 @@ const useDeleteBoardMutation = () => {
   });
 };
 
-export default useDeleteBoardMutation;
+export default useCreateBoardMutation;

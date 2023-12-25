@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
-import { Board } from "../../types/models";
+import { Board } from "../../../types/models";
 
 type Response = Board[];
 
-export const getBoards = async (): Promise<Response> => {
+export const action = async (): Promise<Response> => {
   const res = await axios.get("/api/boards");
   const data = res.data.data;
 
@@ -13,7 +13,7 @@ export const getBoards = async (): Promise<Response> => {
 };
 
 const useBoardsQuery = () => {
-  return useQuery<Board[], Error>("boards", getBoards);
+  return useQuery<Board[], Error>("boards", action);
 };
 
 export default useBoardsQuery;

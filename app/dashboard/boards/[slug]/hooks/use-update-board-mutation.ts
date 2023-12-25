@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import produce from "immer";
 
-import { Board } from "../../types/models";
+import { Board } from "../../../../../types/models";
 
 type Context = {
   previousBoard?: Board;
@@ -20,7 +20,7 @@ type Payload = {
   body: Body;
 };
 
-export const updateBoardById = async (payload: Payload): Promise<Response> => {
+export const action = async (payload: Payload): Promise<Response> => {
   const res = await axios.put(`/api/boards/${payload.id}`, payload.body);
   const data = res.data.data;
 
@@ -30,7 +30,7 @@ export const updateBoardById = async (payload: Payload): Promise<Response> => {
 const useUpdateBoardMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(updateBoardById, {
+  return useMutation(action, {
     onMutate: async (payload) => {
       const key = ["boards", payload.id];
       const listKey = "boards";

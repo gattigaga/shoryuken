@@ -13,7 +13,7 @@ import useDeleteListMutation from "../../../../../hooks/lists/use-delete-list-mu
 import useUpdateListBoardMutation from "../../../../../hooks/lists/use-update-list-mutation";
 import useCardsQuery from "../../../../../hooks/cards/use-cards-query";
 import useCreateCardMutation from "../../../../../hooks/cards/use-create-card-mutation";
-import useBoardQuery from "../../../../../hooks/boards/use-board-query";
+import useBoardQuery from "../hooks/use-board-query";
 
 type Props = {
   id: number;
