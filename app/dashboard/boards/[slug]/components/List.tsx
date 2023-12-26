@@ -6,7 +6,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import classnames from "classnames";
 
-import styles from "../../../../../styles/components/List.module.css";
+import styles from "../styles/List.module.css";
 import Button from "../../../../components/Button";
 import Card from "./Card";
 import useDeleteListMutation from "../hooks/use-delete-list-mutation";

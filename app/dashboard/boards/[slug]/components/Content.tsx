@@ -9,7 +9,7 @@ import classnames from "classnames";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
 
-import styles from "../../../../../styles/pages/board-detail.module.css";
+import styles from "../styles/Content.module.css";
 import BoardTitle from "./BoardTitle";
 import CreateListForm from "./CreateListForm";
 import List from "./List";

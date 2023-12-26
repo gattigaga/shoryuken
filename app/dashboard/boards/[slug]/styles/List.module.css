@@ -1,11 +1,11 @@
 .content::-webkit-scrollbar {
-  width: 0.5rem;
+  @apply w-2;
 }
 
 .content::-webkit-scrollbar-track {
-  background: rgb(203 213 225);
+  @apply bg-slate-300;
 }
 
 .content::-webkit-scrollbar-thumb {
-  background-color: rgb(148 163 184);
+  @apply bg-slate-400;
 }
