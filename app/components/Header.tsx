@@ -43,7 +43,7 @@ const Header: FC = () => {
     }
   }, []);
 
-  // Handle style of the header.
+  // Handle style of the header when scroll down.
   useEffect(() => {
     const handleHeaderStyle = () => {
       if (window.scrollY >= 64) {

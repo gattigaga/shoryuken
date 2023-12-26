@@ -6,14 +6,14 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import classnames from "classnames";
 
-import styles from "../../../../../styles/components/List.module.css";
+import styles from "../styles/List.module.css";
 import Button from "../../../../components/Button";
 import Card from "./Card";
-import useDeleteListMutation from "../../../../../hooks/lists/use-delete-list-mutation";
-import useUpdateListBoardMutation from "../../../../../hooks/lists/use-update-list-mutation";
-import useCardsQuery from "../../../../../hooks/cards/use-cards-query";
-import useCreateCardMutation from "../../../../../hooks/cards/use-create-card-mutation";
-import useBoardQuery from "../../../../../hooks/boards/use-board-query";
+import useDeleteListMutation from "../hooks/use-delete-list-mutation";
+import useUpdateListBoardMutation from "../hooks/use-update-list-mutation";
+import useCardsQuery from "../hooks/use-cards-query";
+import useCreateCardMutation from "../hooks/use-create-card-mutation";
+import useBoardQuery from "../hooks/use-board-query";
 
 type Props = {
   id: number;

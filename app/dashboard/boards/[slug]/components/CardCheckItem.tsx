@@ -6,8 +6,8 @@ import { MdClose } from "react-icons/md";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
 
-import useUpdateCheckMutation from "../../../../../hooks/checks/use-update-check-mutation";
-import useDeleteCheckMutation from "../../../../../hooks/checks/use-delete-check-mutation";
+import useUpdateCheckMutation from "../hooks/use-update-check-mutation";
+import useDeleteCheckMutation from "../hooks/use-delete-check-mutation";
 import Button from "../../../../components/Button";
 
 type Props = {

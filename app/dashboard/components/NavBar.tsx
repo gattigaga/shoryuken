@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 import Avatar from "./Avatar";
-import useSignOutMutation from "../../../hooks/auth/use-sign-out-mutation";
-import useUserQuery from "../../../hooks/user/use-user-query";
+import useSignOutMutation from "../hooks/use-sign-out-mutation";
+import useUserQuery from "../hooks/use-user-query";
 
 const NavBar: FC = () => {
   const router = useRouter();

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Metadata, NextPage } from "next";
+import { Metadata } from "next";
 
 import Form from "./components/Form";
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Sign Up | Shoryuken",
 };
 
-const SignUpPage: NextPage = () => {
+const SignUpPage = () => {
   return (
     <div className="min-h-screen md:bg-slate-50">
       <main className="py-12">

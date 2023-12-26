@@ -9,15 +9,15 @@ import classnames from "classnames";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
 
-import styles from "../../../../../styles/pages/board-detail.module.css";
+import styles from "../styles/Content.module.css";
 import BoardTitle from "./BoardTitle";
 import CreateListForm from "./CreateListForm";
 import List from "./List";
-import useBoardQuery from "../../../../../hooks/boards/use-board-query";
-import useDeleteBoardMutation from "../../../../../hooks/boards/use-delete-board-mutation";
-import useListsQuery from "../../../../../hooks/lists/use-lists-query";
-import useUpdateListMutation from "../../../../../hooks/lists/use-update-list-mutation";
-import useUpdateCardMutation from "../../../../../hooks/cards/use-update-card-mutation";
+import useBoardQuery from "../hooks/use-board-query";
+import useDeleteBoardMutation from "../hooks/use-delete-board-mutation";
+import useListsQuery from "../hooks/use-lists-query";
+import useUpdateListMutation from "../hooks/use-update-list-mutation";
+import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import ModalCardDetail from "./ModalCardDetail";
 
 type Props = {};

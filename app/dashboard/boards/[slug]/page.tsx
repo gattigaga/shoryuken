@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import Content from "./components/Content";
 import { getUser } from "../../../helpers/auth";
-import supabase from "../../../../helpers/supabase";
+import supabase from "../../../helpers/supabase";
 
 type Props = {
   params: { slug: string };

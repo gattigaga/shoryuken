@@ -4,22 +4,23 @@ import { FC } from "react";
 import { Formik } from "formik";
 import { addDays } from "date-fns";
 import { useRouter } from "next/navigation";
-import Loading from "react-spinners/ScaleLoader";
+import Spinner from "react-spinners/ScaleLoader";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import * as Yup from "yup";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import { z } from "zod";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import useSignInMutation from "../hooks/use-sign-in-mutation";
-import supabase from "../../../../helpers/supabase";
+import supabase from "../../../helpers/supabase";
 
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  password: Yup.string().required("Password is required"),
+const validationSchema = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .email("Invalid email format"),
+  password: z.string({ required_error: "Password is required" }),
 });
 
 const Form: FC = () => {
@@ -47,9 +48,9 @@ const Form: FC = () => {
         email: "",
         password: "",
       }}
-      validationSchema={validationSchema}
+      validationSchema={toFormikValidationSchema(validationSchema)}
       validateOnChange={false}
-      validateOnBlur
+      validateOnBlur={true}
       onSubmit={async (values, { setSubmitting }) => {
         try {
           setSubmitting(true);
@@ -72,11 +73,19 @@ const Form: FC = () => {
         }
       }}
     >
-      {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
+      {({
+        values,
+        touched,
+        errors,
+        isSubmitting,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+      }) => (
         <>
           {isSubmitting ? (
             <div className="flex justify-center py-4">
-              <Loading
+              <Spinner
                 height={36}
                 width={4}
                 radius={8}
@@ -89,13 +98,14 @@ const Form: FC = () => {
               <div className="mb-4">
                 <Input
                   className="w-full"
-                  type="email"
+                  type="text"
                   name="email"
                   value={values.email}
                   placeholder="Enter email"
-                  onChange={handleChange}
                   errorMessage={errors.email}
-                  isError={!!errors.email}
+                  isError={!!touched.email && !!errors.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
               <div className="mb-8">
@@ -105,9 +115,10 @@ const Form: FC = () => {
                   name="password"
                   value={values.password}
                   placeholder="Enter password"
-                  onChange={handleChange}
                   errorMessage={errors.password}
-                  isError={!!errors.password}
+                  isError={!!touched.password && !!errors.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </div>
               <Button className="w-full">Sign In</Button>

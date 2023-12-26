@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import Spinner from "react-spinners/ScaleLoader";
 
-import useBoardsQuery from "../../../hooks/boards/use-boards-query";
+import useBoardsQuery from "../hooks/use-boards-query";
 import ModalCreateBoard from "./ModalCreateBoard";
 import CreateBoardButton from "./CreateBoardButton";
 import Board from "./Board";

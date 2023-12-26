@@ -9,10 +9,10 @@ import toast from "react-hot-toast";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import Popup from "./Popup";
-import useCreateDueDateMutation from "../../../../../hooks/due-dates/use-create-due-date-mutation";
-import useDeleteDueDateMutation from "../../../../../hooks/due-dates/use-delete-due-date-mutation";
-import useUpdateDueDateMutation from "../../../../../hooks/due-dates/use-update-due-date-mutation";
-import useCardQuery from "../../../../../hooks/cards/use-card-query";
+import useCreateDueDateMutation from "../hooks/use-create-due-date-mutation";
+import useDeleteDueDateMutation from "../hooks/use-delete-due-date-mutation";
+import useUpdateDueDateMutation from "../hooks/use-update-due-date-mutation";
+import useCardQuery from "../hooks/use-card-query";
 
 type Props = {
   id: number;
