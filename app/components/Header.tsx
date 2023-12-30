@@ -2,16 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { addDays } from "date-fns";
+import classNames from "classnames";
 
 import Button from "./Button";
 
 const Header: FC = () => {
+  const [isFloating, setIsFloating] = useState(false);
   const router = useRouter();
   const refHeader = useRef<HTMLDivElement>(null);
+  const refSignInLink = useRef<HTMLAnchorElement>(null);
 
   // Listen to recovery link to open reset password page
   // and listen to sign in link to sign in with password
@@ -46,13 +49,7 @@ const Header: FC = () => {
   // Handle style of the header when scroll down.
   useEffect(() => {
     const handleHeaderStyle = () => {
-      if (window.scrollY >= 64) {
-        refHeader.current?.classList.add("bg-white");
-        refHeader.current?.classList.add("shadow-md");
-      } else {
-        refHeader.current?.classList.remove("bg-white");
-        refHeader.current?.classList.remove("shadow-md");
-      }
+      setIsFloating(window.scrollY >= 64);
     };
 
     window.addEventListener("scroll", handleHeaderStyle);
@@ -63,17 +60,31 @@ const Header: FC = () => {
   return (
     <header
       ref={refHeader}
-      className="flex items-center px-4 py-2 fixed w-full"
+      className={classNames(
+        "flex items-center px-4 py-2 fixed w-full z-10 md:px-16 xl:px-32",
+        {
+          "bg-white": isFloating,
+          "shadow-md": isFloating,
+        }
+      )}
     >
       <Image
-        src="/images/logo-with-text.svg"
+        src={
+          isFloating
+            ? "/images/logo-with-text.svg"
+            : "/images/logo-with-text-white.svg"
+        }
         alt="Shoryuken Logo"
         width={128}
         height={64}
       />
       <Link
+        ref={refSignInLink}
         href="/auth/signin"
-        className="text-xs font-semibold text-slate-700 ml-auto mr-4"
+        className={classNames("text-xs font-semibold ml-auto mr-4", {
+          "text-slate-700": isFloating,
+          "text-white": !isFloating,
+        })}
       >
         Sign In
       </Link>
