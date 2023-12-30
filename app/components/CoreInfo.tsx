@@ -15,7 +15,7 @@ const CoreInfo: FC<Props> = ({ title, description, isActive, onClick }) => {
         "bg-white": isActive,
         "shadow-lg": isActive,
         "border-blue-400": isActive,
-        "border-white": !isActive,
+        "border-transparent": !isActive,
       })}
       type="button"
       onClick={onClick}

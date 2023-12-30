@@ -3,6 +3,8 @@
 import { motion, useAnimationControls } from "framer-motion";
 import { FC, useEffect } from "react";
 
+import useTailwindBreakpoint from "../hooks/use-tailwind-breakpoint";
+
 type Props = {
   images: string[];
   activeIndex: number;
@@ -11,8 +13,20 @@ type Props = {
 
 const CoreImageSlider: FC<Props> = ({ images, activeIndex, onChangeIndex }) => {
   const controls = useAnimationControls();
+  const breakpoint = useTailwindBreakpoint();
 
-  const imageWidth = document.documentElement.clientWidth - 32;
+  const imageWidth = (() => {
+    switch (breakpoint) {
+      case "xl":
+        return ((document.documentElement.clientWidth - 256 - 96) / 3) * 2 + 48;
+
+      case "md":
+        return document.documentElement.clientWidth - 128;
+
+      default:
+        return document.documentElement.clientWidth - 32;
+    }
+  })();
 
   useEffect(() => {
     controls.start({
@@ -24,7 +38,7 @@ const CoreImageSlider: FC<Props> = ({ images, activeIndex, onChangeIndex }) => {
   }, [imageWidth, activeIndex]);
 
   return (
-    <div className="w-full aspect-[4/3] overflow-hidden">
+    <div className="w-full aspect-[4/3] rounded overflow-hidden">
       <motion.div
         style={{ width: imageWidth * images.length }}
         className="flex"
@@ -58,7 +72,12 @@ const CoreImageSlider: FC<Props> = ({ images, activeIndex, onChangeIndex }) => {
             style={{ width: imageWidth }}
             className="aspect-[4/3]"
           >
-            <img className="w-full h-full" src={image} alt="Core Image" />
+            <img
+              className="w-full h-full"
+              src={image}
+              alt="Core Image"
+              draggable={false}
+            />
           </div>
         ))}
       </motion.div>

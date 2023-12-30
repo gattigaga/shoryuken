@@ -1,6 +1,8 @@
 "use client";
 
 import { FC, useState } from "react";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+
 import SliderPagination from "./SliderPagination";
 import TestimonySlider from "./TestimonySlider";
 
@@ -35,18 +37,48 @@ const TestimonySection: FC = () => {
   ];
 
   return (
-    <div className="px-4 pt-32 pb-20 bg-gradient-to-b from-white to-blue-100">
+    <div className="px-4 pt-32 pb-20 bg-gradient-to-b from-white to-blue-100 md:px-16 md:pt-24 xl:px-32">
+      <div className="hidden xl:flex xl:gap-x-4 xl:justify-end xl:mb-6">
+        <SliderPagination
+          totalItems={testimonies.length}
+          activeIndex={activeTestimonyIndex}
+          onClickIndex={setActiveTestimonyIndex}
+        />
+        <button
+          className="w-8 h-8 rounded-full flex items-center justify-center bg-slate-200"
+          type="button"
+          onClick={() => {
+            setActiveTestimonyIndex(Math.max(0, activeTestimonyIndex - 1));
+          }}
+        >
+          <MdChevronLeft className="text-slate-700" size={20} />
+        </button>
+        <button
+          className="w-8 h-8 rounded-full flex items-center justify-center bg-slate-200"
+          type="button"
+          onClick={() => {
+            setActiveTestimonyIndex(
+              Math.min(testimonies.length - 1, activeTestimonyIndex + 1)
+            );
+          }}
+        >
+          <MdChevronRight className="text-slate-700" size={20} />
+        </button>
+      </div>
+
       <TestimonySlider
         items={testimonies}
         activeIndex={activeTestimonyIndex}
         onChangeIndex={setActiveTestimonyIndex}
       />
-      <div className="h-8" />
-      <SliderPagination
-        totalItems={testimonies.length}
-        activeIndex={activeTestimonyIndex}
-        onClickIndex={setActiveTestimonyIndex}
-      />
+
+      <div className="mt-8 xl:hidden">
+        <SliderPagination
+          totalItems={testimonies.length}
+          activeIndex={activeTestimonyIndex}
+          onClickIndex={setActiveTestimonyIndex}
+        />
+      </div>
     </div>
   );
 };

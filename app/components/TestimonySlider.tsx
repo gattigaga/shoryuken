@@ -2,6 +2,7 @@
 
 import { motion, useAnimationControls } from "framer-motion";
 import { FC, useEffect } from "react";
+import useTailwindBreakpoint from "../hooks/use-tailwind-breakpoint";
 
 type Props = {
   items: {
@@ -17,8 +18,27 @@ type Props = {
 
 const TestimonySlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
   const controls = useAnimationControls();
+  const breakpoint = useTailwindBreakpoint();
 
-  const itemWidth = document.documentElement.clientWidth - 32;
+  const itemWidth = (() => {
+    let paddingX = 0;
+
+    switch (breakpoint) {
+      case "xl":
+        paddingX = 256;
+        break;
+
+      case "md":
+        paddingX = 128;
+        break;
+
+      default:
+        paddingX = 32;
+        break;
+    }
+
+    return document.documentElement.clientWidth - paddingX;
+  })();
 
   useEffect(() => {
     controls.start({
@@ -30,7 +50,7 @@ const TestimonySlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
   }, [itemWidth, activeIndex]);
 
   return (
-    <div className="w-full h-[36rem] overflow-hidden">
+    <div className="w-full h-[36rem] rounded shadow-lg border overflow-hidden md:h-96">
       <motion.div
         style={{ width: itemWidth * items.length }}
         className="flex h-full"
@@ -62,7 +82,7 @@ const TestimonySlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
           <div
             key={index}
             style={{ width: itemWidth }}
-            className="shadow-lg rounded p-8 bg-white border flex flex-col relative overflow-hidden"
+            className="p-8 bg-white flex flex-col relative overflow-hidden"
           >
             <img
               className="absolute -top-8 -left-16 opacity-10 w-[28rem] max-w-lg"

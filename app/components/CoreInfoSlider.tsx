@@ -3,6 +3,7 @@
 import { motion, useAnimationControls } from "framer-motion";
 import { FC, useEffect } from "react";
 import CoreInfo from "./CoreInfo";
+import useTailwindBreakpoint from "../hooks/use-tailwind-breakpoint";
 
 type Props = {
   items: {
@@ -16,8 +17,13 @@ type Props = {
 
 const CoreInfoSlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
   const controls = useAnimationControls();
+  const breakpoint = useTailwindBreakpoint();
 
-  const itemWidth = document.documentElement.clientWidth - 32;
+  const itemWidth = (() => {
+    const paddingX = breakpoint === "md" ? 128 : 32;
+
+    return document.documentElement.clientWidth - paddingX;
+  })();
 
   useEffect(() => {
     controls.start({
