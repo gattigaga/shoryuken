@@ -43,10 +43,10 @@ const HomePage = () => {
               </Link>
             </div>
 
-            <div className="xl:-mt-16">
+            <div className="xl:-mt-16 xl:w-screen">
               <img
-                className="w-full"
-                src="/images/placeholder_1-1.png"
+                className="w-full aspect-square object-cover object-left-bottom"
+                src="/images/home-page/main.png"
                 alt=""
               />
             </div>
@@ -56,8 +56,8 @@ const HomePage = () => {
         <CoreSection />
         <TestimonySection />
 
-        <div className="w-full px-4 py-12 flex flex-col bg-gradient-to-tr from-blue-900 to-pink-500 md:px-16 xl:px-32">
-          <h2 className="text-white text-xl font-bold text-center leading-normal mb-6">
+        <div className="w-full px-4 py-12 flex flex-col bg-gradient-to-tr from-blue-900 to-pink-500 md:px-16 xl:px-32 xl:py-24">
+          <h2 className="text-white text-xl font-bold text-center leading-normal mb-6 xl:text-3xl">
             Get started with Shoryuken today
           </h2>
           <Link className="w-full md:w-fit md:self-center" href="/auth/signup">
