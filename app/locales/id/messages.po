@@ -29,6 +29,7 @@ msgstr "Sudah memiliki akun? Sign in"
 msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
 msgstr "Sebagai seorang Produser dari 48 Family, saya telah menemukan Shoryuken sebagai alat yang tak ternilai untuk mengelola aktivitas dan jadwal dari grup idola kami."
 
+#: app/auth/forgot-password/email-sent/components/Content.tsx:50
 #: app/auth/signup/email-sent/components/Content.tsx:41
 msgid "Back to Sign In"
 msgstr "Kembali ke Sign In"
@@ -49,6 +50,10 @@ msgstr "Kartu-kartu mewakili tugas dan ide serta menyimpan semua informasi yang 
 #: app/auth/signup/email-sent/components/Content.tsx:28
 msgid "Check your inbox to log in"
 msgstr "Periksa kotak masuk Anda untuk sign in"
+
+#: app/auth/forgot-password/email-sent/components/Content.tsx:35
+msgid "Check your inbox to reset password"
+msgstr "Periksa kotak masuk Anda untuk mereset kata sandi"
 
 #: app/auth/reset-password/components/Form.tsx:34
 #: app/auth/signup/components/Form.tsx:45
@@ -261,6 +266,10 @@ msgstr "Halaman ini dilindungi oleh reCAPTCHA dan berlaku <0>Kebijakan Privasi</
 #: app/auth/signup/email-sent/components/Content.tsx:31
 msgid "To complete setup and log in, click the verification link in the email we‘ve sent to"
 msgstr "Untuk menyelesaikan pengaturan dan sign in, klik tautan verifikasi dalam email yang telah kami kirimkan"
+
+#: app/auth/forgot-password/email-sent/components/Content.tsx:38
+msgid "To reset your password, click the recovery link in the email we‘ve sent to"
+msgstr "Untuk mereset kata sandi Anda, klik tautan pemulihan dalam email yang telah kami kirimkan"
 
 #: app/auth/signup/components/Form.tsx:30
 msgid "Username is required"
