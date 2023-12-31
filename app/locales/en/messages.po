@@ -49,10 +49,12 @@ msgstr "Cards represent tasks and ideas and hold all the information to get the 
 msgid "Check your inbox to log in"
 msgstr "Check your inbox to log in"
 
+#: app/auth/reset-password/components/Form.tsx:35
 #: app/auth/signup/components/Form.tsx:45
 msgid "Confirm Password is mismatch"
 msgstr "Confirm Password is mismatch"
 
+#: app/auth/reset-password/components/Form.tsx:31
 #: app/auth/signup/components/Form.tsx:41
 msgid "Confirm Password is required"
 msgstr "Confirm Password is required"
@@ -79,6 +81,14 @@ msgstr "Enter email"
 msgid "Enter full name"
 msgstr "Enter full name"
 
+#: app/auth/reset-password/components/Form.tsx:94
+msgid "Enter new password"
+msgstr "Enter new password"
+
+#: app/auth/reset-password/components/Form.tsx:106
+msgid "Enter new password again"
+msgstr "Enter new password again"
+
 #: app/auth/signin/components/Form.tsx:126
 #: app/auth/signup/components/Form.tsx:153
 msgid "Enter password"
@@ -91,6 +101,10 @@ msgstr "Enter password again"
 #: app/auth/signup/components/Form.tsx:127
 msgid "Enter username"
 msgstr "Enter username"
+
+#: app/auth/reset-password/components/Form.tsx:68
+msgid "Failed to reset your password."
+msgstr "Failed to reset your password."
 
 #: app/auth/signin/components/Form.tsx:45
 msgid "Failed to sign in with Google."
@@ -140,15 +154,18 @@ msgstr "Need anything? Get in touch and we can help."
 msgid "OR"
 msgstr "OR"
 
+#: app/auth/reset-password/components/Form.tsx:27
 #: app/auth/signin/components/Form.tsx:31
 #: app/auth/signup/components/Form.tsx:37
 msgid "Password is required"
 msgstr "Password is required"
 
+#: app/auth/reset-password/components/Form.tsx:28
 #: app/auth/signup/components/Form.tsx:38
 msgid "Password should have at least 8 characters"
 msgstr "Password should have at least 8 characters"
 
+#: app/auth/reset-password/components/Form.tsx:29
 #: app/auth/signup/components/Form.tsx:39
 msgid "Password should no more than 25 characters"
 msgstr "Password should no more than 25 characters"
@@ -156,6 +173,18 @@ msgstr "Password should no more than 25 characters"
 #: app/components/Footer.tsx:48
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
+
+#: app/auth/reset-password/components/Form.tsx:113
+msgid "Reset Password"
+msgstr "Reset Password"
+
+#: app/auth/reset-password/components/Form.tsx:42
+msgid "Reset your password"
+msgstr "Reset your password"
+
+#: app/auth/reset-password/components/Form.tsx:123
+msgid "Return to sign in"
+msgstr "Return to sign in"
 
 #: app/components/CoreSection.tsx:21
 msgid "Shoryuken boards keep tasks organized and work moving forward. In a glance, see everything from “things to do” to “aww yeah, we did it!”"
