@@ -1,12 +1,13 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 import Modal from "react-modal";
 
+import { useStore } from "../store/store";
 import { messages as enMessages } from "../locales/en/messages";
 import { messages as idMessages } from "../locales/id/messages";
 
@@ -26,6 +27,12 @@ type Props = {
 };
 
 const Provider: FC<Props> = ({ children }) => {
+  const language = useStore((state) => state.language);
+
+  useEffect(() => {
+    i18n.activate(language);
+  }, [language]);
+
   return (
     <I18nProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>

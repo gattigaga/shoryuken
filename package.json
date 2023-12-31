@@ -43,7 +43,8 @@
     "uuid": "^8.3.2",
     "yup": "^0.32.11",
     "zod": "^3.22.4",
-    "zod-formik-adapter": "^1.2.0"
+    "zod-formik-adapter": "^1.2.0",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@lingui/cli": "^4.6.0",

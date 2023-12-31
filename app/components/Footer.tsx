@@ -3,11 +3,15 @@
 import { FC } from "react";
 import Link from "next/link";
 import { Trans } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
+import classNames from "classnames";
+
+import { useStore } from "../store/store";
 
 const Footer: FC = () => {
+  const language = useStore((state) => state.language);
+  const setLanguage = useStore((state) => state.setLanguage);
+
   const year = new Date().getFullYear();
-  const { i18n } = useLingui();
 
   return (
     <footer className="bg-blue-950 px-8 pt-8 pb-16 md:px-16 xl:px-32 xl:pb-0">
@@ -56,16 +60,20 @@ const Footer: FC = () => {
 
         <div className="flex flex-row gap-x-6">
           <button
-            className="text-white text-xs"
+            className={classNames("text-white text-xs", {
+              "opacity-50": language === "en",
+            })}
             type="button"
-            onClick={() => i18n.activate("en")}
+            onClick={() => setLanguage("en")}
           >
             EN
           </button>
           <button
-            className="text-white text-xs"
+            className={classNames("text-white text-xs", {
+              "opacity-50": language === "id",
+            })}
             type="button"
-            onClick={() => i18n.activate("id")}
+            onClick={() => setLanguage("id")}
           >
             ID
           </button>
