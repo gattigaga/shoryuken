@@ -29,6 +29,10 @@ msgstr "Already have an account? Sign in"
 msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
 msgstr "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
 
+#: app/auth/signup/email-sent/components/Content.tsx:41
+msgid "Back to Sign In"
+msgstr "Back to Sign In"
+
 #: app/auth/signup/components/Form.tsx:177
 msgid "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
 msgstr "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
@@ -40,6 +44,10 @@ msgstr "Can‘t sign in?"
 #: app/components/CoreSection.tsx:37
 msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
 msgstr "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
+
+#: app/auth/signup/email-sent/components/Content.tsx:28
+msgid "Check your inbox to log in"
+msgstr "Check your inbox to log in"
 
 #: app/auth/signup/components/Form.tsx:45
 msgid "Confirm Password is mismatch"
@@ -207,6 +215,10 @@ msgstr "The different stages of a task. Start as simple as To Do, Doing or Done�
 #: app/auth/signup/components/Form.tsx:207
 msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
 msgstr "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
+
+#: app/auth/signup/email-sent/components/Content.tsx:31
+msgid "To complete setup and log in, click the verification link in the email we‘ve sent to"
+msgstr "To complete setup and log in, click the verification link in the email we‘ve sent to"
 
 #: app/auth/signup/components/Form.tsx:30
 msgid "Username is required"

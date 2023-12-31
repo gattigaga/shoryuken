@@ -23,11 +23,15 @@ msgstr "Tentang Shoryuken"
 
 #: app/auth/signup/components/Form.tsx:202
 msgid "Already have an account? Sign in"
-msgstr "Sudah memiliki akun? Masuk"
+msgstr "Sudah memiliki akun? Sign in"
 
 #: app/components/TestimonySection.tsx:31
 msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
 msgstr "Sebagai seorang Produser dari 48 Family, saya telah menemukan Shoryuken sebagai alat yang tak ternilai untuk mengelola aktivitas dan jadwal dari grup idola kami."
+
+#: app/auth/signup/email-sent/components/Content.tsx:41
+msgid "Back to Sign In"
+msgstr "Kembali ke Sign In"
 
 #: app/auth/signup/components/Form.tsx:177
 msgid "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
@@ -35,11 +39,15 @@ msgstr "Dengan mendaftar, saya menerima <0>Syarat Layanan Shoryuken</0> dan meng
 
 #: app/auth/signin/components/Form.tsx:166
 msgid "Can‘t sign in?"
-msgstr "Tidak bisa masuk?"
+msgstr "Tidak bisa sign in?"
 
 #: app/components/CoreSection.tsx:37
 msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
 msgstr "Kartu-kartu mewakili tugas dan ide serta menyimpan semua informasi yang diperlukan untuk menyelesaikan pekerjaan. Saat Anda melakukan progress, pindahkan kartu-kartu di antara daftar untuk menunjukkan statusnya."
+
+#: app/auth/signup/email-sent/components/Content.tsx:28
+msgid "Check your inbox to log in"
+msgstr "Periksa kotak masuk Anda untuk sign in"
 
 #: app/auth/signup/components/Form.tsx:45
 msgid "Confirm Password is mismatch"
@@ -86,11 +94,11 @@ msgstr "Masukkan nama pengguna"
 
 #: app/auth/signin/components/Form.tsx:45
 msgid "Failed to sign in with Google."
-msgstr "Gagal masuk dengan Google."
+msgstr "Gagal sign in dengan Google."
 
 #: app/auth/signin/components/Form.tsx:79
 msgid "Failed to sign in."
-msgstr "Gagal masuk."
+msgstr "Gagal sign in."
 
 #: app/auth/signup/components/Form.tsx:82
 msgid "Failed to sign up."
@@ -164,15 +172,15 @@ msgstr "Shoryuken telah mengubah cara kami mengelola perusahaan kecerdasan buata
 #: app/auth/signin/components/Form.tsx:134
 #: app/components/Header.tsx:90
 msgid "Sign In"
-msgstr "Masuk"
+msgstr "Sign In"
 
 #: app/auth/signin/components/Form.tsx:52
 msgid "Sign in to Shoryuken"
-msgstr "Masuk ke Shoryuken"
+msgstr "Sign in ke Shoryuken"
 
 #: app/auth/signin/components/Form.tsx:153
 msgid "Sign in with Google"
-msgstr "Masuk dengan Google"
+msgstr "Sign in dengan Google"
 
 #: app/auth/signup/components/Form.tsx:191
 #: app/components/Header.tsx:94
@@ -207,6 +215,10 @@ msgstr "Tahapan-tahapan yang berbeda dari sebuah tugas. Mulailah sebegitu sederh
 #: app/auth/signup/components/Form.tsx:207
 msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
 msgstr "Halaman ini dilindungi oleh reCAPTCHA dan berlaku <0>Kebijakan Privasi</0> dan <1>Syarat Layanan</1> dari Google"
+
+#: app/auth/signup/email-sent/components/Content.tsx:31
+msgid "To complete setup and log in, click the verification link in the email we‘ve sent to"
+msgstr "Untuk menyelesaikan pengaturan dan sign in, klik tautan verifikasi dalam email yang telah kami kirimkan"
 
 #: app/auth/signup/components/Form.tsx:30
 msgid "Username is required"
