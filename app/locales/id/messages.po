@@ -21,9 +21,17 @@ msgstr "Sebuah kekuatan produktivitas"
 msgid "About Shoryuken"
 msgstr "Tentang Shoryuken"
 
+#: app/auth/signup/components/Form.tsx:202
+msgid "Already have an account? Sign in"
+msgstr "Sudah memiliki akun? Masuk"
+
 #: app/components/TestimonySection.tsx:31
 msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
 msgstr "Sebagai seorang Produser dari 48 Family, saya telah menemukan Shoryuken sebagai alat yang tak ternilai untuk mengelola aktivitas dan jadwal dari grup idola kami."
+
+#: app/auth/signup/components/Form.tsx:177
+msgid "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
+msgstr "Dengan mendaftar, saya menerima <0>Syarat Layanan Shoryuken</0> dan mengakui <1>Kebijakan Privasi</1>."
 
 #: app/auth/signin/components/Form.tsx:166
 msgid "Can‘t sign in?"
@@ -32,6 +40,14 @@ msgstr "Tidak bisa masuk?"
 #: app/components/CoreSection.tsx:37
 msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
 msgstr "Kartu-kartu mewakili tugas dan ide serta menyimpan semua informasi yang diperlukan untuk menyelesaikan pekerjaan. Saat Anda melakukan progress, pindahkan kartu-kartu di antara daftar untuk menunjukkan statusnya."
+
+#: app/auth/signup/components/Form.tsx:45
+msgid "Confirm Password is mismatch"
+msgstr "Konfirmasi kata sandi tidak sesuai"
+
+#: app/auth/signup/components/Form.tsx:41
+msgid "Confirm Password is required"
+msgstr "Konfirmasi kata sandi diperlukan"
 
 #: app/components/Footer.tsx:36
 msgid "Contact Us"
@@ -42,16 +58,31 @@ msgid "Copyright © {year} Shoryuken"
 msgstr "Hak Cipta © {year} Shoryuken"
 
 #: app/auth/signin/components/Form.tsx:29
+#: app/auth/signup/components/Form.tsx:34
 msgid "Email is required"
 msgstr "Email diperlukan"
 
 #: app/auth/signin/components/Form.tsx:113
+#: app/auth/signup/components/Form.tsx:140
 msgid "Enter email"
 msgstr "Masukkan email"
 
+#: app/auth/signup/components/Form.tsx:115
+msgid "Enter full name"
+msgstr "Masukkan nama lengkap"
+
 #: app/auth/signin/components/Form.tsx:126
+#: app/auth/signup/components/Form.tsx:153
 msgid "Enter password"
 msgstr "Masukkan kata sandi"
+
+#: app/auth/signup/components/Form.tsx:166
+msgid "Enter password again"
+msgstr "Masukkan kata sandi lagi"
+
+#: app/auth/signup/components/Form.tsx:127
+msgid "Enter username"
+msgstr "Masukkan nama pengguna"
 
 #: app/auth/signin/components/Form.tsx:45
 msgid "Failed to sign in with Google."
@@ -61,6 +92,22 @@ msgstr "Gagal masuk dengan Google."
 msgid "Failed to sign in."
 msgstr "Gagal masuk."
 
+#: app/auth/signup/components/Form.tsx:82
+msgid "Failed to sign up."
+msgstr "Gagal mendaftar."
+
+#: app/auth/signup/components/Form.tsx:26
+msgid "Full Name is required"
+msgstr "Nama lengkap diperlukan"
+
+#: app/auth/signup/components/Form.tsx:27
+msgid "Full Name should have at least 5 characters"
+msgstr "Nama lengkap harus memiliki minimal 5 karakter"
+
+#: app/auth/signup/components/Form.tsx:28
+msgid "Full Name should no more than 50 characters"
+msgstr "Nama lengkap tidak boleh lebih dari 50 karakter"
+
 #: app/components/SignUpSection.tsx:13
 msgid "Get started with Shoryuken today"
 msgstr "Mulailah dengan Shoryuken hari ini"
@@ -68,6 +115,10 @@ msgstr "Mulailah dengan Shoryuken hari ini"
 #: app/auth/signin/components/Form.tsx:30
 msgid "Invalid email format"
 msgstr "Format email tidak valid"
+
+#: app/auth/signup/components/Form.tsx:35
+msgid "Invalid email format."
+msgstr "Format email tidak valid."
 
 #: app/components/MainSection.tsx:26
 msgid "Keep everything in the same place—even if your team isn’t."
@@ -82,8 +133,17 @@ msgid "OR"
 msgstr "ATAU"
 
 #: app/auth/signin/components/Form.tsx:31
+#: app/auth/signup/components/Form.tsx:37
 msgid "Password is required"
 msgstr "Kata sandi diperlukan"
+
+#: app/auth/signup/components/Form.tsx:38
+msgid "Password should have at least 8 characters"
+msgstr "Kata sandi harus memiliki minimal 8 karakter"
+
+#: app/auth/signup/components/Form.tsx:39
+msgid "Password should no more than 25 characters"
+msgstr "Kata sandi tidak boleh lebih dari 25 karakter"
 
 #: app/components/Footer.tsx:48
 msgid "Privacy Policy"
@@ -114,6 +174,7 @@ msgstr "Masuk ke Shoryuken"
 msgid "Sign in with Google"
 msgstr "Masuk dengan Google"
 
+#: app/auth/signup/components/Form.tsx:191
 #: app/components/Header.tsx:94
 msgid "Sign Up"
 msgstr "Daftar"
@@ -127,6 +188,10 @@ msgstr "Daftar - gratis!"
 msgid "Sign up for an account"
 msgstr "Daftar untuk sebuah akun"
 
+#: app/auth/signup/components/Form.tsx:53
+msgid "Sign up for your account"
+msgstr "Daftar untuk akun Anda"
+
 #: app/components/CoreSection.tsx:50
 msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
 msgstr "Sederhana, fleksibel, dan powerful. Yang Anda butuhkan hanyalah papan, daftar, dan kartu untuk mendapatkan pandangan yang jelas tentang siapa yang sedang melakukan apa dan apa yang perlu dilakukan. Pelajari lebih lanjut dalam panduan kami untuk memulai."
@@ -138,6 +203,22 @@ msgstr "Syarat dan Ketentuan"
 #: app/components/CoreSection.tsx:29
 msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
 msgstr "Tahapan-tahapan yang berbeda dari sebuah tugas. Mulailah sebegitu sederhana dengan To Do, Doing, atau Done—atau bangun alur kerja yang sesuai dengan kebutuhan tim Anda. Tidak ada cara yang salah dalam menggunakan Shoryuken."
+
+#: app/auth/signup/components/Form.tsx:207
+msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
+msgstr "Halaman ini dilindungi oleh reCAPTCHA dan berlaku <0>Kebijakan Privasi</0> dan <1>Syarat Layanan</1> dari Google"
+
+#: app/auth/signup/components/Form.tsx:30
+msgid "Username is required"
+msgstr "Nama pengguna diperlukan"
+
+#: app/auth/signup/components/Form.tsx:31
+msgid "Username should have at least 8 characters"
+msgstr "Nama pengguna harus memiliki minimal 8 karakter"
+
+#: app/auth/signup/components/Form.tsx:32
+msgid "Username should no more than 15 characters"
+msgstr "Nama pengguna tidak boleh lebih dari 15 karakter"
 
 #: app/components/Footer.tsx:31
 msgid "What‘s behind the boards."

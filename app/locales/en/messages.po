@@ -21,9 +21,17 @@ msgstr "A productivity powerhouse"
 msgid "About Shoryuken"
 msgstr "About Shoryuken"
 
+#: app/auth/signup/components/Form.tsx:202
+msgid "Already have an account? Sign in"
+msgstr "Already have an account? Sign in"
+
 #: app/components/TestimonySection.tsx:31
 msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
 msgstr "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
+
+#: app/auth/signup/components/Form.tsx:177
+msgid "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
+msgstr "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
 
 #: app/auth/signin/components/Form.tsx:166
 msgid "Can‘t sign in?"
@@ -32,6 +40,14 @@ msgstr "Can‘t sign in?"
 #: app/components/CoreSection.tsx:37
 msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
 msgstr "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
+
+#: app/auth/signup/components/Form.tsx:45
+msgid "Confirm Password is mismatch"
+msgstr "Confirm Password is mismatch"
+
+#: app/auth/signup/components/Form.tsx:41
+msgid "Confirm Password is required"
+msgstr "Confirm Password is required"
 
 #: app/components/Footer.tsx:36
 msgid "Contact Us"
@@ -42,16 +58,31 @@ msgid "Copyright © {year} Shoryuken"
 msgstr "Copyright © {year} Shoryuken"
 
 #: app/auth/signin/components/Form.tsx:29
+#: app/auth/signup/components/Form.tsx:34
 msgid "Email is required"
 msgstr "Email is required"
 
 #: app/auth/signin/components/Form.tsx:113
+#: app/auth/signup/components/Form.tsx:140
 msgid "Enter email"
 msgstr "Enter email"
 
+#: app/auth/signup/components/Form.tsx:115
+msgid "Enter full name"
+msgstr "Enter full name"
+
 #: app/auth/signin/components/Form.tsx:126
+#: app/auth/signup/components/Form.tsx:153
 msgid "Enter password"
 msgstr "Enter password"
+
+#: app/auth/signup/components/Form.tsx:166
+msgid "Enter password again"
+msgstr "Enter password again"
+
+#: app/auth/signup/components/Form.tsx:127
+msgid "Enter username"
+msgstr "Enter username"
 
 #: app/auth/signin/components/Form.tsx:45
 msgid "Failed to sign in with Google."
@@ -61,6 +92,22 @@ msgstr "Failed to sign in with Google."
 msgid "Failed to sign in."
 msgstr "Failed to sign in."
 
+#: app/auth/signup/components/Form.tsx:82
+msgid "Failed to sign up."
+msgstr "Failed to sign up."
+
+#: app/auth/signup/components/Form.tsx:26
+msgid "Full Name is required"
+msgstr "Full Name is required"
+
+#: app/auth/signup/components/Form.tsx:27
+msgid "Full Name should have at least 5 characters"
+msgstr "Full Name should have at least 5 characters"
+
+#: app/auth/signup/components/Form.tsx:28
+msgid "Full Name should no more than 50 characters"
+msgstr "Full Name should no more than 50 characters"
+
 #: app/components/SignUpSection.tsx:13
 msgid "Get started with Shoryuken today"
 msgstr "Get started with Shoryuken today"
@@ -68,6 +115,10 @@ msgstr "Get started with Shoryuken today"
 #: app/auth/signin/components/Form.tsx:30
 msgid "Invalid email format"
 msgstr "Invalid email format"
+
+#: app/auth/signup/components/Form.tsx:35
+msgid "Invalid email format."
+msgstr "Invalid email format."
 
 #: app/components/MainSection.tsx:26
 msgid "Keep everything in the same place—even if your team isn’t."
@@ -82,8 +133,17 @@ msgid "OR"
 msgstr "OR"
 
 #: app/auth/signin/components/Form.tsx:31
+#: app/auth/signup/components/Form.tsx:37
 msgid "Password is required"
 msgstr "Password is required"
+
+#: app/auth/signup/components/Form.tsx:38
+msgid "Password should have at least 8 characters"
+msgstr "Password should have at least 8 characters"
+
+#: app/auth/signup/components/Form.tsx:39
+msgid "Password should no more than 25 characters"
+msgstr "Password should no more than 25 characters"
 
 #: app/components/Footer.tsx:48
 msgid "Privacy Policy"
@@ -114,6 +174,7 @@ msgstr "Sign in to Shoryuken"
 msgid "Sign in with Google"
 msgstr "Sign in with Google"
 
+#: app/auth/signup/components/Form.tsx:191
 #: app/components/Header.tsx:94
 msgid "Sign Up"
 msgstr "Sign Up"
@@ -127,6 +188,10 @@ msgstr "Sign up - it’s free!"
 msgid "Sign up for an account"
 msgstr "Sign up for an account"
 
+#: app/auth/signup/components/Form.tsx:53
+msgid "Sign up for your account"
+msgstr "Sign up for your account"
+
 #: app/components/CoreSection.tsx:50
 msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
 msgstr "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
@@ -138,6 +203,22 @@ msgstr "Terms"
 #: app/components/CoreSection.tsx:29
 msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
 msgstr "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
+
+#: app/auth/signup/components/Form.tsx:207
+msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
+msgstr "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
+
+#: app/auth/signup/components/Form.tsx:30
+msgid "Username is required"
+msgstr "Username is required"
+
+#: app/auth/signup/components/Form.tsx:31
+msgid "Username should have at least 8 characters"
+msgstr "Username should have at least 8 characters"
+
+#: app/auth/signup/components/Form.tsx:32
+msgid "Username should no more than 15 characters"
+msgstr "Username should no more than 15 characters"
 
 #: app/components/Footer.tsx:31
 msgid "What‘s behind the boards."

@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import Form from "./components/Form";
 
 export const metadata: Metadata = {
-  title: "Sign Up | Shoryuken",
+  title: "Sign In | Shoryuken",
 };
 
 const SignInPage = () => {

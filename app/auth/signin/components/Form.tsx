@@ -12,12 +12,12 @@ import Link from "next/link";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { z } from "zod";
 import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import useSignInMutation from "../hooks/use-sign-in-mutation";
 import supabase from "../../../helpers/supabase";
-import { useLingui } from "@lingui/react";
 
 const Form: FC = () => {
   const router = useRouter();
