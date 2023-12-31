@@ -33,3 +33,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Compiled localization messages
+app/locales/**/messages.js

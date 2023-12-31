@@ -1,0 +1,99 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-12-31 10:00+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: app/components/CoreSection.tsx:47
+msgid "A productivity powerhouse"
+msgstr "A productivity powerhouse"
+
+#: app/components/Footer.tsx:20
+msgid "About Shoryuken"
+msgstr "About Shoryuken"
+
+#: app/components/TestimonySection.tsx:31
+msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
+msgstr "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
+
+#: app/components/CoreSection.tsx:37
+msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
+msgstr "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
+
+#: app/components/Footer.tsx:28
+msgid "Contact Us"
+msgstr "Contact Us"
+
+#: app/components/Footer.tsx:48
+msgid "Copyright © {year} Shoryuken"
+msgstr "Copyright © {year} Shoryuken"
+
+#: app/components/SignUpSection.tsx:13
+msgid "Get started with Shoryuken today"
+msgstr "Get started with Shoryuken today"
+
+#: app/components/MainSection.tsx:26
+msgid "Keep everything in the same place—even if your team isn’t."
+msgstr "Keep everything in the same place—even if your team isn’t."
+
+#: app/components/Footer.tsx:31
+msgid "Need anything? Get in touch and we can help."
+msgstr "Need anything? Get in touch and we can help."
+
+#: app/components/Footer.tsx:39
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+#: app/components/CoreSection.tsx:21
+msgid "Shoryuken boards keep tasks organized and work moving forward. In a glance, see everything from “things to do” to “aww yeah, we did it!”"
+msgstr "Shoryuken boards keep tasks organized and work moving forward. In a glance, see everything from “things to do” to “aww yeah, we did it!”"
+
+#: app/components/MainSection.tsx:21
+msgid "Shoryuken brings all your tasks, teammates, and tools together"
+msgstr "Shoryuken brings all your tasks, teammates, and tools together"
+
+#: app/components/TestimonySection.tsx:40
+msgid "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines."
+msgstr "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines."
+
+#: app/components/Header.tsx:90
+msgid "Sign In"
+msgstr "Sign In"
+
+#: app/components/Header.tsx:94
+msgid "Sign Up"
+msgstr "Sign Up"
+
+#: app/components/MainSection.tsx:35
+#: app/components/SignUpSection.tsx:17
+msgid "Sign up - it’s free!"
+msgstr "Sign up - it’s free!"
+
+#: app/components/CoreSection.tsx:50
+msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
+msgstr "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
+
+#: app/components/Footer.tsx:44
+msgid "Terms"
+msgstr "Terms"
+
+#: app/components/CoreSection.tsx:29
+msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
+msgstr "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
+
+#: app/components/Footer.tsx:23
+msgid "What‘s behind the boards."
+msgstr "What‘s behind the boards."
+
+#: app/components/TestimonySection.tsx:22
+msgid "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members."
+msgstr "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members."
