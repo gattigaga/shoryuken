@@ -21,6 +21,10 @@ msgstr "Sebuah kekuatan produktivitas"
 msgid "About Shoryuken"
 msgstr "Tentang Shoryuken"
 
+#: app/dashboard/components/NavBar.tsx:80
+msgid "Account"
+msgstr "Akun"
+
 #: app/auth/signup/components/Form.tsx:202
 msgid "Already have an account? Sign in"
 msgstr "Sudah memiliki akun? Sign in"
@@ -46,7 +50,7 @@ msgstr "Tidak bisa sign in?"
 
 #: app/components/CoreSection.tsx:37
 msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
-msgstr "Kartu-kartu mewakili tugas dan ide serta menyimpan semua informasi yang diperlukan untuk menyelesaikan pekerjaan. Saat Anda melakukan progress, pindahkan kartu-kartu di antara daftar untuk menunjukkan statusnya."
+msgstr "Card mewakili tugas dan ide serta menyimpan semua informasi yang diperlukan untuk menyelesaikan pekerjaan. Saat Anda melakukan progress, pindahkan card-card di antara list untuk menunjukkan statusnya."
 
 #: app/auth/signup/email-sent/components/Content.tsx:28
 msgid "Check your inbox to log in"
@@ -75,6 +79,14 @@ msgstr "Hubungi Kami"
 #: app/components/Footer.tsx:57
 msgid "Copyright © {year} Shoryuken"
 msgstr "Hak Cipta © {year} Shoryuken"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:98
+msgid "Create Board"
+msgstr "Buat Board"
+
+#: app/dashboard/components/CreateBoardButton.tsx:16
+msgid "Create new board"
+msgstr "Buat board baru"
 
 #: app/auth/account-details/components/Form.tsx:42
 #: app/auth/forgot-password/components/Form.tsx:25
@@ -118,6 +130,10 @@ msgstr "Masukkan kata sandi lagi"
 #: app/auth/signup/components/Form.tsx:127
 msgid "Enter username"
 msgstr "Masukkan nama pengguna"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:76
+msgid "Failed to create a board."
+msgstr "Gagal membuat board."
 
 #: app/auth/reset-password/components/Form.tsx:67
 msgid "Failed to reset your password."
@@ -180,6 +196,10 @@ msgstr "Format email tidak valid."
 msgid "Keep everything in the same place—even if your team isn’t."
 msgstr "Simpan semua hal di tempat yang sama—meskipun tim Anda berbeda lokasi."
 
+#: app/dashboard/components/Content.tsx:22
+msgid "My Boards"
+msgstr "Board Saya"
+
 #: app/components/Footer.tsx:39
 msgid "Need anything? Get in touch and we can help."
 msgstr "Butuh bantuan? Hubungi kami dan kami dapat membantu."
@@ -230,7 +250,7 @@ msgstr "Kirim Tautan Pemulihan"
 
 #: app/components/CoreSection.tsx:21
 msgid "Shoryuken boards keep tasks organized and work moving forward. In a glance, see everything from “things to do” to “aww yeah, we did it!”"
-msgstr "Papan Shoryuken menjaga tugas-tugas terorganisir dan pekerjaan tetap bergerak maju. Dalam sekilas, lihat segalanya mulai dari 'hal yang harus dilakukan' hingga 'yaay, kami melakukannya!'"
+msgstr "Board Shoryuken menjaga tugas-tugas terorganisir dan pekerjaan tetap bergerak maju. Dalam sekilas, lihat segalanya mulai dari 'hal yang harus dilakukan' hingga 'yaay, kami melakukannya!'"
 
 #: app/components/MainSection.tsx:21
 msgid "Shoryuken brings all your tasks, teammates, and tools together"
@@ -238,7 +258,7 @@ msgstr "Shoryuken menggabungkan semua tugas, rekan tim, dan alat dalam satu temp
 
 #: app/components/TestimonySection.tsx:40
 msgid "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines."
-msgstr "Shoryuken telah mengubah cara kami mengelola perusahaan kecerdasan buatan kami di Hiden Intelligence. Dengan papan dan fitur penugasan tugasnya, kami menyederhanakan proyek, meningkatkan kolaborasi, dan memenuhi tenggat waktu."
+msgstr "Shoryuken telah mengubah cara kami mengelola perusahaan kecerdasan buatan kami di Hiden Intelligence. Dengan board dan fitur task assignment, kami menyederhanakan proyek, meningkatkan kolaborasi, dan memenuhi tenggat waktu."
 
 #: app/auth/signin/components/Form.tsx:134
 #: app/components/Header.tsx:90
@@ -252,6 +272,10 @@ msgstr "Sign in ke Shoryuken"
 #: app/auth/signin/components/Form.tsx:153
 msgid "Sign in with Google"
 msgstr "Sign in dengan Google"
+
+#: app/dashboard/components/NavBar.tsx:95
+msgid "Sign out"
+msgstr "Keluar"
 
 #: app/auth/signup/components/Form.tsx:191
 #: app/components/Header.tsx:94
@@ -273,7 +297,7 @@ msgstr "Daftar untuk akun Anda"
 
 #: app/components/CoreSection.tsx:50
 msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
-msgstr "Sederhana, fleksibel, dan powerful. Yang Anda butuhkan hanyalah papan, daftar, dan kartu untuk mendapatkan pandangan yang jelas tentang siapa yang sedang melakukan apa dan apa yang perlu dilakukan. Pelajari lebih lanjut dalam panduan kami untuk memulai."
+msgstr "Sederhana, fleksibel, dan powerful. Yang Anda butuhkan hanyalah board, list, dan card untuk mendapatkan pandangan yang jelas tentang siapa yang sedang melakukan apa dan apa yang perlu dilakukan. Pelajari lebih lanjut dalam panduan kami untuk memulai."
 
 #: app/auth/account-details/components/Form.tsx:185
 msgid "Submit"
@@ -290,6 +314,18 @@ msgstr "Tahapan-tahapan yang berbeda dari sebuah tugas. Mulailah sebegitu sederh
 #: app/auth/signup/components/Form.tsx:207
 msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
 msgstr "Halaman ini dilindungi oleh reCAPTCHA dan berlaku <0>Kebijakan Privasi</0> dan <1>Syarat Layanan</1> dari Google"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:27
+msgid "Title is required"
+msgstr "Judul diperlukan"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:28
+msgid "Title should have at least 5 characters"
+msgstr "Judul harus memiliki minimal 5 karakter"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:29
+msgid "Title should no more than 50 characters"
+msgstr "Judul tidak boleh lebih dari 50 karakter"
 
 #: app/auth/signup/email-sent/components/Content.tsx:31
 msgid "To complete setup and log in, click the verification link in the email we‘ve sent to"
@@ -320,8 +356,12 @@ msgstr "Kami akan mengirimkan tautan pemulihan ke"
 
 #: app/components/Footer.tsx:31
 msgid "What‘s behind the boards."
-msgstr "Apa yang ada di balik papan-papan ini."
+msgstr "Apa yang ada di balik board-board ini."
 
 #: app/components/TestimonySection.tsx:22
 msgid "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members."
 msgstr "Dengan Shoryuken, kami mendapatkan visibilitas yang lebih baik terhadap tugas-tugas kami, menyederhanakan alur kerja kami, dan meningkatkan kolaborasi di antara anggota tim."
+
+#: app/dashboard/components/NetworkStatus.tsx:47
+msgid "You are offline!"
+msgstr "Anda sedang offline!"

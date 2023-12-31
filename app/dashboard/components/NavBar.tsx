@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useQueryClient } from "react-query";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { Trans } from "@lingui/macro";
 
 import Avatar from "./Avatar";
 import useSignOutMutation from "../hooks/use-sign-out-mutation";
@@ -75,7 +76,9 @@ const NavBar: FC = () => {
               className="w-72 bg-white rounded border shadow-lg absolute top-10 right-0"
             >
               <div className="p-4 border-b">
-                <p className="text-center text-xs text-slate-500">Account</p>
+                <p className="text-center text-xs text-slate-500">
+                  <Trans>Account</Trans>
+                </p>
               </div>
               <div className="p-4 border-b">
                 <p className="text-xs text-slate-600 font-semibold mb-1">
@@ -89,7 +92,7 @@ const NavBar: FC = () => {
                   type="button"
                   onClick={signOut}
                 >
-                  Sign out
+                  <Trans>Sign out</Trans>
                 </button>
               </div>
             </div>

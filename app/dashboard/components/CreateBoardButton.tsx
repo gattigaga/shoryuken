@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Trans } from "@lingui/macro";
 
 type Props = {
   onClick?: () => void;
@@ -11,7 +12,9 @@ const CreateBoardButton: FC<Props> = ({ onClick }) => {
       type="button"
       onClick={onClick}
     >
-      <p className="text-md text-slate-500">Create new board</p>
+      <p className="text-md text-slate-500">
+        <Trans>Create new board</Trans>
+      </p>
     </button>
   );
 };

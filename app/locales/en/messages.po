@@ -21,6 +21,10 @@ msgstr "A productivity powerhouse"
 msgid "About Shoryuken"
 msgstr "About Shoryuken"
 
+#: app/dashboard/components/NavBar.tsx:80
+msgid "Account"
+msgstr "Account"
+
 #: app/auth/signup/components/Form.tsx:202
 msgid "Already have an account? Sign in"
 msgstr "Already have an account? Sign in"
@@ -76,6 +80,14 @@ msgstr "Contact Us"
 msgid "Copyright © {year} Shoryuken"
 msgstr "Copyright © {year} Shoryuken"
 
+#: app/dashboard/components/ModalCreateBoard.tsx:98
+msgid "Create Board"
+msgstr "Create Board"
+
+#: app/dashboard/components/CreateBoardButton.tsx:16
+msgid "Create new board"
+msgstr "Create new board"
+
 #: app/auth/account-details/components/Form.tsx:42
 #: app/auth/forgot-password/components/Form.tsx:25
 #: app/auth/signin/components/Form.tsx:29
@@ -118,6 +130,10 @@ msgstr "Enter password again"
 #: app/auth/signup/components/Form.tsx:127
 msgid "Enter username"
 msgstr "Enter username"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:76
+msgid "Failed to create a board."
+msgstr "Failed to create a board."
 
 #: app/auth/reset-password/components/Form.tsx:67
 msgid "Failed to reset your password."
@@ -179,6 +195,10 @@ msgstr "Invalid email format."
 #: app/components/MainSection.tsx:26
 msgid "Keep everything in the same place—even if your team isn’t."
 msgstr "Keep everything in the same place—even if your team isn’t."
+
+#: app/dashboard/components/Content.tsx:22
+msgid "My Boards"
+msgstr "My Boards"
 
 #: app/components/Footer.tsx:39
 msgid "Need anything? Get in touch and we can help."
@@ -253,6 +273,10 @@ msgstr "Sign in to Shoryuken"
 msgid "Sign in with Google"
 msgstr "Sign in with Google"
 
+#: app/dashboard/components/NavBar.tsx:95
+msgid "Sign out"
+msgstr "Sign out"
+
 #: app/auth/signup/components/Form.tsx:191
 #: app/components/Header.tsx:94
 msgid "Sign Up"
@@ -291,6 +315,18 @@ msgstr "The different stages of a task. Start as simple as To Do, Doing or Done�
 msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
 msgstr "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
 
+#: app/dashboard/components/ModalCreateBoard.tsx:27
+msgid "Title is required"
+msgstr "Title is required"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:28
+msgid "Title should have at least 5 characters"
+msgstr "Title should have at least 5 characters"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:29
+msgid "Title should no more than 50 characters"
+msgstr "Title should no more than 50 characters"
+
 #: app/auth/signup/email-sent/components/Content.tsx:31
 msgid "To complete setup and log in, click the verification link in the email we‘ve sent to"
 msgstr "To complete setup and log in, click the verification link in the email we‘ve sent to"
@@ -325,3 +361,7 @@ msgstr "What‘s behind the boards."
 #: app/components/TestimonySection.tsx:22
 msgid "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members."
 msgstr "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members."
+
+#: app/dashboard/components/NetworkStatus.tsx:47
+msgid "You are offline !"
+msgstr "You are offline !"
