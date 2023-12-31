@@ -17,7 +17,7 @@ msgstr ""
 msgid "A productivity powerhouse"
 msgstr "Sebuah kekuatan produktivitas"
 
-#: app/components/Footer.tsx:20
+#: app/components/Footer.tsx:28
 msgid "About Shoryuken"
 msgstr "Tentang Shoryuken"
 
@@ -25,31 +25,67 @@ msgstr "Tentang Shoryuken"
 msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
 msgstr "Sebagai seorang Produser dari 48 Family, saya telah menemukan Shoryuken sebagai alat yang tak ternilai untuk mengelola aktivitas dan jadwal dari grup idola kami."
 
+#: app/auth/signin/components/Form.tsx:166
+msgid "Can‘t sign in?"
+msgstr "Tidak bisa masuk?"
+
 #: app/components/CoreSection.tsx:37
 msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
 msgstr "Kartu-kartu mewakili tugas dan ide serta menyimpan semua informasi yang diperlukan untuk menyelesaikan pekerjaan. Saat Anda melakukan progress, pindahkan kartu-kartu di antara daftar untuk menunjukkan statusnya."
 
-#: app/components/Footer.tsx:28
+#: app/components/Footer.tsx:36
 msgid "Contact Us"
 msgstr "Hubungi Kami"
 
-#: app/components/Footer.tsx:48
+#: app/components/Footer.tsx:57
 msgid "Copyright © {year} Shoryuken"
 msgstr "Hak Cipta © {year} Shoryuken"
+
+#: app/auth/signin/components/Form.tsx:29
+msgid "Email is required"
+msgstr "Email diperlukan"
+
+#: app/auth/signin/components/Form.tsx:113
+msgid "Enter email"
+msgstr "Masukkan email"
+
+#: app/auth/signin/components/Form.tsx:126
+msgid "Enter password"
+msgstr "Masukkan kata sandi"
+
+#: app/auth/signin/components/Form.tsx:45
+msgid "Failed to sign in with Google."
+msgstr "Gagal masuk dengan Google."
+
+#: app/auth/signin/components/Form.tsx:79
+msgid "Failed to sign in."
+msgstr "Gagal masuk."
 
 #: app/components/SignUpSection.tsx:13
 msgid "Get started with Shoryuken today"
 msgstr "Mulailah dengan Shoryuken hari ini"
 
+#: app/auth/signin/components/Form.tsx:30
+msgid "Invalid email format"
+msgstr "Format email tidak valid"
+
 #: app/components/MainSection.tsx:26
 msgid "Keep everything in the same place—even if your team isn’t."
 msgstr "Simpan semua hal di tempat yang sama—meskipun tim Anda berbeda lokasi."
 
-#: app/components/Footer.tsx:31
+#: app/components/Footer.tsx:39
 msgid "Need anything? Get in touch and we can help."
 msgstr "Butuh bantuan? Hubungi kami dan kami dapat membantu."
 
-#: app/components/Footer.tsx:39
+#: app/auth/signin/components/Form.tsx:137
+msgid "OR"
+msgstr "ATAU"
+
+#: app/auth/signin/components/Form.tsx:31
+msgid "Password is required"
+msgstr "Kata sandi diperlukan"
+
+#: app/components/Footer.tsx:48
 msgid "Privacy Policy"
 msgstr "Kebijakan Privasi"
 
@@ -65,9 +101,18 @@ msgstr "Shoryuken menggabungkan semua tugas, rekan tim, dan alat dalam satu temp
 msgid "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines."
 msgstr "Shoryuken telah mengubah cara kami mengelola perusahaan kecerdasan buatan kami di Hiden Intelligence. Dengan papan dan fitur penugasan tugasnya, kami menyederhanakan proyek, meningkatkan kolaborasi, dan memenuhi tenggat waktu."
 
+#: app/auth/signin/components/Form.tsx:134
 #: app/components/Header.tsx:90
 msgid "Sign In"
 msgstr "Masuk"
+
+#: app/auth/signin/components/Form.tsx:52
+msgid "Sign in to Shoryuken"
+msgstr "Masuk ke Shoryuken"
+
+#: app/auth/signin/components/Form.tsx:153
+msgid "Sign in with Google"
+msgstr "Masuk dengan Google"
 
 #: app/components/Header.tsx:94
 msgid "Sign Up"
@@ -78,11 +123,15 @@ msgstr "Daftar"
 msgid "Sign up - it’s free!"
 msgstr "Daftar - gratis!"
 
+#: app/auth/signin/components/Form.tsx:172
+msgid "Sign up for an account"
+msgstr "Daftar untuk sebuah akun"
+
 #: app/components/CoreSection.tsx:50
 msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
 msgstr "Sederhana, fleksibel, dan powerful. Yang Anda butuhkan hanyalah papan, daftar, dan kartu untuk mendapatkan pandangan yang jelas tentang siapa yang sedang melakukan apa dan apa yang perlu dilakukan. Pelajari lebih lanjut dalam panduan kami untuk memulai."
 
-#: app/components/Footer.tsx:44
+#: app/components/Footer.tsx:53
 msgid "Terms"
 msgstr "Syarat dan Ketentuan"
 
@@ -90,7 +139,7 @@ msgstr "Syarat dan Ketentuan"
 msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
 msgstr "Tahapan-tahapan yang berbeda dari sebuah tugas. Mulailah sebegitu sederhana dengan To Do, Doing, atau Done—atau bangun alur kerja yang sesuai dengan kebutuhan tim Anda. Tidak ada cara yang salah dalam menggunakan Shoryuken."
 
-#: app/components/Footer.tsx:23
+#: app/components/Footer.tsx:31
 msgid "What‘s behind the boards."
 msgstr "Apa yang ada di balik papan-papan ini."
 
