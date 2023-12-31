@@ -34,6 +34,7 @@ msgstr "Sebagai seorang Produser dari 48 Family, saya telah menemukan Shoryuken 
 msgid "Back to Sign In"
 msgstr "Kembali ke Sign In"
 
+#: app/auth/account-details/components/Form.tsx:172
 #: app/auth/signup/components/Form.tsx:177
 msgid "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
 msgstr "Dengan mendaftar, saya menerima <0>Syarat Layanan Shoryuken</0> dan mengakui <1>Kebijakan Privasi</1>."
@@ -55,11 +56,13 @@ msgstr "Periksa kotak masuk Anda untuk sign in"
 msgid "Check your inbox to reset password"
 msgstr "Periksa kotak masuk Anda untuk mereset kata sandi"
 
+#: app/auth/account-details/components/Form.tsx:53
 #: app/auth/reset-password/components/Form.tsx:34
 #: app/auth/signup/components/Form.tsx:45
 msgid "Confirm Password is mismatch"
 msgstr "Konfirmasi kata sandi tidak sesuai"
 
+#: app/auth/account-details/components/Form.tsx:49
 #: app/auth/reset-password/components/Form.tsx:30
 #: app/auth/signup/components/Form.tsx:41
 msgid "Confirm Password is required"
@@ -73,18 +76,21 @@ msgstr "Hubungi Kami"
 msgid "Copyright © {year} Shoryuken"
 msgstr "Hak Cipta © {year} Shoryuken"
 
+#: app/auth/account-details/components/Form.tsx:42
 #: app/auth/forgot-password/components/Form.tsx:25
 #: app/auth/signin/components/Form.tsx:29
 #: app/auth/signup/components/Form.tsx:34
 msgid "Email is required"
 msgstr "Email diperlukan"
 
+#: app/auth/account-details/components/Form.tsx:140
 #: app/auth/forgot-password/components/Form.tsx:82
 #: app/auth/signin/components/Form.tsx:113
 #: app/auth/signup/components/Form.tsx:140
 msgid "Enter email"
 msgstr "Masukkan email"
 
+#: app/auth/account-details/components/Form.tsx:117
 #: app/auth/signup/components/Form.tsx:115
 msgid "Enter full name"
 msgstr "Masukkan nama lengkap"
@@ -97,15 +103,18 @@ msgstr "Masukkan kata sandi baru"
 msgid "Enter new password again"
 msgstr "Masukkan kata sandi baru lagi"
 
+#: app/auth/account-details/components/Form.tsx:153
 #: app/auth/signin/components/Form.tsx:126
 #: app/auth/signup/components/Form.tsx:153
 msgid "Enter password"
 msgstr "Masukkan kata sandi"
 
+#: app/auth/account-details/components/Form.tsx:165
 #: app/auth/signup/components/Form.tsx:166
 msgid "Enter password again"
 msgstr "Masukkan kata sandi lagi"
 
+#: app/auth/account-details/components/Form.tsx:128
 #: app/auth/signup/components/Form.tsx:127
 msgid "Enter username"
 msgstr "Masukkan nama pengguna"
@@ -130,14 +139,25 @@ msgstr "Gagal sign in."
 msgid "Failed to sign up."
 msgstr "Gagal mendaftar."
 
+#: app/auth/account-details/components/Form.tsx:92
+msgid "Failed to submit account details."
+msgstr "Gagal mengirimkan detail akun."
+
+#: app/auth/account-details/components/Form.tsx:60
+msgid "Fill up your account details"
+msgstr "Isi detail akun Anda"
+
+#: app/auth/account-details/components/Form.tsx:34
 #: app/auth/signup/components/Form.tsx:26
 msgid "Full Name is required"
 msgstr "Nama lengkap diperlukan"
 
+#: app/auth/account-details/components/Form.tsx:35
 #: app/auth/signup/components/Form.tsx:27
 msgid "Full Name should have at least 5 characters"
 msgstr "Nama lengkap harus memiliki minimal 5 karakter"
 
+#: app/auth/account-details/components/Form.tsx:36
 #: app/auth/signup/components/Form.tsx:28
 msgid "Full Name should no more than 50 characters"
 msgstr "Nama lengkap tidak boleh lebih dari 50 karakter"
@@ -151,6 +171,7 @@ msgstr "Mulailah dengan Shoryuken hari ini"
 msgid "Invalid email format"
 msgstr "Format email tidak valid"
 
+#: app/auth/account-details/components/Form.tsx:43
 #: app/auth/signup/components/Form.tsx:35
 msgid "Invalid email format."
 msgstr "Format email tidak valid."
@@ -167,17 +188,20 @@ msgstr "Butuh bantuan? Hubungi kami dan kami dapat membantu."
 msgid "OR"
 msgstr "ATAU"
 
+#: app/auth/account-details/components/Form.tsx:45
 #: app/auth/reset-password/components/Form.tsx:26
 #: app/auth/signin/components/Form.tsx:31
 #: app/auth/signup/components/Form.tsx:37
 msgid "Password is required"
 msgstr "Kata sandi diperlukan"
 
+#: app/auth/account-details/components/Form.tsx:46
 #: app/auth/reset-password/components/Form.tsx:27
 #: app/auth/signup/components/Form.tsx:38
 msgid "Password should have at least 8 characters"
 msgstr "Kata sandi harus memiliki minimal 8 karakter"
 
+#: app/auth/account-details/components/Form.tsx:47
 #: app/auth/reset-password/components/Form.tsx:28
 #: app/auth/signup/components/Form.tsx:39
 msgid "Password should no more than 25 characters"
@@ -251,6 +275,10 @@ msgstr "Daftar untuk akun Anda"
 msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
 msgstr "Sederhana, fleksibel, dan powerful. Yang Anda butuhkan hanyalah papan, daftar, dan kartu untuk mendapatkan pandangan yang jelas tentang siapa yang sedang melakukan apa dan apa yang perlu dilakukan. Pelajari lebih lanjut dalam panduan kami untuk memulai."
 
+#: app/auth/account-details/components/Form.tsx:185
+msgid "Submit"
+msgstr "Kirim"
+
 #: app/components/Footer.tsx:53
 msgid "Terms"
 msgstr "Syarat dan Ketentuan"
@@ -271,14 +299,17 @@ msgstr "Untuk menyelesaikan pengaturan dan sign in, klik tautan verifikasi dalam
 msgid "To reset your password, click the recovery link in the email we‘ve sent to"
 msgstr "Untuk mereset kata sandi Anda, klik tautan pemulihan dalam email yang telah kami kirimkan"
 
+#: app/auth/account-details/components/Form.tsx:38
 #: app/auth/signup/components/Form.tsx:30
 msgid "Username is required"
 msgstr "Nama pengguna diperlukan"
 
+#: app/auth/account-details/components/Form.tsx:39
 #: app/auth/signup/components/Form.tsx:31
 msgid "Username should have at least 8 characters"
 msgstr "Nama pengguna harus memiliki minimal 8 karakter"
 
+#: app/auth/account-details/components/Form.tsx:40
 #: app/auth/signup/components/Form.tsx:32
 msgid "Username should no more than 15 characters"
 msgstr "Nama pengguna tidak boleh lebih dari 15 karakter"

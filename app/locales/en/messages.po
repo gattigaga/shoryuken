@@ -34,6 +34,7 @@ msgstr "As a Producer of the 48 Family, I have found Shoryuken to be an invaluab
 msgid "Back to Sign In"
 msgstr "Back to Sign In"
 
+#: app/auth/account-details/components/Form.tsx:172
 #: app/auth/signup/components/Form.tsx:177
 msgid "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
 msgstr "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
@@ -55,11 +56,13 @@ msgstr "Check your inbox to log in"
 msgid "Check your inbox to reset password"
 msgstr "Check your inbox to reset password"
 
+#: app/auth/account-details/components/Form.tsx:53
 #: app/auth/reset-password/components/Form.tsx:34
 #: app/auth/signup/components/Form.tsx:45
 msgid "Confirm Password is mismatch"
 msgstr "Confirm Password is mismatch"
 
+#: app/auth/account-details/components/Form.tsx:49
 #: app/auth/reset-password/components/Form.tsx:30
 #: app/auth/signup/components/Form.tsx:41
 msgid "Confirm Password is required"
@@ -73,18 +76,21 @@ msgstr "Contact Us"
 msgid "Copyright © {year} Shoryuken"
 msgstr "Copyright © {year} Shoryuken"
 
+#: app/auth/account-details/components/Form.tsx:42
 #: app/auth/forgot-password/components/Form.tsx:25
 #: app/auth/signin/components/Form.tsx:29
 #: app/auth/signup/components/Form.tsx:34
 msgid "Email is required"
 msgstr "Email is required"
 
+#: app/auth/account-details/components/Form.tsx:140
 #: app/auth/forgot-password/components/Form.tsx:82
 #: app/auth/signin/components/Form.tsx:113
 #: app/auth/signup/components/Form.tsx:140
 msgid "Enter email"
 msgstr "Enter email"
 
+#: app/auth/account-details/components/Form.tsx:117
 #: app/auth/signup/components/Form.tsx:115
 msgid "Enter full name"
 msgstr "Enter full name"
@@ -97,15 +103,18 @@ msgstr "Enter new password"
 msgid "Enter new password again"
 msgstr "Enter new password again"
 
+#: app/auth/account-details/components/Form.tsx:153
 #: app/auth/signin/components/Form.tsx:126
 #: app/auth/signup/components/Form.tsx:153
 msgid "Enter password"
 msgstr "Enter password"
 
+#: app/auth/account-details/components/Form.tsx:165
 #: app/auth/signup/components/Form.tsx:166
 msgid "Enter password again"
 msgstr "Enter password again"
 
+#: app/auth/account-details/components/Form.tsx:128
 #: app/auth/signup/components/Form.tsx:127
 msgid "Enter username"
 msgstr "Enter username"
@@ -130,14 +139,25 @@ msgstr "Failed to sign in."
 msgid "Failed to sign up."
 msgstr "Failed to sign up."
 
+#: app/auth/account-details/components/Form.tsx:92
+msgid "Failed to submit account details."
+msgstr "Failed to submit account details."
+
+#: app/auth/account-details/components/Form.tsx:60
+msgid "Fill up your account details"
+msgstr "Fill up your account details"
+
+#: app/auth/account-details/components/Form.tsx:34
 #: app/auth/signup/components/Form.tsx:26
 msgid "Full Name is required"
 msgstr "Full Name is required"
 
+#: app/auth/account-details/components/Form.tsx:35
 #: app/auth/signup/components/Form.tsx:27
 msgid "Full Name should have at least 5 characters"
 msgstr "Full Name should have at least 5 characters"
 
+#: app/auth/account-details/components/Form.tsx:36
 #: app/auth/signup/components/Form.tsx:28
 msgid "Full Name should no more than 50 characters"
 msgstr "Full Name should no more than 50 characters"
@@ -151,6 +171,7 @@ msgstr "Get started with Shoryuken today"
 msgid "Invalid email format"
 msgstr "Invalid email format"
 
+#: app/auth/account-details/components/Form.tsx:43
 #: app/auth/signup/components/Form.tsx:35
 msgid "Invalid email format."
 msgstr "Invalid email format."
@@ -167,17 +188,20 @@ msgstr "Need anything? Get in touch and we can help."
 msgid "OR"
 msgstr "OR"
 
+#: app/auth/account-details/components/Form.tsx:45
 #: app/auth/reset-password/components/Form.tsx:26
 #: app/auth/signin/components/Form.tsx:31
 #: app/auth/signup/components/Form.tsx:37
 msgid "Password is required"
 msgstr "Password is required"
 
+#: app/auth/account-details/components/Form.tsx:46
 #: app/auth/reset-password/components/Form.tsx:27
 #: app/auth/signup/components/Form.tsx:38
 msgid "Password should have at least 8 characters"
 msgstr "Password should have at least 8 characters"
 
+#: app/auth/account-details/components/Form.tsx:47
 #: app/auth/reset-password/components/Form.tsx:28
 #: app/auth/signup/components/Form.tsx:39
 msgid "Password should no more than 25 characters"
@@ -251,6 +275,10 @@ msgstr "Sign up for your account"
 msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
 msgstr "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
 
+#: app/auth/account-details/components/Form.tsx:185
+msgid "Submit"
+msgstr "Submit"
+
 #: app/components/Footer.tsx:53
 msgid "Terms"
 msgstr "Terms"
@@ -271,14 +299,17 @@ msgstr "To complete setup and log in, click the verification link in the email w
 msgid "To reset your password, click the recovery link in the email we‘ve sent to"
 msgstr "To reset your password, click the recovery link in the email we‘ve sent to"
 
+#: app/auth/account-details/components/Form.tsx:38
 #: app/auth/signup/components/Form.tsx:30
 msgid "Username is required"
 msgstr "Username is required"
 
+#: app/auth/account-details/components/Form.tsx:39
 #: app/auth/signup/components/Form.tsx:31
 msgid "Username should have at least 8 characters"
 msgstr "Username should have at least 8 characters"
 
+#: app/auth/account-details/components/Form.tsx:40
 #: app/auth/signup/components/Form.tsx:32
 msgid "Username should no more than 15 characters"
 msgstr "Username should no more than 15 characters"

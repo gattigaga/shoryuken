@@ -35,13 +35,8 @@ const AccountDetailsPage = async () => {
               />
             </Link>
           </div>
-          <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
-            <h1 className="font-semibold text-center text-slate-600 mb-6">
-              Fill up your account details
-            </h1>
 
-            <Form defaultValues={user} />
-          </div>
+          <Form defaultValues={user} />
         </div>
       </main>
     </div>
