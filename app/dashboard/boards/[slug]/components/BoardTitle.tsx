@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
+import { useRouter } from "next/navigation";
 
 import useBoardQuery from "../hooks/use-board-query";
 import useUpdateBoardMutation from "../hooks/use-update-board-mutation";
@@ -19,6 +20,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const refHiddenText = useRef<HTMLParagraphElement>(null);
   const { _ } = useLingui();
+  const router = useRouter();
   const boardsQuery = useBoardQuery(id);
   const updateBoardMutation = useUpdateBoardMutation();
 
@@ -28,12 +30,14 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
     if (!title) return;
 
     try {
-      await updateBoardMutation.mutateAsync({
+      const response = await updateBoardMutation.mutateAsync({
         id,
         body: {
           title,
         },
       });
+
+      router.replace(`/dashboard/boards/${response.id}-${response.slug}`);
     } catch (error) {
       toast.error(_(msg`Failed to update board title.`));
     }
@@ -53,6 +57,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
     }
   }, [isEditing, submittedText]);
 
+  // Update the input width every time the text changed.
   useEffect(() => {
     if (isEditing) {
       handleInputWidth();
