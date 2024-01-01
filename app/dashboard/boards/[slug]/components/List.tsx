@@ -5,6 +5,8 @@ import { MdAdd, MdClose } from "react-icons/md";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import classnames from "classnames";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import styles from "../styles/List.module.css";
 import Button from "../../../../components/Button";
@@ -30,6 +32,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
   const refCreateCardForm = useRef<HTMLDivElement>(null);
   const refChildren = useRef<HTMLDivElement>(null);
+  const { _ } = useLingui();
   const boardQuery = useBoardQuery(boardId);
   const cardsQuery = useCardsQuery(id);
   const deleteListMutation = useDeleteListMutation();
@@ -50,7 +53,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
         boardId,
       });
     } catch (error) {
-      toast.error("Failed to delete a list.");
+      toast.error(_(msg`Failed to delete a list.`));
     }
   };
 
@@ -68,7 +71,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to update a list.");
+      toast.error(_(msg`Failed to update a list.`));
     }
   };
 
@@ -81,7 +84,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to delete a card.");
+      toast.error(_(msg`Failed to delete a card.`));
     }
   };
 
@@ -237,7 +240,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                     ref={refCardTitleInput}
                     className="w-full p-2 border-0 resize-none rounded text-xs h-16 focus:ring-0"
                     value={cardTitle}
-                    placeholder="Enter a title for this card..."
+                    placeholder={_(msg`Enter a title for this card...`)}
                     onChange={(event) => setCardTitle(event.target.value)}
                     onKeyDown={(event) => {
                       switch (event.key) {
@@ -272,7 +275,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                       refCardTitleInput.current?.focus();
                     }}
                   >
-                    Add card
+                    <Trans>Add card</Trans>
                   </Button>
                   <button
                     className="text-slate-500 hover:text-slate-600"
@@ -298,7 +301,9 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                 onClick={() => setIsCreateCardFormOpen(true)}
               >
                 <MdAdd size={24} />
-                <p className="ml-2 text-xs">Add a card</p>
+                <p className="ml-2 text-xs">
+                  <Trans>Add a card</Trans>
+                </p>
               </button>
             </div>
           )}

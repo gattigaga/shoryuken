@@ -3,6 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { MdViewHeadline, MdClose } from "react-icons/md";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import useCardQuery from "../hooks/use-card-query";
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
@@ -17,6 +19,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState("");
   const refInput = useRef<HTMLTextAreaElement>(null);
+  const { _ } = useLingui();
   const updateCardMutation = useUpdateCardMutation();
 
   const applyDescription = async () => {
@@ -33,7 +36,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to update a card description.");
+      toast.error(_(msg`Failed to update a card description.`));
     }
   };
 
@@ -63,7 +66,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
       </span>
       <div className="w-full">
         <h2 className="text-lg text-slate-700 font-semibold mb-4">
-          Description
+          <Trans>Description</Trans>
         </h2>
         {!isEditing && (
           <>
@@ -95,7 +98,9 @@ const CardDescription: React.FC<Props> = ({ id }) => {
                   }, 100);
                 }}
               >
-                <p>Add a more detailed description...</p>
+                <p>
+                  <Trans>Add a more detailed description...</Trans>
+                </p>
               </button>
             )}
           </>
@@ -105,7 +110,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
             <textarea
               ref={refInput}
               className="w-full h-24 p-3 rounded text-xs resize-none"
-              placeholder="Add a more detailed description..."
+              placeholder={_(msg`Add a more detailed description...`)}
               value={description}
               onChange={(event) => setDescription(event.target.value)}
               onKeyDown={(event) => {
@@ -126,7 +131,7 @@ const CardDescription: React.FC<Props> = ({ id }) => {
                   applyDescription();
                 }}
               >
-                Save
+                <Trans>Save</Trans>
               </Button>
               <button
                 className="text-slate-500 hover:text-slate-600"

@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 
-import Button from "../../../components/Button";
-import Email from "./components/Email";
+import Content from "./components/Content";
 
 export const metadata: Metadata = {
   title: "Verify your email | Shoryuken",
@@ -25,21 +24,8 @@ const EmailSentPage = () => {
               />
             </Link>
           </div>
-          <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
-            <h1 className="font-semibold text-center text-slate-600 mb-6">
-              Check your inbox to log in
-            </h1>
-            <p className="text-xs text-slate-500 leading-normal mb-2">
-              To complete setup and log in, click the verification link in the
-              email we&lsquo;ve sent to
-            </p>
 
-            <Email />
-
-            <Link href="/auth/signin">
-              <Button className="w-full">Back to Sign In</Button>
-            </Link>
-          </div>
+          <Content />
         </div>
       </main>
     </div>

@@ -21,6 +21,10 @@ const TestimonySlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
   const breakpoint = useTailwindBreakpoint();
 
   const itemWidth = (() => {
+    if (typeof document === "undefined") {
+      return 0;
+    }
+
     let paddingX = 0;
 
     switch (breakpoint) {

@@ -1,0 +1,594 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-12-31 10:00+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: id\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: app/components/CoreSection.tsx:47
+msgid "A productivity powerhouse"
+msgstr "Sebuah kekuatan produktivitas"
+
+#: app/components/Footer.tsx:28
+msgid "About Shoryuken"
+msgstr "Tentang Shoryuken"
+
+#: app/dashboard/components/NavBar.tsx:80
+msgid "Account"
+msgstr "Akun"
+
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:186
+msgid "Actions"
+msgstr "Tindakan"
+
+#: app/dashboard/boards/[slug]/components/CardChecklist.tsx:249
+msgid "Add"
+msgstr "Tambah"
+
+#: app/dashboard/boards/[slug]/components/List.tsx:305
+msgid "Add a card"
+msgstr "Tambahkan card"
+
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:102
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:113
+msgid "Add a more detailed description..."
+msgstr "Tambahkan deskripsi yang lebih detail..."
+
+#: app/dashboard/boards/[slug]/components/CardChecklist.tsx:276
+msgid "Add an item"
+msgstr "Tambahkan item"
+
+#: app/dashboard/boards/[slug]/components/List.tsx:278
+msgid "Add card"
+msgstr "Tambahkan card"
+
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:174
+msgid "Add list"
+msgstr "Tambahkan list"
+
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:146
+msgid "Add to card"
+msgstr "Tambahkan ke card"
+
+#: app/auth/signup/components/Form.tsx:202
+msgid "Already have an account? Sign in"
+msgstr "Sudah memiliki akun? Sign in"
+
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:80
+msgid "Are you sure you want to delete this card?"
+msgstr "Apakah Anda yakin ingin menghapus kartu ini?"
+
+#: app/components/TestimonySection.tsx:31
+msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
+msgstr "Sebagai seorang Produser dari 48 Family, saya telah menemukan Shoryuken sebagai alat yang tak ternilai untuk mengelola aktivitas dan jadwal dari grup idola kami."
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:48
+msgid "at"
+msgstr "pada"
+
+#: app/auth/forgot-password/email-sent/components/Content.tsx:50
+#: app/auth/signup/email-sent/components/Content.tsx:41
+msgid "Back to Sign In"
+msgstr "Kembali ke Sign In"
+
+#: app/dashboard/boards/[slug]/components/Content.tsx:232
+msgid "Board not found"
+msgstr "Board tidak ditemukan"
+
+#: app/auth/account-details/components/Form.tsx:172
+#: app/auth/signup/components/Form.tsx:177
+msgid "By signing up, I accept the <0>Shoryuken Terms of Service</0> and acknowledge the <1>Privacy Policy</1>."
+msgstr "Dengan mendaftar, saya menerima <0>Syarat Layanan Shoryuken</0> dan mengakui <1>Kebijakan Privasi</1>."
+
+#: app/auth/forgot-password/components/Form.tsx:32
+#: app/auth/signin/components/Form.tsx:166
+msgid "Can‘t sign in?"
+msgstr "Tidak bisa sign in?"
+
+#: app/dashboard/boards/[slug]/components/CardChecklist.tsx:261
+msgid "Cancel"
+msgstr "Batal"
+
+#: app/components/CoreSection.tsx:37
+msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
+msgstr "Card mewakili tugas dan ide serta menyimpan semua informasi yang diperlukan untuk menyelesaikan pekerjaan. Saat Anda melakukan progress, pindahkan card-card di antara list untuk menunjukkan statusnya."
+
+#: app/auth/signup/email-sent/components/Content.tsx:28
+msgid "Check your inbox to log in"
+msgstr "Periksa kotak masuk Anda untuk sign in"
+
+#: app/auth/forgot-password/email-sent/components/Content.tsx:35
+msgid "Check your inbox to reset password"
+msgstr "Periksa kotak masuk Anda untuk mereset kata sandi"
+
+#: app/dashboard/boards/[slug]/components/CardChecklist.tsx:130
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:155
+msgid "Checklist"
+msgstr "Checklist"
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:107
+msgid "complete"
+msgstr "selesai"
+
+#: app/auth/account-details/components/Form.tsx:53
+#: app/auth/reset-password/components/Form.tsx:34
+#: app/auth/signup/components/Form.tsx:45
+msgid "Confirm Password is mismatch"
+msgstr "Konfirmasi kata sandi tidak sesuai"
+
+#: app/auth/account-details/components/Form.tsx:49
+#: app/auth/reset-password/components/Form.tsx:30
+#: app/auth/signup/components/Form.tsx:41
+msgid "Confirm Password is required"
+msgstr "Konfirmasi kata sandi diperlukan"
+
+#: app/components/Footer.tsx:36
+msgid "Contact Us"
+msgstr "Hubungi Kami"
+
+#: app/components/Footer.tsx:57
+msgid "Copyright © {year} Shoryuken"
+msgstr "Hak Cipta © {year} Shoryuken"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:98
+msgid "Create Board"
+msgstr "Buat Board"
+
+#: app/dashboard/components/CreateBoardButton.tsx:16
+msgid "Create new board"
+msgstr "Buat board baru"
+
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:200
+msgid "Create new list"
+msgstr "Buat list baru"
+
+#: app/dashboard/boards/[slug]/components/CardChecklist.tsx:139
+#: app/dashboard/boards/[slug]/components/Content.tsx:159
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:195
+msgid "Delete"
+msgstr "Hapus"
+
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:69
+msgid "Description"
+msgstr "Deskripsi"
+
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:172
+msgid "Due Date"
+msgstr "Tanggal Jatuh Tempo"
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:112
+msgid "due soon"
+msgstr "akan jatuh tempo segera"
+
+#: app/auth/account-details/components/Form.tsx:42
+#: app/auth/forgot-password/components/Form.tsx:25
+#: app/auth/signin/components/Form.tsx:29
+#: app/auth/signup/components/Form.tsx:34
+msgid "Email is required"
+msgstr "Email diperlukan"
+
+#: app/dashboard/boards/[slug]/components/List.tsx:243
+msgid "Enter a title for this card..."
+msgstr "Masukkan judul untuk card ini..."
+
+#: app/auth/account-details/components/Form.tsx:140
+#: app/auth/forgot-password/components/Form.tsx:82
+#: app/auth/signin/components/Form.tsx:113
+#: app/auth/signup/components/Form.tsx:140
+msgid "Enter email"
+msgstr "Masukkan email"
+
+#: app/auth/account-details/components/Form.tsx:117
+#: app/auth/signup/components/Form.tsx:115
+msgid "Enter full name"
+msgstr "Masukkan nama lengkap"
+
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:149
+msgid "Enter list title..."
+msgstr "Masukkan judul daftar..."
+
+#: app/auth/reset-password/components/Form.tsx:101
+msgid "Enter new password"
+msgstr "Masukkan kata sandi baru"
+
+#: app/auth/reset-password/components/Form.tsx:114
+msgid "Enter new password again"
+msgstr "Masukkan kata sandi baru lagi"
+
+#: app/auth/account-details/components/Form.tsx:153
+#: app/auth/signin/components/Form.tsx:126
+#: app/auth/signup/components/Form.tsx:153
+msgid "Enter password"
+msgstr "Masukkan kata sandi"
+
+#: app/auth/account-details/components/Form.tsx:165
+#: app/auth/signup/components/Form.tsx:166
+msgid "Enter password again"
+msgstr "Masukkan kata sandi lagi"
+
+#: app/auth/account-details/components/Form.tsx:128
+#: app/auth/signup/components/Form.tsx:127
+msgid "Enter username"
+msgstr "Masukkan nama pengguna"
+
+#: app/dashboard/boards/[slug]/components/CardChecklist.tsx:88
+msgid "Failed to add check item."
+msgstr "Gagal menambahkan check item."
+
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:73
+msgid "Failed to add checklist in the card."
+msgstr "Gagal menambahkan checklist pada card."
+
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:89
+msgid "Failed to add due date."
+msgstr "Gagal menambahkan tanggal jatuh tempo."
+
+#: app/dashboard/components/ModalCreateBoard.tsx:76
+msgid "Failed to create a board."
+msgstr "Gagal membuat board."
+
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:81
+msgid "Failed to create a list."
+msgstr "Gagal membuat list."
+
+#: app/dashboard/boards/[slug]/components/Content.tsx:50
+msgid "Failed to delete a board."
+msgstr "Gagal menghapus board."
+
+#: app/dashboard/boards/[slug]/components/List.tsx:87
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:91
+msgid "Failed to delete a card."
+msgstr "Gagal menghapus card."
+
+#: app/dashboard/boards/[slug]/components/List.tsx:56
+msgid "Failed to delete a list."
+msgstr "Gagal menghapus list."
+
+#: app/dashboard/boards/[slug]/components/CardCheckItem.tsx:78
+msgid "Failed to delete check item."
+msgstr "Gagal menghapus check item."
+
+#: app/dashboard/boards/[slug]/components/CardChecklist.tsx:72
+msgid "Failed to delete checklist."
+msgstr "Gagal menghapus checklist."
+
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:218
+msgid "Failed to fetch card detail."
+msgstr "Gagal mengambil detail card."
+
+#: app/dashboard/boards/[slug]/components/Content.tsx:97
+msgid "Failed to move a card."
+msgstr "Gagal memindahkan card."
+
+#: app/dashboard/boards/[slug]/components/CardChecklist.tsx:111
+msgid "Failed to move a check item."
+msgstr "Gagal memindahkan check item."
+
+#: app/dashboard/boards/[slug]/components/Content.tsx:72
+msgid "Failed to move a list."
+msgstr "Gagal memindahkan list."
+
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:108
+msgid "Failed to remove due date."
+msgstr "Gagal menghapus tanggal jatuh tempo."
+
+#: app/auth/reset-password/components/Form.tsx:67
+msgid "Failed to reset your password."
+msgstr "Gagal mereset kata sandi Anda."
+
+#: app/auth/forgot-password/components/Form.tsx:53
+msgid "Failed to send a recovery link."
+msgstr "Gagal mengirimkan tautan pemulihan."
+
+#: app/auth/signin/components/Form.tsx:45
+msgid "Failed to sign in with Google."
+msgstr "Gagal sign in dengan Google."
+
+#: app/auth/signin/components/Form.tsx:79
+msgid "Failed to sign in."
+msgstr "Gagal sign in."
+
+#: app/auth/signup/components/Form.tsx:82
+msgid "Failed to sign up."
+msgstr "Gagal mendaftar."
+
+#: app/auth/account-details/components/Form.tsx:92
+msgid "Failed to submit account details."
+msgstr "Gagal mengirimkan detail akun."
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:87
+msgid "Failed to toggle check due date."
+msgstr "Gagal mengubah check tanggal jatuh tempo."
+
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:39
+msgid "Failed to update a card description."
+msgstr "Gagal memperbarui deskripsi card."
+
+#: app/dashboard/boards/[slug]/components/CardTitle.tsx:39
+msgid "Failed to update a card title."
+msgstr "Gagal memperbarui judul card."
+
+#: app/dashboard/boards/[slug]/components/List.tsx:74
+msgid "Failed to update a list."
+msgstr "Gagal memperbarui list."
+
+#: app/dashboard/boards/[slug]/components/BoardTitle.tsx:34
+msgid "Failed to update board title."
+msgstr "Gagal memperbarui judul board."
+
+#: app/dashboard/boards/[slug]/components/CardCheckItem.tsx:67
+msgid "Failed to update check item content."
+msgstr "Gagal memperbarui konten check item."
+
+#: app/dashboard/boards/[slug]/components/CardCheckItem.tsx:50
+msgid "Failed to update check item."
+msgstr "Gagal memperbarui check item."
+
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:90
+msgid "Failed to update due date."
+msgstr "Gagal memperbarui tanggal jatuh tempo."
+
+#: app/auth/account-details/components/Form.tsx:60
+msgid "Fill up your account details"
+msgstr "Isi detail akun Anda"
+
+#: app/auth/account-details/components/Form.tsx:34
+#: app/auth/signup/components/Form.tsx:26
+msgid "Full Name is required"
+msgstr "Nama lengkap diperlukan"
+
+#: app/auth/account-details/components/Form.tsx:35
+#: app/auth/signup/components/Form.tsx:27
+msgid "Full Name should have at least 5 characters"
+msgstr "Nama lengkap harus memiliki minimal 5 karakter"
+
+#: app/auth/account-details/components/Form.tsx:36
+#: app/auth/signup/components/Form.tsx:28
+msgid "Full Name should no more than 50 characters"
+msgstr "Nama lengkap tidak boleh lebih dari 50 karakter"
+
+#: app/components/SignUpSection.tsx:13
+msgid "Get started with Shoryuken today"
+msgstr "Mulailah dengan Shoryuken hari ini"
+
+#: app/dashboard/boards/[slug]/components/Content.tsx:245
+msgid "Go Back"
+msgstr "Kembali"
+
+#: app/dashboard/boards/[slug]/components/CardTitle.tsx:92
+msgid "in list <0>{0}</0>"
+msgstr "dalam list <0>{0}</0>"
+
+#: app/auth/forgot-password/components/Form.tsx:26
+#: app/auth/signin/components/Form.tsx:30
+msgid "Invalid email format"
+msgstr "Format email tidak valid"
+
+#: app/auth/account-details/components/Form.tsx:43
+#: app/auth/signup/components/Form.tsx:35
+msgid "Invalid email format."
+msgstr "Format email tidak valid."
+
+#: app/components/MainSection.tsx:26
+msgid "Keep everything in the same place—even if your team isn’t."
+msgstr "Simpan semua hal di tempat yang sama—meskipun tim Anda berbeda lokasi."
+
+#: app/dashboard/components/Content.tsx:22
+msgid "My Boards"
+msgstr "Board Saya"
+
+#: app/components/Footer.tsx:39
+msgid "Need anything? Get in touch and we can help."
+msgstr "Butuh bantuan? Hubungi kami dan kami dapat membantu."
+
+#: app/auth/signin/components/Form.tsx:137
+msgid "OR"
+msgstr "ATAU"
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:117
+msgid "overdue"
+msgstr "terlambat"
+
+#: app/auth/account-details/components/Form.tsx:45
+#: app/auth/reset-password/components/Form.tsx:26
+#: app/auth/signin/components/Form.tsx:31
+#: app/auth/signup/components/Form.tsx:37
+msgid "Password is required"
+msgstr "Kata sandi diperlukan"
+
+#: app/auth/account-details/components/Form.tsx:46
+#: app/auth/reset-password/components/Form.tsx:27
+#: app/auth/signup/components/Form.tsx:38
+msgid "Password should have at least 8 characters"
+msgstr "Kata sandi harus memiliki minimal 8 karakter"
+
+#: app/auth/account-details/components/Form.tsx:47
+#: app/auth/reset-password/components/Form.tsx:28
+#: app/auth/signup/components/Form.tsx:39
+msgid "Password should no more than 25 characters"
+msgstr "Kata sandi tidak boleh lebih dari 25 karakter"
+
+#: app/components/Footer.tsx:48
+msgid "Privacy Policy"
+msgstr "Kebijakan Privasi"
+
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:161
+msgid "Remove"
+msgstr "Hapus"
+
+#: app/auth/reset-password/components/Form.tsx:124
+msgid "Reset Password"
+msgstr "Atur Ulang Kata Sandi"
+
+#: app/auth/reset-password/components/Form.tsx:41
+msgid "Reset your password"
+msgstr "Atur ulang kata sandi Anda"
+
+#: app/auth/forgot-password/components/Form.tsx:99
+#: app/auth/reset-password/components/Form.tsx:134
+msgid "Return to sign in"
+msgstr "Kembali ke sign in"
+
+#: app/dashboard/boards/[slug]/components/CardCheckItem.tsx:204
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:134
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:151
+msgid "Save"
+msgstr "Simpan"
+
+#: app/auth/forgot-password/components/Form.tsx:89
+msgid "Send Recovery Link"
+msgstr "Kirim Tautan Pemulihan"
+
+#: app/components/CoreSection.tsx:21
+msgid "Shoryuken boards keep tasks organized and work moving forward. In a glance, see everything from “things to do” to “aww yeah, we did it!”"
+msgstr "Board Shoryuken menjaga tugas-tugas terorganisir dan pekerjaan tetap bergerak maju. Dalam sekilas, lihat segalanya mulai dari 'hal yang harus dilakukan' hingga 'yaay, kami melakukannya!'"
+
+#: app/components/MainSection.tsx:21
+msgid "Shoryuken brings all your tasks, teammates, and tools together"
+msgstr "Shoryuken menggabungkan semua tugas, rekan tim, dan alat dalam satu tempat"
+
+#: app/components/TestimonySection.tsx:40
+msgid "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines."
+msgstr "Shoryuken telah mengubah cara kami mengelola perusahaan kecerdasan buatan kami di Hiden Intelligence. Dengan board dan fitur task assignment, kami menyederhanakan proyek, meningkatkan kolaborasi, dan memenuhi tenggat waktu."
+
+#: app/auth/signin/components/Form.tsx:134
+#: app/components/Header.tsx:90
+msgid "Sign In"
+msgstr "Sign In"
+
+#: app/auth/signin/components/Form.tsx:52
+msgid "Sign in to Shoryuken"
+msgstr "Sign in ke Shoryuken"
+
+#: app/auth/signin/components/Form.tsx:153
+msgid "Sign in with Google"
+msgstr "Sign in dengan Google"
+
+#: app/dashboard/components/NavBar.tsx:95
+msgid "Sign out"
+msgstr "Keluar"
+
+#: app/auth/signup/components/Form.tsx:191
+#: app/components/Header.tsx:94
+msgid "Sign Up"
+msgstr "Daftar"
+
+#: app/components/MainSection.tsx:35
+#: app/components/SignUpSection.tsx:17
+msgid "Sign up - it’s free!"
+msgstr "Daftar - gratis!"
+
+#: app/auth/signin/components/Form.tsx:172
+msgid "Sign up for an account"
+msgstr "Daftar untuk sebuah akun"
+
+#: app/auth/signup/components/Form.tsx:53
+msgid "Sign up for your account"
+msgstr "Daftar untuk akun Anda"
+
+#: app/components/CoreSection.tsx:50
+msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
+msgstr "Sederhana, fleksibel, dan powerful. Yang Anda butuhkan hanyalah board, list, dan card untuk mendapatkan pandangan yang jelas tentang siapa yang sedang melakukan apa dan apa yang perlu dilakukan. Pelajari lebih lanjut dalam panduan kami untuk memulai."
+
+#: app/auth/account-details/components/Form.tsx:185
+msgid "Submit"
+msgstr "Kirim"
+
+#: app/components/Footer.tsx:53
+msgid "Terms"
+msgstr "Syarat dan Ketentuan"
+
+#: app/components/CoreSection.tsx:29
+msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
+msgstr "Tahapan-tahapan yang berbeda dari sebuah tugas. Mulailah sebegitu sederhana dengan To Do, Doing, atau Done—atau bangun alur kerja yang sesuai dengan kebutuhan tim Anda. Tidak ada cara yang salah dalam menggunakan Shoryuken."
+
+#: app/dashboard/boards/[slug]/components/Content.tsx:235
+msgid "This board may be private. If someone gave you this link, they may need to invite you to one of their boards."
+msgstr "Board ini mungkin bersifat pribadi. Jika seseorang memberi Anda tautan ini, mereka mungkin perlu mengundang Anda ke salah satu board mereka."
+
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:60
+msgid "This card already has checklist."
+msgstr "Card ini sudah memiliki checklist."
+
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:163
+msgid "This card already has due date."
+msgstr "Card ini sudah memiliki tanggal jatuh tempo."
+
+#: app/auth/signup/components/Form.tsx:207
+msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
+msgstr "Halaman ini dilindungi oleh reCAPTCHA dan berlaku <0>Kebijakan Privasi</0> dan <1>Syarat Layanan</1> dari Google"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:27
+msgid "Title is required"
+msgstr "Judul diperlukan"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:28
+msgid "Title should have at least 5 characters"
+msgstr "Judul harus memiliki minimal 5 karakter"
+
+#: app/dashboard/components/ModalCreateBoard.tsx:29
+msgid "Title should no more than 50 characters"
+msgstr "Judul tidak boleh lebih dari 50 karakter"
+
+#: app/auth/signup/email-sent/components/Content.tsx:31
+msgid "To complete setup and log in, click the verification link in the email we‘ve sent to"
+msgstr "Untuk menyelesaikan pengaturan dan sign in, klik tautan verifikasi dalam email yang telah kami kirimkan"
+
+#: app/auth/forgot-password/email-sent/components/Content.tsx:38
+msgid "To reset your password, click the recovery link in the email we‘ve sent to"
+msgstr "Untuk mereset kata sandi Anda, klik tautan pemulihan dalam email yang telah kami kirimkan"
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:37
+msgid "Today at"
+msgstr "Hari ini pada"
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:41
+msgid "Tomorrow at"
+msgstr "Besok pada"
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:51
+msgid "Unknown"
+msgstr "Tidak diketahui"
+
+#: app/auth/account-details/components/Form.tsx:38
+#: app/auth/signup/components/Form.tsx:30
+msgid "Username is required"
+msgstr "Nama pengguna diperlukan"
+
+#: app/auth/account-details/components/Form.tsx:39
+#: app/auth/signup/components/Form.tsx:31
+msgid "Username should have at least 8 characters"
+msgstr "Nama pengguna harus memiliki minimal 8 karakter"
+
+#: app/auth/account-details/components/Form.tsx:40
+#: app/auth/signup/components/Form.tsx:32
+msgid "Username should no more than 15 characters"
+msgstr "Nama pengguna tidak boleh lebih dari 15 karakter"
+
+#: app/auth/forgot-password/components/Form.tsx:75
+msgid "We‘ll send a recovery link to"
+msgstr "Kami akan mengirimkan tautan pemulihan ke"
+
+#: app/components/Footer.tsx:31
+msgid "What‘s behind the boards."
+msgstr "Apa yang ada di balik board-board ini."
+
+#: app/components/TestimonySection.tsx:22
+msgid "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members."
+msgstr "Dengan Shoryuken, kami mendapatkan visibilitas yang lebih baik terhadap tugas-tugas kami, menyederhanakan alur kerja kami, dan meningkatkan kolaborasi di antara anggota tim."
+
+#: app/dashboard/boards/[slug]/components/CardDueDate.tsx:45
+msgid "Yesterday at"
+msgstr "Kemarin pada"
+
+#: app/dashboard/components/NetworkStatus.tsx:47
+msgid "You are offline!"
+msgstr "Anda sedang offline!"

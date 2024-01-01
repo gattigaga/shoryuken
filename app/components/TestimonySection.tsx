@@ -2,12 +2,15 @@
 
 import { FC, useState } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+import { msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import SliderPagination from "./SliderPagination";
 import TestimonySlider from "./TestimonySlider";
 
 const TestimonySection: FC = () => {
   const [activeTestimonyIndex, setActiveTestimonyIndex] = useState(0);
+  const { _ } = useLingui();
 
   const testimonies = [
     {
@@ -15,24 +18,27 @@ const TestimonySection: FC = () => {
       name: "Kazuya Mishima",
       role: "Head of G-Corporation",
       companyLogo: "/images/placeholder_16-9.png",
-      description:
-        "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members.",
+      description: _(
+        msg`With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members.`
+      ),
     },
     {
       id: 2,
       name: "Yasushi Akimoto",
       role: "Producer of 48 Family",
       companyLogo: "/images/placeholder_16-9.png",
-      description:
-        "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group.",
+      description: _(
+        msg`As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group.`
+      ),
     },
     {
       id: 3,
       name: "Hiden Aruto",
       role: "CEO of Hiden Intelligence",
       companyLogo: "/images/placeholder_16-9.png",
-      description:
-        "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines.",
+      description: _(
+        msg`Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines.`
+      ),
     },
   ];
 

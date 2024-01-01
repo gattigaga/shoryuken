@@ -3,6 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { MdSignalWifiBad } from "react-icons/md";
 import { motion } from "framer-motion";
+import { Trans } from "@lingui/macro";
 
 const NetworkStatus: FC = () => {
   const [isOnline, setIsOnline] = useState(true);
@@ -42,7 +43,9 @@ const NetworkStatus: FC = () => {
       className="absolute bottom-4 left-[-256px] w-[240px] bg-white px-4 py-2 rounded shadow-md flex items-center"
     >
       <MdSignalWifiBad className="text-red-700" size={24} />
-      <p className="text-xs ml-4 text-slate-700">You are offline !</p>
+      <p className="text-xs ml-4 text-slate-700">
+        <Trans>You are offline !</Trans>
+      </p>
     </motion.div>
   );
 };

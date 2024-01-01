@@ -24,20 +24,8 @@ const ForgotPasswordPage = () => {
               />
             </Link>
           </div>
-          <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
-            <h1 className="font-semibold text-center text-slate-600 mb-6">
-              Can&lsquo;t sign in?
-            </h1>
 
-            <Form />
-
-            <div className="w-full border-t my-6" />
-            <Link href="/auth/signin">
-              <p className="text-xs text-blue-700 text-center">
-                Return to sign in
-              </p>
-            </Link>
-          </div>
+          <Form />
         </div>
       </main>
     </div>

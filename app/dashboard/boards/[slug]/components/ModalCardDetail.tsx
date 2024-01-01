@@ -13,6 +13,8 @@ import {
 } from "react-icons/md";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import useCardQuery from "../hooks/use-card-query";
 import useDeleteCardMutation from "../hooks/use-delete-card-mutation";
@@ -29,6 +31,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
+  const { _ } = useLingui();
 
   const cardSlug = searchParams?.get("card");
 
@@ -54,7 +57,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
     if (!cardQuery.data) return;
 
     if (cardQuery.data.has_checklist) {
-      toast.error("This card already has checklist.");
+      toast.error(_(msg`This card already has checklist.`));
       return;
     }
 
@@ -67,14 +70,14 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to add checklist in the card.");
+      toast.error(_(msg`Failed to add checklist in the card.`));
     }
   };
 
   const deleteCard = async () => {
     if (!cardQuery.data) return;
 
-    const isYes = confirm("Are you sure you want to delete this card ?");
+    const isYes = confirm(_(msg`Are you sure you want to delete this card ?`));
 
     if (isYes) {
       try {
@@ -85,7 +88,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
           listId: cardQuery.data.list_id,
         });
       } catch (error) {
-        toast.error("Failed to delete a card.");
+        toast.error(_(msg`Failed to delete a card.`));
       }
     }
   };
@@ -140,7 +143,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
               <div className="w-full mt-16 relative md:mt-0 md:w-48 md:ml-16">
                 <div className="mb-8">
                   <p className="font-semibold text-xs text-slate-700 mb-3">
-                    Add to card
+                    <Trans>Add to card</Trans>
                   </p>
                   <button
                     className="flex items-center rounded bg-slate-200 hover:bg-slate-300 text-slate-700 w-full px-2 py-2 mb-1"
@@ -148,14 +151,16 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
                     onClick={addChecklist}
                   >
                     <MdOutlineCheckBox size={20} />
-                    <p className="text-sm ml-3">Checklist</p>
+                    <p className="text-sm ml-3">
+                      <Trans>Checklist</Trans>
+                    </p>
                   </button>
                   <button
                     className="flex items-center rounded bg-slate-200 hover:bg-slate-300 text-slate-700 w-full px-2 py-2"
                     type="button"
                     onClick={() => {
                       if (!!cardQuery.data.due_dates.length) {
-                        toast.error("This card already has due date.");
+                        toast.error(_(msg`This card already has due date.`));
                         return;
                       }
 
@@ -163,7 +168,9 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
                     }}
                   >
                     <MdTimer size={20} />
-                    <p className="text-sm ml-3">Due Date</p>
+                    <p className="text-sm ml-3 text-left">
+                      <Trans>Due Date</Trans>
+                    </p>
                   </button>
 
                   {/* Popup Parts */}
@@ -176,7 +183,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
                 </div>
                 <div>
                   <p className="font-semibold text-xs text-slate-700 mb-3">
-                    Actions
+                    <Trans>Actions</Trans>
                   </p>
                   <button
                     className="flex items-center rounded bg-red-700 hover:bg-red-800 text-white w-full px-2 py-2"
@@ -184,7 +191,9 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
                     onClick={deleteCard}
                   >
                     <MdDelete size={20} />
-                    <p className="text-sm ml-3">Delete</p>
+                    <p className="text-sm ml-3">
+                      <Trans>Delete</Trans>
+                    </p>
                   </button>
                 </div>
               </div>
@@ -206,7 +215,7 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
           <div className="flex-1 flex flex-col justify-center items-center">
             <MdErrorOutline size={48} color="rgb(203 213 225)" />
             <p className="text-xs text-slate-700 mt-4">
-              Failed to fetch card detail.
+              <Trans>Failed to fetch card detail.</Trans>
             </p>
           </div>
         )}

@@ -10,6 +10,8 @@ import {
   isYesterday,
 } from "date-fns";
 import toast from "react-hot-toast";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import useUpdateDueDateMutation from "../hooks/use-update-due-date-mutation";
 import useCardQuery from "../hooks/use-card-query";
@@ -21,6 +23,7 @@ type Props = {
 
 const CardDueDate: React.FC<Props> = ({ id }) => {
   const [isPopupDueDateOpen, setIsPopupDueDateOpen] = useState(false);
+  const { _ } = useLingui();
   const cardQuery = useCardQuery(id);
   const updateDueDateMutation = useUpdateDueDateMutation();
 
@@ -31,21 +34,21 @@ const CardDueDate: React.FC<Props> = ({ id }) => {
       const date = parseISO(dueDate.timestamp);
 
       if (isToday(date)) {
-        return format(date, "'Today at' KK:mm aa");
+        return format(date, `'${_(msg`Today at`)}' KK:mm aa`);
       }
 
       if (isTomorrow(date)) {
-        return format(date, "'Tomorrow at' KK:mm aa");
+        return format(date, `'${_(msg`Tomorrow at`)}' KK:mm aa`);
       }
 
       if (isYesterday(date)) {
-        return format(date, "'Yesterday at' KK:mm aa");
+        return format(date, `'${_(msg`Yesterday at`)}' KK:mm aa`);
       }
 
-      return format(date, "MMM dd 'at' KK:mm aa");
+      return format(date, `MMM dd '${_(msg`at`)}' KK:mm aa`);
     }
 
-    return "Unknown";
+    return _(msg`Unknown`);
   })();
 
   const status = (() => {
@@ -81,7 +84,7 @@ const CardDueDate: React.FC<Props> = ({ id }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to toggle check due date.");
+      toast.error(_(msg`Failed to toggle check due date.`));
     }
   };
 
@@ -101,17 +104,17 @@ const CardDueDate: React.FC<Props> = ({ id }) => {
         <p className="text-xs text-slate-700">{dateLabel}</p>
         {status === "complete" && (
           <span className="text-xs text-white bg-green-500 rounded py-1 px-2 ml-4">
-            complete
+            <Trans>complete</Trans>
           </span>
         )}
         {status === "due_soon" && (
           <span className="text-xs text-slate-700 bg-yellow-400 rounded py-1 px-2 ml-4">
-            due soon
+            <Trans>due soon</Trans>
           </span>
         )}
         {status === "overdue" && (
           <span className="text-xs text-white bg-red-600 rounded py-1 px-2 ml-4">
-            overdue
+            <Trans>overdue</Trans>
           </span>
         )}
       </button>

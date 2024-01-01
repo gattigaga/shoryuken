@@ -7,6 +7,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    swcPlugins: [["@lingui/swc-plugin", {}]],
+  },
 };
 
 module.exports = nextConfig;

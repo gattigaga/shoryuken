@@ -24,37 +24,8 @@ const SignUpPage = () => {
               />
             </Link>
           </div>
-          <div className="md:rounded md:bg-white md:shadow-lg md:p-8">
-            <h1 className="font-semibold text-center text-slate-600 mb-6">
-              Sign up for your account
-            </h1>
 
-            <Form />
-
-            <div className="w-full border-t my-6" />
-            <Link href="/auth/signin">
-              <p className="text-xs text-blue-700 text-center">
-                Already have an account? Sign in
-              </p>
-            </Link>
-          </div>
-          <p className="text-xs text-slate-500 text-center leading-normalm mt-8">
-            This page is protected by reCAPTCHA and the Google{" "}
-            <a
-              href="https://www.google.com/policies/privacy/"
-              className="text-blue-700"
-            >
-              Privacy Policy
-            </a>
-            and{" "}
-            <a
-              href="https://www.google.com/policies/terms/"
-              className="text-blue-700"
-            >
-              Terms of Service
-            </a>{" "}
-            apply
-          </p>
+          <Form />
         </div>
       </main>
     </div>

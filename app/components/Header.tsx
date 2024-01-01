@@ -6,6 +6,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { addDays } from "date-fns";
+import { Trans } from "@lingui/macro";
 import classNames from "classnames";
 
 import Button from "./Button";
@@ -86,10 +87,12 @@ const Header: FC = () => {
           "text-white": !isFloating,
         })}
       >
-        Sign In
+        <Trans>Sign In</Trans>
       </Link>
       <Link href="/auth/signup">
-        <Button type="button">Sign Up</Button>
+        <Button type="button">
+          <Trans>Sign Up</Trans>
+        </Button>
       </Link>
     </header>
   );
