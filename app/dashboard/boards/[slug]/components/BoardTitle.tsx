@@ -14,11 +14,15 @@ type Props = {
 
 const BoardTitle: React.FC<Props> = ({ id }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [text, setText] = useState("");
   const refText = useRef<HTMLHeadingElement>(null);
   const refInput = useRef<HTMLInputElement>(null);
+  const refHiddenText = useRef<HTMLParagraphElement>(null);
   const { _ } = useLingui();
   const boardsQuery = useBoardQuery(id);
   const updateBoardMutation = useUpdateBoardMutation();
+
+  const submittedText = boardsQuery.data?.title || "";
 
   const updateTitle = async (title: string) => {
     if (!title) return;
@@ -35,17 +39,25 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
     }
   };
 
-  const handleInputWidth = (content: string) => {
+  const handleInputWidth = () => {
     if (!refInput.current) return;
 
-    refInput.current.style.width = `${content.length * 0.9}ch`;
+    refInput.current.style.width =
+      (refHiddenText.current?.clientWidth || 0) + "px";
   };
+
+  // Initialize input text value.
+  useEffect(() => {
+    if (isEditing) {
+      setText(submittedText || "");
+    }
+  }, [isEditing, submittedText]);
 
   useEffect(() => {
     if (isEditing) {
-      handleInputWidth(boardsQuery.data?.title || "");
+      handleInputWidth();
     }
-  }, [isEditing, boardsQuery.data?.title]);
+  }, [isEditing, text]);
 
   return (
     <div>
@@ -63,30 +75,39 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
             }, 0);
           }}
         >
-          {boardsQuery.data?.title}
+          {submittedText}
         </h1>
       )}
 
       {/* Edit mode */}
       {isEditing && (
-        <input
-          ref={refInput}
-          className="py-0 px-1 rounded text-lg font-semibold"
-          type="text"
-          defaultValue={boardsQuery.data?.title}
-          onInput={(event) =>
-            handleInputWidth((event.target as HTMLInputElement).value)
-          }
-          onKeyDown={(event) => {
-            if (["Enter", "Escape"].includes(event.key)) {
-              refInput.current?.blur();
-            }
-          }}
-          onBlur={(event) => {
-            setIsEditing(false);
-            updateTitle(event.target.value);
-          }}
-        />
+        <div className="relative">
+          <input
+            ref={refInput}
+            className="py-0 px-1 rounded text-lg font-semibold relative"
+            type="text"
+            defaultValue={submittedText}
+            onChange={(event) => {
+              setText(event.target.value);
+            }}
+            onKeyDown={(event) => {
+              if (["Enter", "Escape"].includes(event.key)) {
+                refInput.current?.blur();
+              }
+            }}
+            onBlur={(event) => {
+              setIsEditing(false);
+              setText("");
+              updateTitle(event.target.value);
+            }}
+          />
+          <p
+            ref={refHiddenText}
+            className="text-lg font-semibold px-1 w-fit invisible absolute top-0 whitespace-nowrap"
+          >
+            {text}
+          </p>
+        </div>
       )}
     </div>
   );
