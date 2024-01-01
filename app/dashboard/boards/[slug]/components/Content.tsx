@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { MdChevronLeft } from "react-icons/md";
@@ -28,6 +28,7 @@ const Content: FC<Props> = ({}) => {
   const router = useRouter();
   const params = useParams();
   const { _ } = useLingui();
+  const refScrollWrapper = useRef<HTMLDivElement>(null);
 
   const boardId = Number(((params?.slug as string) || "").split("-")[0]);
 
@@ -162,6 +163,7 @@ const Content: FC<Props> = ({}) => {
               <div className="flex-1 flex pb-4 px-4">
                 {listsQuery.status === "success" && (
                   <div
+                    ref={refScrollWrapper}
                     className={classnames(
                       "overflow-x-auto flex-1",
                       styles.content
@@ -195,7 +197,15 @@ const Content: FC<Props> = ({}) => {
                             </div>
                           )}
                         </Droppable>
-                        <CreateListForm boardId={boardQuery.data.id} />
+                        <CreateListForm
+                          boardId={boardQuery.data.id}
+                          onClickAdd={() => {
+                            refScrollWrapper.current?.scrollTo({
+                              left: refScrollWrapper.current.scrollWidth,
+                              behavior: "smooth",
+                            });
+                          }}
+                        />
                       </DragDropContext>
                     </div>
                   </div>

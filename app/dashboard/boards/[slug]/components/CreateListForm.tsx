@@ -13,9 +13,10 @@ import Button from "../../../../components/Button";
 
 type Props = {
   boardId: number;
+  onClickAdd?: () => void;
 };
 
-const CreateListForm: React.FC<Props> = ({ boardId }) => {
+const CreateListForm: React.FC<Props> = ({ boardId, onClickAdd }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const refContainer = useRef<HTMLDivElement>(null);
@@ -80,9 +81,11 @@ const CreateListForm: React.FC<Props> = ({ boardId }) => {
     } catch (error) {
       toast.error(_(msg`Failed to create a list.`));
     }
+
+    onClickAdd?.();
   };
 
-  // Handle input autofocus.
+  // Handle input autofocus when form opened.
   useEffect(() => {
     if (isOpen) {
       setTitle("");
