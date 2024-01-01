@@ -20,6 +20,10 @@ const CoreInfoSlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
   const breakpoint = useTailwindBreakpoint();
 
   const itemWidth = (() => {
+    if (typeof document === "undefined") {
+      return 0;
+    }
+
     const paddingX = breakpoint === "md" ? 128 : 32;
 
     return document.documentElement.clientWidth - paddingX;

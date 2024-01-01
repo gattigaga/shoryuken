@@ -16,6 +16,10 @@ const CoreImageSlider: FC<Props> = ({ images, activeIndex, onChangeIndex }) => {
   const breakpoint = useTailwindBreakpoint();
 
   const imageWidth = (() => {
+    if (typeof document === "undefined") {
+      return 0;
+    }
+
     switch (breakpoint) {
       case "xl":
         return ((document.documentElement.clientWidth - 256 - 96) / 3) * 2 + 48;
