@@ -12,14 +12,16 @@ const Content: FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const newEmail = sessionStorage.getItem("signupEmail") || "";
+    if (typeof window !== "undefined") {
+      const newEmail = sessionStorage.getItem("signupEmail") || "";
 
-    if (!newEmail) {
-      router.replace("/auth/signup");
-      return;
+      if (!newEmail) {
+        router.replace("/auth/signup");
+        return;
+      }
+
+      setEmail(newEmail);
     }
-
-    setEmail(newEmail);
   }, []);
 
   return (
