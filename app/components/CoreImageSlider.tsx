@@ -71,18 +71,14 @@ const CoreImageSlider: FC<Props> = ({ images, activeIndex, onChangeIndex }) => {
         animate={controls}
       >
         {images.map((image, index) => (
-          <div
+          <img
             key={index}
             style={{ width: imageWidth }}
             className="aspect-[4/3]"
-          >
-            <img
-              className="w-full h-full"
-              src={image}
-              alt="Core Image"
-              draggable={false}
-            />
-          </div>
+            src={image}
+            alt="Core Image"
+            draggable={false}
+          />
         ))}
       </motion.div>
     </div>

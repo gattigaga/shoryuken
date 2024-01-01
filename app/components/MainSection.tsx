@@ -16,7 +16,7 @@ const MainSection: FC = () => {
       />
 
       <div className="h-screen absolute top-0 left-0 px-4 pt-32 w-full flex flex-col gap-y-12 md:px-16 md:pt-48 xl:px-32 xl:flex-row xl:gap-x-24">
-        <div className="flex flex-col">
+        <div className="flex flex-col h-fit">
           <h1 className="text-white text-2xl font-bold text-center leading-normal mb-4 md:text-4xl xl:text-left xl:text-5xl xl:mb-6">
             <Trans>
               Shoryuken brings all your tasks, teammates, and tools together
@@ -37,7 +37,7 @@ const MainSection: FC = () => {
           </Link>
         </div>
 
-        <div className="xl:-mt-16 xl:w-screen">
+        <div className="h-fit xl:-mt-16 xl:w-screen">
           <img
             className="w-full aspect-square object-cover object-left-bottom"
             src="/images/home-page/main.png"

@@ -41,8 +41,8 @@ const Footer: FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-y-12 mt-8 xl:flex-row xl:border-t xl:border-blue-700">
-        <div className="flex flex-col flex-1 gap-y-2 xl:flex-row xl:gap-x-6 xl:py-4">
+      <div className="flex flex-col gap-y-12 mt-8 xl:flex-row xl:border-t xl:border-blue-700 xl:justify-between xl:py-4">
+        <div className="flex flex-col gap-y-2 xl:flex-row xl:gap-x-6">
           <Link href="#">
             <p className="text-xs text-white">
               <Trans>Privacy Policy</Trans>
@@ -58,7 +58,7 @@ const Footer: FC = () => {
           </p>
         </div>
 
-        <div className="flex flex-row gap-x-6">
+        <div className="flex flex-row gap-x-6 items-center">
           <button
             className={classNames("text-white text-xs", {
               "opacity-50": language === "en",

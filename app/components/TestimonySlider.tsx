@@ -97,7 +97,7 @@ const TestimonySlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
               <p className="text-xl leading-relaxed text-slate-700">
                 {item.description}
               </p>
-              <div className="border-b border-slate-700 mb-6 mt-auto" />
+              <hr className="border-slate-700 mb-6 mt-auto" />
               <p className="text-sm text-slate-700 font-bold">{item.name}</p>
               <p className="text-sm text-slate-700 mb-6">{item.role}</p>
               <img

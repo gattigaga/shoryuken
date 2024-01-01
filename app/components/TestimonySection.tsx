@@ -43,8 +43,8 @@ const TestimonySection: FC = () => {
   ];
 
   return (
-    <div className="px-4 pt-32 pb-20 bg-gradient-to-b from-white to-blue-100 md:px-16 md:pt-24 xl:px-32">
-      <div className="hidden xl:flex xl:gap-x-4 xl:justify-end xl:mb-6">
+    <div className="px-4 pt-32 pb-20 bg-gradient-to-b from-white to-blue-100 md:px-16 md:pt-24 xl:px-32 xl:flex xl:flex-col">
+      <div className="hidden xl:flex xl:gap-x-4 xl:justify-end xl:mb-6 xl:w-fit xl:self-end">
         <SliderPagination
           totalItems={testimonies.length}
           activeIndex={activeTestimonyIndex}
