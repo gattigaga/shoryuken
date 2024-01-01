@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { MdOutlineCheckBox } from "react-icons/md";
 import { motion } from "framer-motion";
 import { Droppable, DragDropContext } from "react-beautiful-dnd";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import useChecksQuery from "../hooks/use-checks-query";
 import useCreateCheckMutation from "../hooks/use-create-check-mutation";
@@ -24,6 +26,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
   const [isCreateCheckFormOpen, setIsCreateCheckFormOpen] = useState(false);
   const [checkContent, setCheckContent] = useState("");
   const refContentInput = useRef<HTMLTextAreaElement>(null);
+  const { _ } = useLingui();
   const createCheckMutation = useCreateCheckMutation();
   const updateCheckMutation = useUpdateCheckMutation();
   const updateCardMutation = useUpdateCardMutation();
@@ -66,7 +69,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to delete checklist.");
+      toast.error(_(msg`Failed to delete checklist.`));
     }
   };
 
@@ -82,7 +85,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to add check item.");
+      toast.error(_(msg`Failed to add check item.`));
     }
   };
 
@@ -105,7 +108,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to move a check item.");
+      toast.error(_(msg`Failed to move a check item.`));
     }
   };
 
@@ -124,7 +127,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
       <div className="w-full">
         <div className="flex items-center">
           <h2 className="text-lg text-slate-700 font-semibold mb-4 mr-auto">
-            Checklist
+            <Trans>Checklist</Trans>
           </h2>
           <Button
             className="outline-black mt-[-1rem]"
@@ -133,7 +136,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
             type="button"
             onClick={deleteChecklist}
           >
-            Delete
+            <Trans>Delete</Trans>
           </Button>
         </div>
 
@@ -243,7 +246,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
                     refContentInput.current?.focus();
                   }}
                 >
-                  Add
+                  <Trans>Add</Trans>
                 </Button>
                 <Button
                   className="outline-black mr-2"
@@ -255,7 +258,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
                     setCheckContent("");
                   }}
                 >
-                  Cancel
+                  <Trans>Cancel</Trans>
                 </Button>
               </div>
             </div>
@@ -270,7 +273,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
               type="button"
               onClick={() => setIsCreateCheckFormOpen(true)}
             >
-              Add an item
+              <Trans>Add an item</Trans>
             </Button>
           </div>
         )}

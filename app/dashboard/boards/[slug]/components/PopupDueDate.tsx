@@ -5,6 +5,8 @@ import Calendar from "react-calendar";
 import { format, formatISO, isValid, parse, parseISO } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 import toast from "react-hot-toast";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
@@ -31,6 +33,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
   const updateDueDateMutation = useUpdateDueDateMutation();
   const deleteDueDateMutation = useDeleteDueDateMutation();
   const refButton = useRef<HTMLButtonElement>(null);
+  const { _ } = useLingui();
 
   const dueDate = cardQuery.data?.due_dates[0];
 
@@ -83,8 +86,8 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
     } catch (error) {
       const message =
         usage === "add"
-          ? "Failed to add due date."
-          : "Failed to update due date.";
+          ? _(msg`Failed to add due date.`)
+          : _(msg`Failed to update due date.`);
 
       toast.error(message);
     }
@@ -102,7 +105,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
         cardId: id,
       });
     } catch (error) {
-      toast.error("Failed to remove due date.");
+      toast.error(_(msg`Failed to remove due date.`));
     }
   };
 
@@ -145,7 +148,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
         type="button"
         onClick={save}
       >
-        Save
+        <Trans>Save</Trans>
       </Button>
       {usage === "update" && (
         <Button
@@ -155,7 +158,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
           type="button"
           onClick={remove}
         >
-          Remove
+          <Trans>Remove</Trans>
         </Button>
       )}
     </Popup>

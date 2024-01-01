@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { MdAdd, MdClose } from "react-icons/md";
 import { motion } from "framer-motion";
 import classnames from "classnames";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import useCreateListMutation from "../hooks/use-create-list-mutation";
 import Button from "../../../../components/Button";
@@ -18,6 +20,7 @@ const CreateListForm: React.FC<Props> = ({ boardId }) => {
   const [title, setTitle] = useState("");
   const refContainer = useRef<HTMLDivElement>(null);
   const refInput = useRef<HTMLInputElement>(null);
+  const { _ } = useLingui();
   const createListMutation = useCreateListMutation();
 
   const containerVariants = {
@@ -75,7 +78,7 @@ const CreateListForm: React.FC<Props> = ({ boardId }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to create a list.");
+      toast.error(_(msg`Failed to create a list.`));
     }
   };
 
@@ -143,7 +146,7 @@ const CreateListForm: React.FC<Props> = ({ boardId }) => {
           className="w-full py-3 rounded text-xs border-slate-400 outline-blue-500 mb-2"
           type="text"
           name="title"
-          placeholder="Enter list title..."
+          placeholder={_(msg`Enter list title...`)}
           value={title}
           maxLength={30}
           onChange={(event) => setTitle(event.target.value)}
@@ -168,7 +171,7 @@ const CreateListForm: React.FC<Props> = ({ boardId }) => {
             type="button"
             onClick={createList}
           >
-            Add list
+            <Trans>Add list</Trans>
           </Button>
           <button
             className="text-slate-500 hover:text-slate-600"
@@ -193,7 +196,9 @@ const CreateListForm: React.FC<Props> = ({ boardId }) => {
         onClick={() => setIsOpen(true)}
       >
         <MdAdd color="white" size={24} />
-        <p className="ml-2 text-xs text-white">Create new list</p>
+        <p className="ml-2 text-xs text-white">
+          <Trans>Create new list</Trans>
+        </p>
       </motion.div>
     </motion.div>
   );

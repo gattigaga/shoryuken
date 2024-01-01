@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import useBoardQuery from "../hooks/use-board-query";
 import useUpdateBoardMutation from "../hooks/use-update-board-mutation";
@@ -14,6 +16,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
   const [isEditing, setIsEditing] = useState(false);
   const refText = useRef<HTMLHeadingElement>(null);
   const refInput = useRef<HTMLInputElement>(null);
+  const { _ } = useLingui();
   const boardsQuery = useBoardQuery(id);
   const updateBoardMutation = useUpdateBoardMutation();
 
@@ -28,7 +31,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to update board title.");
+      toast.error(_(msg`Failed to update board title.`));
     }
   };
 

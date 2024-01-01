@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { MdClose } from "react-icons/md";
 import { Draggable } from "react-beautiful-dnd";
 import classnames from "classnames";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import useUpdateCheckMutation from "../hooks/use-update-check-mutation";
 import useDeleteCheckMutation from "../hooks/use-delete-check-mutation";
@@ -30,6 +32,7 @@ const CardCheckItem: React.FC<Props> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [checkContent, setCheckContent] = useState(content);
   const refContentInput = useRef<HTMLTextAreaElement>(null);
+  const { _ } = useLingui();
   const updateCheckMutation = useUpdateCheckMutation();
   const deleteCheckMutation = useDeleteCheckMutation();
 
@@ -44,7 +47,7 @@ const CardCheckItem: React.FC<Props> = ({
         },
       });
     } catch (error) {
-      toast.error("Failed to update check item.");
+      toast.error(_(msg`Failed to update check item.`));
     }
   };
 
@@ -61,7 +64,7 @@ const CardCheckItem: React.FC<Props> = ({
         },
       });
     } catch (error) {
-      toast.error("Failed to update check item content.");
+      toast.error(_(msg`Failed to update check item content.`));
     }
   };
 
@@ -72,7 +75,7 @@ const CardCheckItem: React.FC<Props> = ({
         cardId,
       });
     } catch (error) {
-      toast.error("Failed to delete check item.");
+      toast.error(_(msg`Failed to delete check item.`));
     }
   };
 
@@ -198,7 +201,7 @@ const CardCheckItem: React.FC<Props> = ({
                         updateContent(checkContent);
                       }}
                     >
-                      Save
+                      <Trans>Save</Trans>
                     </Button>
                     <button
                       className="text-slate-500 hover:text-slate-600"

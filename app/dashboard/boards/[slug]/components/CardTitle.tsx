@@ -3,6 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { MdInbox } from "react-icons/md";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import useCardQuery from "../hooks/use-card-query";
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
@@ -17,6 +19,7 @@ const CardTitle: React.FC<Props> = ({ id }) => {
   const listQuery = useListQuery(cardQuery.data!.list_id);
   const [isEditing, setIsEditing] = useState(false);
   const refInput = useRef<HTMLInputElement>(null);
+  const { _ } = useLingui();
   const updateCardMutation = useUpdateCardMutation();
 
   const applyTitle = async (title: string) => {
@@ -33,7 +36,7 @@ const CardTitle: React.FC<Props> = ({ id }) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to update a card title.");
+      toast.error(_(msg`Failed to update a card title.`));
     }
   };
 
@@ -86,7 +89,9 @@ const CardTitle: React.FC<Props> = ({ id }) => {
           />
         )}
         <p className="text-sm text-slate-500 mt-1">
-          in list <span className="underline">{listQuery.data?.title}</span>
+          <Trans>
+            in list <span className="underline">{listQuery.data?.title}</span>
+          </Trans>
         </p>
       </div>
     </div>

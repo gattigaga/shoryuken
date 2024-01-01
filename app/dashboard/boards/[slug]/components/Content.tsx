@@ -8,6 +8,8 @@ import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import classnames from "classnames";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
+import { Trans, msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 
 import styles from "../styles/Content.module.css";
 import BoardTitle from "./BoardTitle";
@@ -25,6 +27,7 @@ type Props = {};
 const Content: FC<Props> = ({}) => {
   const router = useRouter();
   const params = useParams();
+  const { _ } = useLingui();
 
   const boardId = Number(((params?.slug as string) || "").split("-")[0]);
 
@@ -44,7 +47,7 @@ const Content: FC<Props> = ({}) => {
 
       router.replace("/dashboard");
     } catch (error) {
-      toast.error("Failed to delete a board.");
+      toast.error(_(msg`Failed to delete a board.`));
     }
   };
 
@@ -66,7 +69,7 @@ const Content: FC<Props> = ({}) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to move a list.");
+      toast.error(_(msg`Failed to move a list.`));
     }
   };
 
@@ -91,7 +94,7 @@ const Content: FC<Props> = ({}) => {
         },
       });
     } catch (error) {
-      toast.error("Failed to move a card.");
+      toast.error(_(msg`Failed to move a card.`));
     }
   };
 
@@ -153,7 +156,7 @@ const Content: FC<Props> = ({}) => {
                   type="button"
                   onClick={deleteBoard}
                 >
-                  Delete
+                  <Trans>Delete</Trans>
                 </button>
               </div>
               <div className="flex-1 flex pb-4 px-4">
@@ -226,18 +229,20 @@ const Content: FC<Props> = ({}) => {
         {boardQuery.status === "error" && (
           <div className="h-full w-full flex flex-col items-center pt-32">
             <p className="font-semibold text-white text-3xl mb-6">
-              Board not found
+              <Trans>Board not found</Trans>
             </p>
             <p className="text-white text-sm text-center px-4 max-w-lg mb-8">
-              This board may be private. If someone gave you this link, they may
-              need to invite you to one of their boards or Workspaces.
+              <Trans>
+                This board may be private. If someone gave you this link, they
+                may need to invite you to one of their boards or Workspaces.
+              </Trans>
             </p>
             <button
               className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
               type="button"
               onClick={() => router.replace("/dashboard")}
             >
-              Go Back
+              <Trans>Go Back</Trans>
             </button>
           </div>
         )}
