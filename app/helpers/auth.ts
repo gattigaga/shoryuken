@@ -6,13 +6,7 @@ export const getUser = async () => {
   const cookiesStore = cookies();
   const accessToken = cookiesStore.get("access_token");
 
-  const { user, error } = await supabase.auth.api.getUser(
-    accessToken?.value || ""
-  );
-
-  if (error) {
-    throw error;
-  }
+  const { user } = await supabase.auth.api.getUser(accessToken?.value || "");
 
   if (!user) {
     return null;
