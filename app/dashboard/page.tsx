@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import Content from "./components/Content";
-import { getUser } from "../helpers/auth";
+import { getUser } from "../helpers/data";
 
 export const metadata: Metadata = {
   title: "Dashboard | Shoryuken",

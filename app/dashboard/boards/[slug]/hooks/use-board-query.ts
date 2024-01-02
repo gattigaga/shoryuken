@@ -12,9 +12,10 @@ export const action = async (id: number): Promise<Response> => {
   return data;
 };
 
-const useBoardQuery = (id: number, initialData?: any) => {
+const useBoardQuery = (id: number, initialData?: Board) => {
   return useQuery<Board, Error>(["boards", id], () => action(id), {
     initialData,
+    retry: false,
   });
 };
 

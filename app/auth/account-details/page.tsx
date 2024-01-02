@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import Form from "./components/Form";
-import { getUser } from "../../helpers/auth";
+import { getUser } from "../../helpers/data";
 
 export const metadata: Metadata = {
   title: "Account Details | Shoryuken",

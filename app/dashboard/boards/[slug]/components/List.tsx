@@ -98,9 +98,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   };
 
   const scrollToBottom = () => {
-    if (refChildren.current) {
-      refChildren.current.scrollTo(0, refChildren.current.scrollHeight);
-    }
+    refChildren.current?.scrollTo(0, refChildren.current.scrollHeight);
   };
 
   // Set focus on list title input if title editing form opened.
@@ -205,7 +203,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                           card.checks?.filter((check: any) => check.is_checked)
                             .length || 0;
 
-                        const href = `/dashboard/boards/${boardQuery.data?.id}-${boardQuery.data?.slug}?card=${card.id}-${card.slug}`;
+                        const href = `/dashboard/boards/${boardQuery.data?.slug}?card=${card.id}-${card.slug}`;
 
                         return (
                           <Card
@@ -226,6 +224,8 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                       })}
                     </>
                   )}
+                  {/* List with empty cards need to have a spacer
+                  so user can move cards from other list to this list. */}
                   {!cardsQuery.data?.length && <div className="h-[1px]" />}
                   {provided.placeholder}
                 </div>

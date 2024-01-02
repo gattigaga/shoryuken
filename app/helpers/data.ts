@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 
 import supabase from "./supabase";
+import { Board } from "../types/models";
 
 export const getUser = async () => {
   const cookiesStore = cookies();
@@ -21,4 +22,19 @@ export const getUser = async () => {
   };
 
   return newUser;
+};
+
+export const getBoardBySlug = async (
+  slug: string,
+  userId?: string
+): Promise<Board | null> => {
+  const { data: board } = await supabase
+    .from("boards")
+    .select("*")
+    .eq("slug", slug)
+    .eq("user_id", userId)
+    .limit(1)
+    .single();
+
+  return board;
 };

@@ -37,7 +37,7 @@ const BoardTitle: React.FC<Props> = ({ id }) => {
         },
       });
 
-      router.replace(`/dashboard/boards/${response.id}-${response.slug}`);
+      router.replace(`/dashboard/boards/${response.slug}`);
     } catch (error) {
       toast.error(_(msg`Failed to update board title.`));
     }

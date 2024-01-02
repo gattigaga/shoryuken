@@ -19,7 +19,7 @@ export const GET = async (
 
     const { id } = params;
 
-    const { data: board, error: boardError } = await supabase
+    const { data: board } = await supabase
       .from("boards")
       .select("*")
       .eq("id", id)
@@ -27,8 +27,15 @@ export const GET = async (
       .limit(1)
       .single();
 
-    if (boardError) {
-      throw boardError;
+    if (!board) {
+      return new Response(
+        JSON.stringify({
+          message: "Board not found.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     return new Response(
@@ -43,10 +50,10 @@ export const GET = async (
   } catch (error: any) {
     return new Response(
       JSON.stringify({
-        message: error.message,
+        message: "Server error.",
       }),
       {
-        status: error.status,
+        status: 500,
       }
     );
   }

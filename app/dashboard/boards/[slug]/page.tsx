@@ -2,8 +2,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 
 import Content from "./components/Content";
-import { getUser } from "../../../helpers/auth";
-import supabase from "../../../helpers/supabase";
+import { getBoardBySlug, getUser } from "../../../helpers/data";
 
 type Props = {
   params: { slug: string };
@@ -14,20 +13,13 @@ export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const boardId = params.slug.split("-")[0];
-
   const user = await getUser();
+  const board = await getBoardBySlug(params.slug, user?.id);
 
-  const { data: board, error: boardError } = await supabase
-    .from("boards")
-    .select("*")
-    .eq("id", boardId)
-    .eq("user_id", user?.id)
-    .limit(1)
-    .single();
-
-  if (boardError) {
-    throw boardError;
+  if (!board) {
+    return {
+      title: `Board not found | Shoryuken`,
+    };
   }
 
   return {
@@ -35,14 +27,16 @@ export async function generateMetadata(
   };
 }
 
-const BoardDetailPage = async () => {
+const BoardDetailPage = async ({ params }: Props) => {
   const user = await getUser();
 
   if (!user) {
     redirect("/auth/signin");
   }
 
-  return <Content />;
+  const board = await getBoardBySlug(params.slug, user.id);
+
+  return <Content board={board || undefined} />;
 };
 
 export default BoardDetailPage;
