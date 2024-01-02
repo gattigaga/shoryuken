@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useAnimationControls } from "framer-motion";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import useTailwindBreakpoint from "../hooks/use-tailwind-breakpoint";
 
 type Props = {
@@ -17,32 +17,43 @@ type Props = {
 };
 
 const TestimonySlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
+  const [itemWidth, setItemWidth] = useState(0);
   const controls = useAnimationControls();
   const breakpoint = useTailwindBreakpoint();
 
-  const itemWidth = (() => {
-    if (typeof document === "undefined") {
-      return 0;
-    }
+  useEffect(() => {
+    const updateItemWidth = () => {
+      if (typeof document !== "undefined") {
+        let paddingX = 0;
 
-    let paddingX = 0;
+        switch (breakpoint) {
+          case "xl":
+            paddingX = 256;
+            break;
 
-    switch (breakpoint) {
-      case "xl":
-        paddingX = 256;
-        break;
+          case "md":
+            paddingX = 128;
+            break;
 
-      case "md":
-        paddingX = 128;
-        break;
+          default:
+            paddingX = 32;
+            break;
+        }
 
-      default:
-        paddingX = 32;
-        break;
-    }
+        const result = document.documentElement.clientWidth - paddingX;
 
-    return document.documentElement.clientWidth - paddingX;
-  })();
+        setItemWidth(result);
+      }
+    };
+
+    updateItemWidth();
+
+    window.addEventListener("resize", updateItemWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateItemWidth);
+    };
+  }, []);
 
   useEffect(() => {
     controls.start({
