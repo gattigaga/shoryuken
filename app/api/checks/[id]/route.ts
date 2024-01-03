@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 import supabase from "../../../helpers/supabase";
 import { moveElement } from "../../../helpers/data-structures";
+import { getHttpStatusCode } from "../../../helpers/others";
 
 export const PUT = async (
   request: Request,
@@ -31,10 +32,21 @@ export const PUT = async (
       .select("*")
       .eq("id", id)
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (checkError) {
       throw checkError;
+    }
+
+    if (!check) {
+      return new Response(
+        JSON.stringify({
+          message: "Check doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     // Move check in a card.
@@ -107,7 +119,7 @@ export const PUT = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
@@ -136,10 +148,21 @@ export const DELETE = async (
       .eq("id", id)
       .order("id")
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (deletedCheckError) {
       throw deletedCheckError;
+    }
+
+    if (!deletedCheck) {
+      return new Response(
+        JSON.stringify({
+          message: "Check doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     // Get checks by card ID in order by index.
@@ -180,7 +203,7 @@ export const DELETE = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
