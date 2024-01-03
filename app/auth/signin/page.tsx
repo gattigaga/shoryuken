@@ -1,15 +1,23 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { Metadata } from "next";
 
 import Form from "./components/Form";
+import { getUser } from "../../helpers/data";
 
 export const metadata: Metadata = {
   title: "Sign In | Shoryuken",
 };
 
-const SignInPage = () => {
+const SignInPage = async () => {
+  const user = await getUser();
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="min-h-screen md:bg-slate-50">
       <main className="pt-12 w-80 mx-auto flex flex-col md:w-96">
