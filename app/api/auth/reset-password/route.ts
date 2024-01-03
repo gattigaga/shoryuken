@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 
 import supabase from "../../../helpers/supabase";
+import { getHttpStatusCode } from "../../../helpers/others";
 
 export const POST = async (request: Request) => {
   try {
@@ -45,7 +46,7 @@ export const POST = async (request: Request) => {
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
