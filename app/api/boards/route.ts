@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 import supabase from "../../helpers/supabase";
 import { getSlug } from "../../helpers/formatter";
+import { getHttpStatusCode } from "../../helpers/others";
 
 export const GET = async (request: Request) => {
   try {
@@ -39,7 +40,7 @@ export const GET = async (request: Request) => {
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
@@ -85,7 +86,7 @@ export const POST = async (request: Request) => {
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
