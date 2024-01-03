@@ -1,6 +1,5 @@
 "use client";
 
-import Head from "next/head";
 import Modal from "react-modal";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -106,12 +105,6 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
       overlayClassName="fixed inset-0 bg-black/50 overflow-y-auto"
       className="border-0 p-0 absolute top-4 left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[90%] h-auto max-w-4xl md:top-16"
     >
-      <Head>
-        <title>
-          {cardQuery.data?.title && `${cardQuery.data.title} | `}Shoryuken
-        </title>
-      </Head>
-
       <div className="w-full rounded bg-slate-100 p-5 pb-10 min-h-[480px] flex flex-col">
         {cardQuery.status === "success" && (
           <>

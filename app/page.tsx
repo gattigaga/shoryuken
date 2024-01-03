@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -7,12 +8,19 @@ import CoreSection from "./components/CoreSection";
 import TestimonySection from "./components/TestimonySection";
 import MainSection from "./components/MainSection";
 import SignUpSection from "./components/SignUpSection";
+import { getUser } from "./helpers/data";
 
 export const metadata: Metadata = {
   title: "Shoryuken | Manage Your Projects",
 };
 
-const HomePage = () => {
+const HomePage = async () => {
+  const user = await getUser();
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="min-h-screen">
       <Header />

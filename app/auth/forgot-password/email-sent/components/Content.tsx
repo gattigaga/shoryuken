@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 import { Trans } from "@lingui/macro";
 
@@ -21,13 +21,8 @@ const Content: FC = () => {
       }
 
       setEmail(newEmail);
-      return;
     }
   }, []);
-
-  if (!email) {
-    redirect("/auth/forgot-password");
-  }
 
   return (
     <div className="md:rounded md:bg-white md:shadow-lg md:p-8">

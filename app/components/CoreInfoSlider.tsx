@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useAnimationControls } from "framer-motion";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import CoreInfo from "./CoreInfo";
 import useTailwindBreakpoint from "../hooks/use-tailwind-breakpoint";
 
@@ -16,18 +16,28 @@ type Props = {
 };
 
 const CoreInfoSlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
+  const [itemWidth, setItemWidth] = useState(0);
   const controls = useAnimationControls();
   const breakpoint = useTailwindBreakpoint();
 
-  const itemWidth = (() => {
-    if (typeof document === "undefined") {
-      return 0;
-    }
+  useEffect(() => {
+    const updateItemWidth = () => {
+      if (typeof document !== "undefined") {
+        const paddingX = breakpoint === "md" ? 128 : 32;
+        const result = document.documentElement.clientWidth - paddingX;
 
-    const paddingX = breakpoint === "md" ? 128 : 32;
+        setItemWidth(result);
+      }
+    };
 
-    return document.documentElement.clientWidth - paddingX;
-  })();
+    updateItemWidth();
+
+    window.addEventListener("resize", updateItemWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateItemWidth);
+    };
+  }, []);
 
   useEffect(() => {
     controls.start({

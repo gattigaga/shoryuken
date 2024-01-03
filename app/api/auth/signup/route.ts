@@ -1,3 +1,4 @@
+import { getHttpStatusCode } from "../../../helpers/others";
 import supabase from "../../../helpers/supabase";
 
 export const POST = async (request: Request) => {
@@ -54,7 +55,7 @@ export const POST = async (request: Request) => {
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }

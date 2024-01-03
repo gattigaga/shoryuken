@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useAnimationControls } from "framer-motion";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 
 import useTailwindBreakpoint from "../hooks/use-tailwind-breakpoint";
 
@@ -12,43 +12,60 @@ type Props = {
 };
 
 const CoreImageSlider: FC<Props> = ({ images, activeIndex, onChangeIndex }) => {
+  const [itemWidth, setItemWidth] = useState(0);
   const controls = useAnimationControls();
   const breakpoint = useTailwindBreakpoint();
 
-  const imageWidth = (() => {
-    if (typeof document === "undefined") {
-      return 0;
-    }
+  useEffect(() => {
+    const updateItemWidth = () => {
+      if (typeof document !== "undefined") {
+        let result = 0;
 
-    switch (breakpoint) {
-      case "xl":
-        return ((document.documentElement.clientWidth - 256 - 96) / 3) * 2 + 48;
+        switch (breakpoint) {
+          case "xl":
+            result =
+              ((document.documentElement.clientWidth - 256 - 96) / 3) * 2 + 48;
+            break;
 
-      case "md":
-        return document.documentElement.clientWidth - 128;
+          case "md":
+            result = document.documentElement.clientWidth - 128;
+            break;
 
-      default:
-        return document.documentElement.clientWidth - 32;
-    }
-  })();
+          default:
+            result = document.documentElement.clientWidth - 32;
+            break;
+        }
+
+        setItemWidth(result);
+      }
+    };
+
+    updateItemWidth();
+
+    window.addEventListener("resize", updateItemWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateItemWidth);
+    };
+  }, []);
 
   useEffect(() => {
     controls.start({
-      x: -imageWidth * activeIndex,
+      x: -itemWidth * activeIndex,
       transition: {
         ease: "easeInOut",
       },
     });
-  }, [imageWidth, activeIndex]);
+  }, [itemWidth, activeIndex]);
 
   return (
     <div className="w-full aspect-[4/3] rounded overflow-hidden">
       <motion.div
-        style={{ width: imageWidth * images.length }}
+        style={{ width: itemWidth * images.length }}
         className="flex"
         drag="x"
         dragConstraints={{
-          left: -imageWidth * (images.length - 1),
+          left: -itemWidth * (images.length - 1),
           right: 0,
         }}
         onDragEnd={(event, info) => {
@@ -71,18 +88,14 @@ const CoreImageSlider: FC<Props> = ({ images, activeIndex, onChangeIndex }) => {
         animate={controls}
       >
         {images.map((image, index) => (
-          <div
+          <img
             key={index}
-            style={{ width: imageWidth }}
+            style={{ width: itemWidth }}
             className="aspect-[4/3]"
-          >
-            <img
-              className="w-full h-full"
-              src={image}
-              alt="Core Image"
-              draggable={false}
-            />
-          </div>
+            src={image}
+            alt="Core Image"
+            draggable={false}
+          />
         ))}
       </motion.div>
     </div>

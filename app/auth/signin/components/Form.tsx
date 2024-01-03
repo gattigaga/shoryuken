@@ -159,7 +159,7 @@ const Form: FC = () => {
         )}
       </Formik>
 
-      <div className="w-full border-t my-6" />
+      <hr className="w-full my-6" />
       <div className="flex justify-center items-center">
         <Link href="/auth/forgot-password">
           <p className="text-xs text-blue-700 text-center">

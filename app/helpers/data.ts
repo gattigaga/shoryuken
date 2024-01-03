@@ -1,18 +1,13 @@
 import { cookies } from "next/headers";
 
 import supabase from "./supabase";
+import { Board } from "../types/models";
 
 export const getUser = async () => {
   const cookiesStore = cookies();
   const accessToken = cookiesStore.get("access_token");
 
-  const { user, error } = await supabase.auth.api.getUser(
-    accessToken?.value || ""
-  );
-
-  if (error) {
-    throw error;
-  }
+  const { user } = await supabase.auth.api.getUser(accessToken?.value || "");
 
   if (!user) {
     return null;
@@ -27,4 +22,19 @@ export const getUser = async () => {
   };
 
   return newUser;
+};
+
+export const getBoardBySlug = async (
+  slug: string,
+  userId?: string
+): Promise<Board | null> => {
+  const { data: board } = await supabase
+    .from("boards")
+    .select("*")
+    .eq("slug", slug)
+    .eq("user_id", userId)
+    .limit(1)
+    .single();
+
+  return board;
 };

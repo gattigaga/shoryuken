@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 
 import supabase from "../../../helpers/supabase";
+import { getHttpStatusCode } from "../../../helpers/others";
 
 export const PUT = async (
   request: Request,
@@ -29,10 +30,21 @@ export const PUT = async (
       .eq("id", id)
       .order("id")
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (newDueDateError) {
       throw newDueDateError;
+    }
+
+    if (!newDueDate) {
+      return new Response(
+        JSON.stringify({
+          message: "Due date doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     return new Response(
@@ -50,7 +62,7 @@ export const PUT = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
@@ -79,10 +91,21 @@ export const DELETE = async (
       .eq("id", id)
       .order("id")
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (deletedDueDateError) {
       throw deletedDueDateError;
+    }
+
+    if (!deletedDueDate) {
+      return new Response(
+        JSON.stringify({
+          message: "Due date doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     return new Response(
@@ -100,7 +123,7 @@ export const DELETE = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }

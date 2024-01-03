@@ -75,7 +75,7 @@ const CoreSection: FC = () => {
       </div>
 
       <div className="hidden xl:grid xl:grid-cols-3 xl:gap-x-12">
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-4 h-fit">
           {cores.map((core, index) => (
             <CoreInfo
               key={core.id}

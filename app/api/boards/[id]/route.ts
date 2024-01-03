@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 import supabase from "../../../helpers/supabase";
 import { getSlug } from "../../../helpers/formatter";
+import { getHttpStatusCode } from "../../../helpers/others";
 
 export const GET = async (
   request: Request,
@@ -25,10 +26,21 @@ export const GET = async (
       .eq("id", id)
       .eq("user_id", user?.id)
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (boardError) {
       throw boardError;
+    }
+
+    if (!board) {
+      return new Response(
+        JSON.stringify({
+          message: "Board doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     return new Response(
@@ -46,7 +58,7 @@ export const GET = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
@@ -80,10 +92,21 @@ export const PUT = async (
       .eq("id", id)
       .order("id")
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (boardError) {
       throw boardError;
+    }
+
+    if (!board) {
+      return new Response(
+        JSON.stringify({
+          message: "Board doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     return new Response(
@@ -101,7 +124,7 @@ export const PUT = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
@@ -194,10 +217,21 @@ export const DELETE = async (
       .eq("id", id)
       .order("id")
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (boardError) {
       throw boardError;
+    }
+
+    if (!board) {
+      return new Response(
+        JSON.stringify({
+          message: "Board doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     return new Response(
@@ -215,7 +249,7 @@ export const DELETE = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }

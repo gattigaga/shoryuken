@@ -196,7 +196,7 @@ const Form: FC = () => {
           )}
         </Formik>
 
-        <div className="w-full border-t my-6" />
+        <hr className="w-full my-6" />
         <Link href="/auth/signin">
           <p className="text-xs text-blue-700 text-center">
             <Trans>Already have an account? Sign in</Trans>

@@ -1,8 +1,8 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useRef } from "react";
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import classnames from "classnames";
@@ -21,21 +21,28 @@ import useListsQuery from "../hooks/use-lists-query";
 import useUpdateListMutation from "../hooks/use-update-list-mutation";
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import ModalCardDetail from "./ModalCardDetail";
+import NotFound from "./NotFound";
+import { Board } from "../../../../types/models";
 
-type Props = {};
+type Props = {
+  board?: Board | null;
+};
 
-const Content: FC<Props> = ({}) => {
+const Content: FC<Props> = ({ board }) => {
   const router = useRouter();
-  const params = useParams();
   const { _ } = useLingui();
+  const refScrollWrapper = useRef<HTMLDivElement>(null);
 
-  const boardId = Number(((params?.slug as string) || "").split("-")[0]);
+  const boardId = board?.id || 0;
 
-  const boardQuery = useBoardQuery(boardId);
+  const boardQuery = useBoardQuery(boardId, board);
   const listsQuery = useListsQuery(boardId);
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
   const updateCardMutation = useUpdateCardMutation();
+
+  const isLoading = boardQuery.isLoading || deleteBoardMutation.isLoading;
+  const isContentShow = boardQuery.isSuccess && deleteBoardMutation.isIdle;
 
   const deleteBoard = async () => {
     if (!boardQuery.data) return;
@@ -141,81 +148,87 @@ const Content: FC<Props> = ({}) => {
   return (
     <>
       <div className="bg-blue-600 h-screen flex flex-col">
-        {deleteBoardMutation.status === "idle" &&
-          boardQuery.status === "success" && (
-            <>
-              <div className="flex items-center my-4 px-4">
-                <Link href="/dashboard" className="mr-4">
-                  <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
-                    <MdChevronLeft color="white" size={24} />
-                  </div>
-                </Link>
-                <BoardTitle id={boardQuery.data.id} />
-                <button
-                  className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
-                  type="button"
-                  onClick={deleteBoard}
+        {isContentShow && (
+          <>
+            <div className="flex items-center my-4 px-4">
+              <Link href="/dashboard" className="mr-4">
+                <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+                  <MdChevronLeft color="white" size={24} />
+                </div>
+              </Link>
+              <BoardTitle id={boardQuery.data.id} />
+              <button
+                className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
+                type="button"
+                onClick={deleteBoard}
+              >
+                <Trans>Delete</Trans>
+              </button>
+            </div>
+            <div className="flex-1 flex pb-4 px-4">
+              {listsQuery.isSuccess && (
+                <div
+                  ref={refScrollWrapper}
+                  className={classnames(
+                    "overflow-x-auto flex-1",
+                    styles.content
+                  )}
                 >
-                  <Trans>Delete</Trans>
-                </button>
-              </div>
-              <div className="flex-1 flex pb-4 px-4">
-                {listsQuery.status === "success" && (
-                  <div
-                    className={classnames(
-                      "overflow-x-auto flex-1",
-                      styles.content
-                    )}
-                  >
-                    <div className="flex items-start">
-                      <DragDropContext onDragEnd={handleMovement}>
-                        <Droppable
-                          droppableId="lists"
-                          direction="horizontal"
-                          type="LIST"
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              className="flex items-start"
-                              {...provided.droppableProps}
-                            >
-                              {listsQuery.data.map(
-                                (list: any, index: number) => (
-                                  <List
-                                    key={list.id}
-                                    id={list.id}
-                                    boardId={boardQuery.data.id}
-                                    index={index}
-                                    title={list.title}
-                                  />
-                                )
-                              )}
-                              {provided.placeholder}
-                            </div>
-                          )}
-                        </Droppable>
-                        <CreateListForm boardId={boardQuery.data.id} />
-                      </DragDropContext>
-                    </div>
+                  <div className="flex items-start">
+                    <DragDropContext onDragEnd={handleMovement}>
+                      <Droppable
+                        droppableId="lists"
+                        direction="horizontal"
+                        type="LIST"
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            className="flex items-start"
+                            {...provided.droppableProps}
+                          >
+                            {listsQuery.data.map((list: any, index: number) => (
+                              <List
+                                key={list.id}
+                                id={list.id}
+                                boardId={boardQuery.data.id}
+                                index={index}
+                                title={list.title}
+                              />
+                            ))}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                      <CreateListForm
+                        boardId={boardQuery.data.id}
+                        onClickAdd={() => {
+                          refScrollWrapper.current?.scrollTo({
+                            left: refScrollWrapper.current.scrollWidth,
+                            behavior: "smooth",
+                          });
+                        }}
+                      />
+                    </DragDropContext>
                   </div>
-                )}
-                {listsQuery.status === "loading" && (
-                  <div className="h-full w-full flex justify-center items-center">
-                    <Loading
-                      height={72}
-                      width={8}
-                      radius={16}
-                      margin={4}
-                      color="rgb(29 78 216)"
-                    />
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-        {(deleteBoardMutation.status === "loading" ||
-          boardQuery.status === "loading") && (
+                </div>
+              )}
+              {listsQuery.isLoading && (
+                <div className="h-full w-full flex justify-center items-center">
+                  <Loading
+                    height={72}
+                    width={8}
+                    radius={16}
+                    margin={4}
+                    color="rgb(29 78 216)"
+                  />
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {isLoading && (
           <div className="h-full w-full flex justify-center items-center">
             <Loading
               height={72}
@@ -226,26 +239,8 @@ const Content: FC<Props> = ({}) => {
             />
           </div>
         )}
-        {boardQuery.status === "error" && (
-          <div className="h-full w-full flex flex-col items-center pt-32">
-            <p className="font-semibold text-white text-3xl mb-6">
-              <Trans>Board not found</Trans>
-            </p>
-            <p className="text-white text-sm text-center px-4 max-w-lg mb-8">
-              <Trans>
-                This board may be private. If someone gave you this link, they
-                may need to invite you to one of their boards or Workspaces.
-              </Trans>
-            </p>
-            <button
-              className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
-              type="button"
-              onClick={() => router.replace("/dashboard")}
-            >
-              <Trans>Go Back</Trans>
-            </button>
-          </div>
-        )}
+
+        {boardQuery.isError && <NotFound />}
       </div>
       <ModalCardDetail />
     </>
