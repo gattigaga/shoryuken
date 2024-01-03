@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 
 import supabase from "../../../helpers/supabase";
 import { moveElement } from "../../../helpers/data-structures";
+import { getHttpStatusCode } from "../../../helpers/others";
 
 export const GET = async (
   request: NextRequest,
@@ -25,10 +26,21 @@ export const GET = async (
       .select("*")
       .eq("id", id)
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (listError) {
       throw listError;
+    }
+
+    if (!list) {
+      return new Response(
+        JSON.stringify({
+          message: "List doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     return new Response(
@@ -46,7 +58,7 @@ export const GET = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
@@ -79,10 +91,21 @@ export const PUT = async (
       .select("*")
       .eq("id", id)
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (listError) {
       throw listError;
+    }
+
+    if (!list) {
+      return new Response(
+        JSON.stringify({
+          message: "List doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     // Update the index of each list.
@@ -157,7 +180,7 @@ export const PUT = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
@@ -228,10 +251,21 @@ export const DELETE = async (
       .eq("id", id)
       .order("id")
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (deletedListError) {
       throw deletedListError;
+    }
+
+    if (!deletedList) {
+      return new Response(
+        JSON.stringify({
+          message: "List doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
     }
 
     // Get lists by board ID in order by index.
@@ -272,7 +306,7 @@ export const DELETE = async (
         message: error.message,
       }),
       {
-        status: error.status,
+        status: error.status || getHttpStatusCode(error.code) || 500,
       }
     );
   }
