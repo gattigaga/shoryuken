@@ -63,17 +63,19 @@ export const POST = async (request: Request) => {
 
     const slug = getSlug(title);
 
-    const { data: boards, error: boardsError } = await supabase
+    const { data: board, error: boardError } = await supabase
       .from("boards")
-      .insert([{ title, slug, user_id: user?.id }]);
+      .insert([{ title, slug, user_id: user?.id }])
+      .limit(1)
+      .single();
 
-    if (boardsError) {
-      throw boardsError;
+    if (boardError) {
+      throw boardError;
     }
 
     return new Response(
       JSON.stringify({
-        data: boards,
+        data: board,
         message: "Board successfully created.",
       }),
       {
