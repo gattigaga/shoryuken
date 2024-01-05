@@ -6,6 +6,7 @@ import { getUser } from "../helpers/data";
 
 export const metadata: Metadata = {
   title: "Dashboard | Shoryuken",
+  description: "Manage your boards easily.",
 };
 
 const DashboardPage = async () => {

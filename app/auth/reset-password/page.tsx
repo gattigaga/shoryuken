@@ -7,6 +7,7 @@ import Form from "./components/Form";
 
 export const metadata: Metadata = {
   title: "Reset Password | Shoryuken",
+  description: "Setup your new password.",
 };
 
 const ResetPasswordPage: NextPage = () => {

@@ -9,6 +9,7 @@ import { getUser } from "../../helpers/data";
 
 export const metadata: Metadata = {
   title: "Sign Up | Shoryuken",
+  description: "Sign up to Shoryuken and get started working on your project.",
 };
 
 const SignUpPage = async () => {

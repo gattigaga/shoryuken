@@ -19,11 +19,14 @@ export async function generateMetadata(
   if (!board) {
     return {
       title: `Board not found | Shoryuken`,
+      description: "This board is not exists or you don't have access to it.",
     };
   }
 
   return {
     title: `${board.title} | Shoryuken`,
+    description:
+      "Be creative and thinking out of the box when managing your project.",
   };
 }
 

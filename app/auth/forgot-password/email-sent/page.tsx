@@ -8,6 +8,7 @@ import { getUser } from "../../../helpers/data";
 
 export const metadata: Metadata = {
   title: "Email Sent | Shoryuken",
+  description: "Email has been sent to your email address.",
 };
 
 const EmailSentPage = async () => {

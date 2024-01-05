@@ -8,6 +8,7 @@ import { getUser } from "../../helpers/data";
 
 export const metadata: Metadata = {
   title: "Account Details | Shoryuken",
+  description: "Update your account details while onboarding.",
 };
 
 const AccountDetailsPage = async () => {

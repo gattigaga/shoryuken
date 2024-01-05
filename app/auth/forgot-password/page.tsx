@@ -9,6 +9,7 @@ import { getUser } from "../../helpers/data";
 
 export const metadata: Metadata = {
   title: "Forgot Password | Shoryuken",
+  description: "Enter your email to get your reset password link.",
 };
 
 const ForgotPasswordPage = async () => {
