@@ -24,13 +24,12 @@ const NavBar: FC = () => {
     try {
       await signOutMutation.mutateAsync();
     } finally {
-      router.replace("/auth/signin");
-
-      queryClient.resetQueries();
-
       Cookies.remove("access_token", {
         path: "/",
       });
+
+      router.replace("/auth/signin");
+      queryClient.resetQueries();
     }
   };
 
