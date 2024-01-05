@@ -2,7 +2,11 @@ import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 
 import Content from "./components/Content";
-import { getBoardBySlug, getUser } from "../../../helpers/data";
+import {
+  getBoardBySlug,
+  getListsByBoardId,
+  getUser,
+} from "../../../helpers/data";
 
 type Props = {
   params: { slug: string };
@@ -38,8 +42,9 @@ const BoardDetailPage = async ({ params }: Props) => {
   }
 
   const board = await getBoardBySlug(params.slug, user.id);
+  const lists = await getListsByBoardId(board?.id);
 
-  return <Content board={board || undefined} />;
+  return <Content board={board || undefined} lists={lists || undefined} />;
 };
 
 export default BoardDetailPage;

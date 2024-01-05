@@ -17,9 +17,13 @@ export const action = async (boardId: number): Promise<Response> => {
   return data;
 };
 
-const useListsQuery = (boardId: number) => {
-  return useQuery<List[], Error>(["lists", { board_id: boardId }], () =>
-    action(boardId)
+const useListsQuery = (boardId: number, initialData?: List[]) => {
+  return useQuery<List[], Error>(
+    ["lists", { board_id: boardId }],
+    () => action(boardId),
+    {
+      initialData,
+    }
   );
 };
 

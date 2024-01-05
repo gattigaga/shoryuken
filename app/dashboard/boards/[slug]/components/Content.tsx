@@ -22,21 +22,22 @@ import useUpdateListMutation from "../hooks/use-update-list-mutation";
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import ModalCardDetail from "./ModalCardDetail";
 import NotFound from "./NotFound";
-import { Board } from "../../../../types/models";
+import { Board as TBoard, List as TList } from "../../../../types/models";
 
 type Props = {
-  board?: Board | null;
+  board?: TBoard;
+  lists?: TList[];
 };
 
-const Content: FC<Props> = ({ board }) => {
+const Content: FC<Props> = ({ board, lists }) => {
   const router = useRouter();
   const { _ } = useLingui();
   const refScrollWrapper = useRef<HTMLDivElement>(null);
 
   const boardId = board?.id || 0;
 
-  const boardQuery = useBoardQuery(boardId, board || undefined);
-  const listsQuery = useListsQuery(boardId);
+  const boardQuery = useBoardQuery(boardId, board);
+  const listsQuery = useListsQuery(boardId, lists);
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
   const updateCardMutation = useUpdateCardMutation();
