@@ -35,7 +35,7 @@ const Content: FC<Props> = ({ board }) => {
 
   const boardId = board?.id || 0;
 
-  const boardQuery = useBoardQuery(boardId, board);
+  const boardQuery = useBoardQuery(boardId, board || undefined);
   const listsQuery = useListsQuery(boardId);
   const deleteBoardMutation = useDeleteBoardMutation();
   const updateListMutation = useUpdateListMutation();
