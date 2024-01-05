@@ -2,6 +2,7 @@
 
 import { FC } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Trans } from "@lingui/macro";
 import classNames from "classnames";
 
@@ -17,10 +18,12 @@ const Footer: FC = () => {
     <footer className="bg-blue-950 px-8 pt-8 pb-16 md:px-16 xl:px-32 xl:pb-0">
       <div className="grid grid-cols-1 xl:grid-cols-4 xl:gap-x-16">
         <div className="border-b border-blue-700 pb-8 xl:pb-0 xl:border-b-0">
-          <img
+          <Image
             className="w-36 xl:w-48"
             src="/images/logo-with-text-white.svg"
             alt="Shoryuken Logo"
+            width={1120}
+            height={240}
           />
         </div>
         <div className="border-b border-blue-700 py-4 xl:py-0 xl:border-b-0">

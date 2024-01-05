@@ -2,6 +2,8 @@
 
 import { motion, useAnimationControls } from "framer-motion";
 import { FC, useEffect, useState } from "react";
+import Image from "next/image";
+
 import useTailwindBreakpoint from "../hooks/use-tailwind-breakpoint";
 
 type Props = {
@@ -99,10 +101,12 @@ const TestimonySlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
             style={{ width: itemWidth }}
             className="p-8 bg-white flex flex-col relative overflow-hidden"
           >
-            <img
+            <Image
               className="absolute -top-8 -left-16 opacity-10 w-[28rem] max-w-lg"
               src="/images/bg-testimony.svg"
               alt="Testimony Background"
+              width={480}
+              height={320}
             />
             <div className="flex flex-col h-full relative">
               <p className="text-xl leading-relaxed text-slate-700">
@@ -111,10 +115,12 @@ const TestimonySlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
               <hr className="border-slate-700 mb-6 mt-auto" />
               <p className="text-sm text-slate-700 font-bold">{item.name}</p>
               <p className="text-sm text-slate-700 mb-6">{item.role}</p>
-              <img
+              <Image
                 className="w-24 object-contain"
                 src={item.companyLogo}
                 alt="Company Logo"
+                width={1920}
+                height={1080}
               />
             </div>
           </div>

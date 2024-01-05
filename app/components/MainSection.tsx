@@ -3,16 +3,19 @@
 import { FC } from "react";
 import { Trans } from "@lingui/macro";
 import Link from "next/link";
+import Image from "next/image";
 
 import Button from "./Button";
 
 const MainSection: FC = () => {
   return (
     <div className="h-screen relative">
-      <img
+      <Image
         className="w-full h-screen object-cover object-bottom"
         src="/images/wave.svg"
-        alt="Wave"
+        alt="Wave Background"
+        width={1920}
+        height={1080}
       />
 
       <div className="h-screen absolute top-0 left-0 px-4 pt-32 w-full flex flex-col gap-y-12 md:px-16 md:pt-48 xl:px-32 xl:flex-row xl:gap-x-24">
@@ -38,10 +41,13 @@ const MainSection: FC = () => {
         </div>
 
         <div className="h-fit xl:-mt-16 xl:w-screen">
-          <img
+          <Image
             className="w-full aspect-square object-cover object-left-bottom"
             src="/images/home-page/main.png"
-            alt=""
+            alt="Content of the Board"
+            width={633}
+            height={526}
+            priority={true}
           />
         </div>
       </div>

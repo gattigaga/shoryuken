@@ -2,6 +2,7 @@
 
 import { motion, useAnimationControls } from "framer-motion";
 import { FC, useEffect, useState } from "react";
+import Image from "next/image";
 
 import useTailwindBreakpoint from "../hooks/use-tailwind-breakpoint";
 
@@ -88,13 +89,15 @@ const CoreImageSlider: FC<Props> = ({ images, activeIndex, onChangeIndex }) => {
         animate={controls}
       >
         {images.map((image, index) => (
-          <img
+          <Image
             key={index}
             style={{ width: itemWidth }}
             className="aspect-[4/3]"
             src={image}
             alt="Core Image"
             draggable={false}
+            width={2560}
+            height={1920}
           />
         ))}
       </motion.div>

@@ -12,6 +12,8 @@ import { getUser } from "./helpers/data";
 
 export const metadata: Metadata = {
   title: "Shoryuken | Manage Your Projects",
+  description:
+    "Shoryuken brings all your tasks, teammates, and tools together. Keep everything in the same place—even if your team isn’t.",
 };
 
 const HomePage = async () => {

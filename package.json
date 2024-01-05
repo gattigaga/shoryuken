@@ -40,6 +40,7 @@
     "react-query": "^3.39.1",
     "react-responsive": "^9.0.2",
     "react-spinners": "^0.13.8",
+    "sharp": "^0.33.1",
     "uuid": "^8.3.2",
     "zod": "^3.22.4",
     "zod-formik-adapter": "^1.2.0",
