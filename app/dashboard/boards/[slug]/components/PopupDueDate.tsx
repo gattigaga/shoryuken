@@ -37,7 +37,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
 
   const dueDate = cardQuery.data?.due_dates[0];
 
-  const validateTime = (event: any) => {
+  const applyTime = (event: any) => {
     const parsed = parse(event.target.value, timePattern, new Date());
 
     if (!isValid(parsed)) {
@@ -109,6 +109,7 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
     }
   };
 
+  // Initialize date and time.
   useEffect(() => {
     if (isOpen) {
       if (usage === "add") {
@@ -126,21 +127,21 @@ const PopupDueDate: React.FC<Props> = ({ id, usage, isOpen, onClickClose }) => {
   }, [isOpen]);
 
   return (
-    <Popup title="Due Date" isOpen={isOpen} onClickClose={onClickClose}>
+    <Popup title={_(msg`Due Date`)} isOpen={isOpen} onClickClose={onClickClose}>
       <Calendar onChange={setDate} value={date} />
       <Input
         className="w-full mt-4 text-center"
-        placeholder="Time"
+        placeholder={_(msg`Time`)}
         value={time}
         onChange={(event) => setTime(event.target.value)}
         onKeyDown={(event) => {
           if (["Enter", "Escape"].includes(event.key)) {
             event.stopPropagation();
-            validateTime(event);
+            applyTime(event);
             refButton.current?.focus();
           }
         }}
-        onBlur={validateTime}
+        onBlur={applyTime}
       />
       <Button
         ref={refButton}

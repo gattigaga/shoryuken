@@ -25,7 +25,7 @@ msgstr "Tentang Shoryuken"
 msgid "Account"
 msgstr "Akun"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:186
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:179
 msgid "Actions"
 msgstr "Tindakan"
 
@@ -50,11 +50,11 @@ msgstr "Tambahkan item"
 msgid "Add card"
 msgstr "Tambahkan card"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:174
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:177
 msgid "Add list"
 msgstr "Tambahkan list"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:146
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:139
 msgid "Add to card"
 msgstr "Tambahkan ke card"
 
@@ -62,9 +62,9 @@ msgstr "Tambahkan ke card"
 msgid "Already have an account? Sign in"
 msgstr "Sudah memiliki akun? Sign in"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:80
-msgid "Are you sure you want to delete this card?"
-msgstr "Apakah Anda yakin ingin menghapus kartu ini?"
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:79
+msgid "Are you sure you want to delete this card ?"
+msgstr "Apakah Anda yakin ingin menghapus card ini ?"
 
 #: app/components/TestimonySection.tsx:31
 msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
@@ -74,12 +74,12 @@ msgstr "Sebagai seorang Produser dari 48 Family, saya telah menemukan Shoryuken 
 msgid "at"
 msgstr "pada"
 
-#: app/auth/forgot-password/email-sent/components/Content.tsx:50
-#: app/auth/signup/email-sent/components/Content.tsx:41
+#: app/auth/forgot-password/email-sent/components/Content.tsx:45
+#: app/auth/signup/email-sent/components/Content.tsx:43
 msgid "Back to Sign In"
 msgstr "Kembali ke Sign In"
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:232
+#: app/dashboard/boards/[slug]/components/NotFound.tsx:11
 msgid "Board not found"
 msgstr "Board tidak ditemukan"
 
@@ -101,16 +101,16 @@ msgstr "Batal"
 msgid "Cards represent tasks and ideas and hold all the information to get the job done. As you make progress, move cards across lists to show their status."
 msgstr "Card mewakili tugas dan ide serta menyimpan semua informasi yang diperlukan untuk menyelesaikan pekerjaan. Saat Anda melakukan progress, pindahkan card-card di antara list untuk menunjukkan statusnya."
 
-#: app/auth/signup/email-sent/components/Content.tsx:28
+#: app/auth/signup/email-sent/components/Content.tsx:30
 msgid "Check your inbox to log in"
 msgstr "Periksa kotak masuk Anda untuk sign in"
 
-#: app/auth/forgot-password/email-sent/components/Content.tsx:35
+#: app/auth/forgot-password/email-sent/components/Content.tsx:30
 msgid "Check your inbox to reset password"
 msgstr "Periksa kotak masuk Anda untuk mereset kata sandi"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:130
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:155
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:148
 msgid "Checklist"
 msgstr "Checklist"
 
@@ -146,13 +146,13 @@ msgstr "Buat Board"
 msgid "Create new board"
 msgstr "Buat board baru"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:200
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:203
 msgid "Create new list"
 msgstr "Buat list baru"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:139
-#: app/dashboard/boards/[slug]/components/Content.tsx:159
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:195
+#: app/dashboard/boards/[slug]/components/Content.tsx:165
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:188
 msgid "Delete"
 msgstr "Hapus"
 
@@ -160,7 +160,8 @@ msgstr "Hapus"
 msgid "Description"
 msgstr "Deskripsi"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:172
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:165
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:130
 msgid "Due Date"
 msgstr "Tanggal Jatuh Tempo"
 
@@ -191,7 +192,7 @@ msgstr "Masukkan email"
 msgid "Enter full name"
 msgstr "Masukkan nama lengkap"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:149
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:152
 msgid "Enter list title..."
 msgstr "Masukkan judul daftar..."
 
@@ -223,7 +224,7 @@ msgstr "Masukkan nama pengguna"
 msgid "Failed to add check item."
 msgstr "Gagal menambahkan check item."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:73
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:72
 msgid "Failed to add checklist in the card."
 msgstr "Gagal menambahkan checklist pada card."
 
@@ -235,16 +236,16 @@ msgstr "Gagal menambahkan tanggal jatuh tempo."
 msgid "Failed to create a board."
 msgstr "Gagal membuat board."
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:81
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:82
 msgid "Failed to create a list."
 msgstr "Gagal membuat list."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:50
+#: app/dashboard/boards/[slug]/components/Content.tsx:57
 msgid "Failed to delete a board."
 msgstr "Gagal menghapus board."
 
 #: app/dashboard/boards/[slug]/components/List.tsx:87
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:91
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:90
 msgid "Failed to delete a card."
 msgstr "Gagal menghapus card."
 
@@ -260,11 +261,11 @@ msgstr "Gagal menghapus check item."
 msgid "Failed to delete checklist."
 msgstr "Gagal menghapus checklist."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:218
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:211
 msgid "Failed to fetch card detail."
 msgstr "Gagal mengambil detail card."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:97
+#: app/dashboard/boards/[slug]/components/Content.tsx:104
 msgid "Failed to move a card."
 msgstr "Gagal memindahkan card."
 
@@ -272,7 +273,7 @@ msgstr "Gagal memindahkan card."
 msgid "Failed to move a check item."
 msgstr "Gagal memindahkan check item."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:72
+#: app/dashboard/boards/[slug]/components/Content.tsx:79
 msgid "Failed to move a list."
 msgstr "Gagal memindahkan list."
 
@@ -320,7 +321,7 @@ msgstr "Gagal memperbarui judul card."
 msgid "Failed to update a list."
 msgstr "Gagal memperbarui list."
 
-#: app/dashboard/boards/[slug]/components/BoardTitle.tsx:34
+#: app/dashboard/boards/[slug]/components/BoardTitle.tsx:42
 msgid "Failed to update board title."
 msgstr "Gagal memperbarui judul board."
 
@@ -359,7 +360,7 @@ msgstr "Nama lengkap tidak boleh lebih dari 50 karakter"
 msgid "Get started with Shoryuken today"
 msgstr "Mulailah dengan Shoryuken hari ini"
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:245
+#: app/dashboard/boards/[slug]/components/NotFound.tsx:24
 msgid "Go Back"
 msgstr "Kembali"
 
@@ -420,7 +421,7 @@ msgstr "Kata sandi tidak boleh lebih dari 25 karakter"
 msgid "Privacy Policy"
 msgstr "Kebijakan Privasi"
 
-#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:161
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:162
 msgid "Remove"
 msgstr "Hapus"
 
@@ -439,7 +440,7 @@ msgstr "Kembali ke sign in"
 
 #: app/dashboard/boards/[slug]/components/CardCheckItem.tsx:204
 #: app/dashboard/boards/[slug]/components/CardDescription.tsx:134
-#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:151
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:152
 msgid "Save"
 msgstr "Simpan"
 
@@ -510,21 +511,25 @@ msgstr "Syarat dan Ketentuan"
 msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
 msgstr "Tahapan-tahapan yang berbeda dari sebuah tugas. Mulailah sebegitu sederhana dengan To Do, Doing, atau Done—atau bangun alur kerja yang sesuai dengan kebutuhan tim Anda. Tidak ada cara yang salah dalam menggunakan Shoryuken."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:235
-msgid "This board may be private. If someone gave you this link, they may need to invite you to one of their boards."
+#: app/dashboard/boards/[slug]/components/NotFound.tsx:14
+msgid "This board may be private. If someone gave you this link, they may need to invite you to one of their boards or Workspaces."
 msgstr "Board ini mungkin bersifat pribadi. Jika seseorang memberi Anda tautan ini, mereka mungkin perlu mengundang Anda ke salah satu board mereka."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:60
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:59
 msgid "This card already has checklist."
 msgstr "Card ini sudah memiliki checklist."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:163
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:156
 msgid "This card already has due date."
 msgstr "Card ini sudah memiliki tanggal jatuh tempo."
 
 #: app/auth/signup/components/Form.tsx:207
 msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
 msgstr "Halaman ini dilindungi oleh reCAPTCHA dan berlaku <0>Kebijakan Privasi</0> dan <1>Syarat Layanan</1> dari Google"
+
+#: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:134
+msgid "Time"
+msgstr "Waktu"
 
 #: app/dashboard/components/ModalCreateBoard.tsx:27
 msgid "Title is required"
@@ -538,11 +543,11 @@ msgstr "Judul harus memiliki minimal 5 karakter"
 msgid "Title should no more than 50 characters"
 msgstr "Judul tidak boleh lebih dari 50 karakter"
 
-#: app/auth/signup/email-sent/components/Content.tsx:31
+#: app/auth/signup/email-sent/components/Content.tsx:33
 msgid "To complete setup and log in, click the verification link in the email we‘ve sent to"
 msgstr "Untuk menyelesaikan pengaturan dan sign in, klik tautan verifikasi dalam email yang telah kami kirimkan"
 
-#: app/auth/forgot-password/email-sent/components/Content.tsx:38
+#: app/auth/forgot-password/email-sent/components/Content.tsx:33
 msgid "To reset your password, click the recovery link in the email we‘ve sent to"
 msgstr "Untuk mereset kata sandi Anda, klik tautan pemulihan dalam email yang telah kami kirimkan"
 
@@ -590,5 +595,5 @@ msgid "Yesterday at"
 msgstr "Kemarin pada"
 
 #: app/dashboard/components/NetworkStatus.tsx:47
-msgid "You are offline!"
-msgstr "Anda sedang offline!"
+msgid "You are offline !"
+msgstr "Anda sedang offline !"
