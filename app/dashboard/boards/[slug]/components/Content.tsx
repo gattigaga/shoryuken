@@ -1,25 +1,21 @@
 "use client";
 
-import { FC, useRef } from "react";
+import { FC } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MdChevronLeft } from "react-icons/md";
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
 import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 
 import BoardTitle from "./BoardTitle";
-import CreateListForm from "./CreateListForm";
-import List from "./List";
 import useBoardQuery from "../hooks/use-board-query";
 import useDeleteBoardMutation from "../hooks/use-delete-board-mutation";
 import useListsQuery from "../hooks/use-lists-query";
-import useUpdateListMutation from "../hooks/use-update-list-mutation";
-import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import ModalCardDetail from "./ModalCardDetail";
 import NotFound from "./NotFound";
+import DragDropArea from "./DragDropArea";
 import { getTailwindColors } from "../../../helpers/others";
 import { Board as TBoard, List as TList } from "../../../../types/models";
 
@@ -31,15 +27,12 @@ type Props = {
 const Content: FC<Props> = ({ board, lists }) => {
   const router = useRouter();
   const { _ } = useLingui();
-  const refScrollWrapper = useRef<HTMLDivElement>(null);
 
   const boardId = board?.id || 0;
 
   const boardQuery = useBoardQuery(boardId, board);
   const listsQuery = useListsQuery(boardId, lists);
   const deleteBoardMutation = useDeleteBoardMutation();
-  const updateListMutation = useUpdateListMutation();
-  const updateCardMutation = useUpdateCardMutation();
 
   const isLoading = boardQuery.isLoading || deleteBoardMutation.isLoading;
   const isContentShow = boardQuery.isSuccess && deleteBoardMutation.isIdle;
@@ -56,93 +49,6 @@ const Content: FC<Props> = ({ board, lists }) => {
       router.replace("/dashboard");
     } catch (error) {
       toast.error(_(msg`Failed to delete a board.`));
-    }
-  };
-
-  const moveList = async ({
-    listId,
-    toIndex,
-  }: {
-    listId: number;
-    toIndex: number;
-  }) => {
-    if (!boardQuery.data) return;
-
-    try {
-      await updateListMutation.mutateAsync({
-        id: listId,
-        boardId: boardQuery.data.id,
-        body: {
-          index: toIndex,
-        },
-      });
-    } catch (error) {
-      toast.error(_(msg`Failed to move a list.`));
-    }
-  };
-
-  const moveCard = async ({
-    cardId,
-    fromListId,
-    toListId,
-    toIndex,
-  }: {
-    cardId: number;
-    fromListId: number;
-    toListId?: number;
-    toIndex: number;
-  }) => {
-    try {
-      await updateCardMutation.mutateAsync({
-        id: cardId,
-        listId: fromListId,
-        body: {
-          index: toIndex,
-          list_id: toListId,
-        },
-      });
-    } catch (error) {
-      toast.error(_(msg`Failed to move a card.`));
-    }
-  };
-
-  const handleMovement = (result: DropResult) => {
-    const fromIndex = result.source.index;
-    const toIndex = result.destination?.index;
-
-    if (toIndex === undefined) return;
-
-    if (result.type === "LIST") {
-      const isUpdated = toIndex !== fromIndex;
-
-      if (!isUpdated) return;
-
-      const id = result.draggableId.replace("list-", "");
-
-      moveList({
-        listId: Number(id),
-        toIndex,
-      });
-
-      return;
-    }
-
-    if (result.type === "CARD") {
-      const id = result.draggableId.replace("card-", "");
-      const fromListId = result.source.droppableId.replace("list-", "");
-      const toListId = result.destination?.droppableId.replace("list-", "");
-
-      const validToList =
-        toListId !== fromListId && !!toListId ? Number(toListId) : undefined;
-
-      moveCard({
-        cardId: Number(id),
-        fromListId: Number(fromListId),
-        toListId: validToList,
-        toIndex,
-      });
-
-      return;
     }
   };
 
@@ -168,48 +74,7 @@ const Content: FC<Props> = ({ board, lists }) => {
             </div>
             <div className="flex-1 flex pb-4 px-4">
               {listsQuery.isSuccess && (
-                <div
-                  ref={refScrollWrapper}
-                  className="scroll overflow-x-auto flex-1"
-                >
-                  <div className="flex items-start">
-                    <DragDropContext onDragEnd={handleMovement}>
-                      <Droppable
-                        droppableId="lists"
-                        direction="horizontal"
-                        type="LIST"
-                      >
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            className="flex items-start"
-                            {...provided.droppableProps}
-                          >
-                            {listsQuery.data.map((list: any, index: number) => (
-                              <List
-                                key={list.id}
-                                id={list.id}
-                                boardId={boardQuery.data.id}
-                                index={index}
-                                title={list.title}
-                              />
-                            ))}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
-                      <CreateListForm
-                        board={boardQuery.data}
-                        onClickAdd={() => {
-                          refScrollWrapper.current?.scrollTo({
-                            left: refScrollWrapper.current.scrollWidth,
-                            behavior: "smooth",
-                          });
-                        }}
-                      />
-                    </DragDropContext>
-                  </div>
-                </div>
+                <DragDropArea board={boardQuery.data} lists={listsQuery.data} />
               )}
               {listsQuery.isLoading && (
                 <div className="h-full w-full flex justify-center items-center">
@@ -218,7 +83,7 @@ const Content: FC<Props> = ({ board, lists }) => {
                     width={8}
                     radius={16}
                     margin={4}
-                    color="rgb(29 78 216)"
+                    color={getTailwindColors(boardColor, 700)}
                   />
                 </div>
               )}
@@ -233,7 +98,7 @@ const Content: FC<Props> = ({ board, lists }) => {
               width={8}
               radius={16}
               margin={4}
-              color="rgb(29 78 216)"
+              color={getTailwindColors(boardColor, 700)}
             />
           </div>
         )}
