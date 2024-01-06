@@ -27,6 +27,7 @@ const Content: FC = () => {
                   <Board
                     key={board.id}
                     title={board.title}
+                    color={board.color}
                     href={`/dashboard/boards/${board.slug}`}
                     isDisabled={board.id > 10000}
                   />

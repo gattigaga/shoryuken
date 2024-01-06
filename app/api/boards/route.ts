@@ -57,15 +57,23 @@ export const POST = async (request: Request) => {
       throw userError;
     }
 
-    const { title } = (await request.json()) as {
+    const { title, color } = (await request.json()) as {
       title: string;
+      color: string;
     };
 
     const slug = getSlug(title);
 
     const { data: board, error: boardError } = await supabase
       .from("boards")
-      .insert([{ title, slug, user_id: user?.id }])
+      .insert([
+        {
+          title,
+          slug,
+          color,
+          user_id: user?.id,
+        },
+      ])
       .limit(1)
       .single();
 

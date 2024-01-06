@@ -11,6 +11,7 @@ import { useLingui } from "@lingui/react";
 
 import Button from "../../components/Button";
 import useCreateBoardMutation from "../hooks/use-create-board-mutation";
+import { getTailwindColors } from "../helpers/others";
 
 type Props = {
   isOpen: boolean;
@@ -28,6 +29,25 @@ const ModalCreateBoard: FC<Props> = ({ isOpen, onRequestClose }) => {
       .min(5, _(msg`Title should have at least 5 characters`))
       .max(50, _(msg`Title should no more than 50 characters`)),
   });
+
+  const colors = [
+    "red",
+    "orange",
+    "amber",
+    "yellow",
+    "lime",
+    "green",
+    "emerald",
+    "teal",
+    "cyan",
+    "sky",
+    "blue",
+    "indigo",
+    "purple",
+    "fuchsia",
+    "pink",
+    "rose",
+  ];
 
   useEffect(() => {
     if (isOpen) {
@@ -49,7 +69,7 @@ const ModalCreateBoard: FC<Props> = ({ isOpen, onRequestClose }) => {
           left: "50%",
           transform: "translateX(-50%)",
           width: "23rem",
-          height: "12rem",
+          height: "18rem",
           padding: 0,
           background: "transparent",
           border: 0,
@@ -62,6 +82,7 @@ const ModalCreateBoard: FC<Props> = ({ isOpen, onRequestClose }) => {
       <Formik
         initialValues={{
           title: "",
+          color: "red",
         }}
         validationSchema={toFormikValidationSchema(validationSchema)}
         validateOnMount
@@ -77,13 +98,28 @@ const ModalCreateBoard: FC<Props> = ({ isOpen, onRequestClose }) => {
           }
         }}
       >
-        {({ values, errors, isSubmitting, handleChange, handleSubmit }) => (
+        {({
+          values,
+          errors,
+          isSubmitting,
+          setFieldValue,
+          handleChange,
+          handleSubmit,
+        }) => (
           <div>
             <form onSubmit={handleSubmit}>
-              <div className="p-4 h-32 w-80 bg-blue-700 rounded mb-4">
+              <div
+                style={{
+                  backgroundColor: getTailwindColors(values.color, 700),
+                }}
+                className="p-4 h-32 w-80 rounded mb-4"
+              >
                 <input
                   ref={refInput}
-                  className="bg-blue-600 text-md text-white font-semibold border-none w-full rounded px-2"
+                  style={{
+                    backgroundColor: getTailwindColors(values.color, 600),
+                  }}
+                  className="text-md text-white font-semibold border-none w-full rounded px-2"
                   name="title"
                   type="text"
                   value={values.title}
@@ -91,6 +127,27 @@ const ModalCreateBoard: FC<Props> = ({ isOpen, onRequestClose }) => {
                   onChange={handleChange}
                 />
               </div>
+
+              <div className="grid grid-cols-8 grid-rows-2 gap-2 mb-4">
+                {colors.map((color) => {
+                  const isSelected = values.color === color;
+                  const colorValue = getTailwindColors(color, 500);
+
+                  return (
+                    <button
+                      style={{
+                        backgroundColor: colorValue,
+                        borderColor: isSelected ? "white" : colorValue,
+                      }}
+                      className="aspect-square rounded border-2"
+                      key={color}
+                      type="button"
+                      onClick={() => setFieldValue("color", color)}
+                    />
+                  );
+                })}
+              </div>
+
               <Button
                 backgroundColor={["bg-green-600", "bg-green-700"]}
                 disabled={!!errors.title || isSubmitting}
