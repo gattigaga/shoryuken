@@ -17,11 +17,11 @@ msgstr ""
 msgid "A productivity powerhouse"
 msgstr "A productivity powerhouse"
 
-#: app/components/Footer.tsx:28
+#: app/components/Footer.tsx:31
 msgid "About Shoryuken"
 msgstr "About Shoryuken"
 
-#: app/dashboard/components/NavBar.tsx:80
+#: app/dashboard/components/NavBar.tsx:91
 msgid "Account"
 msgstr "Account"
 
@@ -33,7 +33,7 @@ msgstr "Actions"
 msgid "Add"
 msgstr "Add"
 
-#: app/dashboard/boards/[slug]/components/List.tsx:305
+#: app/dashboard/boards/[slug]/components/List.tsx:314
 msgid "Add a card"
 msgstr "Add a card"
 
@@ -46,11 +46,11 @@ msgstr "Add a more detailed description..."
 msgid "Add an item"
 msgstr "Add an item"
 
-#: app/dashboard/boards/[slug]/components/List.tsx:278
+#: app/dashboard/boards/[slug]/components/List.tsx:287
 msgid "Add card"
 msgstr "Add card"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:177
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:195
 msgid "Add list"
 msgstr "Add list"
 
@@ -130,15 +130,15 @@ msgstr "Confirm Password is mismatch"
 msgid "Confirm Password is required"
 msgstr "Confirm Password is required"
 
-#: app/components/Footer.tsx:36
+#: app/components/Footer.tsx:39
 msgid "Contact Us"
 msgstr "Contact Us"
 
-#: app/components/Footer.tsx:57
+#: app/components/Footer.tsx:60
 msgid "Copyright © {year} Shoryuken"
 msgstr "Copyright © {year} Shoryuken"
 
-#: app/dashboard/components/ModalCreateBoard.tsx:98
+#: app/dashboard/components/ModalCreateBoard.tsx:155
 msgid "Create Board"
 msgstr "Create Board"
 
@@ -146,12 +146,12 @@ msgstr "Create Board"
 msgid "Create new board"
 msgstr "Create new board"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:203
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:224
 msgid "Create new list"
 msgstr "Create new list"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:139
-#: app/dashboard/boards/[slug]/components/Content.tsx:165
+#: app/dashboard/boards/[slug]/components/Content.tsx:72
 #: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:188
 msgid "Delete"
 msgstr "Delete"
@@ -176,7 +176,7 @@ msgstr "due soon"
 msgid "Email is required"
 msgstr "Email is required"
 
-#: app/dashboard/boards/[slug]/components/List.tsx:243
+#: app/dashboard/boards/[slug]/components/List.tsx:252
 msgid "Enter a title for this card..."
 msgstr "Enter a title for this card..."
 
@@ -192,7 +192,7 @@ msgstr "Enter email"
 msgid "Enter full name"
 msgstr "Enter full name"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:152
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:170
 msgid "Enter list title..."
 msgstr "Enter list title..."
 
@@ -232,24 +232,24 @@ msgstr "Failed to add checklist in the card."
 msgid "Failed to add due date."
 msgstr "Failed to add due date."
 
-#: app/dashboard/components/ModalCreateBoard.tsx:76
+#: app/dashboard/components/ModalCreateBoard.tsx:97
 msgid "Failed to create a board."
 msgstr "Failed to create a board."
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:82
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:93
 msgid "Failed to create a list."
 msgstr "Failed to create a list."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:57
+#: app/dashboard/boards/[slug]/components/Content.tsx:51
 msgid "Failed to delete a board."
 msgstr "Failed to delete a board."
 
-#: app/dashboard/boards/[slug]/components/List.tsx:87
+#: app/dashboard/boards/[slug]/components/List.tsx:81
 #: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:90
 msgid "Failed to delete a card."
 msgstr "Failed to delete a card."
 
-#: app/dashboard/boards/[slug]/components/List.tsx:56
+#: app/dashboard/boards/[slug]/components/List.tsx:50
 msgid "Failed to delete a list."
 msgstr "Failed to delete a list."
 
@@ -265,7 +265,7 @@ msgstr "Failed to delete checklist."
 msgid "Failed to fetch card detail."
 msgstr "Failed to fetch card detail."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:104
+#: app/dashboard/boards/[slug]/components/DragDropArea.tsx:70
 msgid "Failed to move a card."
 msgstr "Failed to move a card."
 
@@ -273,7 +273,7 @@ msgstr "Failed to move a card."
 msgid "Failed to move a check item."
 msgstr "Failed to move a check item."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:79
+#: app/dashboard/boards/[slug]/components/DragDropArea.tsx:45
 msgid "Failed to move a list."
 msgstr "Failed to move a list."
 
@@ -317,7 +317,7 @@ msgstr "Failed to update a card description."
 msgid "Failed to update a card title."
 msgstr "Failed to update a card title."
 
-#: app/dashboard/boards/[slug]/components/List.tsx:74
+#: app/dashboard/boards/[slug]/components/List.tsx:68
 msgid "Failed to update a list."
 msgstr "Failed to update a list."
 
@@ -378,7 +378,7 @@ msgstr "Invalid email format"
 msgid "Invalid email format."
 msgstr "Invalid email format."
 
-#: app/components/MainSection.tsx:26
+#: app/components/MainSection.tsx:29
 msgid "Keep everything in the same place—even if your team isn’t."
 msgstr "Keep everything in the same place—even if your team isn’t."
 
@@ -386,7 +386,7 @@ msgstr "Keep everything in the same place—even if your team isn’t."
 msgid "My Boards"
 msgstr "My Boards"
 
-#: app/components/Footer.tsx:39
+#: app/components/Footer.tsx:42
 msgid "Need anything? Get in touch and we can help."
 msgstr "Need anything? Get in touch and we can help."
 
@@ -417,7 +417,7 @@ msgstr "Password should have at least 8 characters"
 msgid "Password should no more than 25 characters"
 msgstr "Password should no more than 25 characters"
 
-#: app/components/Footer.tsx:48
+#: app/components/Footer.tsx:51
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
@@ -452,7 +452,7 @@ msgstr "Send Recovery Link"
 msgid "Shoryuken boards keep tasks organized and work moving forward. In a glance, see everything from “things to do” to “aww yeah, we did it!”"
 msgstr "Shoryuken boards keep tasks organized and work moving forward. In a glance, see everything from “things to do” to “aww yeah, we did it!”"
 
-#: app/components/MainSection.tsx:21
+#: app/components/MainSection.tsx:24
 msgid "Shoryuken brings all your tasks, teammates, and tools together"
 msgstr "Shoryuken brings all your tasks, teammates, and tools together"
 
@@ -461,7 +461,7 @@ msgid "Shoryuken has transformed how we manage our AI company at Hiden Intellige
 msgstr "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines."
 
 #: app/auth/signin/components/Form.tsx:134
-#: app/components/Header.tsx:90
+#: app/components/Header.tsx:100
 msgid "Sign In"
 msgstr "Sign In"
 
@@ -473,16 +473,16 @@ msgstr "Sign in to Shoryuken"
 msgid "Sign in with Google"
 msgstr "Sign in with Google"
 
-#: app/dashboard/components/NavBar.tsx:95
+#: app/dashboard/components/NavBar.tsx:106
 msgid "Sign out"
 msgstr "Sign out"
 
 #: app/auth/signup/components/Form.tsx:191
-#: app/components/Header.tsx:94
+#: app/components/Header.tsx:104
 msgid "Sign Up"
 msgstr "Sign Up"
 
-#: app/components/MainSection.tsx:35
+#: app/components/MainSection.tsx:38
 #: app/components/SignUpSection.tsx:17
 msgid "Sign up - it’s free!"
 msgstr "Sign up - it’s free!"
@@ -503,7 +503,7 @@ msgstr "Simple, flexible, and powerful. All it takes are boards, lists, and card
 msgid "Submit"
 msgstr "Submit"
 
-#: app/components/Footer.tsx:53
+#: app/components/Footer.tsx:56
 msgid "Terms"
 msgstr "Terms"
 
@@ -531,15 +531,15 @@ msgstr "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0>
 msgid "Time"
 msgstr "Time"
 
-#: app/dashboard/components/ModalCreateBoard.tsx:27
+#: app/dashboard/components/ModalCreateBoard.tsx:28
 msgid "Title is required"
 msgstr "Title is required"
 
-#: app/dashboard/components/ModalCreateBoard.tsx:28
+#: app/dashboard/components/ModalCreateBoard.tsx:29
 msgid "Title should have at least 5 characters"
 msgstr "Title should have at least 5 characters"
 
-#: app/dashboard/components/ModalCreateBoard.tsx:29
+#: app/dashboard/components/ModalCreateBoard.tsx:30
 msgid "Title should no more than 50 characters"
 msgstr "Title should no more than 50 characters"
 
@@ -582,7 +582,7 @@ msgstr "Username should no more than 15 characters"
 msgid "We‘ll send a recovery link to"
 msgstr "We‘ll send a recovery link to"
 
-#: app/components/Footer.tsx:31
+#: app/components/Footer.tsx:34
 msgid "What‘s behind the boards."
 msgstr "What‘s behind the boards."
 
@@ -594,6 +594,6 @@ msgstr "With Shoryuken, we have gained better visibility into our tasks, streaml
 msgid "Yesterday at"
 msgstr "Yesterday at"
 
-#: app/dashboard/components/NetworkStatus.tsx:47
+#: app/dashboard/components/NetworkStatus.tsx:51
 msgid "You are offline !"
 msgstr "You are offline !"

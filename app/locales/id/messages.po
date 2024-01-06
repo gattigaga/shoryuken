@@ -17,11 +17,11 @@ msgstr ""
 msgid "A productivity powerhouse"
 msgstr "Sebuah kekuatan produktivitas"
 
-#: app/components/Footer.tsx:28
+#: app/components/Footer.tsx:31
 msgid "About Shoryuken"
 msgstr "Tentang Shoryuken"
 
-#: app/dashboard/components/NavBar.tsx:80
+#: app/dashboard/components/NavBar.tsx:91
 msgid "Account"
 msgstr "Akun"
 
@@ -33,7 +33,7 @@ msgstr "Tindakan"
 msgid "Add"
 msgstr "Tambah"
 
-#: app/dashboard/boards/[slug]/components/List.tsx:305
+#: app/dashboard/boards/[slug]/components/List.tsx:314
 msgid "Add a card"
 msgstr "Tambahkan card"
 
@@ -46,11 +46,11 @@ msgstr "Tambahkan deskripsi yang lebih detail..."
 msgid "Add an item"
 msgstr "Tambahkan item"
 
-#: app/dashboard/boards/[slug]/components/List.tsx:278
+#: app/dashboard/boards/[slug]/components/List.tsx:287
 msgid "Add card"
 msgstr "Tambahkan card"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:177
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:195
 msgid "Add list"
 msgstr "Tambahkan list"
 
@@ -130,15 +130,15 @@ msgstr "Konfirmasi kata sandi tidak sesuai"
 msgid "Confirm Password is required"
 msgstr "Konfirmasi kata sandi diperlukan"
 
-#: app/components/Footer.tsx:36
+#: app/components/Footer.tsx:39
 msgid "Contact Us"
 msgstr "Hubungi Kami"
 
-#: app/components/Footer.tsx:57
+#: app/components/Footer.tsx:60
 msgid "Copyright © {year} Shoryuken"
 msgstr "Hak Cipta © {year} Shoryuken"
 
-#: app/dashboard/components/ModalCreateBoard.tsx:98
+#: app/dashboard/components/ModalCreateBoard.tsx:155
 msgid "Create Board"
 msgstr "Buat Board"
 
@@ -146,12 +146,12 @@ msgstr "Buat Board"
 msgid "Create new board"
 msgstr "Buat board baru"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:203
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:224
 msgid "Create new list"
 msgstr "Buat list baru"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:139
-#: app/dashboard/boards/[slug]/components/Content.tsx:165
+#: app/dashboard/boards/[slug]/components/Content.tsx:72
 #: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:188
 msgid "Delete"
 msgstr "Hapus"
@@ -176,7 +176,7 @@ msgstr "akan jatuh tempo segera"
 msgid "Email is required"
 msgstr "Email diperlukan"
 
-#: app/dashboard/boards/[slug]/components/List.tsx:243
+#: app/dashboard/boards/[slug]/components/List.tsx:252
 msgid "Enter a title for this card..."
 msgstr "Masukkan judul untuk card ini..."
 
@@ -192,7 +192,7 @@ msgstr "Masukkan email"
 msgid "Enter full name"
 msgstr "Masukkan nama lengkap"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:152
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:170
 msgid "Enter list title..."
 msgstr "Masukkan judul daftar..."
 
@@ -232,24 +232,24 @@ msgstr "Gagal menambahkan checklist pada card."
 msgid "Failed to add due date."
 msgstr "Gagal menambahkan tanggal jatuh tempo."
 
-#: app/dashboard/components/ModalCreateBoard.tsx:76
+#: app/dashboard/components/ModalCreateBoard.tsx:97
 msgid "Failed to create a board."
 msgstr "Gagal membuat board."
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:82
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:93
 msgid "Failed to create a list."
 msgstr "Gagal membuat list."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:57
+#: app/dashboard/boards/[slug]/components/Content.tsx:51
 msgid "Failed to delete a board."
 msgstr "Gagal menghapus board."
 
-#: app/dashboard/boards/[slug]/components/List.tsx:87
+#: app/dashboard/boards/[slug]/components/List.tsx:81
 #: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:90
 msgid "Failed to delete a card."
 msgstr "Gagal menghapus card."
 
-#: app/dashboard/boards/[slug]/components/List.tsx:56
+#: app/dashboard/boards/[slug]/components/List.tsx:50
 msgid "Failed to delete a list."
 msgstr "Gagal menghapus list."
 
@@ -265,7 +265,7 @@ msgstr "Gagal menghapus checklist."
 msgid "Failed to fetch card detail."
 msgstr "Gagal mengambil detail card."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:104
+#: app/dashboard/boards/[slug]/components/DragDropArea.tsx:70
 msgid "Failed to move a card."
 msgstr "Gagal memindahkan card."
 
@@ -273,7 +273,7 @@ msgstr "Gagal memindahkan card."
 msgid "Failed to move a check item."
 msgstr "Gagal memindahkan check item."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:79
+#: app/dashboard/boards/[slug]/components/DragDropArea.tsx:45
 msgid "Failed to move a list."
 msgstr "Gagal memindahkan list."
 
@@ -317,7 +317,7 @@ msgstr "Gagal memperbarui deskripsi card."
 msgid "Failed to update a card title."
 msgstr "Gagal memperbarui judul card."
 
-#: app/dashboard/boards/[slug]/components/List.tsx:74
+#: app/dashboard/boards/[slug]/components/List.tsx:68
 msgid "Failed to update a list."
 msgstr "Gagal memperbarui list."
 
@@ -378,7 +378,7 @@ msgstr "Format email tidak valid"
 msgid "Invalid email format."
 msgstr "Format email tidak valid."
 
-#: app/components/MainSection.tsx:26
+#: app/components/MainSection.tsx:29
 msgid "Keep everything in the same place—even if your team isn’t."
 msgstr "Simpan semua hal di tempat yang sama—meskipun tim Anda berbeda lokasi."
 
@@ -386,7 +386,7 @@ msgstr "Simpan semua hal di tempat yang sama—meskipun tim Anda berbeda lokasi.
 msgid "My Boards"
 msgstr "Board Saya"
 
-#: app/components/Footer.tsx:39
+#: app/components/Footer.tsx:42
 msgid "Need anything? Get in touch and we can help."
 msgstr "Butuh bantuan? Hubungi kami dan kami dapat membantu."
 
@@ -417,7 +417,7 @@ msgstr "Kata sandi harus memiliki minimal 8 karakter"
 msgid "Password should no more than 25 characters"
 msgstr "Kata sandi tidak boleh lebih dari 25 karakter"
 
-#: app/components/Footer.tsx:48
+#: app/components/Footer.tsx:51
 msgid "Privacy Policy"
 msgstr "Kebijakan Privasi"
 
@@ -452,7 +452,7 @@ msgstr "Kirim Tautan Pemulihan"
 msgid "Shoryuken boards keep tasks organized and work moving forward. In a glance, see everything from “things to do” to “aww yeah, we did it!”"
 msgstr "Board Shoryuken menjaga tugas-tugas terorganisir dan pekerjaan tetap bergerak maju. Dalam sekilas, lihat segalanya mulai dari 'hal yang harus dilakukan' hingga 'yaay, kami melakukannya!'"
 
-#: app/components/MainSection.tsx:21
+#: app/components/MainSection.tsx:24
 msgid "Shoryuken brings all your tasks, teammates, and tools together"
 msgstr "Shoryuken menggabungkan semua tugas, rekan tim, dan alat dalam satu tempat"
 
@@ -461,7 +461,7 @@ msgid "Shoryuken has transformed how we manage our AI company at Hiden Intellige
 msgstr "Shoryuken telah mengubah cara kami mengelola perusahaan kecerdasan buatan kami di Hiden Intelligence. Dengan board dan fitur task assignment, kami menyederhanakan proyek, meningkatkan kolaborasi, dan memenuhi tenggat waktu."
 
 #: app/auth/signin/components/Form.tsx:134
-#: app/components/Header.tsx:90
+#: app/components/Header.tsx:100
 msgid "Sign In"
 msgstr "Sign In"
 
@@ -473,16 +473,16 @@ msgstr "Sign in ke Shoryuken"
 msgid "Sign in with Google"
 msgstr "Sign in dengan Google"
 
-#: app/dashboard/components/NavBar.tsx:95
+#: app/dashboard/components/NavBar.tsx:106
 msgid "Sign out"
 msgstr "Keluar"
 
 #: app/auth/signup/components/Form.tsx:191
-#: app/components/Header.tsx:94
+#: app/components/Header.tsx:104
 msgid "Sign Up"
 msgstr "Daftar"
 
-#: app/components/MainSection.tsx:35
+#: app/components/MainSection.tsx:38
 #: app/components/SignUpSection.tsx:17
 msgid "Sign up - it’s free!"
 msgstr "Daftar - gratis!"
@@ -503,7 +503,7 @@ msgstr "Sederhana, fleksibel, dan powerful. Yang Anda butuhkan hanyalah board, l
 msgid "Submit"
 msgstr "Kirim"
 
-#: app/components/Footer.tsx:53
+#: app/components/Footer.tsx:56
 msgid "Terms"
 msgstr "Syarat dan Ketentuan"
 
@@ -531,15 +531,15 @@ msgstr "Halaman ini dilindungi oleh reCAPTCHA dan berlaku <0>Kebijakan Privasi</
 msgid "Time"
 msgstr "Waktu"
 
-#: app/dashboard/components/ModalCreateBoard.tsx:27
+#: app/dashboard/components/ModalCreateBoard.tsx:28
 msgid "Title is required"
 msgstr "Judul diperlukan"
 
-#: app/dashboard/components/ModalCreateBoard.tsx:28
+#: app/dashboard/components/ModalCreateBoard.tsx:29
 msgid "Title should have at least 5 characters"
 msgstr "Judul harus memiliki minimal 5 karakter"
 
-#: app/dashboard/components/ModalCreateBoard.tsx:29
+#: app/dashboard/components/ModalCreateBoard.tsx:30
 msgid "Title should no more than 50 characters"
 msgstr "Judul tidak boleh lebih dari 50 karakter"
 
@@ -582,7 +582,7 @@ msgstr "Nama pengguna tidak boleh lebih dari 15 karakter"
 msgid "We‘ll send a recovery link to"
 msgstr "Kami akan mengirimkan tautan pemulihan ke"
 
-#: app/components/Footer.tsx:31
+#: app/components/Footer.tsx:34
 msgid "What‘s behind the boards."
 msgstr "Apa yang ada di balik board-board ini."
 
@@ -594,6 +594,6 @@ msgstr "Dengan Shoryuken, kami mendapatkan visibilitas yang lebih baik terhadap 
 msgid "Yesterday at"
 msgstr "Kemarin pada"
 
-#: app/dashboard/components/NetworkStatus.tsx:47
+#: app/dashboard/components/NetworkStatus.tsx:51
 msgid "You are offline !"
 msgstr "Anda sedang offline !"
