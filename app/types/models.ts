@@ -10,6 +10,7 @@ export type Board = {
   id: number;
   user_id: string;
   title: string;
+  color: string;
   slug: string;
   created_at: string;
 };

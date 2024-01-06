@@ -13,6 +13,7 @@ type Response = Board;
 
 type Body = {
   title: string;
+  color: string;
 };
 
 type Payload = {

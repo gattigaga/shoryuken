@@ -7,6 +7,8 @@ import {
   getListsByBoardId,
   getUser,
 } from "../../../helpers/data";
+import NavBar from "../../components/NavBar";
+import NetworkStatus from "../../components/NetworkStatus";
 
 type Props = {
   params: { slug: string };
@@ -44,7 +46,16 @@ const BoardDetailPage = async ({ params }: Props) => {
   const board = await getBoardBySlug(params.slug, user.id);
   const lists = await getListsByBoardId(board?.id);
 
-  return <Content board={board || undefined} lists={lists || undefined} />;
+  return (
+    <div className="h-screen bg-slate-50 flex flex-col">
+      <NavBar color={board?.color} />
+
+      <main className="flex-1 overflow-auto flex flex-col">
+        <Content board={board || undefined} lists={lists || undefined} />
+        <NetworkStatus />
+      </main>
+    </div>
+  );
 };
 
 export default BoardDetailPage;

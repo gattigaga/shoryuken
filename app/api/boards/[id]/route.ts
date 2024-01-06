@@ -80,15 +80,16 @@ export const PUT = async (
 
     const { id } = params;
 
-    const { title } = (await request.json()) as {
+    const { title, color } = (await request.json()) as {
       title: string;
+      color: string;
     };
 
     const slug = getSlug(title);
 
     const { data: board, error: boardError } = await supabase
       .from("boards")
-      .update({ title, slug })
+      .update({ title, color, slug })
       .eq("id", id)
       .order("id")
       .limit(1)
