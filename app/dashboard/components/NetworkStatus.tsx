@@ -22,12 +22,16 @@ const NetworkStatus: FC = () => {
     const offlineCallback = () => setIsOnline(false);
     const onlineCallback = () => setIsOnline(true);
 
-    window.addEventListener("offline", offlineCallback);
-    window.addEventListener("online", onlineCallback);
+    if (typeof window !== "undefined") {
+      window.addEventListener("offline", offlineCallback);
+      window.addEventListener("online", onlineCallback);
+    }
 
     return () => {
-      window.removeEventListener("offline", offlineCallback);
-      window.removeEventListener("online", onlineCallback);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("offline", offlineCallback);
+        window.removeEventListener("online", onlineCallback);
+      }
     };
   }, []);
 

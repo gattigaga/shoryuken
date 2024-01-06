@@ -32,10 +32,14 @@ const CoreInfoSlider: FC<Props> = ({ items, activeIndex, onChangeIndex }) => {
 
     updateItemWidth();
 
-    window.addEventListener("resize", updateItemWidth);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", updateItemWidth);
+    }
 
     return () => {
-      window.removeEventListener("resize", updateItemWidth);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", updateItemWidth);
+      }
     };
   }, []);
 

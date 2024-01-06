@@ -117,10 +117,14 @@ const CreateListForm: React.FC<Props> = ({ board, onClickAdd }) => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (typeof document !== "undefined") {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      if (typeof document !== "undefined") {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
     };
   }, []);
 

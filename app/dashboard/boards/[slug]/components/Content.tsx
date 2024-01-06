@@ -113,20 +113,6 @@ const Content: FC<Props> = ({ board, lists }) => {
           .btn {
             background: ${getTailwindColors(boardColor, 500)};
           }
-
-          .scroll::-webkit-scrollbar {
-            height: 0.75rem;
-          }
-
-          .scroll::-webkit-scrollbar-track {
-            background: ${getTailwindColors(boardColor, 700)};
-            border-radius: 1rem;
-          }
-
-          .scroll::-webkit-scrollbar-thumb {
-            background: ${getTailwindColors(boardColor, 400)};
-            border-radius: 1rem;
-          }
         `}</style>
       </div>
       <ModalCardDetail />

@@ -28,6 +28,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isCreateCardFormOpen, setIsCreateCardFormOpen] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
+  const [maxHeight, setMaxHeight] = useState(0);
   const refListTitleInput = useRef<HTMLInputElement>(null);
   const refCardTitleInput = useRef<HTMLTextAreaElement>(null);
   const refCreateCardForm = useRef<HTMLDivElement>(null);
@@ -38,13 +39,6 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
   const deleteListMutation = useDeleteListMutation();
   const updateListMutation = useUpdateListBoardMutation();
   const createCardMutation = useCreateCardMutation();
-
-  const maxHeight = (() => {
-    const viewportHeight = window?.innerHeight || 0;
-    const footerHeight = isCreateCardFormOpen ? 40 : 0;
-
-    return viewportHeight * 0.6 + footerHeight;
-  })();
 
   const deleteList = async () => {
     try {
@@ -126,12 +120,27 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (typeof document !== "undefined") {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      if (typeof document !== "undefined") {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
     };
   }, []);
+
+  // Handle max height.
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const viewportHeight = window.innerHeight || 0;
+      const footerHeight = isCreateCardFormOpen ? 40 : 0;
+      const result = viewportHeight * 0.6 + footerHeight;
+
+      setMaxHeight(result);
+    }
+  }, [isCreateCardFormOpen]);
 
   return (
     <Draggable draggableId={`list-${id}`} index={index}>

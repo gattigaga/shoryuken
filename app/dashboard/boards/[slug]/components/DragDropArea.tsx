@@ -11,6 +11,7 @@ import useUpdateListMutation from "../hooks/use-update-list-mutation";
 import CreateListForm from "./CreateListForm";
 import List from "./List";
 import { Board as TBoard, List as TList } from "../../../../types/models";
+import { getTailwindColors } from "../../../helpers/others";
 
 type Props = {
   board: TBoard;
@@ -145,6 +146,22 @@ const DragDropArea: FC<Props> = ({ board, lists }) => {
           />
         </DragDropContext>
       </div>
+
+      <style jsx>{`
+        .scroll::-webkit-scrollbar {
+          height: 0.75rem;
+        }
+
+        .scroll::-webkit-scrollbar-track {
+          background: ${getTailwindColors(board.color, 700)};
+          border-radius: 1rem;
+        }
+
+        .scroll::-webkit-scrollbar-thumb {
+          background: ${getTailwindColors(board.color, 400)};
+          border-radius: 1rem;
+        }
+      `}</style>
     </div>
   );
 };

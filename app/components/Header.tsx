@@ -21,28 +21,30 @@ const Header: FC = () => {
   // and listen to sign in link to sign in with password
   // or 3rd party providers (i.e. Google).
   useEffect(() => {
-    const queryString = window.location.hash.replace("#", "");
-    const params = new URLSearchParams(queryString);
-    const accessToken = params.get("access_token");
-    const providerToken = params.get("provider_token");
-    const type = params.get("type");
+    if (typeof window !== "undefined") {
+      const queryString = window.location.hash.replace("#", "");
+      const params = new URLSearchParams(queryString);
+      const accessToken = params.get("access_token");
+      const providerToken = params.get("provider_token");
+      const type = params.get("type");
 
-    if (accessToken) {
-      Cookies.set("access_token", accessToken, {
-        expires: addDays(new Date(), 7),
-        path: "/",
-      });
+      if (accessToken) {
+        Cookies.set("access_token", accessToken, {
+          expires: addDays(new Date(), 7),
+          path: "/",
+        });
 
-      if (type === "signup") {
-        router.replace("/dashboard");
-      }
+        if (type === "signup") {
+          router.replace("/dashboard");
+        }
 
-      if (type === "recovery") {
-        router.replace("/auth/reset-password");
-      }
+        if (type === "recovery") {
+          router.replace("/auth/reset-password");
+        }
 
-      if (providerToken) {
-        router.replace("/auth/account-details");
+        if (providerToken) {
+          router.replace("/auth/account-details");
+        }
       }
     }
   }, []);
@@ -50,12 +52,20 @@ const Header: FC = () => {
   // Handle style of the header when scroll down.
   useEffect(() => {
     const handleHeaderStyle = () => {
-      setIsFloating(window.scrollY >= 64);
+      if (typeof window !== "undefined") {
+        setIsFloating(window.scrollY >= 64);
+      }
     };
 
-    window.addEventListener("scroll", handleHeaderStyle);
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", handleHeaderStyle);
+    }
 
-    return () => window.removeEventListener("scroll", handleHeaderStyle);
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("scroll", handleHeaderStyle);
+      }
+    };
   }, []);
 
   return (
