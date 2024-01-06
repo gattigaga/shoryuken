@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 
 import Content from "./components/Content";
 import { getUser } from "../helpers/data";
+import NetworkStatus from "./components/NetworkStatus";
+import NavBar from "./components/NavBar";
 
 export const metadata: Metadata = {
   title: "Dashboard | Shoryuken",
@@ -16,7 +18,16 @@ const DashboardPage = async () => {
     redirect("/auth/signin");
   }
 
-  return <Content />;
+  return (
+    <div className="h-screen bg-slate-50 flex flex-col">
+      <NavBar />
+
+      <main className="flex-1 overflow-auto flex flex-col">
+        <Content />
+        <NetworkStatus />
+      </main>
+    </div>
+  );
 };
 
 export default DashboardPage;

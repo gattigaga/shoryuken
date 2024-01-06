@@ -10,8 +10,13 @@ import { Trans } from "@lingui/macro";
 import Avatar from "./Avatar";
 import useSignOutMutation from "../hooks/use-sign-out-mutation";
 import useUserQuery from "../hooks/use-user-query";
+import { getTailwindColors } from "../helpers/others";
 
-const NavBar: FC = () => {
+type Props = {
+  color?: string;
+};
+
+const NavBar: FC<Props> = ({ color = "blue" }) => {
   const router = useRouter();
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const refAvatar = useRef<HTMLDivElement>(null);
@@ -54,7 +59,10 @@ const NavBar: FC = () => {
   }, []);
 
   return (
-    <div className="h-12 bg-blue-700 flex flex-row justify-between items-center px-4">
+    <div
+      style={{ background: getTailwindColors(color, 700) }}
+      className="h-12 flex flex-row justify-between items-center px-4"
+    >
       <Image
         src="/images/logo-with-text-white.svg"
         alt="Shoryuken logo"

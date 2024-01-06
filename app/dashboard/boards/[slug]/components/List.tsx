@@ -8,7 +8,6 @@ import classnames from "classnames";
 import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 
-import styles from "../styles/List.module.css";
 import Button from "../../../../components/Button";
 import Card from "./Card";
 import useDeleteListMutation from "../hooks/use-delete-list-mutation";
@@ -16,6 +15,7 @@ import useUpdateListBoardMutation from "../hooks/use-update-list-mutation";
 import useCardsQuery from "../hooks/use-cards-query";
 import useCreateCardMutation from "../hooks/use-create-card-mutation";
 import useBoardQuery from "../hooks/use-board-query";
+import { getTailwindColors } from "../../../helpers/others";
 
 type Props = {
   id: number;
@@ -188,7 +188,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
           <div
             ref={refChildren}
             style={{ maxHeight }}
-            className={classnames("overflow-y-auto px-2", styles.content)}
+            className="scroll overflow-y-auto px-2"
           >
             {/* Card list */}
             <Droppable droppableId={`list-${id}`} type="CARD">
@@ -307,6 +307,20 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
               </button>
             </div>
           )}
+
+          <style jsx>{`
+            .scroll::-webkit-scrollbar {
+              width: 0.5rem;
+            }
+
+            .scroll::-webkit-scrollbar-track {
+              background: ${getTailwindColors("slate", 300)};
+            }
+
+            .scroll::-webkit-scrollbar-thumb {
+              background: ${getTailwindColors("slate", 400)};
+            }
+          `}</style>
         </div>
       )}
     </Draggable>

@@ -5,13 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MdChevronLeft } from "react-icons/md";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import classnames from "classnames";
 import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
 import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 
-import styles from "../styles/Content.module.css";
 import BoardTitle from "./BoardTitle";
 import CreateListForm from "./CreateListForm";
 import List from "./List";
@@ -22,6 +20,7 @@ import useUpdateListMutation from "../hooks/use-update-list-mutation";
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import ModalCardDetail from "./ModalCardDetail";
 import NotFound from "./NotFound";
+import { getTailwindColors } from "../../../helpers/others";
 import { Board as TBoard, List as TList } from "../../../../types/models";
 
 type Props = {
@@ -44,6 +43,7 @@ const Content: FC<Props> = ({ board, lists }) => {
 
   const isLoading = boardQuery.isLoading || deleteBoardMutation.isLoading;
   const isContentShow = boardQuery.isSuccess && deleteBoardMutation.isIdle;
+  const boardColor = boardQuery.data?.color || "blue";
 
   const deleteBoard = async () => {
     if (!boardQuery.data) return;
@@ -148,18 +148,18 @@ const Content: FC<Props> = ({ board, lists }) => {
 
   return (
     <>
-      <div className="bg-blue-600 h-screen flex flex-col">
+      <div className="root h-screen flex flex-col">
         {isContentShow && (
           <>
             <div className="flex items-center my-4 px-4">
               <Link href="/dashboard" className="mr-4">
-                <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+                <div className="btn w-8 h-8 rounded flex items-center justify-center">
                   <MdChevronLeft color="white" size={24} />
                 </div>
               </Link>
               <BoardTitle id={boardQuery.data.id} />
               <button
-                className="ml-6 px-2 text-xs h-8 bg-blue-500  text-white font-semibold rounded items-center justify-center"
+                className="btn ml-6 px-2 text-xs h-8 text-white font-semibold rounded items-center justify-center"
                 type="button"
                 onClick={deleteBoard}
               >
@@ -170,10 +170,7 @@ const Content: FC<Props> = ({ board, lists }) => {
               {listsQuery.isSuccess && (
                 <div
                   ref={refScrollWrapper}
-                  className={classnames(
-                    "overflow-x-auto flex-1",
-                    styles.content
-                  )}
+                  className="scroll overflow-x-auto flex-1"
                 >
                   <div className="flex items-start">
                     <DragDropContext onDragEnd={handleMovement}>
@@ -202,7 +199,7 @@ const Content: FC<Props> = ({ board, lists }) => {
                         )}
                       </Droppable>
                       <CreateListForm
-                        boardId={boardQuery.data.id}
+                        board={boardQuery.data}
                         onClickAdd={() => {
                           refScrollWrapper.current?.scrollTo({
                             left: refScrollWrapper.current.scrollWidth,
@@ -242,6 +239,30 @@ const Content: FC<Props> = ({ board, lists }) => {
         )}
 
         {boardQuery.isError && <NotFound />}
+
+        <style jsx>{`
+          .root {
+            background: ${getTailwindColors(boardColor, 600)};
+          }
+
+          .btn {
+            background: ${getTailwindColors(boardColor, 500)};
+          }
+
+          .scroll::-webkit-scrollbar {
+            height: 0.75rem;
+          }
+
+          .scroll::-webkit-scrollbar-track {
+            background: ${getTailwindColors(boardColor, 700)};
+            border-radius: 1rem;
+          }
+
+          .scroll::-webkit-scrollbar-thumb {
+            background: ${getTailwindColors(boardColor, 400)};
+            border-radius: 1rem;
+          }
+        `}</style>
       </div>
       <ModalCardDetail />
     </>

@@ -7,16 +7,19 @@ import { motion } from "framer-motion";
 import classnames from "classnames";
 import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
+import css from "styled-jsx/css";
 
 import useCreateListMutation from "../hooks/use-create-list-mutation";
 import Button from "../../../../components/Button";
+import { Board } from "../../../../types/models";
+import { getTailwindColors } from "../../../helpers/others";
 
 type Props = {
-  boardId: number;
+  board: Board;
   onClickAdd?: () => void;
 };
 
-const CreateListForm: React.FC<Props> = ({ boardId, onClickAdd }) => {
+const CreateListForm: React.FC<Props> = ({ board, onClickAdd }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const refContainer = useRef<HTMLDivElement>(null);
@@ -24,10 +27,18 @@ const CreateListForm: React.FC<Props> = ({ boardId, onClickAdd }) => {
   const { _ } = useLingui();
   const createListMutation = useCreateListMutation();
 
+  const closedCss = css.resolve`
+    div {
+      &:hover {
+        background-color: ${getTailwindColors(board.color, 400)};
+      }
+    }
+  `;
+
   const containerVariants = {
     closed: {
       height: 48,
-      background: "rgb(59 130 246)", // bg-blue-500
+      background: getTailwindColors(board.color, 500),
       transition: {
         staggerChildren: 0.05,
         when: "afterChildren",
@@ -75,7 +86,7 @@ const CreateListForm: React.FC<Props> = ({ boardId, onClickAdd }) => {
       await createListMutation.mutateAsync({
         body: {
           title,
-          board_id: boardId,
+          board_id: board.id,
         },
       });
     } catch (error) {
@@ -146,7 +157,10 @@ const CreateListForm: React.FC<Props> = ({ boardId, onClickAdd }) => {
       >
         <input
           ref={refInput}
-          className="w-full py-3 rounded text-xs border-slate-400 outline-blue-500 mb-2"
+          style={{
+            outlineColor: getTailwindColors(board.color, 500),
+          }}
+          className="w-full py-3 rounded text-xs border-slate-400 mb-2"
           type="text"
           name="title"
           placeholder={_(msg`Enter list title...`)}
@@ -188,7 +202,10 @@ const CreateListForm: React.FC<Props> = ({ boardId, onClickAdd }) => {
 
       {/* Closed */}
       <motion.div
-        className="flex items-center px-4 h-full transition-all duration-200 hover:bg-blue-400"
+        className={classnames(
+          "flex items-center px-4 h-full transition-all duration-200",
+          closedCss.className
+        )}
         variants={closedVariants}
         initial="close"
         animate={isOpen ? "opened" : "closed"}
@@ -202,6 +219,8 @@ const CreateListForm: React.FC<Props> = ({ boardId, onClickAdd }) => {
         <p className="ml-2 text-xs text-white">
           <Trans>Create new list</Trans>
         </p>
+
+        {closedCss.styles}
       </motion.div>
     </motion.div>
   );
