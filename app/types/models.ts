@@ -52,3 +52,18 @@ export type Card = {
   checks: Check[];
   due_dates: DueDate[];
 };
+
+export type BoardMember = {
+  id: string;
+  board_id: number;
+  user_id: number;
+  created_at: string;
+  user: {
+    id: string;
+    email: string;
+    raw_user_meta_data: {
+      fullname: string;
+      username: string;
+    };
+  };
+};
