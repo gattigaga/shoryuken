@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Content from "./components/Content";
 import {
   getBoardBySlug,
+  getBoardMembersByBoardId,
   getListsByBoardId,
   getUser,
 } from "../../../helpers/data";
@@ -44,6 +45,7 @@ const BoardDetailPage = async ({ params }: Props) => {
   }
 
   const board = await getBoardBySlug(params.slug, user.id);
+  const boardMembers = await getBoardMembersByBoardId(board?.id);
   const lists = await getListsByBoardId(board?.id);
 
   return (
@@ -51,7 +53,11 @@ const BoardDetailPage = async ({ params }: Props) => {
       <NavBar color={board?.color} />
 
       <main className="flex-1 overflow-auto flex flex-col">
-        <Content board={board || undefined} lists={lists || undefined} />
+        <Content
+          board={board || undefined}
+          boardMembers={boardMembers || undefined}
+          lists={lists || undefined}
+        />
         <NetworkStatus />
       </main>
     </div>

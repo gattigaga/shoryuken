@@ -22,7 +22,7 @@ export const GET = async (
 
     const { data: board, error: boardError } = await supabase
       .from("boards")
-      .select("*")
+      .select("*, user:users(*)")
       .eq("id", id)
       .eq("user_id", user?.id)
       .limit(1)
@@ -210,6 +210,16 @@ export const DELETE = async (
 
     if (deletedListsError) {
       throw deletedListsError;
+    }
+
+    // Delete members that board has.
+    const { error: deletedBoardMembersError } = await supabase
+      .from("board_members")
+      .delete()
+      .eq("board_id", id);
+
+    if (deletedBoardMembersError) {
+      throw deletedBoardMembersError;
     }
 
     const { data: board, error: boardError } = await supabase

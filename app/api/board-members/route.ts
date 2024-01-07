@@ -60,16 +60,71 @@ export const POST = async (request: Request) => {
       throw userError;
     }
 
-    const { board_id, user_id } = (await request.json()) as {
+    const { board_id, email } = (await request.json()) as {
       board_id: string;
-      user_id: string;
+      email: string;
     };
+
+    const { data: memberUser, error: memberUserError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("email", email)
+      .limit(1)
+      .maybeSingle();
+
+    if (memberUserError) {
+      throw memberUserError;
+    }
+
+    if (!memberUser) {
+      return new Response(
+        JSON.stringify({
+          message: "User doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
+    }
+
+    const { data: board, error: boardError } = await supabase
+      .from("boards")
+      .select("*")
+      .eq("id", board_id)
+      .limit(1)
+      .maybeSingle();
+
+    if (boardError) {
+      throw boardError;
+    }
+
+    if (!board) {
+      return new Response(
+        JSON.stringify({
+          message: "Board doesn't exist.",
+        }),
+        {
+          status: 404,
+        }
+      );
+    }
+
+    if (board.user_id === memberUser.id) {
+      return new Response(
+        JSON.stringify({
+          message: "Board owner cannot be added as a board member.",
+        }),
+        {
+          status: 409,
+        }
+      );
+    }
 
     const { data: boardMember, error: boardMemberError } = await supabase
       .from("board_members")
       .select("*")
       .eq("board_id", board_id)
-      .eq("user_id", user_id)
+      .eq("user_id", memberUser.id)
       .limit(1)
       .maybeSingle();
 
@@ -93,7 +148,7 @@ export const POST = async (request: Request) => {
       .insert([
         {
           board_id,
-          user_id,
+          user_id: memberUser.id,
         },
       ])
       .limit(1)

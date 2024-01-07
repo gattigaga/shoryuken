@@ -17,7 +17,7 @@ export const GET = async (request: Request) => {
 
     const { data: boards, error: boardsError } = await supabase
       .from("boards")
-      .select("*")
+      .select("*, user:users(*)")
       .eq("user_id", user?.id)
       .order("created_at");
 

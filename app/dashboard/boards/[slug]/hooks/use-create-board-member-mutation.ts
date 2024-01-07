@@ -7,7 +7,7 @@ type Response = BoardMember;
 
 type Body = {
   board_id: number;
-  user_id: string;
+  email: string;
 };
 
 type Payload = {
@@ -15,7 +15,7 @@ type Payload = {
 };
 
 const action = async (payload: Payload): Promise<Response> => {
-  const res = await axios.post("/api/board-member", payload.body);
+  const res = await axios.post("/api/board-members", payload.body);
   const data = res.data.data;
 
   return data;

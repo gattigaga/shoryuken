@@ -10,7 +10,7 @@ type Payload = {
 };
 
 export const action = async (payload: Payload): Promise<Response> => {
-  const res = await axios.delete(`/api/board-member/${payload.id}`);
+  const res = await axios.delete(`/api/board-members/${payload.id}`);
   const data = res.data.data;
 
   return data;

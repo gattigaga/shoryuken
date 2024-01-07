@@ -13,6 +13,14 @@ export type Board = {
   color: string;
   slug: string;
   created_at: string;
+  user: {
+    id: string;
+    email: string;
+    raw_user_meta_data: {
+      fullname: string;
+      username: string;
+    };
+  };
 };
 
 export type List = {
@@ -54,7 +62,7 @@ export type Card = {
 };
 
 export type BoardMember = {
-  id: string;
+  id: number;
   board_id: number;
   user_id: number;
   created_at: string;

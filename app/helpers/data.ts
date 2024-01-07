@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 import supabase from "./supabase";
-import { Board, List } from "../types/models";
+import { Board, BoardMember, List } from "../types/models";
 
 export const getUser = async () => {
   const cookiesStore = cookies();
@@ -49,4 +49,16 @@ export const getListsByBoardId = async (
     .order("index");
 
   return lists;
+};
+
+export const getBoardMembersByBoardId = async (
+  boardId?: number
+): Promise<BoardMember[] | null> => {
+  const { data: boardMembers } = await supabase
+    .from("board_members")
+    .select("*, user:users(*)")
+    .eq("board_id", boardId)
+    .order("index");
+
+  return boardMembers;
 };
