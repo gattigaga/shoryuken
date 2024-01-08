@@ -20,7 +20,7 @@ export const GET = async (
 
     const { id } = params;
 
-    const { data: board, error: boardError } = await supabase
+    const { data: myBoard, error: myBoardError } = await supabase
       .from("boards")
       .select("*, user:users(*)")
       .eq("id", id)
@@ -28,11 +28,23 @@ export const GET = async (
       .limit(1)
       .maybeSingle();
 
-    if (boardError) {
-      throw boardError;
+    if (myBoardError) {
+      throw myBoardError;
     }
 
-    if (!board) {
+    const { data: otherBoard, error: otherBoardError } = await supabase
+      .from("boards")
+      .select("*, user:users(*), board_members!inner(user_id)")
+      .eq("id", id)
+      .eq("board_members.user_id", user?.id)
+      .limit(1)
+      .maybeSingle();
+
+    if (otherBoardError) {
+      throw otherBoardError;
+    }
+
+    if (!myBoard && !otherBoard) {
       return new Response(
         JSON.stringify({
           message: "Board doesn't exist.",
@@ -45,7 +57,7 @@ export const GET = async (
 
     return new Response(
       JSON.stringify({
-        data: board,
+        data: myBoard || otherBoard,
         message: "There's existing board.",
       }),
       {

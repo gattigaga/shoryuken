@@ -15,19 +15,29 @@ export const GET = async (request: Request) => {
       throw userError;
     }
 
-    const { data: boards, error: boardsError } = await supabase
+    const { data: myBoards, error: myBoardsError } = await supabase
       .from("boards")
       .select("*, user:users(*)")
       .eq("user_id", user?.id)
       .order("created_at");
 
-    if (boardsError) {
-      throw boardsError;
+    if (myBoardsError) {
+      throw myBoardsError;
+    }
+
+    const { data: otherBoards, error: otherBoardsError } = await supabase
+      .from("boards")
+      .select("*, user:users(*), board_members!inner(user_id)")
+      .eq("board_members.user_id", user?.id)
+      .order("created_at");
+
+    if (otherBoardsError) {
+      throw otherBoardsError;
     }
 
     return new Response(
       JSON.stringify({
-        data: boards,
+        data: myBoards.concat(otherBoards),
         message: "There are existing boards.",
       }),
       {
