@@ -72,6 +72,7 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
         alt="Shoryuken logo"
         width={144}
         height={28}
+        priority={true}
       />
       {userQuery.status === "success" && (
         <div className="relative">
