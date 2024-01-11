@@ -30,7 +30,6 @@ msgid "Actions"
 msgstr "Tindakan"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:249
-#: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:111
 msgid "Add"
 msgstr "Tambah"
 
@@ -54,6 +53,10 @@ msgstr "Tambahkan card"
 #: app/dashboard/boards/[slug]/components/CreateListForm.tsx:192
 msgid "Add list"
 msgstr "Tambahkan list"
+
+#: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:111
+msgid "Add Member"
+msgstr "Tambah Anggota"
 
 #: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:139
 msgid "Add to card"
