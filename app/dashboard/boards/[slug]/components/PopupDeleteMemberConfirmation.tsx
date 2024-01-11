@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import { Trans } from "@lingui/macro";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";

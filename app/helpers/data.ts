@@ -30,7 +30,7 @@ export const getBoardBySlug = async (
 ): Promise<Board | null> => {
   const { data: myBoard } = await supabase
     .from("boards")
-    .select("*")
+    .select("*, user:users(*)")
     .eq("slug", slug)
     .eq("user_id", userId)
     .limit(1)
@@ -38,7 +38,7 @@ export const getBoardBySlug = async (
 
   const { data: otherBoard } = await supabase
     .from("boards")
-    .select("*, board_members!inner(user_id)")
+    .select("*, user:users(*), board_members!inner(user_id)")
     .eq("slug", slug)
     .eq("board_members.user_id", userId)
     .limit(1)

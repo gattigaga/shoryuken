@@ -31,9 +31,16 @@ import useDeleteBoardMemberMutation from "../hooks/use-delete-board-member-mutat
 import { getInitials } from "../../../../helpers/formatter";
 import PopupAddMember from "./PopupAddMember";
 import PopupDeleteMemberConfirmation from "./PopupDeleteMemberConfirmation";
+import useTailwindBreakpoint from "../../../../hooks/use-tailwind-breakpoint";
+import PopupParticipantList from "./PopupParticipantList";
 
 type Participant = TBoardMember["user"] & {
   member_id: number | null;
+};
+
+type Member = {
+  id: number;
+  fullname: string;
 };
 
 type Props = {
@@ -44,9 +51,11 @@ type Props = {
 
 const Content: FC<Props> = ({ board, boardMembers, lists }) => {
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const [tmpMember, setTmpMember] = useState<Participant | null>(null);
+  const [tmpMember, setTmpMember] = useState<Member | null>(null);
   const [isPopupAddMemberOpen, setIsPopupAddMemberOpen] = useState(false);
+  const [isParticipantListOpen, setIsParticipantListOpen] = useState(false);
   const router = useRouter();
+  const breakpoint = useTailwindBreakpoint();
   const { _ } = useLingui();
 
   const boardId = board?.id || 0;
@@ -71,7 +80,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
   const isLoading = boardQuery.isLoading || deleteBoardMutation.isLoading;
   const isContentShow = boardQuery.isSuccess && deleteBoardMutation.isIdle;
   const boardColor = boardQuery.data?.color || "blue";
-  const maxParticipantsShow = 5;
+  const maxParticipantsShow = breakpoint === "xs" ? 0 : 5;
 
   const deleteBoard = async () => {
     if (!boardQuery.data) return;
@@ -88,11 +97,11 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
   };
 
   const deleteMember = async () => {
-    if (!tmpMember?.member_id) return;
+    if (!tmpMember?.id) return;
 
     try {
       await deleteBoardMemberMutation.mutateAsync({
-        id: tmpMember.member_id,
+        id: tmpMember.id,
       });
 
       await boardMembersQuery.refetch();
@@ -170,11 +179,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                           <Tooltip.Trigger asChild>
                             <Avatar.Root
                               className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-6 h-6 rounded-full"
-                              onClick={() => {
-                                if (participant.member_id) {
-                                  setTmpMember(participant);
-                                }
-                              }}
+                              onClick={() => setIsParticipantListOpen(true)}
                             >
                               <Avatar.Fallback
                                 style={{
@@ -221,6 +226,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                             color: getTailwindColors(boardColor, 600),
                           }}
                           className="w-full h-full flex items-center justify-center bg-white text-xs font-semibold"
+                          onClick={() => setIsParticipantListOpen(true)}
                         >
                           +{participants.length - maxParticipantsShow}
                         </Avatar.Fallback>
@@ -285,11 +291,26 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
         {boardQuery.isError && <NotFound />}
       </div>
 
-      {tmpMember?.member_id && (
+      {boardQuery.data && (
+        <PopupParticipantList
+          board={boardQuery.data}
+          isOpen={isParticipantListOpen}
+          onRequestClose={() => setIsParticipantListOpen(false)}
+          onClickDeleteMember={(member) => {
+            setIsParticipantListOpen(false);
+
+            setTimeout(() => {
+              setTmpMember(member);
+            }, 250);
+          }}
+        />
+      )}
+
+      {tmpMember && (
         <PopupDeleteMemberConfirmation
           member={{
-            id: tmpMember.member_id,
-            fullname: tmpMember.raw_user_meta_data.fullname,
+            id: tmpMember.id,
+            fullname: tmpMember.fullname,
           }}
           isOpen={!!tmpMember}
           onRequestClose={() => setTmpMember(null)}

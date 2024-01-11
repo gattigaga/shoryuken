@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import { MdClose } from "react-icons/md";
 import { toFormikValidationSchema } from "zod-formik-adapter";
