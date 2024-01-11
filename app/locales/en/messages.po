@@ -21,7 +21,7 @@ msgstr "A productivity powerhouse"
 msgid "About Shoryuken"
 msgstr "About Shoryuken"
 
-#: app/dashboard/components/NavBar.tsx:91
+#: app/dashboard/components/NavBar.tsx:100
 msgid "Account"
 msgstr "Account"
 
@@ -30,6 +30,7 @@ msgid "Actions"
 msgstr "Actions"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:249
+#: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:111
 msgid "Add"
 msgstr "Add"
 
@@ -50,7 +51,7 @@ msgstr "Add an item"
 msgid "Add card"
 msgstr "Add card"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:195
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:192
 msgid "Add list"
 msgstr "Add list"
 
@@ -65,6 +66,10 @@ msgstr "Already have an account? Sign in"
 #: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:79
 msgid "Are you sure you want to delete this card ?"
 msgstr "Are you sure you want to delete this card ?"
+
+#: app/dashboard/boards/[slug]/components/PopupDeleteMemberConfirmation.tsx:27
+msgid "Are you sure?"
+msgstr "Are you sure?"
 
 #: app/components/TestimonySection.tsx:31
 msgid "As a Producer of the 48 Family, I have found Shoryuken to be an invaluable tool for managing the activities and schedules of our idol group."
@@ -94,6 +99,7 @@ msgid "Can‘t sign in?"
 msgstr "Can‘t sign in?"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:261
+#: app/dashboard/boards/[slug]/components/PopupDeleteMemberConfirmation.tsx:39
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -146,12 +152,12 @@ msgstr "Create Board"
 msgid "Create new board"
 msgstr "Create new board"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:224
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:221
 msgid "Create new list"
 msgstr "Create new list"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:139
-#: app/dashboard/boards/[slug]/components/Content.tsx:72
+#: app/dashboard/boards/[slug]/components/Content.tsx:151
 #: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:188
 msgid "Delete"
 msgstr "Delete"
@@ -173,6 +179,7 @@ msgstr "due soon"
 #: app/auth/forgot-password/components/Form.tsx:25
 #: app/auth/signin/components/Form.tsx:29
 #: app/auth/signup/components/Form.tsx:34
+#: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:29
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -184,6 +191,7 @@ msgstr "Enter a title for this card..."
 #: app/auth/forgot-password/components/Form.tsx:82
 #: app/auth/signin/components/Form.tsx:113
 #: app/auth/signup/components/Form.tsx:140
+#: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:102
 msgid "Enter email"
 msgstr "Enter email"
 
@@ -192,7 +200,7 @@ msgstr "Enter email"
 msgid "Enter full name"
 msgstr "Enter full name"
 
-#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:170
+#: app/dashboard/boards/[slug]/components/CreateListForm.tsx:167
 msgid "Enter list title..."
 msgstr "Enter list title..."
 
@@ -220,6 +228,10 @@ msgstr "Enter password again"
 msgid "Enter username"
 msgstr "Enter username"
 
+#: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:61
+msgid "Failed to add a member."
+msgstr "Failed to add a member."
+
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:88
 msgid "Failed to add check item."
 msgstr "Failed to add check item."
@@ -240,7 +252,7 @@ msgstr "Failed to create a board."
 msgid "Failed to create a list."
 msgstr "Failed to create a list."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:51
+#: app/dashboard/boards/[slug]/components/Content.tsx:86
 msgid "Failed to delete a board."
 msgstr "Failed to delete a board."
 
@@ -252,6 +264,10 @@ msgstr "Failed to delete a card."
 #: app/dashboard/boards/[slug]/components/List.tsx:50
 msgid "Failed to delete a list."
 msgstr "Failed to delete a list."
+
+#: app/dashboard/boards/[slug]/components/Content.tsx:102
+msgid "Failed to delete a member."
+msgstr "Failed to delete a member."
 
 #: app/dashboard/boards/[slug]/components/CardCheckItem.tsx:78
 msgid "Failed to delete check item."
@@ -370,6 +386,7 @@ msgstr "in list <0>{0}</0>"
 
 #: app/auth/forgot-password/components/Form.tsx:26
 #: app/auth/signin/components/Form.tsx:30
+#: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:30
 msgid "Invalid email format"
 msgstr "Invalid email format"
 
@@ -381,6 +398,14 @@ msgstr "Invalid email format."
 #: app/components/MainSection.tsx:29
 msgid "Keep everything in the same place—even if your team isn’t."
 msgstr "Keep everything in the same place—even if your team isn’t."
+
+#: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:59
+msgid "Member successfully added."
+msgstr "Member successfully added."
+
+#: app/dashboard/boards/[slug]/components/Content.tsx:100
+msgid "Member successfully deleted."
+msgstr "Member successfully deleted."
 
 #: app/dashboard/components/Content.tsx:22
 msgid "My Boards"
@@ -473,7 +498,7 @@ msgstr "Sign in to Shoryuken"
 msgid "Sign in with Google"
 msgstr "Sign in with Google"
 
-#: app/dashboard/components/NavBar.tsx:106
+#: app/dashboard/components/NavBar.tsx:115
 msgid "Sign out"
 msgstr "Sign out"
 
@@ -510,6 +535,10 @@ msgstr "Terms"
 #: app/components/CoreSection.tsx:29
 msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
 msgstr "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
+
+#: app/dashboard/boards/[slug]/components/PopupDeleteMemberConfirmation.tsx:30
+msgid "This action cannot be undone. This will permanently delete <0>{0}</0> from the board."
+msgstr "This action cannot be undone. This will permanently delete <0>{0}</0> from the board."
 
 #: app/dashboard/boards/[slug]/components/NotFound.tsx:14
 msgid "This board may be private. If someone gave you this link, they may need to invite you to one of their boards or Workspaces."
@@ -589,6 +618,10 @@ msgstr "What‘s behind the boards."
 #: app/components/TestimonySection.tsx:22
 msgid "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members."
 msgstr "With Shoryuken, we have gained better visibility into our tasks, streamlined our workflows, and improved collaboration among team members."
+
+#: app/dashboard/boards/[slug]/components/PopupDeleteMemberConfirmation.tsx:47
+msgid "Yes, delete it"
+msgstr "Yes, delete it"
 
 #: app/dashboard/boards/[slug]/components/CardDueDate.tsx:45
 msgid "Yesterday at"

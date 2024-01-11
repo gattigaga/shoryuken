@@ -7,3 +7,11 @@ export const getSlug = (words: string) => {
     words.toLowerCase().split(" ").slice(0, 5).join("-") + `-${uniqueCode}`
   );
 };
+
+export const getInitials = (name: string) => {
+  return name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+};

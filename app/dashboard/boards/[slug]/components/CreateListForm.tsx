@@ -161,9 +161,6 @@ const CreateListForm: React.FC<Props> = ({ board, onClickAdd }) => {
       >
         <input
           ref={refInput}
-          style={{
-            outlineColor: getTailwindColors(board.color, 500),
-          }}
           className="w-full py-3 rounded text-xs border-slate-400 mb-2"
           type="text"
           name="title"
@@ -220,7 +217,7 @@ const CreateListForm: React.FC<Props> = ({ board, onClickAdd }) => {
         onClick={() => setIsOpen(true)}
       >
         <MdAdd color="white" size={24} />
-        <p className="ml-2 text-xs text-white">
+        <p className="ml-2 text-xs text-white select-none">
           <Trans>Create new list</Trans>
         </p>
 

@@ -6,11 +6,12 @@ import { useQueryClient } from "react-query";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { Trans } from "@lingui/macro";
+import * as Avatar from "@radix-ui/react-avatar";
 
-import Avatar from "./Avatar";
 import useSignOutMutation from "../hooks/use-sign-out-mutation";
 import useUserQuery from "../hooks/use-user-query";
 import { getTailwindColors } from "../helpers/others";
+import { getInitials } from "../../helpers/formatter";
 
 type Props = {
   color?: string;
@@ -77,10 +78,17 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
       {userQuery.status === "success" && (
         <div className="relative">
           <div ref={refAvatar}>
-            <Avatar
-              fullname={userQuery.data.fullname}
+            <Avatar.Root
+              className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-8 h-8 rounded-full"
               onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-            />
+            >
+              <Avatar.Fallback
+                style={{ color: getTailwindColors(color, 700) }}
+                className="w-full h-full flex items-center justify-center bg-white text-base font-semibold"
+              >
+                {getInitials(userQuery.data.fullname)}
+              </Avatar.Fallback>
+            </Avatar.Root>
           </div>
           {isAccountMenuOpen && (
             <div
