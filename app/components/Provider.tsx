@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { I18nProvider } from "@lingui/react";
 import { i18n } from "@lingui/core";
 import Modal from "react-modal";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 import { useStore } from "../store/store";
 import { messages as enMessages } from "../locales/en/messages";
@@ -36,7 +37,8 @@ const Provider: FC<Props> = ({ children }) => {
   return (
     <I18nProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
-        {children}
+        <Tooltip.Provider>{children}</Tooltip.Provider>
+
         <Toaster
           toastOptions={{
             style: {

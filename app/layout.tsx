@@ -7,7 +7,7 @@ import "@fontsource/poppins/600-italic.css";
 import { FC } from "react";
 
 import Provider from "./components/Provider";
-import StyledJsxRegistry from "./registry";
+import StyledComponentsRegistry from "./registry";
 
 type Props = {
   children: JSX.Element;
@@ -17,9 +17,9 @@ const RootLayout: FC<Props> = ({ children }) => {
   return (
     <html>
       <body>
-        <StyledJsxRegistry>
+        <StyledComponentsRegistry>
           <Provider>{children}</Provider>
-        </StyledJsxRegistry>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

@@ -64,7 +64,7 @@ export type Card = {
 export type BoardMember = {
   id: number;
   board_id: number;
-  user_id: number;
+  user_id: string;
   created_at: string;
   user: {
     id: string;

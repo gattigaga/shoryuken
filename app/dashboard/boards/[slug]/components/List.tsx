@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import classnames from "classnames";
 import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
+import styled from "styled-components";
 
 import Button from "../../../../components/Button";
 import Card from "./Card";
@@ -16,6 +17,20 @@ import useCardsQuery from "../hooks/use-cards-query";
 import useCreateCardMutation from "../hooks/use-create-card-mutation";
 import useBoardQuery from "../hooks/use-board-query";
 import { getTailwindColors } from "../../../helpers/others";
+
+const StyledScroll = styled.div`
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${getTailwindColors("slate", 300)};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${getTailwindColors("slate", 400)};
+  }
+`;
 
 type Props = {
   id: number;
@@ -194,10 +209,10 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
           </div>
 
           {/* Children */}
-          <div
+          <StyledScroll
             ref={refChildren}
             style={{ maxHeight }}
-            className="scroll overflow-y-auto px-2"
+            className="overflow-y-auto px-2"
           >
             {/* Card list */}
             <Droppable droppableId={`list-${id}`} type="CARD">
@@ -299,7 +314,7 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
                 </div>
               </div>
             )}
-          </div>
+          </StyledScroll>
 
           {/* Footer */}
           {!isCreateCardFormOpen && (
@@ -316,20 +331,6 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
               </button>
             </div>
           )}
-
-          <style jsx>{`
-            .scroll::-webkit-scrollbar {
-              width: 0.5rem;
-            }
-
-            .scroll::-webkit-scrollbar-track {
-              background: ${getTailwindColors("slate", 300)};
-            }
-
-            .scroll::-webkit-scrollbar-thumb {
-              background: ${getTailwindColors("slate", 400)};
-            }
-          `}</style>
         </div>
       )}
     </Draggable>

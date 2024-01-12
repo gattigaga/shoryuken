@@ -9,6 +9,8 @@ import Loading from "react-spinners/ScaleLoader";
 import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import classNames from "classnames";
+import * as Avatar from "@radix-ui/react-avatar";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 import BoardTitle from "./BoardTitle";
 import useBoardQuery from "../hooks/use-board-query";
@@ -24,12 +26,21 @@ import {
   List as TList,
 } from "../../../../types/models";
 import useBoardMembersQuery from "../hooks/use-board-members-query";
-import Avatar from "../../../components/Avatar";
 import useCreateBoardMemberMutation from "../hooks/use-create-board-member-mutation";
 import useDeleteBoardMemberMutation from "../hooks/use-delete-board-member-mutation";
+import { getInitials } from "../../../../helpers/formatter";
+import PopupAddMember from "./PopupAddMember";
+import PopupDeleteMemberConfirmation from "./PopupDeleteMemberConfirmation";
+import useTailwindBreakpoint from "../../../../hooks/use-tailwind-breakpoint";
+import PopupParticipantList from "./PopupParticipantList";
 
 type Participant = TBoardMember["user"] & {
   member_id: number | null;
+};
+
+type Member = {
+  id: number;
+  fullname: string;
 };
 
 type Props = {
@@ -40,7 +51,11 @@ type Props = {
 
 const Content: FC<Props> = ({ board, boardMembers, lists }) => {
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [tmpMember, setTmpMember] = useState<Member | null>(null);
+  const [isPopupAddMemberOpen, setIsPopupAddMemberOpen] = useState(false);
+  const [isParticipantListOpen, setIsParticipantListOpen] = useState(false);
   const router = useRouter();
+  const breakpoint = useTailwindBreakpoint();
   const { _ } = useLingui();
 
   const boardId = board?.id || 0;
@@ -65,7 +80,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
   const isLoading = boardQuery.isLoading || deleteBoardMutation.isLoading;
   const isContentShow = boardQuery.isSuccess && deleteBoardMutation.isIdle;
   const boardColor = boardQuery.data?.color || "blue";
-  const maxParticipantsShow = 5;
+  const maxParticipantsShow = breakpoint === "xs" ? 0 : 5;
 
   const deleteBoard = async () => {
     if (!boardQuery.data) return;
@@ -81,33 +96,12 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
     }
   };
 
-  const addMember = async () => {
-    if (!boardQuery.data) return;
+  const deleteMember = async () => {
+    if (!tmpMember?.id) return;
 
-    const email = prompt("Enter user email", "");
-
-    if (!email) return;
-
-    try {
-      await createBoardMemberMutation.mutateAsync({
-        body: {
-          board_id: boardQuery.data.id,
-          email: email,
-        },
-      });
-
-      await boardMembersQuery.refetch();
-
-      toast.success(_(msg`Member successfully added.`));
-    } catch (error) {
-      toast.error(_(msg`Failed to add a member.`));
-    }
-  };
-
-  const deleteMember = async (memberId: number) => {
     try {
       await deleteBoardMemberMutation.mutateAsync({
-        id: memberId,
+        id: tmpMember.id,
       });
 
       await boardMembersQuery.refetch();
@@ -181,23 +175,42 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                         })}
                         key={participant.id}
                       >
-                        <Avatar
-                          fullname={participant.raw_user_meta_data.fullname}
-                          size="small"
-                          onClick={() => {
-                            if (participant.member_id) {
-                              const isWillDelete = confirm(
-                                _(
-                                  msg`Are you sure you want to delete this member?`
-                                )
-                              );
-
-                              if (isWillDelete) {
-                                deleteMember(participant.member_id);
-                              }
-                            }
-                          }}
-                        />
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <Avatar.Root
+                              className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-6 h-6 rounded-full"
+                              onClick={() => setIsParticipantListOpen(true)}
+                            >
+                              <Avatar.Fallback
+                                style={{
+                                  color: getTailwindColors(boardColor, 600),
+                                }}
+                                className="w-full h-full flex items-center justify-center bg-white text-xs font-semibold"
+                              >
+                                {getInitials(
+                                  participant.raw_user_meta_data.fullname
+                                )}
+                              </Avatar.Fallback>
+                            </Avatar.Root>
+                          </Tooltip.Trigger>
+                          <Tooltip.Portal>
+                            <Tooltip.Content
+                              style={{
+                                background: getTailwindColors(boardColor, 950),
+                              }}
+                              className="rounded px-4 py-2 leading-none text-xs text-white shadow-md select-none"
+                              sideOffset={5}
+                              side="bottom"
+                            >
+                              {participant.raw_user_meta_data.fullname}
+                              <Tooltip.Arrow
+                                style={{
+                                  fill: getTailwindColors(boardColor, 950),
+                                }}
+                              />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
                       </div>
                     ))}
                   {participants.length > maxParticipantsShow && (
@@ -207,13 +220,17 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                       }}
                       className="border-2 rounded-full -ml-2"
                     >
-                      <Avatar
-                        fullname={`+${
-                          participants.length - maxParticipantsShow
-                        }`}
-                        size="small"
-                        isShowAll={true}
-                      />
+                      <Avatar.Root className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-6 h-6 rounded-full">
+                        <Avatar.Fallback
+                          style={{
+                            color: getTailwindColors(boardColor, 600),
+                          }}
+                          className="w-full h-full flex items-center justify-center bg-white text-xs font-semibold"
+                          onClick={() => setIsParticipantListOpen(true)}
+                        >
+                          +{participants.length - maxParticipantsShow}
+                        </Avatar.Fallback>
+                      </Avatar.Root>
                     </div>
                   )}
 
@@ -221,7 +238,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                     style={{ background: getTailwindColors(boardColor, 500) }}
                     className="ml-4 w-8 h-8 text-white rounded flex items-center justify-center"
                     type="button"
-                    onClick={addMember}
+                    onClick={() => setIsPopupAddMemberOpen(true)}
                   >
                     <MdAdd color="white" size={20} />
                   </button>
@@ -273,6 +290,40 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
 
         {boardQuery.isError && <NotFound />}
       </div>
+
+      {boardQuery.data && (
+        <PopupParticipantList
+          board={boardQuery.data}
+          isOpen={isParticipantListOpen}
+          onRequestClose={() => setIsParticipantListOpen(false)}
+          onClickDeleteMember={(member) => {
+            setIsParticipantListOpen(false);
+
+            setTimeout(() => {
+              setTmpMember(member);
+            }, 250);
+          }}
+        />
+      )}
+
+      {tmpMember && (
+        <PopupDeleteMemberConfirmation
+          member={{
+            id: tmpMember.id,
+            fullname: tmpMember.fullname,
+          }}
+          isOpen={!!tmpMember}
+          onRequestClose={() => setTmpMember(null)}
+          onClickConfirm={deleteMember}
+        />
+      )}
+
+      <PopupAddMember
+        boardId={boardId}
+        isOpen={isPopupAddMemberOpen}
+        onRequestClose={() => setIsPopupAddMemberOpen(false)}
+      />
+
       <ModalCardDetail />
     </>
   );

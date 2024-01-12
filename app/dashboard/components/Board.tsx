@@ -1,8 +1,17 @@
 import Link from "next/link";
 import { FC } from "react";
+import styled from "styled-components";
 
 import { getExcerpt } from "../helpers/formatter";
 import { getTailwindColors } from "../helpers/others";
+
+const StyledContainer = styled.div<{ color: string }>`
+  background: ${(props) => getTailwindColors(props.color, 700)};
+
+  &:hover {
+    background: ${(props) => getTailwindColors(props.color, 800)};
+  }
+`;
 
 type Props = {
   title: string;
@@ -13,21 +22,11 @@ type Props = {
 
 const Board: FC<Props> = ({ title, color, href, isDisabled }) => {
   const content = (
-    <div className="root p-4 h-32 rounded">
+    <StyledContainer className="root p-4 h-32 rounded" color={color}>
       <p className="text-md font-semibold text-white">
         {getExcerpt(title, 50)}
       </p>
-
-      <style jsx>{`
-        .root {
-          background: ${getTailwindColors(color, 700)};
-
-          &:hover {
-            background: ${getTailwindColors(color, 800)};
-          }
-        }
-      `}</style>
-    </div>
+    </StyledContainer>
   );
 
   if (isDisabled) return content;
