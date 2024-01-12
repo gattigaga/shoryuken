@@ -47,7 +47,7 @@
     "react-responsive": "^9.0.2",
     "react-spinners": "^0.13.8",
     "sharp": "^0.33.1",
-    "styled-jsx": "^5.1.2",
+    "styled-components": "^6.1.8",
     "uuid": "^8.3.2",
     "zod": "^3.22.4",
     "zod-formik-adapter": "^1.2.0",

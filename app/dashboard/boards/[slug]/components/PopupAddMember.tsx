@@ -8,12 +8,41 @@ import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Formik } from "formik";
 import Spinner from "react-spinners/ScaleLoader";
+import styled from "styled-components";
 import * as Dialog from "@radix-ui/react-dialog";
 import toast from "react-hot-toast";
 
 import useCreateBoardMemberMutation from "../hooks/use-create-board-member-mutation";
 import useBoardMembersQuery from "../hooks/use-board-members-query";
 import Input from "../../../../components/Input";
+
+const StyledDialogOverlay = styled(Dialog.Overlay)`
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes overlayShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
+const StyledDialogContent = styled(Dialog.Overlay)`
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes contentShow {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+`;
 
 type Props = {
   boardId: number;
@@ -35,8 +64,8 @@ const PopupAddMember: FC<Props> = ({ boardId, isOpen, onRequestClose }) => {
   return (
     <Dialog.Root open={isOpen} onOpenChange={onRequestClose}>
       <Dialog.Portal>
-        <Dialog.Overlay className="dialog-overlay bg-black/50 fixed inset-0" />
-        <Dialog.Content className="dialog-content bg-white rounded shadow-md fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-lg min-h-48 max-h-[50vh] p-6 focus:outline-none">
+        <StyledDialogOverlay className="bg-black/50 fixed inset-0" />
+        <StyledDialogContent className="bg-white rounded shadow-md fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-lg min-h-48 max-h-[50vh] p-6 focus:outline-none">
           <Formik
             initialValues={{
               email: "",
@@ -129,38 +158,8 @@ const PopupAddMember: FC<Props> = ({ boardId, isOpen, onRequestClose }) => {
               <MdClose />
             </button>
           </Dialog.Close>
-        </Dialog.Content>
+        </StyledDialogContent>
       </Dialog.Portal>
-
-      <style jsx>{`
-        :global(.dialog-overlay) {
-          animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        :global(.dialog-content) {
-          animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes overlayShow {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes contentShow {
-          from {
-            opacity: 0;
-            transform: translate(-50%, -48%) scale(0.96);
-          }
-          to {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-          }
-        }
-      `}</style>
     </Dialog.Root>
   );
 };

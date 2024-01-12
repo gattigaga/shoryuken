@@ -7,12 +7,18 @@ import { motion } from "framer-motion";
 import classnames from "classnames";
 import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import css from "styled-jsx/css";
+import styled from "styled-components";
 
 import useCreateListMutation from "../hooks/use-create-list-mutation";
 import Button from "../../../../components/Button";
 import { Board } from "../../../../types/models";
 import { getTailwindColors } from "../../../helpers/others";
+
+const StyledClosedContainer = styled(motion.div)<{ color: string }>`
+  &:hover {
+    background-color: ${(props) => getTailwindColors(props.color, 400)};
+  }
+`;
 
 type Props = {
   board: Board;
@@ -26,14 +32,6 @@ const CreateListForm: React.FC<Props> = ({ board, onClickAdd }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const { _ } = useLingui();
   const createListMutation = useCreateListMutation();
-
-  const closedCss = css.resolve`
-    div {
-      &:hover {
-        background-color: ${getTailwindColors(board.color, 400)};
-      }
-    }
-  `;
 
   const containerVariants = {
     closed: {
@@ -202,11 +200,9 @@ const CreateListForm: React.FC<Props> = ({ board, onClickAdd }) => {
       </motion.div>
 
       {/* Closed */}
-      <motion.div
-        className={classnames(
-          "flex items-center px-4 h-full transition-all duration-200",
-          closedCss.className
-        )}
+      <StyledClosedContainer
+        className="flex items-center px-4 h-full transition-all duration-200"
+        color={board.color}
         variants={closedVariants}
         initial="close"
         animate={isOpen ? "opened" : "closed"}
@@ -220,9 +216,7 @@ const CreateListForm: React.FC<Props> = ({ board, onClickAdd }) => {
         <p className="ml-2 text-xs text-white select-none">
           <Trans>Create new list</Trans>
         </p>
-
-        {closedCss.styles}
-      </motion.div>
+      </StyledClosedContainer>
     </motion.div>
   );
 };

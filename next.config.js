@@ -7,6 +7,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  compiler: {
+    styledComponents: true,
+  },
   experimental: {
     swcPlugins: [["@lingui/swc-plugin", {}]],
   },

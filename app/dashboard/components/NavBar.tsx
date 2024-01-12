@@ -6,6 +6,7 @@ import { useQueryClient } from "react-query";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { Trans } from "@lingui/macro";
+import styled from "styled-components";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
@@ -13,6 +14,12 @@ import useSignOutMutation from "../hooks/use-sign-out-mutation";
 import useUserQuery from "../hooks/use-user-query";
 import { getTailwindColors } from "../helpers/others";
 import { getInitials } from "../../helpers/formatter";
+
+const StyledDropdownMenuItem = styled(DropdownMenu.Item)<{ color: string }>`
+  &[data-highlighted] {
+    background: ${(props) => getTailwindColors(props.color, 500)};
+  }
+`;
 
 type Props = {
   color?: string;
@@ -65,7 +72,7 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
             </DropdownMenu.Trigger>
             <DropdownMenu.Portal>
               <DropdownMenu.Content
-                className="dropdown-menu-content min-w-60 bg-white rounded p-2 shadow-md"
+                className="min-w-60 bg-white rounded p-2 shadow-md"
                 sideOffset={5}
                 side="bottom"
               >
@@ -78,12 +85,13 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
                   </p>
                 </div>
                 <DropdownMenu.Separator className="h-px bg-slate-300 mb-2" />
-                <DropdownMenu.Item
-                  className="dropdown-menu-item text-xs text-red-500 h-6 px-2 flex items-center outline-none rounded data-[highlighted]:text-white"
+                <StyledDropdownMenuItem
+                  className="text-xs text-red-500 h-6 px-2 flex items-center outline-none rounded data-[highlighted]:text-white"
+                  color={color}
                   onClick={signOut}
                 >
                   <Trans>Sign Out</Trans>
-                </DropdownMenu.Item>
+                </StyledDropdownMenuItem>
 
                 <DropdownMenu.Arrow className="fill-white" />
               </DropdownMenu.Content>
@@ -91,12 +99,6 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
           </DropdownMenu.Root>
         </div>
       )}
-
-      <style jsx>{`
-        :global(.dropdown-menu-item[data-highlighted]) {
-          background: ${getTailwindColors(color, 500)};
-        }
-      `}</style>
     </div>
   );
 };

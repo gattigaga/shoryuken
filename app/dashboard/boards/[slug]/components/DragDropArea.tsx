@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import { msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
+import styled from "styled-components";
 
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import useUpdateListMutation from "../hooks/use-update-list-mutation";
@@ -12,6 +13,22 @@ import CreateListForm from "./CreateListForm";
 import List from "./List";
 import { Board as TBoard, List as TList } from "../../../../types/models";
 import { getTailwindColors } from "../../../helpers/others";
+
+const StyledScroll = styled.div<{ color: string }>`
+  &::-webkit-scrollbar {
+    height: 0.75rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${(props) => getTailwindColors(props.color, 700)};
+    border-radius: 1rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${(props) => getTailwindColors(props.color, 400)};
+    border-radius: 1rem;
+  }
+`;
 
 type Props = {
   board: TBoard;
@@ -112,7 +129,11 @@ const DragDropArea: FC<Props> = ({ board, lists }) => {
   };
 
   return (
-    <div ref={refScrollWrapper} className="scroll overflow-x-auto flex-1">
+    <StyledScroll
+      ref={refScrollWrapper}
+      className="overflow-x-auto flex-1"
+      color={board.color}
+    >
       <div className="flex items-start">
         <DragDropContext onDragEnd={handleMovement}>
           <Droppable droppableId="lists" direction="horizontal" type="LIST">
@@ -146,23 +167,7 @@ const DragDropArea: FC<Props> = ({ board, lists }) => {
           />
         </DragDropContext>
       </div>
-
-      <style jsx>{`
-        .scroll::-webkit-scrollbar {
-          height: 0.75rem;
-        }
-
-        .scroll::-webkit-scrollbar-track {
-          background: ${getTailwindColors(board.color, 700)};
-          border-radius: 1rem;
-        }
-
-        .scroll::-webkit-scrollbar-thumb {
-          background: ${getTailwindColors(board.color, 400)};
-          border-radius: 1rem;
-        }
-      `}</style>
-    </div>
+    </StyledScroll>
   );
 };
 
