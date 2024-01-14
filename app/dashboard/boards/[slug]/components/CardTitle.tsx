@@ -88,7 +88,7 @@ const CardTitle: React.FC<Props> = ({ id }) => {
             }}
           />
         )}
-        <p className="text-sm text-slate-500 mt-1">
+        <p className="text-sm text-slate-500 mt-1 -ml-8 w-full md:ml-0">
           <Trans>
             in list <span className="underline">{listQuery.data?.title}</span>
           </Trans>

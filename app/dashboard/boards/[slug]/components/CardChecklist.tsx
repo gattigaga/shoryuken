@@ -141,7 +141,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
         </div>
 
         {/* Progress bar */}
-        <div className="flex items-center mb-2">
+        <div className="flex items-center mb-2 -ml-8 md:ml-0">
           <div className="w-10">
             <p className="text-xs text-slate-500">{percentage}%</p>
           </div>
@@ -158,7 +158,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
         </div>
 
         {/* Checklist */}
-        <div className="mb-2">
+        <div className="mb-2 -ml-8 md:ml-0">
           <DragDropContext
             onDragEnd={(result) => {
               const fromIndex = result.source.index;
@@ -203,7 +203,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
 
         {/* Add new check item form */}
         {isCreateCheckFormOpen ? (
-          <div className="flex px-2 rounded cursor-pointer">
+          <div className="flex px-2 rounded cursor-pointer -ml-8 md:ml-0">
             <div className="w-6" />
             <div className="w-full">
               <textarea
@@ -264,7 +264,7 @@ const CardChecklist: React.FC<Props> = ({ id }) => {
             </div>
           </div>
         ) : (
-          <div className="flex">
+          <div className="flex -ml-8 md:ml-0">
             <div className="w-8" />
             <Button
               className="outline-black mr-2"

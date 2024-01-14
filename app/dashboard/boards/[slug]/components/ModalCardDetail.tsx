@@ -14,15 +14,19 @@ import toast from "react-hot-toast";
 import Loading from "react-spinners/ScaleLoader";
 import { Trans, msg } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
+import dynamic from "next/dynamic";
 
 import useCardQuery from "../hooks/use-card-query";
 import useDeleteCardMutation from "../hooks/use-delete-card-mutation";
 import useUpdateCardMutation from "../hooks/use-update-card-mutation";
 import CardTitle from "./CardTitle";
-import CardDescription from "./CardDescription";
 import CardChecklist from "./CardChecklist";
 import PopupDueDate from "./PopupDueDate";
 import CardDueDate from "./CardDueDate";
+
+const CardDescription = dynamic(() => import("./CardDescription"), {
+  ssr: false,
+});
 
 type Props = {};
 
@@ -103,9 +107,9 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
       isOpen={isOpen}
       onRequestClose={close}
       overlayClassName="fixed inset-0 bg-black/50 overflow-y-auto"
-      className="border-0 p-0 absolute top-4 left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[90%] h-auto max-w-4xl md:top-16"
+      className="border-0 p-0 absolute left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[95%] md:w-[90%] h-auto max-w-4xl"
     >
-      <div className="w-full rounded bg-slate-100 p-5 pb-10 min-h-[480px] flex flex-col">
+      <div className="w-full rounded bg-slate-100 p-4 pb-10 min-h-[480px] my-4 flex flex-col md:my-16">
         {cardQuery.status === "success" && (
           <>
             {/* Header Side */}
