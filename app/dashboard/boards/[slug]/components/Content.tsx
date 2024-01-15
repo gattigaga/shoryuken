@@ -25,6 +25,7 @@ import {
   BoardMember as TBoardMember,
   List as TList,
 } from "../../../../types/models";
+import useUserQuery from "../../../hooks/use-user-query";
 import useBoardMembersQuery from "../hooks/use-board-members-query";
 import useCreateBoardMemberMutation from "../hooks/use-create-board-member-mutation";
 import useDeleteBoardMemberMutation from "../hooks/use-delete-board-member-mutation";
@@ -60,6 +61,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
 
   const boardId = board?.id || 0;
 
+  const userQuery = useUserQuery();
   const boardQuery = useBoardQuery(boardId, board);
   const listsQuery = useListsQuery(boardId, lists);
   const boardMembersQuery = useBoardMembersQuery(boardId, boardMembers);
@@ -79,6 +81,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
 
   const isLoading = boardQuery.isLoading || deleteBoardMutation.isLoading;
   const isContentShow = boardQuery.isSuccess && deleteBoardMutation.isIdle;
+  const isBoardOwner = userQuery.data?.id === boardQuery.data?.user_id;
   const boardColor = boardQuery.data?.color || "blue";
   const maxParticipantsShow = breakpoint === "xs" ? 0 : 5;
 
@@ -234,14 +237,16 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                     </div>
                   )}
 
-                  <button
-                    style={{ background: getTailwindColors(boardColor, 500) }}
-                    className="ml-4 w-8 h-8 text-white rounded flex items-center justify-center"
-                    type="button"
-                    onClick={() => setIsPopupAddMemberOpen(true)}
-                  >
-                    <MdAdd color="white" size={20} />
-                  </button>
+                  {isBoardOwner && (
+                    <button
+                      style={{ background: getTailwindColors(boardColor, 500) }}
+                      className="ml-4 w-8 h-8 text-white rounded flex items-center justify-center"
+                      type="button"
+                      onClick={() => setIsPopupAddMemberOpen(true)}
+                    >
+                      <MdAdd color="white" size={20} />
+                    </button>
+                  )}
                 </div>
               )}
 
