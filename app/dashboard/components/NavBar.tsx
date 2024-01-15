@@ -40,7 +40,7 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
       });
 
       router.replace("/auth/signin");
-      queryClient.resetQueries();
+      queryClient.clear();
     }
   };
 
