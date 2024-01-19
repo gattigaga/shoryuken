@@ -7,11 +7,12 @@ import Content from "./components/Content";
 import { getUser } from "../helpers/data";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Shoryuken",
-  description: "Privacy Policy for Shoryuken. Keep your data safe.",
+  title: "Terms of Service | Shoryuken",
+  description:
+    "Terms of Service for Shoryuken. Learn more about our terms of service.",
 };
 
-const PrivacyPolicyPage = async () => {
+const TermsOfServicePage = async () => {
   const user = await getUser();
 
   if (user) {
@@ -31,4 +32,4 @@ const PrivacyPolicyPage = async () => {
   );
 };
 
-export default PrivacyPolicyPage;
+export default TermsOfServicePage;

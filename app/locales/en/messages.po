@@ -454,6 +454,7 @@ msgid "Password should no more than 25 characters"
 msgstr "Password should no more than 25 characters"
 
 #: app/components/Footer.tsx:51
+#: app/privacy-policy/components/Content.tsx:10
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
@@ -497,7 +498,7 @@ msgid "Shoryuken has transformed how we manage our AI company at Hiden Intellige
 msgstr "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines."
 
 #: app/auth/signin/components/Form.tsx:134
-#: app/components/Header.tsx:100
+#: app/components/Header.tsx:106
 msgid "Sign In"
 msgstr "Sign In"
 
@@ -514,7 +515,7 @@ msgid "Sign Out"
 msgstr "Sign Out"
 
 #: app/auth/signup/components/Form.tsx:191
-#: app/components/Header.tsx:104
+#: app/components/Header.tsx:110
 msgid "Sign Up"
 msgstr "Sign Up"
 
@@ -542,6 +543,10 @@ msgstr "Submit"
 #: app/components/Footer.tsx:56
 msgid "Terms"
 msgstr "Terms"
+
+#: app/terms-of-service/components/Content.tsx:10
+msgid "Terms of Service"
+msgstr "Terms of Service"
 
 #: app/components/CoreSection.tsx:29
 msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."

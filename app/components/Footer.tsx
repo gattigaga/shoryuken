@@ -51,7 +51,7 @@ const Footer: FC = () => {
               <Trans>Privacy Policy</Trans>
             </p>
           </Link>
-          <Link href="#">
+          <Link href="/terms-of-service">
             <p className="text-xs text-white">
               <Trans>Terms</Trans>
             </p>
