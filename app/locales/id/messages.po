@@ -25,7 +25,7 @@ msgstr "Sebuah kekuatan produktivitas"
 msgid "About Shoryuken"
 msgstr "Tentang Shoryuken"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:179
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:183
 msgid "Actions"
 msgstr "Tindakan"
 
@@ -37,8 +37,8 @@ msgstr "Tambah"
 msgid "Add a card"
 msgstr "Tambahkan card"
 
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:102
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:113
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:109
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:121
 msgid "Add a more detailed description..."
 msgstr "Tambahkan deskripsi yang lebih detail..."
 
@@ -58,7 +58,7 @@ msgstr "Tambahkan list"
 msgid "Add Member"
 msgstr "Tambah Anggota"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:139
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:143
 msgid "Add to card"
 msgstr "Tambahkan ke card"
 
@@ -66,7 +66,7 @@ msgstr "Tambahkan ke card"
 msgid "Already have an account? Sign in"
 msgstr "Sudah memiliki akun? Sign in"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:79
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:83
 msgid "Are you sure you want to delete this card ?"
 msgstr "Apakah Anda yakin ingin menghapus card ini ?"
 
@@ -119,7 +119,7 @@ msgid "Check your inbox to reset password"
 msgstr "Periksa kotak masuk Anda untuk mereset kata sandi"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:130
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:148
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:152
 msgid "Checklist"
 msgstr "Checklist"
 
@@ -160,16 +160,16 @@ msgid "Create new list"
 msgstr "Buat list baru"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:139
-#: app/dashboard/boards/[slug]/components/Content.tsx:160
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:188
+#: app/dashboard/boards/[slug]/components/Content.tsx:163
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:192
 msgid "Delete"
 msgstr "Hapus"
 
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:69
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:74
 msgid "Description"
 msgstr "Deskripsi"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:165
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:169
 #: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:130
 msgid "Due Date"
 msgstr "Tanggal Jatuh Tempo"
@@ -239,7 +239,7 @@ msgstr "Gagal menambahkan anggota."
 msgid "Failed to add check item."
 msgstr "Gagal menambahkan check item."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:72
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:76
 msgid "Failed to add checklist in the card."
 msgstr "Gagal menambahkan checklist pada card."
 
@@ -255,12 +255,12 @@ msgstr "Gagal membuat board."
 msgid "Failed to create a list."
 msgstr "Gagal membuat list."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:95
+#: app/dashboard/boards/[slug]/components/Content.tsx:98
 msgid "Failed to delete a board."
 msgstr "Gagal menghapus board."
 
 #: app/dashboard/boards/[slug]/components/List.tsx:96
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:90
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:94
 msgid "Failed to delete a card."
 msgstr "Gagal menghapus card."
 
@@ -268,7 +268,7 @@ msgstr "Gagal menghapus card."
 msgid "Failed to delete a list."
 msgstr "Gagal menghapus list."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:111
+#: app/dashboard/boards/[slug]/components/Content.tsx:114
 msgid "Failed to delete a member."
 msgstr "Gagal menghapus anggota."
 
@@ -280,7 +280,7 @@ msgstr "Gagal menghapus check item."
 msgid "Failed to delete checklist."
 msgstr "Gagal menghapus checklist."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:211
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:215
 msgid "Failed to fetch card detail."
 msgstr "Gagal mengambil detail card."
 
@@ -328,7 +328,7 @@ msgstr "Gagal mengirimkan detail akun."
 msgid "Failed to toggle check due date."
 msgstr "Gagal mengubah check tanggal jatuh tempo."
 
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:39
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:57
 msgid "Failed to update a card description."
 msgstr "Gagal memperbarui deskripsi card."
 
@@ -406,7 +406,7 @@ msgstr "Simpan semua hal di tempat yang sama—meskipun tim Anda berbeda lokasi.
 msgid "Member successfully added."
 msgstr "Anggota berhasil ditambahkan."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:109
+#: app/dashboard/boards/[slug]/components/Content.tsx:112
 msgid "Member successfully deleted."
 msgstr "Anggota berhasil dihapus."
 
@@ -475,7 +475,7 @@ msgid "Return to sign in"
 msgstr "Kembali ke sign in"
 
 #: app/dashboard/boards/[slug]/components/CardCheckItem.tsx:204
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:134
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:154
 #: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:152
 msgid "Save"
 msgstr "Simpan"
@@ -555,17 +555,13 @@ msgstr "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus <0>{0}</0> secar
 msgid "This board may be private. If someone gave you this link, they may need to invite you to one of their boards or Workspaces."
 msgstr "Board ini mungkin bersifat pribadi. Jika seseorang memberi Anda tautan ini, mereka mungkin perlu mengundang Anda ke salah satu board mereka."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:59
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:63
 msgid "This card already has checklist."
 msgstr "Card ini sudah memiliki checklist."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:156
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:160
 msgid "This card already has due date."
 msgstr "Card ini sudah memiliki tanggal jatuh tempo."
-
-#: app/auth/signup/components/Form.tsx:207
-msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
-msgstr "Halaman ini dilindungi oleh reCAPTCHA dan berlaku <0>Kebijakan Privasi</0> dan <1>Syarat Layanan</1> dari Google"
 
 #: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:134
 msgid "Time"

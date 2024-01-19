@@ -203,25 +203,6 @@ const Form: FC = () => {
           </p>
         </Link>
       </div>
-      <p className="text-xs text-slate-500 text-center leading-normalm mt-8">
-        <Trans>
-          This page is protected by reCAPTCHA and the Google{" "}
-          <a
-            href="https://www.google.com/policies/privacy/"
-            className="text-blue-700"
-          >
-            Privacy Policy
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://www.google.com/policies/terms/"
-            className="text-blue-700"
-          >
-            Terms of Service
-          </a>{" "}
-          apply
-        </Trans>
-      </p>
     </>
   );
 };
