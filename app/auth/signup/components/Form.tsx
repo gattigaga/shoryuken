@@ -180,7 +180,7 @@ const Form: FC = () => {
                         Shoryuken Terms of Service
                       </Link>{" "}
                       and acknowledge the{" "}
-                      <Link href="/" className="text-blue-700">
+                      <Link href="/privacy-policy" className="text-blue-700">
                         Privacy Policy
                       </Link>
                       .

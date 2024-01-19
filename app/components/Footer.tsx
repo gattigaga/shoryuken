@@ -46,7 +46,7 @@ const Footer: FC = () => {
 
       <div className="flex flex-col gap-y-12 mt-8 xl:flex-row xl:border-t xl:border-blue-700 xl:justify-between xl:py-4">
         <div className="flex flex-col gap-y-2 xl:flex-row xl:gap-x-6">
-          <Link href="#">
+          <Link href="/privacy-policy">
             <p className="text-xs text-white">
               <Trans>Privacy Policy</Trans>
             </p>
