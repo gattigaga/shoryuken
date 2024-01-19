@@ -176,11 +176,11 @@ const Form: FC = () => {
                   <p className="text-xs text-slate-500 leading-normal mb-8 px-2">
                     <Trans>
                       By signing up, I accept the{" "}
-                      <Link href="/" className="text-blue-700">
+                      <Link href="/terms-of-service" className="text-blue-700">
                         Shoryuken Terms of Service
                       </Link>{" "}
                       and acknowledge the{" "}
-                      <Link href="/" className="text-blue-700">
+                      <Link href="/privacy-policy" className="text-blue-700">
                         Privacy Policy
                       </Link>
                       .
@@ -203,25 +203,6 @@ const Form: FC = () => {
           </p>
         </Link>
       </div>
-      <p className="text-xs text-slate-500 text-center leading-normalm mt-8">
-        <Trans>
-          This page is protected by reCAPTCHA and the Google{" "}
-          <a
-            href="https://www.google.com/policies/privacy/"
-            className="text-blue-700"
-          >
-            Privacy Policy
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://www.google.com/policies/terms/"
-            className="text-blue-700"
-          >
-            Terms of Service
-          </a>{" "}
-          apply
-        </Trans>
-      </p>
     </>
   );
 };

@@ -171,11 +171,11 @@ const Form: FC<Props> = ({ defaultValues }) => {
                 <p className="text-xs text-slate-500 leading-normal mb-8 px-2">
                   <Trans>
                     By signing up, I accept the{" "}
-                    <Link href="/" className="text-blue-700">
+                    <Link href="/terms-of-service" className="text-blue-700">
                       Shoryuken Terms of Service
                     </Link>{" "}
                     and acknowledge the{" "}
-                    <Link href="/" className="text-blue-700">
+                    <Link href="/privacy-policy" className="text-blue-700">
                       Privacy Policy
                     </Link>
                     .

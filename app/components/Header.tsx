@@ -11,8 +11,12 @@ import classNames from "classnames";
 
 import Button from "./Button";
 
-const Header: FC = () => {
-  const [isFloating, setIsFloating] = useState(false);
+type Props = {
+  isFloatingByDefault?: boolean;
+};
+
+const Header: FC<Props> = ({ isFloatingByDefault = false }) => {
+  const [isFloating, setIsFloating] = useState(isFloatingByDefault);
   const router = useRouter();
   const refHeader = useRef<HTMLDivElement>(null);
   const refSignInLink = useRef<HTMLAnchorElement>(null);
@@ -57,16 +61,16 @@ const Header: FC = () => {
       }
     };
 
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && !isFloatingByDefault) {
       window.addEventListener("scroll", handleHeaderStyle);
     }
 
     return () => {
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && !isFloatingByDefault) {
         window.removeEventListener("scroll", handleHeaderStyle);
       }
     };
-  }, []);
+  }, [isFloatingByDefault]);
 
   return (
     <header
@@ -79,16 +83,18 @@ const Header: FC = () => {
         }
       )}
     >
-      <Image
-        src={
-          isFloating
-            ? "/images/logo-with-text.svg"
-            : "/images/logo-with-text-white.svg"
-        }
-        alt="Shoryuken Logo"
-        width={128}
-        height={64}
-      />
+      <Link href="/">
+        <Image
+          src={
+            isFloating
+              ? "/images/logo-with-text.svg"
+              : "/images/logo-with-text-white.svg"
+          }
+          alt="Shoryuken Logo"
+          width={128}
+          height={64}
+        />
+      </Link>
       <Link
         ref={refSignInLink}
         href="/auth/signin"

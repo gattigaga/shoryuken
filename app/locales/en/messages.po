@@ -25,7 +25,7 @@ msgstr "A productivity powerhouse"
 msgid "About Shoryuken"
 msgstr "About Shoryuken"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:179
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:183
 msgid "Actions"
 msgstr "Actions"
 
@@ -37,8 +37,8 @@ msgstr "Add"
 msgid "Add a card"
 msgstr "Add a card"
 
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:102
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:113
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:109
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:121
 msgid "Add a more detailed description..."
 msgstr "Add a more detailed description..."
 
@@ -58,7 +58,7 @@ msgstr "Add list"
 msgid "Add Member"
 msgstr "Add Member"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:139
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:143
 msgid "Add to card"
 msgstr "Add to card"
 
@@ -66,7 +66,7 @@ msgstr "Add to card"
 msgid "Already have an account? Sign in"
 msgstr "Already have an account? Sign in"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:79
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:83
 msgid "Are you sure you want to delete this card ?"
 msgstr "Are you sure you want to delete this card ?"
 
@@ -119,7 +119,7 @@ msgid "Check your inbox to reset password"
 msgstr "Check your inbox to reset password"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:130
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:148
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:152
 msgid "Checklist"
 msgstr "Checklist"
 
@@ -160,16 +160,16 @@ msgid "Create new list"
 msgstr "Create new list"
 
 #: app/dashboard/boards/[slug]/components/CardChecklist.tsx:139
-#: app/dashboard/boards/[slug]/components/Content.tsx:160
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:188
+#: app/dashboard/boards/[slug]/components/Content.tsx:163
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:192
 msgid "Delete"
 msgstr "Delete"
 
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:69
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:74
 msgid "Description"
 msgstr "Description"
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:165
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:169
 #: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:130
 msgid "Due Date"
 msgstr "Due Date"
@@ -239,7 +239,7 @@ msgstr "Failed to add a member."
 msgid "Failed to add check item."
 msgstr "Failed to add check item."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:72
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:76
 msgid "Failed to add checklist in the card."
 msgstr "Failed to add checklist in the card."
 
@@ -255,12 +255,12 @@ msgstr "Failed to create a board."
 msgid "Failed to create a list."
 msgstr "Failed to create a list."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:95
+#: app/dashboard/boards/[slug]/components/Content.tsx:98
 msgid "Failed to delete a board."
 msgstr "Failed to delete a board."
 
 #: app/dashboard/boards/[slug]/components/List.tsx:96
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:90
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:94
 msgid "Failed to delete a card."
 msgstr "Failed to delete a card."
 
@@ -268,7 +268,7 @@ msgstr "Failed to delete a card."
 msgid "Failed to delete a list."
 msgstr "Failed to delete a list."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:111
+#: app/dashboard/boards/[slug]/components/Content.tsx:114
 msgid "Failed to delete a member."
 msgstr "Failed to delete a member."
 
@@ -280,7 +280,7 @@ msgstr "Failed to delete check item."
 msgid "Failed to delete checklist."
 msgstr "Failed to delete checklist."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:211
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:215
 msgid "Failed to fetch card detail."
 msgstr "Failed to fetch card detail."
 
@@ -328,7 +328,7 @@ msgstr "Failed to submit account details."
 msgid "Failed to toggle check due date."
 msgstr "Failed to toggle check due date."
 
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:39
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:57
 msgid "Failed to update a card description."
 msgstr "Failed to update a card description."
 
@@ -406,7 +406,7 @@ msgstr "Keep everything in the same place—even if your team isn’t."
 msgid "Member successfully added."
 msgstr "Member successfully added."
 
-#: app/dashboard/boards/[slug]/components/Content.tsx:109
+#: app/dashboard/boards/[slug]/components/Content.tsx:112
 msgid "Member successfully deleted."
 msgstr "Member successfully deleted."
 
@@ -454,6 +454,7 @@ msgid "Password should no more than 25 characters"
 msgstr "Password should no more than 25 characters"
 
 #: app/components/Footer.tsx:51
+#: app/privacy-policy/components/Content.tsx:10
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
@@ -475,7 +476,7 @@ msgid "Return to sign in"
 msgstr "Return to sign in"
 
 #: app/dashboard/boards/[slug]/components/CardCheckItem.tsx:204
-#: app/dashboard/boards/[slug]/components/CardDescription.tsx:134
+#: app/dashboard/boards/[slug]/components/CardDescription.tsx:154
 #: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:152
 msgid "Save"
 msgstr "Save"
@@ -497,7 +498,7 @@ msgid "Shoryuken has transformed how we manage our AI company at Hiden Intellige
 msgstr "Shoryuken has transformed how we manage our AI company at Hiden Intelligence. With its boards and task assignment features, we streamline projects, enhance collaboration, and meet deadlines."
 
 #: app/auth/signin/components/Form.tsx:134
-#: app/components/Header.tsx:100
+#: app/components/Header.tsx:106
 msgid "Sign In"
 msgstr "Sign In"
 
@@ -514,7 +515,7 @@ msgid "Sign Out"
 msgstr "Sign Out"
 
 #: app/auth/signup/components/Form.tsx:191
-#: app/components/Header.tsx:104
+#: app/components/Header.tsx:110
 msgid "Sign Up"
 msgstr "Sign Up"
 
@@ -543,6 +544,10 @@ msgstr "Submit"
 msgid "Terms"
 msgstr "Terms"
 
+#: app/terms-of-service/components/Content.tsx:10
+msgid "Terms of Service"
+msgstr "Terms of Service"
+
 #: app/components/CoreSection.tsx:29
 msgid "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
 msgstr "The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to your team’s needs. There’s no wrong way to Shoryuken."
@@ -555,17 +560,13 @@ msgstr "This action cannot be undone. This will permanently delete <0>{0}</0> fr
 msgid "This board may be private. If someone gave you this link, they may need to invite you to one of their boards or Workspaces."
 msgstr "This board may be private. If someone gave you this link, they may need to invite you to one of their boards or Workspaces."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:59
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:63
 msgid "This card already has checklist."
 msgstr "This card already has checklist."
 
-#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:156
+#: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:160
 msgid "This card already has due date."
 msgstr "This card already has due date."
-
-#: app/auth/signup/components/Form.tsx:207
-msgid "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
-msgstr "This page is protected by reCAPTCHA and the Google <0>Privacy Policy</0> and <1>Terms of Service</1> apply"
 
 #: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:134
 msgid "Time"
