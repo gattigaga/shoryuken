@@ -2,6 +2,7 @@
 
 import { FC } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useQueryClient } from "react-query";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
@@ -49,13 +50,15 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
       style={{ background: getTailwindColors(color, 700) }}
       className="h-12 flex flex-row justify-between items-center px-4"
     >
-      <Image
-        src="/images/logo-with-text-white.svg"
-        alt="Shoryuken logo"
-        width={144}
-        height={28}
-        priority={true}
-      />
+      <Link href="/dashboard">
+        <Image
+          src="/images/logo-with-text-white.svg"
+          alt="Shoryuken logo"
+          width={144}
+          height={28}
+          priority={true}
+        />
+      </Link>
 
       {userQuery.status === "success" && (
         <div className="relative">
@@ -85,6 +88,14 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
                   </p>
                 </div>
                 <DropdownMenu.Separator className="h-px bg-slate-300 mb-2" />
+                <Link href="/dashboard/profile">
+                  <StyledDropdownMenuItem
+                    className="text-xs text-slate-700 h-6 px-2 mb-1 flex items-center outline-none rounded data-[highlighted]:text-white"
+                    color={color}
+                  >
+                    <Trans>Profile</Trans>
+                  </StyledDropdownMenuItem>
+                </Link>
                 <StyledDropdownMenuItem
                   className="text-xs text-red-500 h-6 px-2 flex items-center outline-none rounded data-[highlighted]:text-white"
                   color={color}

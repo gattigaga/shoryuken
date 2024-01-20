@@ -13,5 +13,6 @@ export const getInitials = (name: string) => {
     .split(" ")
     .map((word) => word[0])
     .join("")
-    .toUpperCase();
+    .toUpperCase()
+    .slice(0, 2);
 };
