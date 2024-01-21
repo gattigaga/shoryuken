@@ -19,7 +19,7 @@ import useListsQuery from "../hooks/use-lists-query";
 import ModalCardDetail from "./ModalCardDetail";
 import NotFound from "./NotFound";
 import DragDropArea from "./DragDropArea";
-import { getTailwindColors } from "../../../helpers/others";
+import { getAvatarUrl, getTailwindColors } from "../../../helpers/others";
 import {
   Board as TBoard,
   BoardMember as TBoardMember,
@@ -187,7 +187,9 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                               {participant.raw_user_meta_data.avatar && (
                                 <Avatar.Image
                                   className="w-full h-full object-cover"
-                                  src={participant.raw_user_meta_data.avatar}
+                                  src={getAvatarUrl(
+                                    participant.raw_user_meta_data.avatar
+                                  )}
                                   alt={participant.raw_user_meta_data.fullname}
                                 />
                               )}

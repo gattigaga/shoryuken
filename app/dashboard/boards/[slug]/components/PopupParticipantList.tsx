@@ -12,7 +12,7 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 import useBoardMembersQuery from "../hooks/use-board-members-query";
 import { getInitials } from "../../../../helpers/formatter";
-import { getTailwindColors } from "../../../helpers/others";
+import { getAvatarUrl, getTailwindColors } from "../../../helpers/others";
 import { Board } from "../../../../types/models";
 import useUserQuery from "../../../hooks/use-user-query";
 
@@ -91,7 +91,9 @@ const PopupParticipantList: FC<Props> = ({
                       {board.user.raw_user_meta_data.avatar && (
                         <Avatar.Image
                           className="w-full h-full object-cover"
-                          src={board.user.raw_user_meta_data.avatar}
+                          src={getAvatarUrl(
+                            board.user.raw_user_meta_data.avatar
+                          )}
                           alt={board.user.raw_user_meta_data.fullname}
                         />
                       )}
@@ -127,7 +129,9 @@ const PopupParticipantList: FC<Props> = ({
                           {member.user.raw_user_meta_data.avatar && (
                             <Avatar.Image
                               className="w-full h-full object-cover"
-                              src={member.user.raw_user_meta_data.avatar}
+                              src={getAvatarUrl(
+                                member.user.raw_user_meta_data.avatar
+                              )}
                               alt={member.user.raw_user_meta_data.fullname}
                             />
                           )}

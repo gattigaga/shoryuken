@@ -16,6 +16,7 @@ import Button from "../../../components/Button";
 import useUpdateUserMutation from "../../../auth/account-details/hooks/use-update-user-mutation";
 import { getInitials } from "../../../helpers/formatter";
 import useUserQuery from "../../hooks/use-user-query";
+import { getAvatarUrl } from "../../helpers/others";
 
 const Form: FC = () => {
   const [imagePreview, setImagePreview] = useState("");
@@ -41,7 +42,7 @@ const Form: FC = () => {
 
   useEffect(() => {
     if (userQuery.data?.avatar) {
-      setImagePreview(userQuery.data.avatar || "");
+      setImagePreview(getAvatarUrl(userQuery.data.avatar));
     }
   }, [userQuery.data?.avatar]);
 

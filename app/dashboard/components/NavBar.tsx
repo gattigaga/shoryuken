@@ -13,7 +13,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 import useSignOutMutation from "../hooks/use-sign-out-mutation";
 import useUserQuery from "../hooks/use-user-query";
-import { getTailwindColors } from "../helpers/others";
+import { getAvatarUrl, getTailwindColors } from "../helpers/others";
 import { getInitials } from "../../helpers/formatter";
 
 const StyledDropdownMenuItem = styled(DropdownMenu.Item)<{ color: string }>`
@@ -68,7 +68,7 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
                 {userQuery.data.avatar && (
                   <Avatar.Image
                     className="w-full h-full object-cover"
-                    src={userQuery.data.avatar}
+                    src={getAvatarUrl(userQuery.data.avatar)}
                     alt={userQuery.data.fullname}
                   />
                 )}

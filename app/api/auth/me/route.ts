@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { decode } from "base64-arraybuffer";
+import { UserAttributes } from "@supabase/supabase-js";
 
 import supabase from "../../../helpers/supabase";
 import { getHttpStatusCode } from "../../../helpers/others";
@@ -75,6 +76,32 @@ export const PUT = async (request: Request) => {
       );
     }
 
+    const avatarFileName = `${user?.id}_${Date.now()}.png`;
+
+    if (avatar) {
+      // Delete old avatar
+      if (user?.user_metadata.avatar) {
+        await supabase.storage
+          .from("common")
+          .remove([`avatars/${user?.user_metadata.avatar}`]);
+      }
+
+      // Upload new avatar
+      const { error: avatarError } = await supabase.storage
+        .from("common")
+        .upload(
+          `avatars/${avatarFileName}`,
+          decode(avatar.replace("data:image/png;base64,", "")),
+          {
+            contentType: "image/png",
+          }
+        );
+
+      if (avatarError) {
+        throw avatarError;
+      }
+    }
+
     const data = (() => {
       const result: Record<string, string> = {};
 
@@ -87,17 +114,19 @@ export const PUT = async (request: Request) => {
       }
 
       if (avatar) {
-        result["avatar"] = avatar;
+        result["avatar"] = avatarFileName;
       }
 
       return result;
     })();
 
+    const attributes: UserAttributes = {
+      data,
+      ...(password ? { password } : {}),
+    };
+
     const { user: updatedUser, error: updatedUserError } =
-      await supabase.auth.api.updateUser(token || "", {
-        password,
-        data,
-      });
+      await supabase.auth.api.updateUser(token || "", attributes);
 
     if (updatedUserError) {
       throw updatedUserError;

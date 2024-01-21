@@ -20,3 +20,7 @@ type ColorLevel =
 export const getTailwindColors = (color: string, level: ColorLevel) => {
   return (theme.colors as any)[color][level] as string;
 };
+
+export const getAvatarUrl = (filename: string) => {
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/common/avatars/${filename}`;
+};
