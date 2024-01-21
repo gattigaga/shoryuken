@@ -4,6 +4,7 @@ export type User = {
   username: string;
   email: string;
   is_confirmed: boolean;
+  avatar?: string;
 };
 
 export type Board = {
@@ -19,6 +20,7 @@ export type Board = {
     raw_user_meta_data: {
       fullname: string;
       username: string;
+      avatar: string;
     };
   };
 };
@@ -72,6 +74,7 @@ export type BoardMember = {
     raw_user_meta_data: {
       fullname: string;
       username: string;
+      avatar: string;
     };
   };
 };

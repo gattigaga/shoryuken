@@ -9,13 +9,7 @@ const action = async (): Promise<Response> => {
   const res = await axios.get("/api/auth/me");
   const data = res.data.data;
 
-  return {
-    id: data.id,
-    fullname: data.user_metadata.fullname || data.user_metadata.full_name,
-    username: data.user_metadata.username,
-    email: data.email,
-    is_confirmed: !!data.email_confirmed_at,
-  };
+  return data;
 };
 
 const useUserQuery = () => useQuery<User, Error>("me", action);

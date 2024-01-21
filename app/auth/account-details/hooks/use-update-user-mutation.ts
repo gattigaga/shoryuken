@@ -11,6 +11,7 @@ type Context = {
 type Response = User;
 
 type Body = {
+  avatar?: string;
   fullname?: string;
   username?: string;
   password?: string;
@@ -42,6 +43,10 @@ const useUpdateUserMutation = () => {
 
       if (previousUser) {
         const data = produce(previousUser, (draft) => {
+          if (body.avatar) {
+            draft.avatar = body.avatar;
+          }
+
           if (body.fullname) {
             draft.fullname = body.fullname;
           }

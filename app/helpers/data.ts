@@ -19,6 +19,7 @@ export const getUser = async () => {
     username: user.user_metadata.username || "",
     email: user.email || "",
     isConfirmed: !!user.email_confirmed_at,
+    avatar: user.user_metadata.avatar,
   };
 
   return newUser;

@@ -184,6 +184,13 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                               className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-6 h-6 rounded-full"
                               onClick={() => setIsParticipantListOpen(true)}
                             >
+                              {participant.raw_user_meta_data.avatar && (
+                                <Avatar.Image
+                                  className="w-full h-full object-cover"
+                                  src={participant.raw_user_meta_data.avatar}
+                                  alt={participant.raw_user_meta_data.fullname}
+                                />
+                              )}
                               <Avatar.Fallback
                                 style={{
                                   color: getTailwindColors(boardColor, 600),
