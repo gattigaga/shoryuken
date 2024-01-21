@@ -25,6 +25,14 @@ msgstr "A productivity powerhouse"
 msgid "About Shoryuken"
 msgstr "About Shoryuken"
 
+#: app/dashboard/profile/components/Form.tsx:56
+msgid "Account Details"
+msgstr "Account Details"
+
+#: app/dashboard/profile/components/Form.tsx:82
+msgid "Account details successfully updated."
+msgstr "Account details successfully updated."
+
 #: app/dashboard/boards/[slug]/components/ModalCardDetail.tsx:183
 msgid "Actions"
 msgstr "Actions"
@@ -183,6 +191,7 @@ msgstr "due soon"
 #: app/auth/signin/components/Form.tsx:29
 #: app/auth/signup/components/Form.tsx:34
 #: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:60
+#: app/dashboard/profile/components/Form.tsx:39
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -195,11 +204,13 @@ msgstr "Enter a title for this card..."
 #: app/auth/signin/components/Form.tsx:113
 #: app/auth/signup/components/Form.tsx:140
 #: app/dashboard/boards/[slug]/components/PopupAddMember.tsx:133
+#: app/dashboard/profile/components/Form.tsx:198
 msgid "Enter email"
 msgstr "Enter email"
 
 #: app/auth/account-details/components/Form.tsx:117
 #: app/auth/signup/components/Form.tsx:115
+#: app/dashboard/profile/components/Form.tsx:174
 msgid "Enter full name"
 msgstr "Enter full name"
 
@@ -228,6 +239,7 @@ msgstr "Enter password again"
 
 #: app/auth/account-details/components/Form.tsx:128
 #: app/auth/signup/components/Form.tsx:127
+#: app/dashboard/profile/components/Form.tsx:185
 msgid "Enter username"
 msgstr "Enter username"
 
@@ -340,6 +352,10 @@ msgstr "Failed to update a card title."
 msgid "Failed to update a list."
 msgstr "Failed to update a list."
 
+#: app/dashboard/profile/components/Form.tsx:86
+msgid "Failed to update account details."
+msgstr "Failed to update account details."
+
 #: app/dashboard/boards/[slug]/components/BoardTitle.tsx:42
 msgid "Failed to update board title."
 msgstr "Failed to update board title."
@@ -362,16 +378,19 @@ msgstr "Fill up your account details"
 
 #: app/auth/account-details/components/Form.tsx:34
 #: app/auth/signup/components/Form.tsx:26
+#: app/dashboard/profile/components/Form.tsx:31
 msgid "Full Name is required"
 msgstr "Full Name is required"
 
 #: app/auth/account-details/components/Form.tsx:35
 #: app/auth/signup/components/Form.tsx:27
+#: app/dashboard/profile/components/Form.tsx:32
 msgid "Full Name should have at least 5 characters"
 msgstr "Full Name should have at least 5 characters"
 
 #: app/auth/account-details/components/Form.tsx:36
 #: app/auth/signup/components/Form.tsx:28
+#: app/dashboard/profile/components/Form.tsx:33
 msgid "Full Name should no more than 50 characters"
 msgstr "Full Name should no more than 50 characters"
 
@@ -395,6 +414,7 @@ msgstr "Invalid email format"
 
 #: app/auth/account-details/components/Form.tsx:43
 #: app/auth/signup/components/Form.tsx:35
+#: app/dashboard/profile/components/Form.tsx:40
 msgid "Invalid email format."
 msgstr "Invalid email format."
 
@@ -426,7 +446,7 @@ msgstr "OR"
 msgid "overdue"
 msgstr "overdue"
 
-#: app/dashboard/boards/[slug]/components/PopupParticipantList.tsx:106
+#: app/dashboard/boards/[slug]/components/PopupParticipantList.tsx:115
 msgid "Owner"
 msgstr "Owner"
 
@@ -457,6 +477,10 @@ msgstr "Password should no more than 25 characters"
 #: app/privacy-policy/components/Content.tsx:10
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
+
+#: app/dashboard/components/NavBar.tsx:103
+msgid "Profile"
+msgstr "Profile"
 
 #: app/dashboard/boards/[slug]/components/PopupDueDate.tsx:162
 msgid "Remove"
@@ -510,7 +534,7 @@ msgstr "Sign in to Shoryuken"
 msgid "Sign in with Google"
 msgstr "Sign in with Google"
 
-#: app/dashboard/components/NavBar.tsx:93
+#: app/dashboard/components/NavBar.tsx:111
 msgid "Sign Out"
 msgstr "Sign Out"
 
@@ -537,6 +561,7 @@ msgid "Simple, flexible, and powerful. All it takes are boards, lists, and cards
 msgstr "Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing what and what needs to get done. Learn more in our guide for getting started."
 
 #: app/auth/account-details/components/Form.tsx:185
+#: app/dashboard/profile/components/Form.tsx:206
 msgid "Submit"
 msgstr "Submit"
 
@@ -606,16 +631,19 @@ msgstr "Unknown"
 
 #: app/auth/account-details/components/Form.tsx:38
 #: app/auth/signup/components/Form.tsx:30
+#: app/dashboard/profile/components/Form.tsx:35
 msgid "Username is required"
 msgstr "Username is required"
 
 #: app/auth/account-details/components/Form.tsx:39
 #: app/auth/signup/components/Form.tsx:31
+#: app/dashboard/profile/components/Form.tsx:36
 msgid "Username should have at least 8 characters"
 msgstr "Username should have at least 8 characters"
 
 #: app/auth/account-details/components/Form.tsx:40
 #: app/auth/signup/components/Form.tsx:32
+#: app/dashboard/profile/components/Form.tsx:37
 msgid "Username should no more than 15 characters"
 msgstr "Username should no more than 15 characters"
 
