@@ -65,6 +65,13 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <Avatar.Root className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-8 h-8 rounded-full">
+                {userQuery.data.avatar && (
+                  <Avatar.Image
+                    className="w-full h-full object-cover"
+                    src={userQuery.data.avatar}
+                    alt={userQuery.data.fullname}
+                  />
+                )}
                 <Avatar.Fallback
                   style={{ color: getTailwindColors(color, 700) }}
                   className="w-full h-full flex items-center justify-center bg-white text-base font-semibold"

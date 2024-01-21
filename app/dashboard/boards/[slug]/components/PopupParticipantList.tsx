@@ -88,6 +88,13 @@ const PopupParticipantList: FC<Props> = ({
                   {/* Owner */}
                   <div className="flex items-center py-2 border-b select-none group">
                     <Avatar.Root className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-6 h-6 rounded-full">
+                      {board.user.raw_user_meta_data.avatar && (
+                        <Avatar.Image
+                          className="w-full h-full object-cover"
+                          src={board.user.raw_user_meta_data.avatar}
+                          alt={board.user.raw_user_meta_data.fullname}
+                        />
+                      )}
                       <Avatar.Fallback
                         style={{
                           background: getTailwindColors(board.color, 600),
@@ -117,6 +124,13 @@ const PopupParticipantList: FC<Props> = ({
                         key={member.id}
                       >
                         <Avatar.Root className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-6 h-6 rounded-full">
+                          {member.user.raw_user_meta_data.avatar && (
+                            <Avatar.Image
+                              className="w-full h-full object-cover"
+                              src={member.user.raw_user_meta_data.avatar}
+                              alt={member.user.raw_user_meta_data.fullname}
+                            />
+                          )}
                           <Avatar.Fallback
                             style={{
                               background: getTailwindColors(board.color, 600),

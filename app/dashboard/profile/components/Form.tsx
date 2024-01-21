@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik } from "formik";
 import Spinner from "react-spinners/ScaleLoader";
@@ -18,6 +18,8 @@ import { getInitials } from "../../../helpers/formatter";
 import useUserQuery from "../../hooks/use-user-query";
 
 const Form: FC = () => {
+  const [imagePreview, setImagePreview] = useState("");
+  const refFile = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { _ } = useLingui();
   const userQuery = useUserQuery();
@@ -37,6 +39,12 @@ const Form: FC = () => {
       .email(_(msg`Invalid email format.`)),
   });
 
+  useEffect(() => {
+    if (userQuery.data?.avatar) {
+      setImagePreview(userQuery.data.avatar || "");
+    }
+  }, [userQuery.data?.avatar]);
+
   if (!userQuery.data) {
     return null;
   }
@@ -52,6 +60,7 @@ const Form: FC = () => {
           fullname: userQuery.data.fullname,
           username: userQuery.data.username,
           email: userQuery.data.email,
+          avatar: null,
         }}
         validationSchema={toFormikValidationSchema(validationSchema)}
         validateOnChange={false}
@@ -60,16 +69,16 @@ const Form: FC = () => {
           try {
             setSubmitting(true);
 
-            const { fullname, username } = values;
+            const { fullname, avatar } = values;
 
             await updateUserMutation.mutateAsync({
               body: {
                 fullname,
-                username,
+                avatar: avatar || undefined,
               },
             });
 
-            await userQuery.refetch();
+            toast.success(_(msg`Account details successfully updated.`));
             router.replace("/dashboard");
           } catch (error) {
             console.error(error);
@@ -78,7 +87,14 @@ const Form: FC = () => {
           }
         }}
       >
-        {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
+        {({
+          values,
+          errors,
+          setFieldValue,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+        }) => (
           <>
             {isSubmitting ? (
               <div className="flex justify-center py-4">
@@ -93,11 +109,61 @@ const Form: FC = () => {
             ) : (
               <form onSubmit={handleSubmit}>
                 <div className="flex justify-center items-center mb-8">
-                  <Avatar.Root className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-16 h-16 rounded-full">
+                  <Avatar.Root
+                    className="inline-flex items-center justify-center align-middle overflow-hidden select-none w-16 h-16 rounded-full"
+                    onClick={() => refFile.current?.click()}
+                  >
+                    {imagePreview && (
+                      <Avatar.Image
+                        className="w-full h-full object-cover"
+                        src={imagePreview}
+                        alt={userQuery.data.fullname}
+                      />
+                    )}
                     <Avatar.Fallback className="w-full h-full flex items-center justify-center bg-blue-700 text-3xl text-white font-semibold">
                       {getInitials(userQuery.data.fullname)}
                     </Avatar.Fallback>
                   </Avatar.Root>
+                  <input
+                    ref={refFile}
+                    className="hidden"
+                    type="file"
+                    accept="image/*"
+                    multiple={false}
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+
+                      if (!file) return;
+
+                      const reader = new FileReader();
+
+                      reader.onload = (event) => {
+                        const img = document.createElement("img");
+                        img.style.objectFit = "cover";
+
+                        img.onload = () => {
+                          const canvas = document.createElement("canvas");
+                          canvas.width = 64;
+                          canvas.height = 64;
+
+                          const ctx = canvas.getContext("2d");
+
+                          ctx?.drawImage(img, 0, 0, 64, 64);
+
+                          const dataUrl = canvas.toDataURL();
+
+                          setFieldValue("avatar", dataUrl);
+                          setImagePreview(dataUrl);
+                        };
+
+                        if (event.target) {
+                          img.src = event.target.result as string;
+                        }
+                      };
+
+                      reader.readAsDataURL(file);
+                    }}
+                  />
                 </div>
                 <div className="mb-4">
                   <Input
