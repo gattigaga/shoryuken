@@ -47,6 +47,15 @@ const useCreateBoardMutation = () => {
           slug: getSlug(body.title),
           created_at: new Date().toISOString(),
           ...body,
+          user: {
+            id: previousMe.id,
+            email: previousMe.email,
+            raw_user_meta_data: {
+              fullname: previousMe.fullname,
+              username: previousMe.username,
+              avatar: previousMe.avatar,
+            },
+          },
         };
 
         const data = produce(previousBoards, (draft) => {

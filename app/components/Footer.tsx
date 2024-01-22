@@ -64,7 +64,7 @@ const Footer: FC = () => {
         <div className="flex flex-row gap-x-6 items-center">
           <button
             className={classNames("text-white text-xs", {
-              "opacity-50": language === "en",
+              "opacity-50": language !== "en",
             })}
             type="button"
             onClick={() => setLanguage("en")}
@@ -73,7 +73,7 @@ const Footer: FC = () => {
           </button>
           <button
             className={classNames("text-white text-xs", {
-              "opacity-50": language === "id",
+              "opacity-50": language !== "id",
             })}
             type="button"
             onClick={() => setLanguage("id")}
