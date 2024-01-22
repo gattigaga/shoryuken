@@ -67,7 +67,7 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
       <div className="flex items-center gap-x-4 ml-auto mr-6">
         <button
           className={classNames("text-white text-xs", {
-            "opacity-50": language === "en",
+            "opacity-50": language !== "en",
           })}
           type="button"
           onClick={() => setLanguage("en")}
@@ -76,7 +76,7 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
         </button>
         <button
           className={classNames("text-white text-xs", {
-            "opacity-50": language === "id",
+            "opacity-50": language !== "id",
           })}
           type="button"
           onClick={() => setLanguage("id")}
