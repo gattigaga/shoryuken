@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { useQueryClient } from "react-query";
@@ -15,6 +16,7 @@ import useSignOutMutation from "../hooks/use-sign-out-mutation";
 import useUserQuery from "../hooks/use-user-query";
 import { getAvatarUrl, getTailwindColors } from "../helpers/others";
 import { getInitials } from "../../helpers/formatter";
+import { useStore } from "../../store/store";
 
 const StyledDropdownMenuItem = styled(DropdownMenu.Item)<{ color: string }>`
   &[data-highlighted] {
@@ -27,6 +29,8 @@ type Props = {
 };
 
 const NavBar: FC<Props> = ({ color = "blue" }) => {
+  const language = useStore((state) => state.language);
+  const setLanguage = useStore((state) => state.setLanguage);
   const router = useRouter();
   const userQuery = useUserQuery();
   const queryClient = useQueryClient();
@@ -48,7 +52,7 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
   return (
     <div
       style={{ background: getTailwindColors(color, 700) }}
-      className="h-12 flex flex-row justify-between items-center px-4"
+      className="h-12 flex flex-row items-center px-4"
     >
       <Link href="/dashboard">
         <Image
@@ -59,6 +63,27 @@ const NavBar: FC<Props> = ({ color = "blue" }) => {
           priority={true}
         />
       </Link>
+
+      <div className="flex items-center gap-x-4 ml-auto mr-6">
+        <button
+          className={classNames("text-white text-xs", {
+            "opacity-50": language === "en",
+          })}
+          type="button"
+          onClick={() => setLanguage("en")}
+        >
+          EN
+        </button>
+        <button
+          className={classNames("text-white text-xs", {
+            "opacity-50": language === "id",
+          })}
+          type="button"
+          onClick={() => setLanguage("id")}
+        >
+          ID
+        </button>
+      </div>
 
       {userQuery.status === "success" && (
         <div className="relative">
