@@ -107,9 +107,9 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
       isOpen={isOpen}
       onRequestClose={close}
       overlayClassName="fixed inset-0 bg-black/50 overflow-y-auto"
-      className="border-0 p-0 absolute left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[95%] md:w-[90%] h-auto max-w-4xl"
+      className="outline-none border-0 p-0 absolute left-1/2 bottom-auto -translate-x-1/2 bg-transparent w-[95%] md:w-[90%] h-auto max-w-4xl"
     >
-      <div className="w-full rounded bg-slate-100 p-4 pb-10 min-h-[480px] my-4 flex flex-col md:my-16">
+      <div className="outline-none w-full rounded bg-slate-100 p-4 pb-10 min-h-[480px] my-4 flex flex-col md:my-16">
         {cardQuery.status === "success" && (
           <>
             {/* Header Side */}
