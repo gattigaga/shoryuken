@@ -326,7 +326,9 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
 
       {tmpMember && (
         <PopupDeleteConfirmation
-          description={`This action cannot be undone. This will permanently delete "${tmpMember.fullname}" from the board.`}
+          description={_(
+            msg`This action cannot be undone. This will permanently delete "${tmpMember.fullname}" from the board.`
+          )}
           isOpen={!!tmpMember}
           onRequestClose={() => setTmpMember(null)}
           onClickConfirm={deleteMember}
@@ -342,7 +344,9 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
       <ModalCardDetail />
 
       <PopupDeleteConfirmation
-        description="This action cannot be undone. This will permanently delete this board."
+        description={_(
+          msg`This action cannot be undone. This will permanently delete this board.`
+        )}
         isOpen={isDeleteConfirmationOpen}
         onRequestClose={() => setIsDeleteConfirmationOpen(false)}
         onClickConfirm={deleteBoard}

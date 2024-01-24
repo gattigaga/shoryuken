@@ -344,7 +344,9 @@ const List: React.FC<Props> = ({ id, boardId, index, title }) => {
       </Draggable>
 
       <PopupDeleteConfirmation
-        description="This action cannot be undone. This will permanently delete this list."
+        description={_(
+          msg`This action cannot be undone. This will permanently delete this list.`
+        )}
         isOpen={isDeleteConfirmationOpen}
         onRequestClose={() => setIsDeleteConfirmationOpen(false)}
         onClickConfirm={deleteList}

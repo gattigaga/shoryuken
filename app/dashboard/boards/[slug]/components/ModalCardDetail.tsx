@@ -223,7 +223,9 @@ const ModalCardDetail: React.FC<Props> = ({}) => {
       </Modal>
 
       <PopupDeleteConfirmation
-        description="This action cannot be undone. This will permanently delete this card."
+        description={_(
+          msg`This action cannot be undone. This will permanently delete this card.`
+        )}
         isOpen={isDeleteConfirmationOpen}
         onRequestClose={() => setIsDeleteConfirmationOpen(false)}
         onClickConfirm={deleteCard}
