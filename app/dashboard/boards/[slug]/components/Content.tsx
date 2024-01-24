@@ -31,7 +31,7 @@ import useCreateBoardMemberMutation from "../hooks/use-create-board-member-mutat
 import useDeleteBoardMemberMutation from "../hooks/use-delete-board-member-mutation";
 import { getInitials } from "../../../../helpers/formatter";
 import PopupAddMember from "./PopupAddMember";
-import PopupDeleteMemberConfirmation from "./PopupDeleteMemberConfirmation";
+import PopupDeleteConfirmation from "./PopupDeleteConfirmation";
 import useTailwindBreakpoint from "../../../../hooks/use-tailwind-breakpoint";
 import PopupParticipantList from "./PopupParticipantList";
 
@@ -51,6 +51,9 @@ type Props = {
 };
 
 const Content: FC<Props> = ({ board, boardMembers, lists }) => {
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+    useState(false);
+
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [tmpMember, setTmpMember] = useState<Member | null>(null);
   const [isPopupAddMemberOpen, setIsPopupAddMemberOpen] = useState(false);
@@ -94,6 +97,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
       });
 
       router.replace("/dashboard");
+      toast.success(_(msg`Board successfully deleted.`));
     } catch (error) {
       toast.error(_(msg`Failed to delete a board.`));
     }
@@ -158,7 +162,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                   style={{ background: getTailwindColors(boardColor, 500) }}
                   className="ml-6 px-2 text-xs h-8 text-white font-semibold rounded items-center justify-center"
                   type="button"
-                  onClick={deleteBoard}
+                  onClick={() => setIsDeleteConfirmationOpen(true)}
                 >
                   <Trans>Delete</Trans>
                 </button>
@@ -321,11 +325,10 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
       )}
 
       {tmpMember && (
-        <PopupDeleteMemberConfirmation
-          member={{
-            id: tmpMember.id,
-            fullname: tmpMember.fullname,
-          }}
+        <PopupDeleteConfirmation
+          description={_(
+            msg`This action cannot be undone. This will permanently delete "${tmpMember.fullname}" from the board.`
+          )}
           isOpen={!!tmpMember}
           onRequestClose={() => setTmpMember(null)}
           onClickConfirm={deleteMember}
@@ -339,6 +342,15 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
       />
 
       <ModalCardDetail />
+
+      <PopupDeleteConfirmation
+        description={_(
+          msg`This action cannot be undone. This will permanently delete this board.`
+        )}
+        isOpen={isDeleteConfirmationOpen}
+        onRequestClose={() => setIsDeleteConfirmationOpen(false)}
+        onClickConfirm={deleteBoard}
+      />
     </>
   );
 };
