@@ -40,7 +40,7 @@ type Props = {
   onClickConfirm?: () => void;
 };
 
-const PopupDeleteCardConfirmation: FC<Props> = ({
+const PopupDeleteConfirmation: FC<Props> = ({
   description,
   isOpen,
   onRequestClose,
@@ -78,4 +78,4 @@ const PopupDeleteCardConfirmation: FC<Props> = ({
   );
 };
 
-export default PopupDeleteCardConfirmation;
+export default PopupDeleteConfirmation;

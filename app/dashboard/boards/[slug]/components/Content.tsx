@@ -51,6 +51,9 @@ type Props = {
 };
 
 const Content: FC<Props> = ({ board, boardMembers, lists }) => {
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+    useState(false);
+
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [tmpMember, setTmpMember] = useState<Member | null>(null);
   const [isPopupAddMemberOpen, setIsPopupAddMemberOpen] = useState(false);
@@ -94,6 +97,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
       });
 
       router.replace("/dashboard");
+      toast.success(_(msg`Board successfully deleted.`));
     } catch (error) {
       toast.error(_(msg`Failed to delete a board.`));
     }
@@ -158,7 +162,7 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
                   style={{ background: getTailwindColors(boardColor, 500) }}
                   className="ml-6 px-2 text-xs h-8 text-white font-semibold rounded items-center justify-center"
                   type="button"
-                  onClick={deleteBoard}
+                  onClick={() => setIsDeleteConfirmationOpen(true)}
                 >
                   <Trans>Delete</Trans>
                 </button>
@@ -336,6 +340,13 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
       />
 
       <ModalCardDetail />
+
+      <PopupDeleteConfirmation
+        description="This action cannot be undone. This will permanently delete this board."
+        isOpen={isDeleteConfirmationOpen}
+        onRequestClose={() => setIsDeleteConfirmationOpen(false)}
+        onClickConfirm={deleteBoard}
+      />
     </>
   );
 };
