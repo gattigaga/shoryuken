@@ -31,7 +31,7 @@ import useCreateBoardMemberMutation from "../hooks/use-create-board-member-mutat
 import useDeleteBoardMemberMutation from "../hooks/use-delete-board-member-mutation";
 import { getInitials } from "../../../../helpers/formatter";
 import PopupAddMember from "./PopupAddMember";
-import PopupDeleteMemberConfirmation from "./PopupDeleteMemberConfirmation";
+import PopupDeleteConfirmation from "./PopupDeleteConfirmation";
 import useTailwindBreakpoint from "../../../../hooks/use-tailwind-breakpoint";
 import PopupParticipantList from "./PopupParticipantList";
 
@@ -321,11 +321,8 @@ const Content: FC<Props> = ({ board, boardMembers, lists }) => {
       )}
 
       {tmpMember && (
-        <PopupDeleteMemberConfirmation
-          member={{
-            id: tmpMember.id,
-            fullname: tmpMember.fullname,
-          }}
+        <PopupDeleteConfirmation
+          description={`This action cannot be undone. This will permanently delete "${tmpMember.fullname}" from the board.`}
           isOpen={!!tmpMember}
           onRequestClose={() => setTmpMember(null)}
           onClickConfirm={deleteMember}

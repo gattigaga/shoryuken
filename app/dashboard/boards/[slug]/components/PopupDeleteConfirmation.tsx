@@ -34,17 +34,14 @@ const StyledAlertDialogContent = styled(AlertDialog.Content)`
 `;
 
 type Props = {
-  member: {
-    id: number;
-    fullname: string;
-  };
+  description: string;
   isOpen: boolean;
   onRequestClose?: () => void;
   onClickConfirm?: () => void;
 };
 
-const PopupDeleteMemberConfirmation: FC<Props> = ({
-  member,
+const PopupDeleteCardConfirmation: FC<Props> = ({
+  description,
   isOpen,
   onRequestClose,
   onClickConfirm,
@@ -58,11 +55,7 @@ const PopupDeleteMemberConfirmation: FC<Props> = ({
             <Trans>Are you sure?</Trans>
           </AlertDialog.Title>
           <AlertDialog.Description className="mb-8 text-slate-500 text-sm leading-relaxed">
-            <Trans>
-              This action cannot be undone. This will permanently delete{" "}
-              <span className="font-semibold">{member.fullname}</span> from the
-              board.
-            </Trans>
+            {description}
           </AlertDialog.Description>
           <div className="flex gap-x-4 justify-end">
             <AlertDialog.Cancel asChild>
@@ -85,4 +78,4 @@ const PopupDeleteMemberConfirmation: FC<Props> = ({
   );
 };
 
-export default PopupDeleteMemberConfirmation;
+export default PopupDeleteCardConfirmation;
